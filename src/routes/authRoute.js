@@ -1,9 +1,10 @@
 import express from "express";
-import { ioInstance } from "~/server";
+import { io } from "~/server";
 const router = express.Router();
 
 router.post("/test", (req, res) => {
-  ioInstance.emit("message", req.body.value);
+  io.emit("message", req.body.value);
+  console.log("siu");
   res.send("Data retrieved successfully");
 });
 

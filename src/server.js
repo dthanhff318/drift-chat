@@ -5,16 +5,18 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import { connect } from "./mongoDbConfig/mongoConfig";
 import { apiV1 } from "./routes";
-import socket from "socket.io";
-import http from "http";
+import { createServer } from "http";
+import { Server } from "socket.io";
 
 const baseUrl = "localhost";
 const port = 4000;
 
 dotenv.config();
 const app = express();
-const serverIO = http.createServer(app);
-export const ioInstance = socket(serverIO);
+const httpServer = createServer(app);
+export const io = new Server(httpServer, {
+  /* options */
+});
 
 app.use(cors());
 app.use(express.json());
@@ -22,21 +24,20 @@ app.use(cookieParser());
 
 connect();
 
-app.use("/v1", apiV1);
-// autoIncrement.initialize(connect());
-serverIO.listen(port, baseUrl, () => {
-  console.log("Server is running in Port 4000");
-});
-
-ioInstance.on("connection", (sk) => {
+io.on("connection", (socket) => {
   console.log("user connect");
-  sk.on("message", (data) => {
+  socket.on("message", (data) => {
     console.log(`Received message: ${data}`);
     // Handle message event here
   });
 
-  sk.on("disconnect", () => {
+  socket.on("disconnect", () => {
     console.log("user disconnected");
     // Handle disconnect event here
   });
+});
+app.use("/v1", apiV1);
+// autoIncrement.initialize(connect());
+httpServer.listen(port, baseUrl, () => {
+  console.log("Server is running in Port 4000");
 });
