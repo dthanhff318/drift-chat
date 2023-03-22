@@ -1,0 +1,38 @@
+.App {
+  text-align: center;
+  width: 100%;
+  display: flex;
+}
+
+.navchat {
+  display: flex;
+  flex-direction: column;
+}
+.navchat span {
+  width: 100px;
+  height: 46px;
+  background-color: rgb(58, 124, 102);
+  color: whitesmoke;
+}
+.navchat span.active {
+  background-color: rgb(56, 140, 143);
+}
+.main {
+  width: 100%;
+}
+.chatarea {
+  width: 100%;
+  height: 400px;
+  background-color: rgb(87, 87, 87);
+}
+.send {
+  display: flex;
+}
+input {
+  width: 200px;
+}
+.btn-send {
+  background-color: black;
+  color: white;
+  padding: 4px;
+}
