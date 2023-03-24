@@ -71,6 +71,11 @@ export const routes = [
     component: lazy(() => import("app/pages/Notfound/NotfoundPage")),
   },
   {
+    exact: true,
+    path: pathLoginPage,
+    component: lazy(() => import("app/pages/AuthPage/LoginPage")),
+  },
+  {
     path: "*",
     layout: Layout,
     component: () => <Redirect to={"pathHomePage"} />,

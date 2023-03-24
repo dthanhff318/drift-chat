@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import { io } from "socket.io-client";
-import { signInWithGoogle, logOutFireBase } from "./firebase/fireBaseFuncs";
+import { BrowserRouter as Router } from "react-router-dom";
+
+import RenderRoutes, { routes } from "app/routes/routes";
 const socketInstance = io("http://localhost:4000");
 function App() {
   const [listMessage1, setListMessage1] = useState<any[]>([]);
@@ -46,49 +48,11 @@ function App() {
   }, [listMessage1]);
 
   return (
-    <div className="App">
-      <div onClick={signInWithGoogle}>sign in google</div>
-      <div onClick={logOutFireBase}>logout</div>
-      <div className="navchat">
-        <span
-          className={room === 1 ? "active" : ""}
-          onClick={() => onChangeRoom(1)}
-        >
-          Room 1
-        </span>
-        <span
-          className={room === 2 ? "active" : ""}
-          onClick={() => onChangeRoom(2)}
-        >
-          Room 2
-        </span>
-      </div>
-      <div className="main">
-        <div className="chatarea">
-          {listMessage1.map((e) => (
-            <div
-              style={
-                e.user === socketInstance.id
-                  ? { color: "white" }
-                  : { color: "green" }
-              }
-            >
-              {e.msg}
-            </div>
-          ))}
-        </div>
-        <div className="send">
-          <input
-            type="text"
-            value={messValue1}
-            onChange={(e) => setMessValue1(e.target.value)}
-          />
-          <span onClick={handleSendMessage} className="btn-send">
-            Send
-          </span>
-        </div>
-      </div>
-    </div>
+    <>
+      <Router>
+        <RenderRoutes routes={routes} checkAuthLocal={false} currentUser={{}} />
+      </Router>
+    </>
   );
 }
 
