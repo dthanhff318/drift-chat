@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import { io } from "socket.io-client";
-import { signInWithGoogle } from "./firebase/configFirebase";
+import { signInWithGoogle, logOutFireBase } from "./firebase/fireBaseFuncs";
 const socketInstance = io("http://localhost:4000");
 function App() {
   const [listMessage1, setListMessage1] = useState<any[]>([]);
@@ -44,9 +44,11 @@ function App() {
       socketInstance.off("sendMess", handleListenSend);
     };
   }, [listMessage1]);
+
   return (
     <div className="App">
       <div onClick={signInWithGoogle}>sign in google</div>
+      <div onClick={logOutFireBase}>logout</div>
       <div className="navchat">
         <span
           className={room === 1 ? "active" : ""}
