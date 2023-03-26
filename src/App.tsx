@@ -4,6 +4,9 @@ import { io } from "socket.io-client";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import RenderRoutes, { routes } from "app/routes/routes";
+import { useSelector } from "react-redux";
+import { RootState } from "store/configStore";
+import { getUserFromLs } from "app/helpers/localStorage";
 const socketInstance = io("http://localhost:4000");
 function App() {
   const [listMessage1, setListMessage1] = useState<any[]>([]);
@@ -46,11 +49,17 @@ function App() {
       socketInstance.off("sendMess", handleListenSend);
     };
   }, [listMessage1]);
-
+  const { isAuth } = useSelector((state: RootState) => state.auth);
+  const checkAuthLocal = !!Object.entries(getUserFromLs()).length ?? isAuth;
+  console.log(!!Object.entries(getUserFromLs()).length);
   return (
     <>
       <Router>
-        <RenderRoutes routes={routes} checkAuthLocal={false} currentUser={{}} />
+        <RenderRoutes
+          routes={routes}
+          checkAuthLocal={checkAuthLocal}
+          currentUser={{}}
+        />
       </Router>
     </>
   );

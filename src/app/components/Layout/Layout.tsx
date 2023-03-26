@@ -1,9 +1,19 @@
-import React from "react";
+import React, { ReactNode } from "react";
+import useServices from "./service";
+type Props = {
+  children: ReactNode;
+};
 
-type Props = {};
-
-const Layout = (props: Props) => {
-  return <div>Layout</div>;
+const Layout = ({ children }: Props) => {
+  const { handleSignout } = useServices();
+  return (
+    <div>
+      <header>
+        <button onClick={handleSignout}>Logout</button>
+      </header>
+      {children}
+    </div>
+  );
 };
 
 export default Layout;
