@@ -1,0 +1,19 @@
+.layoutWrapper {
+  .header {
+    height: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    .options {
+      padding: 0.5rem;
+      cursor: pointer;
+      background-color: rgb(244, 244, 243);
+      border-radius: 8px;
+      transition: all 0.2s linear;
+      &:hover {
+        background-color: rgb(237, 236, 235);
+      }
+    }
+  }
+}
