@@ -5,6 +5,7 @@ import { auth } from "app/firebase/configFirebase";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { saveUser } from "app/pages/AuthPage/authSlice/authSlice";
+import { saveToken } from "app/helpers/localStorage";
 
 const provider = new GoogleAuthProvider();
 
@@ -22,8 +23,10 @@ const useService = () => {
           photoURL,
           uid,
         };
-
-        await authApi.login(userInfo);
+        const res = await authApi.login(userInfo);
+        const { accessToken, refreshToken } = res.data;
+        saveToken(accessToken, "accessToken");
+        saveToken(refreshToken, "refreshToken");
         dispatch(saveUser(userInfo));
         history.push(pathHomePage);
       })

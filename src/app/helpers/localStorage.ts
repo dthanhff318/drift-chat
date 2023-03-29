@@ -3,6 +3,9 @@ import { IndexedObject } from "types/common";
 export const getTokenFromLocalStorage = () =>
   localStorage.getItem("accessToken");
 
+export const saveToken = (token: string, key: string) =>
+  localStorage.setItem(key, token);
+
 export const getRefreshTokenFromLocalStorage = () =>
   localStorage.getItem("refreshToken");
 
