@@ -27,7 +27,7 @@ const HomePage = (props: Props) => {
         </ul>
       </div>
       <div className={s.contentChat}>
-        <div className={s.messageList}></div>
+        <div className={s.messageList}>btnSend</div>
         <div className={s.inputWrap}>
           <input type="text" className={s.inputMess} />
           <span className={s.btnSend}>Send</span>

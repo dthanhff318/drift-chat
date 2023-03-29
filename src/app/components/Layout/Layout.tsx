@@ -1,6 +1,7 @@
+import React, { ReactNode, useState } from "react";
 import { UserOutlined } from "@ant-design/icons";
 import { Dropdown, MenuProps } from "antd";
-import React, { ReactNode, useState } from "react";
+import ModalCommon from "app/components/Modal/Modal";
 import useServices from "./service";
 import s from "./style.module.scss";
 type Props = {
@@ -8,7 +9,7 @@ type Props = {
 };
 
 const Layout = ({ children }: Props) => {
-  const { handleSignout } = useServices();
+  const { handleSignout, openAddFr, handleShowAddFr } = useServices();
   const [open, setOpen] = useState(false);
   const items: MenuProps["items"] = [
     {
@@ -30,8 +31,15 @@ const Layout = ({ children }: Props) => {
   ];
   return (
     <div className={s.layoutWrapper}>
+      <ModalCommon
+        open={openAddFr}
+        onOk={() => {}}
+        onCancel={() => handleShowAddFr(false)}
+      >
+        xin chao mn
+      </ModalCommon>
       <header className={s.header}>
-        <span onClick={() => setOpen(true)}>Add friend</span>
+        <span onClick={() => handleShowAddFr(true)}>Add friend</span>
         <Dropdown menu={{ items }}>
           <div className={s.options}>
             <UserOutlined />
