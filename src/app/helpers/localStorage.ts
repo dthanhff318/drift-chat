@@ -12,7 +12,11 @@ export const getRefreshTokenFromLocalStorage = () =>
 export const saveUserToLs = (data) =>
   localStorage.setItem("userInfo", JSON.stringify(data));
 
-export const removeUserLs = () => localStorage.removeItem("userInfo");
+export const removeUserLs = () => {
+  localStorage.removeItem("userInfo");
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
+};
 
 export const getUserFromLs = (): IndexedObject =>
   JSON.parse(localStorage.getItem("userInfo") ?? "{}");
