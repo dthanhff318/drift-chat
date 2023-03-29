@@ -4,6 +4,8 @@ import { Dropdown, MenuProps } from "antd";
 import ModalCommon from "app/components/Modal/Modal";
 import useServices from "./service";
 import s from "./style.module.scss";
+import FindFriend from "./component/FindFriend";
+import Sidebar from "./Sidebar";
 type Props = {
   children: ReactNode;
 };
@@ -31,21 +33,22 @@ const Layout = ({ children }: Props) => {
   ];
   return (
     <div className={s.layoutWrapper}>
-      <ModalCommon
+      {/* <ModalCommon
         open={openAddFr}
         onOk={() => {}}
         onCancel={() => handleShowAddFr(false)}
       >
-        xin chao mn
-      </ModalCommon>
-      <header className={s.header}>
+        <FindFriend />
+      </ModalCommon> */}
+      {/* <header className={s.header}>
         <span onClick={() => handleShowAddFr(true)}>Add friend</span>
         <Dropdown menu={{ items }}>
           <div className={s.options}>
             <UserOutlined />
           </div>
         </Dropdown>
-      </header>
+      </header> */}
+      <Sidebar />
       {children}
     </div>
   );

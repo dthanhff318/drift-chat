@@ -1,4 +1,7 @@
+@import "app/scss/variables.scss";
 .layoutWrapper {
+  display: flex;
+  align-items: center;
   .header {
     height: 3rem;
     display: flex;
@@ -15,5 +18,60 @@
         background-color: rgb(237, 236, 235);
       }
     }
+  }
+}
+
+// Sidebar
+.sideBarWrap {
+  width: 10%;
+  height: 100%;
+  background-color: $background-dark;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  .logo {
+    margin-top: 1.5rem;
+    .logoIcon {
+      width: 3rem;
+      height: 3rem;
+      background-color: white;
+      border-radius: 50%;
+      border: 2px solid #48a6c3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: #48a6c3;
+    }
+  }
+  .navOptions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem 0;
+    .btnNav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $text-color-dark;
+      font-size: 1.4rem;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s linear;
+      &.active {
+        color: white;
+        background-color: #48a6c3;
+      }
+      &:not(.active):hover {
+        background-color: $background-dark-light;
+        color: white;
+      }
+    }
+  }
+  .user {
+    margin-bottom: 1.5rem;
   }
 }
