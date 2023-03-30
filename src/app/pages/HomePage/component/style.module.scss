@@ -1,0 +1,38 @@
+@import "../../../scss//variables.scss";
+.channelWrap {
+  height: 100vh;
+  background-color: $background-dark;
+  width: 20rem;
+  .myAccount {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    height: 6rem;
+    border-bottom: 1px solid $text-color-dark;
+    .avatar {
+      width: 3rem;
+      height: 3rem;
+      margin-right: 1rem;
+    }
+    .accountInfo {
+      color: white;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem 0;
+      .name{
+        font-weight: 600;
+      }
+    }
+    .moreBtn {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      border: 1px solid $text-color-dark;
+      margin-left: auto;
+    }
+  }
+}

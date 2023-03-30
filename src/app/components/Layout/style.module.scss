@@ -24,12 +24,13 @@
 // Sidebar
 .sideBarWrap {
   width: 10%;
-  height: 100%;
+  height: 100vh;
   background-color: $background-dark;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  border-right: 1px solid $text-color-dark;
   .logo {
     margin-top: 1.5rem;
     .logoIcon {

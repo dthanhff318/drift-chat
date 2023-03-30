@@ -33,21 +33,6 @@ const Layout = ({ children }: Props) => {
   ];
   return (
     <div className={s.layoutWrapper}>
-      {/* <ModalCommon
-        open={openAddFr}
-        onOk={() => {}}
-        onCancel={() => handleShowAddFr(false)}
-      >
-        <FindFriend />
-      </ModalCommon> */}
-      {/* <header className={s.header}>
-        <span onClick={() => handleShowAddFr(true)}>Add friend</span>
-        <Dropdown menu={{ items }}>
-          <div className={s.options}>
-            <UserOutlined />
-          </div>
-        </Dropdown>
-      </header> */}
       <Sidebar />
       {children}
     </div>
