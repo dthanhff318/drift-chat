@@ -7,13 +7,6 @@ const HomePage = (props: Props) => {
   return (
     <div className={s.wrapper}>
       <ChannelChat />
-      <div className={s.contentChat}>
-        <div className={s.messageList}>btnSend</div>
-        <div className={s.inputWrap}>
-          <input type="text" className={s.inputMess} />
-          <span className={s.btnSend}>Send</span>
-        </div>
-      </div>
     </div>
   );
 };

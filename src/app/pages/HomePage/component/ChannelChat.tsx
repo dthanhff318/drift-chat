@@ -1,9 +1,10 @@
-import { MoreOutlined, SearchOutlined } from "@ant-design/icons";
 import React from "react";
+import { MoreOutlined, RightOutlined, SearchOutlined } from "@ant-design/icons";
 import s from "./style.module.scss";
+import OnlineList from "./OnlineList";
+import MessageChatList from "./MessageChatList";
 
 type Props = {};
-
 const ChannelChat = (props: Props) => {
   return (
     <div className={s.channelWrap}>
@@ -20,9 +21,26 @@ const ChannelChat = (props: Props) => {
         <MoreOutlined className={s.moreBtn} />
       </div>
       <div className={s.searchWrap}>
-        <SearchOutlined />
-        <input type="text" />
+        <SearchOutlined className={s.searchIcon} />
+        <input
+          placeholder="Search or start new chat"
+          type="text"
+          className={s.searchInput}
+        />
       </div>
+      <div className={s.header}>
+        <p className={s.status}>Online now</p>
+        <p className={s.more}>
+          <span>More</span>
+          <RightOutlined />
+        </p>
+      </div>
+      <OnlineList />
+      <div className={s.header}>
+        <p className={s.status}>Messages</p>
+        <span className={s.msgCount}>20</span>
+      </div>
+      <MessageChatList />
     </div>
   );
 };

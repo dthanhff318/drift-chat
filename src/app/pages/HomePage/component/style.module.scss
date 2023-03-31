@@ -1,14 +1,18 @@
 @import "../../../scss//variables.scss";
 .channelWrap {
-  height: 100vh;
   background-color: $background-dark;
   width: 20rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem 0;
+  overflow: hidden;
+  height: 100vh;
   .myAccount {
     display: flex;
     align-items: center;
     padding: 0 1rem;
     height: 6rem;
-    border-bottom: 1px solid $text-color-dark;
+    border-bottom: 1px solid $border-dark;
     .avatar {
       width: 3rem;
       height: 3rem;
@@ -19,7 +23,7 @@
       display: flex;
       flex-direction: column;
       gap: 0.5rem 0;
-      .name{
+      .name {
         font-weight: 600;
       }
     }
@@ -33,6 +37,145 @@
       color: white;
       border: 1px solid $text-color-dark;
       margin-left: auto;
+    }
+  }
+  .searchWrap {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    border: 1px solid $border-dark;
+    border-radius: 15px;
+    padding: 0 1rem;
+    width: 90%;
+    background: $background-dark-light-1;
+    .searchIcon {
+      color: white;
+    }
+    .searchInput {
+      background-color: inherit;
+      height: 3rem;
+      border-radius: 15px;
+      color: white;
+      padding: 0 0 0 0.5rem;
+      outline: none;
+      width: 100%;
+    }
+  }
+  .header {
+    display: flex;
+    width: 90%;
+    align-items: flex-end;
+    align-self: center;
+    .status {
+      color: white;
+      font-size: 1.2rem;
+    }
+    .more {
+      color: $text-color-dark;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+      span {
+        margin-right: 0.25rem;
+      }
+    }
+    .msgCount {
+      background-color: $primary-color;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.8rem;
+      border-radius: 20px;
+      color: white;
+      line-height: 0.8rem;
+      margin: 0 0 0.1rem 0.5rem;
+    }
+  }
+}
+// OnlineList
+.onlineListWrap {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  gap: 1rem 0;
+
+  .list {
+    display: flex;
+    width: 100%;
+    gap: 0 0.5rem;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    padding: 0 0 0.75rem 0;
+    backdrop-filter: blur(5px);
+    .itemUser {
+      display: flex;
+      gap: 0.5rem 0;
+      flex-direction: column;
+      align-items: center;
+      color: $text-color-dark;
+      .userName {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 4rem;
+        text-align: center;
+      }
+    }
+  }
+}
+// MessageChatList
+.msgList {
+  width: 100%;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  .msgItem {
+    padding: 0 5%;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    gap: 0 1rem; 
+    transition: all 0.2s linear;
+    &:hover {
+      background-color: $background-dark-light-1;
+    }
+    .msgInfo {
+      color: white;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 0.5rem 0;
+      .firstLine {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        .name {
+          font-size: 1.2rem;
+        }
+        .time {
+          font-size: 1rem;
+        }
+      }
+      .secondLine {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        .lastMsg {
+          font-size: 1rem;
+          color: $text-color-dark;
+        }
+        .msgUnread {
+          background-color: $primary-color;
+          border-radius: 50%;
+          width: 1.1rem;
+          height: 1.1rem;
+          font-size: 0.9rem;
+          text-align: center;
+          line-height: 1.1rem;
+        }
+      }
     }
   }
 }

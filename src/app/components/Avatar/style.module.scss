@@ -1,0 +1,26 @@
+@import "../../scss/variables.scss";
+.avatarWrapper {
+  height: 3rem;
+  width: 3rem;
+  position: relative;
+  img {
+    object-fit: cover;
+    border-radius: 50%;
+    height: 3rem;
+    width: 3rem;
+    cursor: pointer;
+  }
+  .tag {
+    position: absolute;
+    top: 0;
+    right: 0;
+    .online {
+      display: block;
+      background-color: $primary-color;
+      width: 0.75rem;
+      height: 0.75rem;
+      border-radius: 50%;
+      border: 1px solid $background-dark;
+    }
+  }
+}
