@@ -13,7 +13,7 @@ const MessageChatList = (props: Props) => {
           <p className={s.time}>10:20</p>
         </div>
         <div className={s.secondLine}>
-          <p className={s.lastMsg}>secondLine</p>
+          <p className={s.lastMsg}>seconcondLicondLine</p>
           <span className={s.msgUnread}>5</span>
         </div>
       </div>
@@ -21,7 +21,7 @@ const MessageChatList = (props: Props) => {
   );
   return (
     <div className={s.msgList}>
-      {Array(6)
+      {Array(8)
         .fill(1)
         .map(() => (
           <MessageChatItem />

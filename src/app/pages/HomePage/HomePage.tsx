@@ -7,6 +7,7 @@ const HomePage = (props: Props) => {
   return (
     <div className={s.wrapper}>
       <ChannelChat />
+      <div></div>
     </div>
   );
 };
