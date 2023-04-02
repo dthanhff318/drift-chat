@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
+import layoutReducer from "app/components/Layout/layoutSlice/layoutSlice";
 import authReducer from "app/pages/AuthPage/authSlice/authSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    layout: layoutReducer,
   },
 });
 

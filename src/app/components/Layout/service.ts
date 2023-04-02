@@ -4,8 +4,11 @@ import { removeUserLs } from "app/helpers/localStorage";
 import { removeUser } from "app/pages/AuthPage/authSlice/authSlice";
 import { pathLoginPage } from "app/routes/routesConfig";
 import { signOut } from "firebase/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { RootState } from "store/configStore";
+import { ENav } from "enums";
+import { changeNav } from "./layoutSlice/layoutSlice";
 
 const useServices = () => {
   const history = useHistory();
@@ -23,6 +26,7 @@ const useServices = () => {
   const handleShowAddFr = (isOpen: boolean) => {
     setOpenAddFr(isOpen);
   };
+
   return {
     handleSignout,
     handleShowAddFr,

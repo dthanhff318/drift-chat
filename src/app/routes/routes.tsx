@@ -1,6 +1,12 @@
 import React, { Suspense, Fragment, lazy } from "react";
 import { Switch, Redirect, Route } from "react-router-dom";
-import { pathHomePage, pathLoginPage, pathNotFoundPage } from "./routesConfig";
+import {
+  pathFriendPage,
+  pathHomePage,
+  pathLoginPage,
+  pathNotFoundPage,
+  pathSettingsPage,
+} from "./routesConfig";
 // import SuspenseFallback from "../components/Common/SuspenseFallback/SuspenseFallback";
 import Layout from "app/components/Layout/Layout";
 import { IndexedObject } from "types/common";
@@ -80,6 +86,18 @@ export const routes = [
     layout: Layout,
     component: () => <Redirect to={pathHomePage} />,
     routes: [
+      {
+        exact: true,
+        path: pathFriendPage,
+        component: lazy(() => import("app/pages/FriendPage/FriendPage")),
+        auth: true,
+      },
+      {
+        exact: true,
+        path: pathSettingsPage,
+        component: lazy(() => import("app/pages/SettingsPage/SettingsPage")),
+        auth: true,
+      },
       {
         exact: true,
         path: pathHomePage,

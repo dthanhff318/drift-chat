@@ -23,7 +23,7 @@
 
 // Sidebar
 .sideBarWrap {
-  width: 6rem;
+  min-width: 5rem;
   height: 100vh;
   background-color: $background-dark;
   display: flex;
