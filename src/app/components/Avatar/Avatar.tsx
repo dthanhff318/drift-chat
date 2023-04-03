@@ -1,14 +1,14 @@
+import { getPublicImageUrl } from "app/helpers/funcs";
 import React from "react";
 import s from "./style.module.scss";
-type Props = {};
+type Props = {
+  src?: string;
+};
 
-const Avatar = (props: Props) => {
+const Avatar = ({ src }: Props) => {
   return (
     <div className={s.avatarWrapper}>
-      <img
-        src="https://haycafe.vn/wp-content/uploads/2021/11/Anh-avatar-dep-chat-lam-hinh-dai-dien.jpg"
-        alt=""
-      />
+      <img src={src ? src : getPublicImageUrl("avt.png")} alt="" />
       <div className={s.tag}>
         <span className={s.online}></span>
       </div>

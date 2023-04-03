@@ -1,3 +1,183 @@
-.friendWrap {
+@import "../../scss/variables.scss";
+.frWrapper {
+  display: flex;
   width: 100%;
+  align-items: center;
+  padding: 0 1rem;
+  height: 100vh;
+  overflow: hidden;
+  background-color: $background-dark;
+}
+
+.memberGroupWrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: start;
+  padding: 2rem 0;
+  width: 50%;
+
+  .memberSearch {
+    display: flex;
+    align-items: center;
+    gap: 0 1rem;
+    width: max-content;
+    margin-bottom: 2rem;
+    width: 100%;
+    .searchForm {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      border-radius: 8px;
+      flex: 1;
+      background-color: $background-dark;
+      border: 1px solid $border-dark;
+      position: relative;
+      .searchInput {
+        margin: 0;
+        outline: none;
+        border-radius: 8px 0 0 8px;
+        border-right: transparent;
+        height: 100%;
+        background-color: $background-dark;
+        padding: 0 0.5rem;
+        color: $white;
+        font-size: 14px;
+        flex: 1;
+        &:focus {
+          border: 1px solid $text-color-dark;
+        }
+      }
+
+      .btnSearch {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        border-radius: 0 8px 8px 0;
+        width: 3.75rem;
+        cursor: pointer;
+        color: white;
+        font-size: 1.2rem;
+        background: $background-dark;
+        border-left: 1px solid $border-dark;
+        &:hover {
+          border: 1px solid $text-color-dark;
+        }
+      }
+      .suggestSearch {
+        position: absolute;
+        top: 102%;
+        left: 0;
+        z-index: 10;
+        background-color: white;
+        padding: 0.5rem 1rem;
+        height: fit-content;
+        max-height: 60vh;
+        overflow-y: scroll;
+        border-radius: 8px;
+        box-shadow: 14px 5px 22px 0px rgba(0, 0, 0, 0.1),
+          -13px 14px 14px -6px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+  .memberList {
+    border: 1px solid $border-dark;
+    box-shadow: 4px 5px 21px 0px $text-color-dark;
+    border-radius: 12px;
+    height: 80vh;
+    width: 100%;
+    overflow-y: auto;
+    .memberTable {
+      border-collapse: collapse;
+      width: 100%;
+      .tableHead {
+        font-weight: 600;
+        font-size: 1rem;
+        height: 3.5rem;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background-color: grey;
+        th {
+          padding: 0 1rem;
+          position: relative;
+          color: $white;
+          &:not(:first-child) {
+            &::after {
+              position: absolute;
+              content: "";
+              top: 50%;
+              transform: translateY(-50%);
+              left: 0;
+              display: block;
+              height: 30px;
+              width: 1px;
+              background-color: #c3c7c7ed;
+            }
+            text-align: center;
+          }
+          .thWrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .arrowBtn {
+              margin-left: 0.5rem;
+            }
+          }
+        }
+      }
+      .tableBody {
+        font-size: 16px;
+        .row {
+          transition: all 0.2s linear;
+          &:hover {
+            background-color: $background-dark-light;
+          }
+        }
+        td {
+          color: $text-color-dark;
+          padding: 0.5rem 1rem;
+          text-align: center;
+          &.small {
+            width: 20%;
+            .buttonAccept {
+              background-color: $background-dark;
+              color: $text-color-dark;
+              border: 1px solid $border-dark;
+              border-radius: 8px;
+              cursor: pointer;
+              transition: all 0.2s linear;
+              padding: 0.5rem 1rem;
+              &:hover {
+                filter: brightness(1.5);
+              }
+            }
+          }
+          &.medium {
+            width: 25%;
+          }
+          &.large {
+            width: 40%;
+            text-align: left;
+            .memberItem {
+              display: flex;
+              gap: 0 1rem;
+              align-items: center;
+            }
+          }
+        }
+      }
+    }
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 1.25rem 0;
+      background-position: right;
+    }
+  }
 }
