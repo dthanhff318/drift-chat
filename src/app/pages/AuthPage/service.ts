@@ -14,6 +14,7 @@ const useService = () => {
   const dispatch = useDispatch();
 
   const handleLoginFirebase = () => {
+    provider.setCustomParameters({ prompt: "select_account" });
     signInWithPopup(auth, provider)
       .then(async (result) => {
         const { displayName, email, photoURL, uid } = result.user;
