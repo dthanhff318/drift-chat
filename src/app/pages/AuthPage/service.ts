@@ -24,10 +24,10 @@ const useService = () => {
           uid,
         };
         const res = await authApi.login(userInfo);
-        const { accessToken, refreshToken } = res.data;
+        const { accessToken, refreshToken, ...infoUser } = res.data;
         saveToken(accessToken, "accessToken");
         saveToken(refreshToken, "refreshToken");
-        dispatch(saveUser(userInfo));
+        dispatch(saveUser(infoUser));
         history.push(pathHomePage);
       })
       .catch((err) => console.log(err));

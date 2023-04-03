@@ -3,6 +3,7 @@ import Avatar from "app/components/Avatar/Avatar";
 import React from "react";
 import s from "./style.module.scss";
 import useService from "./service";
+import moment from "moment";
 import { useSelector } from "react-redux";
 import { RootState } from "store/configStore";
 import { TUSer } from "types/common";
@@ -12,6 +13,7 @@ type Props = {};
 const FriendPage = (props: Props) => {
   const {} = useService();
   const { listAllUser } = useSelector((state: RootState) => state.services);
+
   return (
     <div className={s.frWrapper}>
       <div className={s.memberGroupWrapper}>
@@ -44,7 +46,9 @@ const FriendPage = (props: Props) => {
                       <span>{user.displayName}</span>
                     </div>
                   </td>
-                  <td className={s.medium}>14:!2</td>
+                  <td className={s.medium}>
+                    {moment(user.lastActive).endOf("day").fromNow()}
+                  </td>
                   <td className={s.small}>
                     <button className={s.buttonAccept}>Add friend</button>
                   </td>

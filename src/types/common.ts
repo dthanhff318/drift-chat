@@ -5,4 +5,6 @@ export type TUSer = {
   email?: string;
   uid?: string;
   photoUrl?: string;
+  isOnline?: boolean;
+  lastActive?: Date;
 };

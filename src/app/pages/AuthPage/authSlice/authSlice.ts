@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { saveUserToLs } from "app/helpers/localStorage";
+import { removeUserLs, saveUserToLs } from "app/helpers/localStorage";
 
 const initialState = {
   user: null,
@@ -15,7 +15,8 @@ export const authSlice = createSlice({
       state.isAuth = true;
       state.user = action.payload;
     },
-    removeUser: (state) => {
+    signoutUser: (state) => {
+      removeUserLs();
       state.isAuth = false;
       state.user = initialState.user;
     },
@@ -24,6 +25,6 @@ export const authSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const { actions, reducer: authReducer } = authSlice;
-export const { saveUser, removeUser } = actions;
+export const { saveUser, signoutUser } = actions;
 
 export default authReducer;
