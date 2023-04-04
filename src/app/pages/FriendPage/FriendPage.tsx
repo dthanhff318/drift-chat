@@ -13,7 +13,8 @@ type Props = {};
 const FriendPage = (props: Props) => {
   const {} = useService();
   const { listAllUser } = useSelector((state: RootState) => state.services);
-
+  console.log(moment(Date.now()).startOf("hour").fromNow());
+  // console.log(listAllUser);
   return (
     <div className={s.frWrapper}>
       <div className={s.memberGroupWrapper}>
@@ -47,7 +48,7 @@ const FriendPage = (props: Props) => {
                     </div>
                   </td>
                   <td className={s.medium}>
-                    {moment(user.lastActive).endOf("day").fromNow()}
+                    {moment(user.lastActive).startOf("hour").fromNow()}
                   </td>
                   <td className={s.small}>
                     <button className={s.buttonAccept}>Add friend</button>
