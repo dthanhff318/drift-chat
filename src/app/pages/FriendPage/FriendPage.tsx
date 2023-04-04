@@ -7,14 +7,14 @@ import moment from "moment";
 import { useSelector } from "react-redux";
 import { RootState } from "store/configStore";
 import { TUSer } from "types/common";
+import { convertDiffTime } from "app/helpers/funcs";
 
 type Props = {};
 
 const FriendPage = (props: Props) => {
-  const {} = useService();
+  const { handleAddFriend } = useService();
   const { listAllUser } = useSelector((state: RootState) => state.services);
-  console.log(moment(Date.now()).startOf("hour").fromNow());
-  // console.log(listAllUser);
+
   return (
     <div className={s.frWrapper}>
       <div className={s.memberGroupWrapper}>
@@ -51,7 +51,12 @@ const FriendPage = (props: Props) => {
                     {moment(user.lastActive).startOf("hour").fromNow()}
                   </td>
                   <td className={s.small}>
-                    <button className={s.buttonAccept}>Add friend</button>
+                    <button
+                      onClick={() => handleAddFriend(user.uid ?? "")}
+                      className={s.buttonAccept}
+                    >
+                      Add friend
+                    </button>
                   </td>
                 </tr>
               ))}

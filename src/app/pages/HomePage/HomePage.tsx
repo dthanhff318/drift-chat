@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "store/configStore";
 import ChannelChat from "./component/ChannelChat";
 import s from "./style.module.scss";
+import BoxChat from "./component/BoxChat";
 type Props = {};
 
 const HomePage = (props: Props) => {
@@ -12,7 +13,7 @@ const HomePage = (props: Props) => {
   return (
     <div className={s.wrapper}>
       <ChannelChat infoUser={infoUser} />
-      <div>hi</div>
+      <BoxChat />
     </div>
   );
 };

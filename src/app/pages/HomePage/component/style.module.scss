@@ -1,4 +1,5 @@
 @import "../../../scss//variables.scss";
+$header-hight: 5rem;
 .channelWrap {
   background-color: $background-dark;
   width: 20rem;
@@ -7,11 +8,13 @@
   gap: 1.5rem 0;
   overflow: hidden;
   height: 100vh;
+  padding-right: 0.5rem;
+  border-right: 1px solid $border-dark;
   .myAccount {
     display: flex;
     align-items: center;
     padding: 1rem;
-    height: 6rem;
+    min-height: $header-hight;
     border-bottom: 1px solid $border-dark;
     gap: 0 1rem;
     .accountInfo {
@@ -181,6 +184,60 @@
           line-height: 1.1rem;
         }
       }
+    }
+  }
+}
+
+// BoxChat
+.boxChatWrap {
+  background-color: $background-dark;
+  flex: 1;
+  padding: 0 0.5rem 0.5rem;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  .headerBox {
+    min-height: $header-hight;
+    border-bottom: 1px solid $border-dark;
+    display: flex;
+    align-items: center;
+    .title {
+      color: $white;
+      margin-left: 1rem;
+    }
+  }
+  .content {
+    padding: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem 0;
+    overflow-y: scroll;
+    height: 100%;
+
+    .message {
+      background-color: $text-color-dark;
+      color: $white;
+      width: fit-content;
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+    }
+  }
+  .chatting {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    box-shadow: 0px -8px 20px -9px $text-color-dark;
+    -webkit-box-shadow: 0px -8px 20px -9px $text-color-dark;
+    -moz-box-shadow: 0px -8px 20px -9px $text-color-dark;
+    border: 1px solid $border-dark;
+    .inputChat {
+      flex: 1;
+      background-color: $background-dark;
+      border: 1px solid $border-dark;
+      color: $white;
+      outline: none;
+      padding: 0.2rem 0.5rem;
     }
   }
 }

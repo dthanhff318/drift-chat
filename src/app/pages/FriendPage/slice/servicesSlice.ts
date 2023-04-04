@@ -1,12 +1,21 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import friendsApi from "app/axios/api/friends";
 import servicesApi from "app/axios/api/services";
 import { TUSer } from "types/common";
 
 type TInitState = {
   listAllUser: Array<TUSer>;
+  listFriend: Array<string>;
+  listRequest: Array<string>;
+  listAccept: Array<string>;
+  listBlock: Array<string>;
 };
 const initialState: TInitState = {
   listAllUser: [],
+  listFriend: [],
+  listRequest: [],
+  listAccept: [],
+  listBlock: [],
 };
 
 export const getAllUserInApp = createAsyncThunk(
@@ -17,6 +26,13 @@ export const getAllUserInApp = createAsyncThunk(
   }
 );
 
+export const getDataFriendCommunication = createAsyncThunk(
+  "friends/getDataFriendCommunication",
+  async () => {
+    const res = await friendsApi.getInfoCommuication();
+    return res.data;
+  }
+);
 export const servicesSlice = createSlice({
   name: "services",
   initialState,
@@ -26,6 +42,15 @@ export const servicesSlice = createSlice({
       getAllUserInApp.fulfilled,
       (state, action: PayloadAction<TUSer[]>) => {
         state.listAllUser = action.payload;
+      }
+    );
+    builder.addCase(
+      getDataFriendCommunication.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        state.listAccept = action.payload.listAccept;
+        state.listBlock = action.payload.listBlock;
+        state.listFriend = action.payload.listFriend;
+        state.listRequest = action.payload.listRequest;
       }
     );
   },
