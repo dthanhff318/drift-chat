@@ -1,6 +1,7 @@
 import {
   getRefreshTokenFromLocalStorage,
   getTokenFromLocalStorage,
+  saveToken,
 } from "app/helpers/localStorage";
 // import { TRefreshTokenRequest } from "app/pages/AuthPage/slice/authTypes";
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
@@ -26,7 +27,7 @@ const headers: Readonly<Record<string, string | boolean>> = {
 
 // We can use the following function to inject the JWT token through an interceptor
 // We get the `accessToken` from the localStorage that we set when we authenticate
-const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
+const injectToken = (config: AxiosRequestConfig): any => {
   const token = getTokenFromLocalStorage();
   if (token != null && config) {
     if (!config.headers) {
@@ -35,15 +36,15 @@ const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
     config.headers.Authorization = `Bearer ${token}`;
   }
 
-  const language = "dfg";
-  if (language && config) {
-    if (!config.headers) {
-      config.headers = {};
-    }
-    config.headers["Accept-Language"] = language;
-  }
+  // const language = "en";
+  // if (language && config) {
+  //   if (!config.headers) {
+  //     config.headers = {};
+  //   }
+  //   config.headers["Accept-Language"] = language;
+  // }
 
-  return {};
+  return config;
 };
 
 class Http {
@@ -59,11 +60,9 @@ class Http {
       headers,
     });
 
-    // http.interceptors.request.use(
-    //   injectToken
-    //   , (error) =>
-    //   Promise.reject(error)
-    // );
+    http.interceptors.request.use(injectToken, (error) =>
+      Promise.reject(error)
+    );
 
     http.interceptors.response.use(
       (response) => response,
@@ -128,13 +127,13 @@ class Http {
         try {
           const rs = await axiosClient.post<
             any,
-            { data: { auth_token: string; refresh: string } }
+            { data: { accessToken: string; refreshToken: string } }
           >("/auth/refresh", {
             refresh: getRefreshTokenFromLocalStorage(),
           });
-          const { auth_token, refresh } = rs.data;
-          // saveToken(auth_token);
-          // saveRefreshToken(refresh);
+          const { accessToken, refreshToken } = rs.data;
+          saveToken(accessToken, "accessToken");
+          saveToken(refreshToken, "refreshToken");
           return this.http(config);
         } catch (_error) {
           return Promise.reject(_error);
