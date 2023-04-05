@@ -220,10 +220,9 @@ $header-hight: 5rem;
       display: inline-block;
       width: fit-content;
       width: 65%;
-      .contentWrap{
+      .contentWrap {
         display: flex;
-        .options{
-
+        .options {
         }
       }
       &.right {
@@ -268,15 +267,33 @@ $header-hight: 5rem;
     align-items: center;
     padding: 1rem 1rem;
     gap: 0 1rem;
+    height: auto;
+    position: relative;
     .inputChat {
       flex: 1;
       background-color: $background-dark;
       border: 1px solid $border-dark;
       color: $white;
       outline: none;
-      padding: 0.2rem 0.5rem;
+      padding: 0.5rem 1rem;
       resize: none;
       border-radius: 15px;
+      height: auto;
+    }
+    .emojiPicker {
+      position: absolute;
+      bottom: 100%;
+      right: 5%;
+    }
+    .emojiIcon {
+      font-size: 1.2rem;
+      color: $white;
+      padding: 0.5rem;
+      transition: all 0.2s linear;
+      cursor: pointer;
+      &:hover {
+        transform: scale(1.2);
+      }
     }
     .sendMsg {
       padding: 0.5rem;

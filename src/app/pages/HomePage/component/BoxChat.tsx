@@ -1,11 +1,27 @@
-import Icon, { SendOutlined } from "@ant-design/icons";
+import Icon, { SendOutlined, SmileOutlined } from "@ant-design/icons";
 import Avatar from "app/components/Avatar/Avatar";
-import React from "react";
+import React, { useState } from "react";
 import s from "./style.module.scss";
 import c from "clsx";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
+import { Emoji } from "emoji-mart";
 type Props = {};
 
 const BoxChat = (props: Props) => {
+  const [openEmoji, setOpenEmoji] = useState<boolean>(false);
+  const [value, setValue] = useState("");
+  const [selectedEmoji, setSelectedEmoji] = useState(null);
+  const handleInputChange = (event) => {
+    setValue(event.target.value);
+  };
+
+  const handleEmojiSelect = (emojiObject) => {
+    setSelectedEmoji(emojiObject);
+    setValue(value + emojiObject.native);
+  };
+  console.log(openEmoji);
+
   return (
     <div className={s.boxChatWrap}>
       <div className={s.headerBox}>
@@ -30,7 +46,30 @@ const BoxChat = (props: Props) => {
           ))}
       </div>
       <div className={s.chatting}>
-        <textarea className={s.inputChat} />
+        <textarea
+          className={s.inputChat}
+          value={value}
+          onChange={handleInputChange}
+        />
+        {openEmoji && (
+          <div className={s.emojiPicker}>
+            <Picker
+              theme="dark"
+              data={data}
+              open={false}
+              onEmojiSelect={handleEmojiSelect}
+              emojiButtonSize={28}
+              emojiSize={22}
+              onClickOutside={() => {
+                openEmoji && setOpenEmoji(false);
+              }}
+            />
+          </div>
+        )}
+        <SmileOutlined
+          className={s.emojiIcon}
+          onClick={() => setOpenEmoji((prev) => !prev)}
+        />
         <button className={s.sendMsg}>
           <SendOutlined className={s.iconSend} />
         </button>
