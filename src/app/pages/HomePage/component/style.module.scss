@@ -192,7 +192,6 @@ $header-hight: 5rem;
 .boxChatWrap {
   background-color: $background-dark;
   flex: 1;
-  padding: 0 0.5rem 0.5rem;
   height: 100vh;
   overflow: hidden;
   display: flex;
@@ -202,35 +201,73 @@ $header-hight: 5rem;
     border-bottom: 1px solid $border-dark;
     display: flex;
     align-items: center;
+    padding: 0 1rem;
     .title {
       color: $white;
       margin-left: 1rem;
     }
   }
   .content {
-    padding: 0.5rem 0;
+    padding: 0.5rem 1rem;
+    background-color: $black;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem 0;
+    gap: 1rem 0;
     overflow-y: scroll;
     height: 100%;
 
     .message {
-      background-color: $text-color-dark;
-      color: $white;
+      display: inline-block;
       width: fit-content;
-      padding: 0.5rem 1rem;
-      border-radius: 12px;
+      width: 65%;
+      .contentWrap{
+        display: flex;
+        .options{
+
+        }
+      }
+      &.right {
+        align-self: flex-end;
+        .contentMsg {
+          background-color: $primary-color;
+          color: $black;
+          border-radius: 15px 0 15px 15px;
+          overflow-wrap: break-word;
+          display: block;
+          width: 100%;
+          padding: 0.5rem 1rem;
+        }
+        .timeSend {
+          margin-top: 0.5rem;
+          color: white;
+          font-size: 0.8rem;
+          color: $text-color-dark;
+        }
+      }
+      &.left {
+        .contentMsg {
+          border-radius: 0px 15px 15px 15px;
+          background-color: $background-dark-light-1;
+          color: $text-color-dark;
+          overflow-wrap: break-word;
+          display: block;
+          width: 100%;
+          padding: 0.5rem 1rem;
+        }
+        .timeSend {
+          margin-top: 0.5rem;
+          color: white;
+          font-size: 0.8rem;
+          color: $text-color-dark;
+        }
+      }
     }
   }
   .chatting {
     display: flex;
     align-items: center;
-    padding: 0.5rem 1rem;
-    box-shadow: 0px -8px 20px -9px $text-color-dark;
-    -webkit-box-shadow: 0px -8px 20px -9px $text-color-dark;
-    -moz-box-shadow: 0px -8px 20px -9px $text-color-dark;
-    border: 1px solid $border-dark;
+    padding: 1rem 1rem;
+    gap: 0 1rem;
     .inputChat {
       flex: 1;
       background-color: $background-dark;
@@ -238,6 +275,19 @@ $header-hight: 5rem;
       color: $white;
       outline: none;
       padding: 0.2rem 0.5rem;
+      resize: none;
+      border-radius: 15px;
+    }
+    .sendMsg {
+      padding: 0.5rem;
+      background-color: transparent;
+      color: white;
+      font-size: 1.2rem;
+      transition: all 0.2s linear;
+      cursor: pointer;
+      &:hover {
+        transform: scale(1.2);
+      }
     }
   }
 }
