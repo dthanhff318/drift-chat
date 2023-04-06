@@ -270,6 +270,8 @@ $header-hight: 5rem;
     height: auto;
     position: relative;
     .inputChat {
+      top: 0;
+      left: 0;
       flex: 1;
       background-color: $background-dark;
       border: 1px solid $border-dark;

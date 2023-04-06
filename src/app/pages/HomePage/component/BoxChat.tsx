@@ -5,7 +5,7 @@ import s from "./style.module.scss";
 import c from "clsx";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
-import { Emoji } from "emoji-mart";
+import TextareaAutosize from "react-textarea-autosize";
 type Props = {};
 
 const BoxChat = (props: Props) => {
@@ -46,10 +46,12 @@ const BoxChat = (props: Props) => {
           ))}
       </div>
       <div className={s.chatting}>
-        <textarea
+        <TextareaAutosize
           className={s.inputChat}
           value={value}
           onChange={handleInputChange}
+          maxRows={4}
+          placeholder="Type something..."
         />
         {openEmoji && (
           <div className={s.emojiPicker}>
@@ -60,9 +62,6 @@ const BoxChat = (props: Props) => {
               onEmojiSelect={handleEmojiSelect}
               emojiButtonSize={28}
               emojiSize={22}
-              onClickOutside={() => {
-                openEmoji && setOpenEmoji(false);
-              }}
             />
           </div>
         )}

@@ -13,7 +13,10 @@ type Props = {};
 
 const FriendPage = (props: Props) => {
   const { handleAddFriend } = useService();
-  const { listAllUser } = useSelector((state: RootState) => state.services);
+  const { listAllUser, listRequest } = useSelector(
+    (state: RootState) => state.services
+  );
+  console.log(listRequest);
 
   return (
     <div className={s.frWrapper}>
@@ -55,7 +58,7 @@ const FriendPage = (props: Props) => {
                       onClick={() => handleAddFriend(user.uid ?? "")}
                       className={s.buttonAccept}
                     >
-                      Add friend
+                      {listRequest.includes(user.uid ?? "0") ? "Cancel" : "Add"}
                     </button>
                   </td>
                 </tr>
