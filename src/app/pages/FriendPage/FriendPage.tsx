@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "store/configStore";
 import { TUSer } from "types/common";
 import { convertDiffTime } from "app/helpers/funcs";
+import MyFriendControl from "./MyFriendControl";
 
 type Props = {};
 
@@ -67,6 +68,7 @@ const FriendPage = (props: Props) => {
           </table>
         </div>
       </div>
+      <MyFriendControl />
     </div>
   );
 };

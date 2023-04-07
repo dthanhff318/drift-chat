@@ -7,6 +7,7 @@
   height: 100vh;
   overflow: hidden;
   background-color: $background-dark;
+  gap: 0 2rem;
 }
 
 .memberGroupWrapper {
@@ -16,7 +17,7 @@
   align-items: flex-start;
   align-self: start;
   padding: 2rem 0;
-  width: 50%;
+  width: 40%;
 
   .memberSearch {
     display: flex;
@@ -170,6 +171,7 @@
         }
       }
     }
+
     .loading {
       display: flex;
       align-items: center;
@@ -178,6 +180,85 @@
       font-weight: 600;
       margin: 1.25rem 0;
       background-position: right;
+    }
+  }
+}
+
+.friendControlWrap {
+  border-radius: 8px;
+  border: 1px solid $border-dark;
+  box-shadow: 4px 5px 21px 0px $text-color-dark;
+  flex: 1;
+  padding: 2rem 0;
+  margin-top: 2rem;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem 0;
+  padding: 1rem;
+  .controlHeader {
+    display: flex;
+    gap: 0 2rem;
+    .item {
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      border: 1px solid $border-dark;
+      padding: 1rem 2rem;
+      cursor: pointer;
+      color: $text-color-dark;
+      transition: all 0.2s linear;
+      &.active {
+        background-color: $background-dark-light-1;
+        color: $white;
+      }
+      &:not(.active):hover {
+        background-color: $background-dark-light;
+      }
+    }
+  }
+  .controlContent {
+    border: 1px solid $border-dark;
+    height: 70vh;
+    width: 100%;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+}
+
+// fr Row
+.frRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 8px;
+  transition: all 0.2s linear;
+  &:hover {
+    background-color: $background-dark-light;
+  }
+  .info {
+    display: flex;
+    align-items: center;
+    gap: 0 1rem;
+  }
+  .name {
+    color: $text-color-dark;
+  }
+  .timeActive {
+    color: $text-color-dark;
+  }
+  .actionBtn {
+    background-color: $background-dark;
+    color: $text-color-dark;
+    border: 1px solid $border-dark;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s linear;
+    padding: 0.5rem 1rem;
+    &:hover {
+      filter: brightness(1.5);
     }
   }
 }
