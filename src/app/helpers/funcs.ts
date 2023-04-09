@@ -14,12 +14,10 @@ export const convertDiffTime = (time: string) => {
 
   // Áp dụng quy tắc hiển thị tương ứng
   if (diffMinutes <= 1) {
-    return "1 phút trước";
+    return "few minutes ago";
   } else if (diffMinutes < 60) {
-    return diffMinutes + " phút trước";
-  } else if (diffHours < 24) {
-    return diffHours + " giờ trước";
+    return diffMinutes + " minutes ago";
   } else {
-    return lastActive.format("D/M/YYYY HH:mm:ss");
+    return diffHours + " hour ago";
   }
 };

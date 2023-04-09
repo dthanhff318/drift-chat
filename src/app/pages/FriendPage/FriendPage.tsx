@@ -52,14 +52,16 @@ const FriendPage = (props: Props) => {
                     </div>
                   </td>
                   <td className={s.medium}>
-                    {moment(user.lastActive).startOf("hour").fromNow()}
+                    {convertDiffTime((user.lastActive ?? "").toString())}
                   </td>
                   <td className={s.small}>
                     <button
                       onClick={() => handleAddFriend(user.uid ?? "")}
                       className={s.buttonAccept}
                     >
-                      {listRequest.includes(user.uid ?? "0") ? "Cancel" : "Add"}
+                      {listRequest.find((u) => u.uid === user.uid)
+                        ? "Cancel"
+                        : "Add"}
                     </button>
                   </td>
                 </tr>

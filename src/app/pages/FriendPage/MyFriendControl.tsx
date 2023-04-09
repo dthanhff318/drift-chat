@@ -4,11 +4,14 @@ import c from "clsx";
 import FriendRow from "./FriendRow";
 import { useSelector } from "react-redux";
 import { RootState } from "store/configStore";
+import { TUSer } from "types/common";
 type Props = {};
 type TControl = "friend" | "approve" | "blocked";
 const MyFriendControl = (props: Props) => {
   const [control, setControl] = useState<TControl>("friend");
-  const { listAccept } = useSelector((state: RootState) => state.services);
+  const { listAccept, listFriend } = useSelector(
+    (state: RootState) => state.services
+  );
   return (
     <div className={s.friendControlWrap}>
       <div className={s.controlHeader}>
@@ -32,7 +35,10 @@ const MyFriendControl = (props: Props) => {
         </div>
       </div>
       <div className={s.controlContent}>
-        {control === "approve" && listAccept.map((t) => <FriendRow data={t} />)}
+        {control === "friend" &&
+          listFriend.map((t: TUSer) => <FriendRow data={t} />)}
+        {control === "approve" &&
+          listAccept.map((t: TUSer) => <FriendRow data={t} />)}
       </div>
     </div>
   );
