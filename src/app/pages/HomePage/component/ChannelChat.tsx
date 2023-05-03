@@ -2,9 +2,9 @@ import React from "react";
 import { MoreOutlined, RightOutlined, SearchOutlined } from "@ant-design/icons";
 import s from "./style.module.scss";
 import OnlineList from "./OnlineList";
-import MessageChatList from "./MessageChatList";
 import { TUSer } from "types/common";
 import Avatar from "app/components/Avatar/Avatar";
+import MessageChatList from "./MessageChatList/MessageChatList";
 
 type Props = {
   infoUser: TUSer;

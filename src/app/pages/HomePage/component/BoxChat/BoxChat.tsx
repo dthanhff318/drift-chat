@@ -1,7 +1,7 @@
 import Icon, { SendOutlined, SmileOutlined } from "@ant-design/icons";
 import Avatar from "app/components/Avatar/Avatar";
 import React, { useState } from "react";
-import s from "./style.module.scss";
+import s from "../style.module.scss";
 import c from "clsx";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
@@ -21,6 +21,10 @@ const BoxChat = (props: Props) => {
     setValue(value + emojiObject.native);
   };
   console.log(openEmoji);
+
+  const handleSendMess = () => {
+    console.log(value);
+  };
 
   return (
     <div className={s.boxChatWrap}>
@@ -69,7 +73,7 @@ const BoxChat = (props: Props) => {
           className={s.emojiIcon}
           onClick={() => setOpenEmoji((prev) => !prev)}
         />
-        <button className={s.sendMsg}>
+        <button className={s.sendMsg} onClick={handleSendMess}>
           <SendOutlined className={s.iconSend} />
         </button>
       </div>
