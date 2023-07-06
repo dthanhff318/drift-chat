@@ -17,7 +17,7 @@ const SettingsPage = (props: Props) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const handleLogout = async () => {
-    await authApi.logout(infoUser.uid);
+    await authApi.logout(infoUser.uid ?? "");
     await signOut(auth).then(() => {
       dispatch(signoutUser());
       history.push(pathLoginPage);

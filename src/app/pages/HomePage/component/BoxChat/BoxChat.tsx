@@ -6,26 +6,33 @@ import c from "clsx";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import TextareaAutosize from "react-textarea-autosize";
+import { useSelector } from "react-redux";
+import { RootState } from "store/configStore";
+import { useService } from "./service";
+import { getUserFromLs } from "app/helpers/localStorage";
 type Props = {};
 
 const BoxChat = (props: Props) => {
   const [openEmoji, setOpenEmoji] = useState<boolean>(false);
   const [value, setValue] = useState("");
   const [selectedEmoji, setSelectedEmoji] = useState(null);
+  const { group, listMessage } = useService();
   const handleInputChange = (event) => {
     setValue(event.target.value);
   };
-
   const handleEmojiSelect = (emojiObject) => {
     setSelectedEmoji(emojiObject);
     setValue(value + emojiObject.native);
   };
-  console.log(openEmoji);
 
   const handleSendMess = () => {
     console.log(value);
   };
-
+  // listMessage.map((e) => {
+  //   console.log(user.uid);
+  //   console.log(e.senderId);
+  // });
+  const user = getUserFromLs();
   return (
     <div className={s.boxChatWrap}>
       <div className={s.headerBox}>
@@ -33,21 +40,17 @@ const BoxChat = (props: Props) => {
         <span className={s.title}>Nhom chat vip pro</span>
       </div>
       <div className={s.content}>
-        {Array(20)
-          .fill(1)
-          .map((e, i) => (
-            <div className={c(s.message, i % 2 === 0 ? s.left : s.right)}>
-              <div className={s.contentWrap}>
-                <span className={c(s.contentMsg)}>
-                  helooel ooelooel ooeloo ooeloo elooeloo oelooelooelo
-                  oelooelooeloo looelo oelooelooe looelooeloo elooelo looe
-                  looelolooelolooelolooelolooelolooelolooelolooelo
-                </span>
-                <div className={s.options}></div>
-              </div>
-              <p className={s.timeSend}>12:10 PM</p>
+        {listMessage.map((e, i) => (
+          <div
+            className={c(s.message, e.senderId !== user.uid ? s.left : s.right)}
+          >
+            <div className={s.contentWrap}>
+              <span className={c(s.contentMsg)}>{e.content}</span>
+              <div className={s.options}></div>
             </div>
-          ))}
+            <p className={s.timeSend}>12:10 PM</p>
+          </div>
+        ))}
       </div>
       <div className={s.chatting}>
         <TextareaAutosize

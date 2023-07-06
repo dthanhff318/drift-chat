@@ -1,4 +1,3 @@
-import Avatar from "app/components/Avatar/Avatar";
 import React from "react";
 import s from "../style.module.scss";
 import { useService } from "./service";

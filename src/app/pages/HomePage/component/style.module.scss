@@ -138,6 +138,7 @@ $header-hight: 5rem;
   flex-direction: column;
   overflow-y: scroll;
   .msgItem {
+    cursor: pointer;
     padding: 0 8% 0 5%;
     min-height: 5rem;
     display: flex;

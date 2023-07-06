@@ -20,3 +20,10 @@ export const removeUserLs = () => {
 
 export const getUserFromLs = (): IndexedObject =>
   JSON.parse(localStorage.getItem("userInfo") ?? "{}");
+
+export const saveGrToLs = (data) =>
+  localStorage.setItem("groupId", JSON.stringify(data));
+
+export const removeGrLs = () => {
+  localStorage.removeItem("groupId");
+};
