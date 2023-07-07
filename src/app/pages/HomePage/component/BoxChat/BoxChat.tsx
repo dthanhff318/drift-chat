@@ -38,6 +38,7 @@ const BoxChat = (props: Props) => {
         };
 
         const res = await messageApi.sendMess(data);
+        setValue("");
       }
     } catch (err) {
     } finally {
