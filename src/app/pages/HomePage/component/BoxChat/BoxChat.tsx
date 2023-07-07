@@ -1,4 +1,4 @@
-import Icon, { SendOutlined, SmileOutlined } from "@ant-design/icons";
+import { SendOutlined, SmileOutlined } from "@ant-design/icons";
 import Avatar from "app/components/Avatar/Avatar";
 import React, { useState } from "react";
 import s from "../style.module.scss";
@@ -6,48 +6,66 @@ import c from "clsx";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import TextareaAutosize from "react-textarea-autosize";
+import { useService } from "./service";
+import { getUserFromLs } from "app/helpers/localStorage";
+import { useDispatch } from "react-redux";
+import { sendMess } from "store/messageSlice";
+import messageApi from "app/axios/api/messageApi";
 type Props = {};
 
 const BoxChat = (props: Props) => {
   const [openEmoji, setOpenEmoji] = useState<boolean>(false);
   const [value, setValue] = useState("");
   const [selectedEmoji, setSelectedEmoji] = useState(null);
+  const dispatch = useDispatch();
+  const { group, listMessage, ref, friend } = useService();
+
   const handleInputChange = (event) => {
     setValue(event.target.value);
   };
-
   const handleEmojiSelect = (emojiObject) => {
     setSelectedEmoji(emojiObject);
     setValue(value + emojiObject.native);
   };
-  console.log(openEmoji);
 
-  const handleSendMess = () => {
-    console.log(value);
+  const handleSendMess = async () => {
+    try {
+      if (user.uid) {
+        const data = {
+          senderId: user.uid,
+          group: group._id,
+          content: value,
+        };
+
+        const res = await messageApi.sendMess(data);
+        setValue("");
+      }
+    } catch (err) {
+    } finally {
+    }
   };
+
+  const user = getUserFromLs();
 
   return (
     <div className={s.boxChatWrap}>
       <div className={s.headerBox}>
-        <Avatar />
-        <span className={s.title}>Nhom chat vip pro</span>
+        <Avatar src={friend?.photoUrl} />
+        <span className={s.title}>{friend?.displayName}</span>
       </div>
       <div className={s.content}>
-        {Array(20)
-          .fill(1)
-          .map((e, i) => (
-            <div className={c(s.message, i % 2 === 0 ? s.left : s.right)}>
-              <div className={s.contentWrap}>
-                <span className={c(s.contentMsg)}>
-                  helooel ooelooel ooeloo ooeloo elooeloo oelooelooelo
-                  oelooelooeloo looelo oelooelooe looelooeloo elooelo looe
-                  looelolooelolooelolooelolooelolooelolooelolooelo
-                </span>
-                <div className={s.options}></div>
-              </div>
-              <p className={s.timeSend}>12:10 PM</p>
+        {listMessage.map((e, i) => (
+          <div
+            className={c(s.message, e.senderId !== user.uid ? s.left : s.right)}
+            ref={i === listMessage.length - 1 ? ref : undefined}
+          >
+            <div className={s.contentWrap}>
+              <span className={c(s.contentMsg)}>{e.content}</span>
+              <div className={s.options}></div>
             </div>
-          ))}
+            <p className={s.timeSend}>12:10 PM</p>
+          </div>
+        ))}
       </div>
       <div className={s.chatting}>
         <TextareaAutosize
@@ -73,7 +91,15 @@ const BoxChat = (props: Props) => {
           className={s.emojiIcon}
           onClick={() => setOpenEmoji((prev) => !prev)}
         />
-        <button className={s.sendMsg} onClick={handleSendMess}>
+        <button
+          className={s.sendMsg}
+          onClick={handleSendMess}
+          onKeyDown={(e: any) => {
+            if (e.code === "Enter") {
+              handleSendMess();
+            }
+          }}
+        >
           <SendOutlined className={s.iconSend} />
         </button>
       </div>
