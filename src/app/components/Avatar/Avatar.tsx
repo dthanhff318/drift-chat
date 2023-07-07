@@ -6,8 +6,6 @@ type Props = {
 };
 
 const Avatar = ({ src }: Props) => {
-  console.log({ src });
-
   return (
     <div className={s.avatarWrapper}>
       <img src={src ? src : getPublicImageUrl("avt.png")} alt="" />

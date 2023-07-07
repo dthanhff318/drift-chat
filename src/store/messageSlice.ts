@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import messageApi from "app/axios/api/messageApi";
-import { TQueryMess } from "app/axios/api/typeApi";
+import { TQueryMess, TSendMess } from "app/axios/api/typeApi";
 import { TMessage } from "types/common";
 
 type TMessageState = {
@@ -17,6 +17,14 @@ export const getMessage = createAsyncThunk(
   "message/getMessage",
   async (data: TQueryMess) => {
     const res = await messageApi.getMessage(data);
+    return res.data;
+  }
+);
+
+export const sendMess = createAsyncThunk(
+  "message/send",
+  async (data: TSendMess) => {
+    const res = await messageApi.sendMess(data);
     return res.data;
   }
 );

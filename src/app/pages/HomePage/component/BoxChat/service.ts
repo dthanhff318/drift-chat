@@ -1,10 +1,11 @@
 import messageApi from "app/axios/api/messageApi";
 import { LIMIT_MESS } from "app/helpers/common";
-import { AxiosResponse } from "axios";
-import { useEffect, useRef, useState } from "react";
+import { getInfoDirectmess } from "app/helpers/funcs";
+import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
 import { RootState } from "store/configStore";
-import { TMessage } from "types/common";
+import { TMessage, TUSer } from "types/common";
 
 const initHashMore = {
   hasMore: true,
@@ -12,25 +13,28 @@ const initHashMore = {
 };
 
 export const useService = () => {
-  const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const containerRef = useRef(null);
-  const [hashMore, setHashMore] = useState<any>(initHashMore);
+  const [hashMore, setHashMore] = useState<{ hasMore: boolean; page: number }>(
+    initHashMore
+  );
   const { group } = useSelector((state: RootState) => state.groups);
   const [listMessage, setListMessage] = useState<TMessage[]>([]);
   const { user } = useSelector((state: RootState) => state.auth);
+  const [friend, setFriend] = useState<TUSer | undefined>({});
+  const [ref, inView] = useInView();
 
   const getMessInGroup = async (page?: number) => {
     try {
       setLoading(true);
       const data = {
-        page: page ?? hashMore.page,
+        page: hashMore.page,
         limit: LIMIT_MESS,
         groupId: group._id,
       };
       const response = await messageApi.getMessage(data);
       if (response.data.length > 0) {
-        setListMessage([...response.data, ...listMessage]);
+        setListMessage([...listMessage, ...response.data]);
+        setHashMore({ ...hashMore, page: hashMore.page + 1 });
       }
     } catch (error) {
       console.error(error);
@@ -38,12 +42,23 @@ export const useService = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    inView && hashMore.hasMore && getMessInGroup();
+  }, [inView]);
+
   useEffect(() => {
     getMessInGroup();
+    if (group._id) {
+      setFriend(getInfoDirectmess(group));
+    }
   }, [group._id]);
+
   return {
     group,
     listMessage,
     user,
+    ref,
+    friend,
   };
 };

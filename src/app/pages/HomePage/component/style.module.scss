@@ -212,15 +212,15 @@ $header-hight: 5rem;
     padding: 0.5rem 1rem;
     background-color: $black;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     gap: 1rem 0;
     overflow-y: scroll;
     height: 100%;
-
     .message {
       display: inline-block;
       width: fit-content;
-      width: 65%;
+      max-width: 50%;
+      justify-content: end;
       .contentWrap {
         display: flex;
         .options {

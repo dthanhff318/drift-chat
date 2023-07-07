@@ -1,4 +1,6 @@
 import moment from "moment";
+import { TGroup } from "types/common";
+import { getUserFromLs } from "./localStorage";
 
 export const getPublicImageUrl = (name: string) =>
   `${process.env.PUBLIC_URL}/images/${name}`;
@@ -20,4 +22,12 @@ export const convertDiffTime = (time: string) => {
   } else {
     return diffHours + " hour ago";
   }
+};
+
+export const getInfoDirectmess = (group: TGroup) => {
+  const user = getUserFromLs();
+  if (group.typeGroup === false) {
+    return group.members.find((m) => m.uid !== user.uid);
+  }
+  return;
 };
