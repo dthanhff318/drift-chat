@@ -17,22 +17,26 @@ export const useService = () => {
   const [hashMore, setHashMore] = useState<{ hasMore: boolean; page: number }>(
     initHashMore
   );
-  const { group } = useSelector((state: RootState) => state.groups);
+  const { currentGroup } = useSelector((state: RootState) => state.groups);
   const [listMessage, setListMessage] = useState<TMessage[]>([]);
   const { user } = useSelector((state: RootState) => state.auth);
   const [friend, setFriend] = useState<TUSer | undefined>({});
   const [ref, inView] = useInView();
+  console.log({ listMessage });
 
   const getMessInGroup = async (page?: number) => {
     try {
       setLoading(true);
       const data = {
-        page: hashMore.page,
+        page: page ?? hashMore.page,
         limit: LIMIT_MESS,
-        groupId: group._id,
+        groupId: currentGroup._id,
       };
       const response = await messageApi.getMessage(data);
-      if (response.data.length > 0) {
+      if (page) {
+        setHashMore({ ...hashMore, page: page + 1 });
+        setListMessage(response.data);
+      } else {
         setListMessage([...listMessage, ...response.data]);
         setHashMore({ ...hashMore, page: hashMore.page + 1 });
       }
@@ -48,14 +52,14 @@ export const useService = () => {
   }, [inView]);
 
   useEffect(() => {
-    getMessInGroup();
-    if (group._id) {
-      setFriend(getInfoDirectmess(group));
+    getMessInGroup(1);
+    if (currentGroup._id) {
+      setFriend(getInfoDirectmess(currentGroup));
     }
-  }, [group._id]);
+  }, [currentGroup._id]);
 
   return {
-    group,
+    currentGroup,
     listMessage,
     user,
     ref,

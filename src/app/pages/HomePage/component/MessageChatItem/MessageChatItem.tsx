@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import c from "clsx";
 import s from "../style.module.scss";
 import Avatar from "app/components/Avatar/Avatar";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,10 +14,11 @@ type Props = {
 
 const MessageChatItem = ({ group }: Props) => {
   const { user } = useSelector((state: RootState) => state.auth);
+  const { currentGroup } = useSelector((state: RootState) => state.groups);
   const infoUser = user ?? getUserFromLs();
+  const [activeGr, setActiveGr] = useState<boolean>(false);
   const dispatch = useDispatch();
   let friend: any;
-  console.log(infoUser);
   if (!group.typeGroup) {
     friend = group.members.find((u) => u.uid !== infoUser.uid);
   }
@@ -27,7 +29,13 @@ const MessageChatItem = ({ group }: Props) => {
   };
 
   return (
-    <div className={s.msgItem} onClick={handleSetGroup}>
+    <div
+      className={c(
+        s.msgItem,
+        group._id === currentGroup._id ? s.grActive : null
+      )}
+      onClick={handleSetGroup}
+    >
       <Avatar src={friend.photoUrl ?? ""} />
       <div className={s.msgInfo}>
         <div className={s.firstLine}>
