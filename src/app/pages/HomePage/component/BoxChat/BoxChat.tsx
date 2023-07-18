@@ -18,7 +18,7 @@ const BoxChat = (props: Props) => {
   const [value, setValue] = useState("");
   const [selectedEmoji, setSelectedEmoji] = useState(null);
   const dispatch = useDispatch();
-  const { group, listMessage, ref, friend } = useService();
+  const { currentGroup, listMessage, ref, friend } = useService();
 
   const handleInputChange = (event) => {
     setValue(event.target.value);
@@ -33,7 +33,7 @@ const BoxChat = (props: Props) => {
       if (user.uid) {
         const data = {
           senderId: user.uid,
-          group: group._id,
+          group: currentGroup._id,
           content: value,
         };
 
@@ -73,6 +73,11 @@ const BoxChat = (props: Props) => {
           value={value}
           onChange={handleInputChange}
           maxRows={4}
+          onKeyDown={(e: any) => {
+            if (e.code === "Enter") {
+              handleSendMess();
+            }
+          }}
           placeholder="Type something..."
         />
         {openEmoji && (
@@ -91,15 +96,7 @@ const BoxChat = (props: Props) => {
           className={s.emojiIcon}
           onClick={() => setOpenEmoji((prev) => !prev)}
         />
-        <button
-          className={s.sendMsg}
-          onClick={handleSendMess}
-          onKeyDown={(e: any) => {
-            if (e.code === "Enter") {
-              handleSendMess();
-            }
-          }}
-        >
+        <button className={s.sendMsg} onClick={handleSendMess}>
           <SendOutlined className={s.iconSend} />
         </button>
       </div>

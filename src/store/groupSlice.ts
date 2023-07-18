@@ -3,13 +3,13 @@ import groupApi from "app/axios/api/group";
 import { TGroup } from "types/common";
 
 type TGroupState = {
-  group: TGroup;
+  currentGroup: TGroup;
   groups: TGroup[];
   loading: boolean;
 };
 
 const initialState: TGroupState = {
-  group: {} as TGroup,
+  currentGroup: {} as TGroup,
   groups: [],
   loading: false,
 };
@@ -24,7 +24,7 @@ export const groupSlice = createSlice({
   initialState,
   reducers: {
     setGroup(state, action: PayloadAction<TGroup>) {
-      state.group = action.payload;
+      state.currentGroup = action.payload;
     },
   },
   extraReducers(builder) {
