@@ -1,9 +1,10 @@
 import messageApi from "app/axios/api/messageApi";
 import { LIMIT_MESS } from "app/helpers/common";
 import { getInfoDirectmess } from "app/helpers/funcs";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
+import { io } from "socket.io-client";
 import { RootState } from "store/configStore";
 import { TMessage, TUSer } from "types/common";
 
@@ -22,7 +23,26 @@ export const useService = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const [friend, setFriend] = useState<TUSer | undefined>({});
   const [ref, inView] = useInView();
-  console.log({ listMessage });
+  const socket = io("http://localhost:4000/"); // Địa chỉ và cổng của máy chủ socket
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("Đã kết nối tới máy chủ socket");
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Ngắt kết nối từ máy chủ socket");
+    });
+
+    socket.on("sendMess", (message) => {
+      console.log("Nhận tin nhắn mới:", listMessage);
+      setListMessage([message, ...listMessage]);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   const getMessInGroup = async (page?: number) => {
     try {
@@ -52,6 +72,8 @@ export const useService = () => {
   }, [inView]);
 
   useEffect(() => {
+    console.log("thanh");
+
     getMessInGroup(1);
     if (currentGroup._id) {
       setFriend(getInfoDirectmess(currentGroup));

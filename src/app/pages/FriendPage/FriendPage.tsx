@@ -17,7 +17,6 @@ const FriendPage = (props: Props) => {
   const { listAllUser, listRequest } = useSelector(
     (state: RootState) => state.services
   );
-  console.log(listRequest);
 
   return (
     <div className={s.frWrapper}>

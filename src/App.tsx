@@ -7,6 +7,7 @@ import RenderRoutes, { routes } from "app/routes/routes";
 import { useSelector } from "react-redux";
 import { RootState } from "store/configStore";
 import { getUserFromLs } from "app/helpers/localStorage";
+import SocketContext from "app/context/SocketContext";
 const socketInstance = io("http://localhost:4000");
 function App() {
   const [listMessage1, setListMessage1] = useState<any[]>([]);
@@ -32,35 +33,22 @@ function App() {
   };
 
   const handleListenSend = (data: any) => {
-    console.log(socketInstance);
-
     setListMessage1([...listMessage1, { msg: data.msg, user: data.id }]);
-    console.log(data, "and", room);
   };
-  useEffect(() => {
-    socketInstance.emit("joinRoom", room);
-    return () => {
-      socketInstance.emit("leftRoom", room);
-    };
-  }, [room]);
-  useEffect(() => {
-    socketInstance.on("sendMess", handleListenSend);
-    return () => {
-      socketInstance.off("sendMess", handleListenSend);
-    };
-  }, [listMessage1]);
+
   const { isAuth } = useSelector((state: RootState) => state.auth);
   const checkAuthLocal = !!Object.entries(getUserFromLs()).length ?? isAuth;
-  console.log(!!Object.entries(getUserFromLs()).length);
   return (
     <>
-      <Router>
-        <RenderRoutes
-          routes={routes}
-          checkAuthLocal={checkAuthLocal}
-          currentUser={{}}
-        />
-      </Router>
+      <SocketContext.Provider value={{ socket: socketInstance }}>
+        <Router>
+          <RenderRoutes
+            routes={routes}
+            checkAuthLocal={checkAuthLocal}
+            currentUser={{}}
+          />
+        </Router>
+      </SocketContext.Provider>
     </>
   );
 }

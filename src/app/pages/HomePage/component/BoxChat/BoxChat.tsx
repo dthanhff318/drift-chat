@@ -1,6 +1,6 @@
 import { SendOutlined, SmileOutlined } from "@ant-design/icons";
 import Avatar from "app/components/Avatar/Avatar";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import s from "../style.module.scss";
 import c from "clsx";
 import data from "@emoji-mart/data";
@@ -11,6 +11,8 @@ import { getUserFromLs } from "app/helpers/localStorage";
 import { useDispatch } from "react-redux";
 import { sendMess } from "store/messageSlice";
 import messageApi from "app/axios/api/messageApi";
+import { io } from "socket.io-client";
+import SocketContext from "app/context/SocketContext";
 type Props = {};
 
 const BoxChat = (props: Props) => {
@@ -27,6 +29,7 @@ const BoxChat = (props: Props) => {
     setSelectedEmoji(emojiObject);
     setValue(value + emojiObject.native);
   };
+  const { socket } = useContext(SocketContext);
 
   const handleSendMess = async () => {
     try {
@@ -38,6 +41,7 @@ const BoxChat = (props: Props) => {
         };
 
         const res = await messageApi.sendMess(data);
+        socket?.emit("sendMess", data);
         setValue("");
       }
     } catch (err) {
@@ -47,6 +51,7 @@ const BoxChat = (props: Props) => {
 
   const user = getUserFromLs();
 
+  
   return (
     <div className={s.boxChatWrap}>
       <div className={s.headerBox}>
