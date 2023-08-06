@@ -1,13 +1,18 @@
 import authApi from "app/axios/api/auth";
 import { pathHomePage } from "app/routes/routesConfig";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  FacebookAuthProvider,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { auth } from "app/firebase/configFirebase";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { saveUser } from "app/pages/AuthPage/authSlice/authSlice";
 import { saveToken } from "app/helpers/localStorage";
 
-const provider = new GoogleAuthProvider();
+// const provider = new GoogleAuthProvider();
+const provider = new FacebookAuthProvider();
 
 const useService = () => {
   const history = useHistory();
@@ -17,6 +22,8 @@ const useService = () => {
     provider.setCustomParameters({ prompt: "select_account" });
     signInWithPopup(auth, provider)
       .then(async (result) => {
+        console.log(result);
+
         const { displayName, email, photoURL, uid } = result.user;
         const userInfo = {
           displayName,
