@@ -11,8 +11,8 @@ import { useDispatch } from "react-redux";
 import { saveUser } from "app/pages/AuthPage/authSlice/authSlice";
 import { saveToken } from "app/helpers/localStorage";
 
-// const provider = new GoogleAuthProvider();
-const provider = new FacebookAuthProvider();
+const provider = new GoogleAuthProvider();
+// const provider = new FacebookAuthProvider();
 
 const useService = () => {
   const history = useHistory();
@@ -22,8 +22,6 @@ const useService = () => {
     provider.setCustomParameters({ prompt: "select_account" });
     signInWithPopup(auth, provider)
       .then(async (result) => {
-        console.log(result);
-
         const { displayName, email, photoURL, uid } = result.user;
         const userInfo = {
           displayName,
@@ -32,10 +30,10 @@ const useService = () => {
           uid,
         };
         const res = await authApi.login(userInfo);
-        const { accessToken, refreshToken, ...infoUser } = res.data;
-        saveToken(accessToken, "accessToken");
-        saveToken(refreshToken, "refreshToken");
-        dispatch(saveUser(infoUser));
+        const { token, user } = res.data;
+        saveToken(token.accessToken, "accessToken");
+        saveToken(token.refreshToken, "refreshToken");
+        dispatch(saveUser(user));
         history.push(pathHomePage);
       })
       .catch((err) => console.log(err));

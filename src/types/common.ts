@@ -8,3 +8,16 @@ export type TUSer = {
   isOnline?: boolean;
   lastActive?: Date;
 };
+
+export type TGroup = {
+  _id: string;
+  members: TUSer[];
+  listAdmin: string[];
+  typeGroup: boolean;
+};
+export type TMessage = {
+  _id: string;
+  senderId: string;
+  group: string;
+  content: string;
+};

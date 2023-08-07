@@ -17,7 +17,10 @@ const useService = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const infoUser = user ?? getUserFromLs();
   const handleAddFriend = async (uid: string) => {
-    await friendsApi.sendRqAddFriend({ reqId: infoUser.uid, acceptId: uid });
+    await friendsApi.sendRqAddFriend({
+      reqId: infoUser.uid ?? "",
+      acceptId: uid,
+    });
   };
   useEffect(() => {
     dispatch(getAllUserInApp() as unknown as AnyAction);

@@ -1,8 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { removeUserLs, saveUserToLs } from "app/helpers/localStorage";
+import { TUSer } from "types/common";
 
-const initialState = {
-  user: null,
+type TUserStore = {
+  user: TUSer;
+  isAuth: boolean;
+};
+
+const initialState: TUserStore = {
+  user: {},
   isAuth: false,
 };
 
@@ -23,7 +29,6 @@ export const authSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
 export const { actions, reducer: authReducer } = authSlice;
 export const { saveUser, signoutUser } = actions;
 

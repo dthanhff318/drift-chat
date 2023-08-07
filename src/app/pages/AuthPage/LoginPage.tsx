@@ -22,10 +22,10 @@ const LoginPage = (props: Props) => {
             <GoogleIcon />
             <p>Login Google</p>
           </button>
-          <button>
+          {/* <button>
             <FaceBook />
             <p>Login Facebook</p>
-          </button>
+          </button> */}
         </div>
         <div className={s.bottom}>
           <p>Or sign up using</p>
