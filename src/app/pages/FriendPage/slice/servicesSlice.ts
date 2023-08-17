@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import friendsApi from "app/axios/api/friends";
-import servicesApi from "app/axios/api/services";
+import servicesApi from "app/axios/api/userApi";
 import { TUSer } from "types/common";
 
 type TInitState = {

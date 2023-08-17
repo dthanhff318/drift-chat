@@ -1,9 +1,9 @@
 import { axiosClient } from "../axiosClient";
 
-const servicesApi = {
+const userApi = {
   getAllUser: () => {
     return axiosClient.get("/services/users");
   },
 };
 
-export default servicesApi;
+export default userApi;

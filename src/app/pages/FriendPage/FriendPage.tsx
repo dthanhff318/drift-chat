@@ -56,7 +56,7 @@ const FriendPage = (props: Props) => {
                   </td>
                   <td className={s.small}>
                     <button
-                      onClick={() => handleAddFriend(user.uid ?? "")}
+                      onClick={() => handleAddFriend(user.id ?? "")}
                       className={s.buttonAccept}
                     >
                       {listRequest.find((u) => u.uid === user.uid)

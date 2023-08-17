@@ -7,6 +7,7 @@ export type TUSer = {
   photoUrl?: string;
   isOnline?: boolean;
   lastActive?: Date;
+  id?: string;
 };
 
 export type TGroup = {

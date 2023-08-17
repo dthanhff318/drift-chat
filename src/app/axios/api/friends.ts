@@ -4,8 +4,8 @@ const friendsApi = {
   getInfoCommuication: () => {
     return axiosClient.get("/friends");
   },
-  sendRqAddFriend: (data: { reqId: string; acceptId: string }) => {
-    return axiosClient.post("/friends/send-add", data);
+  addFriend: (friendId: string) => {
+    return axiosClient.post("/friends/add", { friendId });
   },
   acceptFrRequest: (data: { acceptUid: string }) => {
     return axiosClient.post("/friends/accept", data);

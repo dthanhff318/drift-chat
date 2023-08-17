@@ -13,16 +13,17 @@ import {
 import authApi from "app/axios/api/auth";
 import { saveUser } from "app/pages/AuthPage/authSlice/authSlice";
 import { pathLoginPage } from "app/routes/routesConfig";
+import authStore from "app/storeZustand/authStore";
 const socketInstance = io("http://localhost:4000");
 function App() {
-  const {} = useSelector((state: RootState) => state.auth);
-  const dispatch = useDispatch();
   const history = useHistory();
   const accessToken = getTokenFromLocalStorage();
+
+  const { saveCurrentUser } = authStore();
   const getCurrentUser = async () => {
     try {
       const res = await authApi.getCurrentUser();
-      dispatch(saveUser(res.data));
+      saveCurrentUser(res.data);
     } catch (err) {}
     history.replace(pathLoginPage);
   };

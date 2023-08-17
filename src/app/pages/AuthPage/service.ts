@@ -10,6 +10,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { saveUser } from "app/pages/AuthPage/authSlice/authSlice";
 import { saveToken } from "app/helpers/localStorage";
+import authStore from "app/storeZustand/authStore";
 
 const provider = new GoogleAuthProvider();
 // const provider = new FacebookAuthProvider();
@@ -17,6 +18,8 @@ const provider = new GoogleAuthProvider();
 const useService = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const { saveCurrentUser } = authStore();
 
   const handleLoginFirebase = () => {
     provider.setCustomParameters({ prompt: "select_account" });
@@ -34,6 +37,7 @@ const useService = () => {
         saveToken(token.accessToken, "accessToken");
         saveToken(token.refreshToken, "refreshToken");
         dispatch(saveUser(user));
+        saveCurrentUser(user);
         history.push(pathHomePage);
       })
       .catch((err) => console.log(err));
