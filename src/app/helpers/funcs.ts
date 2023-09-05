@@ -13,6 +13,8 @@ export const convertDiffTime = (time: string) => {
 
   let diffMinutes = now.diff(lastActive, "minutes");
   let diffHours = now.diff(lastActive, "hours");
+  // console.log(diffHours, diffMinutes);
+  // console.log(moment(time).startOf("hour").fromNow());
 
   // Áp dụng quy tắc hiển thị tương ứng
   if (diffMinutes <= 1) {

@@ -8,8 +8,8 @@ type Props = {
 };
 
 const FriendRow = ({ data }: Props) => {
-  const handleAccept = async (uid: string) => {
-    await friendsApi.acceptFrRequest({ acceptUid: uid });
+  const handleAccept = async (id: string) => {
+    await friendsApi.acceptFrRequest(id);
   };
   return (
     <div className={s.frRow}>
@@ -20,9 +20,9 @@ const FriendRow = ({ data }: Props) => {
       <span className={s.timeActive}>14 years ago</span>
       <button
         className={s.actionBtn}
-        onClick={() => handleAccept(data.uid ?? "")}
+        onClick={() => handleAccept(data.id ?? "")}
       >
-        Ok
+        Accept
       </button>
     </div>
   );

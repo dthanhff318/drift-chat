@@ -7,8 +7,8 @@ const friendsApi = {
   addFriend: (friendId: string) => {
     return axiosClient.post("/friends/add", { friendId });
   },
-  acceptFrRequest: (data: { acceptUid: string }) => {
-    return axiosClient.post("/friends/accept", data);
+  acceptFrRequest: (friendId: string) => {
+    return axiosClient.post("/friends/accept", { friendId });
   },
 };
 

@@ -13,7 +13,7 @@ import MyFriendControl from "./MyFriendControl";
 type Props = {};
 
 const FriendPage = (props: Props) => {
-  const { handleAddFriend } = useService();
+  const { handleAddFriend, currentUser } = useService();
   const { listAllUser, listRequest } = useSelector(
     (state: RootState) => state.services
   );
@@ -43,29 +43,31 @@ const FriendPage = (props: Props) => {
               <th>Action</th>
             </thead>
             <tbody className={s.tableBody}>
-              {listAllUser.map((user: TUSer) => (
-                <tr className={s.row}>
-                  <td className={s.large}>
-                    <div className={s.memberItem}>
-                      <Avatar src={user.photoUrl} />
-                      <span>{user.displayName}</span>
-                    </div>
-                  </td>
-                  <td className={s.medium}>
-                    {convertDiffTime((user.lastActive ?? "").toString())}
-                  </td>
-                  <td className={s.small}>
-                    <button
-                      onClick={() => handleAddFriend(user.id ?? "")}
-                      className={s.buttonAccept}
-                    >
-                      {listRequest.find((u) => u.uid === user.uid)
-                        ? "Cancel"
-                        : "Add"}
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {listAllUser
+                .filter((e) => e.id !== currentUser.id)
+                .map((user: TUSer) => (
+                  <tr key={user.id} className={s.row}>
+                    <td className={s.large}>
+                      <div className={s.memberItem}>
+                        <Avatar src={user.photoUrl} />
+                        <span>{user.displayName}</span>
+                      </div>
+                    </td>
+                    <td className={s.medium}>
+                      {convertDiffTime((user.lastActive ?? "").toString())}
+                    </td>
+                    <td className={s.small}>
+                      <button
+                        onClick={() => handleAddFriend(user.id ?? "")}
+                        className={s.buttonAccept}
+                      >
+                        {listRequest.find((u) => u === user.id)
+                          ? "Cancel"
+                          : "Add"}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
