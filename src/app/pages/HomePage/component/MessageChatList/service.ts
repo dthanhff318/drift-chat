@@ -1,17 +1,15 @@
-import { AnyAction } from "@reduxjs/toolkit";
+import groupStore from "app/storeZustand/groupStore";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "store/configStore";
-import { getAllGroup } from "store/groupSlice";
 
 export const useService = () => {
-  const dispatch = useDispatch();
-  const { groups } = useSelector((state: RootState) => state.groups);
+  const { groups, getGroups, saveCurrentGroup } = groupStore();
 
   useEffect(() => {
-    dispatch(getAllGroup() as unknown as AnyAction);
+    getGroups();
   }, []);
   return {
     groups,
+    getGroups,
+    saveCurrentGroup,
   };
 };

@@ -7,56 +7,53 @@ import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useService } from "./service";
-import { getUserFromLs } from "app/helpers/localStorage";
-import { useDispatch } from "react-redux";
-import { sendMess } from "store/messageSlice";
-import messageApi from "app/axios/api/messageApi";
+import { TUSer } from "types/common";
+
 type Props = {};
 
 const BoxChat = (props: Props) => {
   const [openEmoji, setOpenEmoji] = useState<boolean>(false);
-  const [value, setValue] = useState("");
   const [selectedEmoji, setSelectedEmoji] = useState(null);
-  const dispatch = useDispatch();
-  const { currentGroup, listMessage, ref, friend } = useService();
+  const {
+    groups,
+    currentGroup,
+    currentUser,
+    listMessage,
+    message,
+    messages,
+    setMessage,
+    handleSendMess,
+    ref,
+  } = useService();
 
+  let friend: TUSer = {};
+  const groupDetail = groups.find((e) => e.id === currentGroup);
+  if (!groupDetail?.isGroup) {
+    friend = groupDetail?.members?.find((e) => e.id !== currentUser.id) ?? {};
+  }
   const handleInputChange = (event) => {
-    setValue(event.target.value);
+    setMessage(event.target.value);
   };
   const handleEmojiSelect = (emojiObject) => {
     setSelectedEmoji(emojiObject);
-    setValue(value + emojiObject.native);
+    setMessage(message + emojiObject.native);
   };
-
-  const handleSendMess = async () => {
-    try {
-      if (user.uid) {
-        const data = {
-          senderId: user.uid,
-          group: currentGroup._id,
-          content: value,
-        };
-
-        const res = await messageApi.sendMess(data);
-        setValue("");
-      }
-    } catch (err) {
-    } finally {
-    }
-  };
-
-  const user = getUserFromLs();
 
   return (
     <div className={s.boxChatWrap}>
       <div className={s.headerBox}>
         <Avatar src={friend?.photoUrl} />
-        <span className={s.title}>{friend?.displayName}</span>
+        <span className={s.title}>
+          {groupDetail?.isGroup ? groupDetail.name : friend?.displayName}
+        </span>
       </div>
       <div className={s.content}>
-        {listMessage.map((e, i) => (
+        {messages.map((e, i) => (
           <div
-            className={c(s.message, e.senderId !== user.uid ? s.left : s.right)}
+            className={c(
+              s.message,
+              e.senderId !== currentUser.id ? s.left : s.right
+            )}
             ref={i === listMessage.length - 1 ? ref : undefined}
           >
             <div className={s.contentWrap}>
@@ -70,7 +67,7 @@ const BoxChat = (props: Props) => {
       <div className={s.chatting}>
         <TextareaAutosize
           className={s.inputChat}
-          value={value}
+          value={message}
           onChange={handleInputChange}
           maxRows={4}
           onKeyDown={(e: any) => {

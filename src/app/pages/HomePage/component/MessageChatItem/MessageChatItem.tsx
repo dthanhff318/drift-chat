@@ -4,42 +4,39 @@ import s from "../style.module.scss";
 import Avatar from "app/components/Avatar/Avatar";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store/configStore";
-import { getUserFromLs, saveGrToLs } from "app/helpers/localStorage";
 import { TGroup } from "types/common";
 import { setGroup } from "store/groupSlice";
+import authStore from "app/storeZustand/authStore";
+import { saveGroupToLs } from "app/helpers/localStorage";
+import groupStore from "app/storeZustand/groupStore";
 
 type Props = {
   group: TGroup;
 };
 
 const MessageChatItem = ({ group }: Props) => {
-  const { user } = useSelector((state: RootState) => state.auth);
-  const { currentGroup } = useSelector((state: RootState) => state.groups);
-  const infoUser = user ?? getUserFromLs();
-  const [activeGr, setActiveGr] = useState<boolean>(false);
-  const dispatch = useDispatch();
-  let friend: any;
-  if (!group.typeGroup) {
-    friend = group.members.find((u) => u.uid !== infoUser.uid);
+  const { currentUser } = authStore();
+  const { currentGroup, saveCurrentGroup } = groupStore();
+
+  let friendData: any;
+
+  if (!group.isGroup) {
+    friendData = group.members?.find((u) => u.uid !== currentUser.uid);
   }
 
-  const handleSetGroup = () => {
-    saveGrToLs(group._id);
-    dispatch(setGroup(group));
+  const handleSaveCurrentGroup = () => {
+    saveCurrentGroup(group.id ?? "");
   };
 
   return (
     <div
-      className={c(
-        s.msgItem,
-        group._id === currentGroup._id ? s.grActive : null
-      )}
-      onClick={handleSetGroup}
+      className={c(s.msgItem, group.id === currentGroup ? s.grActive : null)}
+      onClick={handleSaveCurrentGroup}
     >
-      <Avatar src={friend.photoUrl ?? ""} />
+      <Avatar src={friendData.photoUrl ?? ""} />
       <div className={s.msgInfo}>
         <div className={s.firstLine}>
-          <p className={s.name}>{friend.displayName ?? "Dinh DUy Hnha"}</p>
+          <p className={s.name}>{friendData.displayName ?? group.name}</p>
           <p className={s.time}>10:20</p>
         </div>
         <div className={s.secondLine}>

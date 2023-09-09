@@ -21,7 +21,7 @@ export const removeUserLs = () => {
 export const getUserFromLs = (): TUSer =>
   JSON.parse(localStorage.getItem("userInfo") ?? "{}");
 
-export const saveGrToLs = (data) =>
+export const saveGroupToLs = (data) =>
   localStorage.setItem("groupId", JSON.stringify(data));
 
 export const removeGrLs = () => {

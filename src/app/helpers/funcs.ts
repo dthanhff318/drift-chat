@@ -28,8 +28,8 @@ export const convertDiffTime = (time: string) => {
 
 export const getInfoDirectmess = (group: TGroup) => {
   const user = getUserFromLs();
-  if (group.typeGroup === false) {
-    return group.members.find((m) => m.uid !== user.uid);
+  if (group.isGroup === false) {
+    return group.members?.find((m) => m.uid !== user.uid);
   }
   return;
 };

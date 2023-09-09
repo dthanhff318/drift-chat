@@ -4,10 +4,11 @@ import { TQueryMess, TSendMess } from "./typeApi";
 const messageApi = {
   getMessage: (data: TQueryMess) => {
     return axiosClient.get(
-      `/message?page=${data.page}&limit=${data.limit}&groupId=${data.groupId}`
+      // `/message?page=${data.page}&limit=${data.limit}&groupId=${data.groupId}`
+      `/message?groupId=${data.groupId}`
     );
   },
-  sendMess: (data: TSendMess) => {
+  sendMessage: (data: TSendMess) => {
     return axiosClient.post("/message/send", data);
   },
 };

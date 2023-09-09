@@ -1,10 +1,9 @@
-import { axiosClient } from "../axiosClient"
-
+import { axiosClient } from "../axiosClient";
 
 const groupApi = {
-    getAllGroup: () => {
-        return axiosClient.get("/groups")
-    }
-}
+  getAllGroup: () => {
+    return axiosClient.get("/groups");
+  },
+};
 
-export default groupApi
+export default groupApi;

@@ -1,6 +1,9 @@
 import messageApi from "app/axios/api/messageApi";
 import { LIMIT_MESS } from "app/helpers/common";
 import { getInfoDirectmess } from "app/helpers/funcs";
+import authStore from "app/storeZustand/authStore";
+import groupStore from "app/storeZustand/groupStore";
+import messageStore from "app/storeZustand/messageStore";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
@@ -13,33 +16,37 @@ const initHashMore = {
 };
 
 export const useService = () => {
+  const { groups, currentGroup } = groupStore();
+  const { currentUser } = authStore();
+  const { messages, saveMessage, updateMessage } = messageStore();
+
   const [loading, setLoading] = useState(false);
   const [hashMore, setHashMore] = useState<{ hasMore: boolean; page: number }>(
     initHashMore
   );
-  const { currentGroup } = useSelector((state: RootState) => state.groups);
   const [listMessage, setListMessage] = useState<TMessage[]>([]);
-  const { user } = useSelector((state: RootState) => state.auth);
   const [friend, setFriend] = useState<TUSer | undefined>({});
   const [ref, inView] = useInView();
-  console.log({ listMessage });
+
+  const [message, setMessage] = useState("");
 
   const getMessInGroup = async (page?: number) => {
     try {
       setLoading(true);
       const data = {
-        page: page ?? hashMore.page,
-        limit: LIMIT_MESS,
-        groupId: currentGroup._id,
+        // page: page ?? hashMore.page,
+        // limit: LIMIT_MESS,
+        groupId: currentGroup,
       };
-      const response = await messageApi.getMessage(data);
-      if (page) {
-        setHashMore({ ...hashMore, page: page + 1 });
-        setListMessage(response.data);
-      } else {
-        setListMessage([...listMessage, ...response.data]);
-        setHashMore({ ...hashMore, page: hashMore.page + 1 });
-      }
+      const res = await messageApi.getMessage(data ?? "");
+      saveMessage(res.data);
+      // if (page) {
+      //   setHashMore({ ...hashMore, page: page + 1 });
+      //   setListMessage(response.data);
+      // } else {
+      //   setListMessage([...listMessage, ...response.data]);
+      //   setHashMore({ ...hashMore, page: hashMore.page + 1 });
+      // }
     } catch (error) {
       console.error(error);
     } finally {
@@ -47,22 +54,42 @@ export const useService = () => {
     }
   };
 
-  useEffect(() => {
-    inView && hashMore.hasMore && getMessInGroup();
-  }, [inView]);
+  const handleSendMess = async () => {
+    try {
+      if (currentUser.id) {
+        const messBody = {
+          senderId: currentUser.id ?? "",
+          group: currentGroup,
+          content: message,
+        };
+        const res = await messageApi.sendMessage(messBody);
+        updateMessage(res.data);
+        setMessage("");
+      }
+    } catch (err) {}
+  };
+
+  // useEffect(() => {
+  //   inView && hashMore.hasMore && getMessInGroup();
+  // }, [inView]);
 
   useEffect(() => {
     getMessInGroup(1);
-    if (currentGroup._id) {
-      setFriend(getInfoDirectmess(currentGroup));
-    }
-  }, [currentGroup._id]);
+    // if (currentGroup.id) {
+    //   setFriend(getInfoDirectmess(currentGroup));
+    // }
+  }, [currentGroup]);
 
   return {
-    currentGroup,
     listMessage,
-    user,
+    message,
+    messages,
     ref,
     friend,
+    groups,
+    currentGroup,
+    currentUser,
+    setMessage,
+    handleSendMess,
   };
 };

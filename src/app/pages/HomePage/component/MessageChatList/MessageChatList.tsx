@@ -5,11 +5,15 @@ import MessageChatItem from "../MessageChatItem/MessageChatItem";
 type Props = {};
 
 const MessageChatList = (props: Props) => {
-  const { groups } = useService();
+  const { groups, saveCurrentGroup } = useService();
+  console.log(groups);
+
   return (
     <div className={s.msgList}>
-      {groups.map((gr) => (
-        <MessageChatItem group={gr} />
+      {groups.map((group) => (
+        <div key={group.id}>
+          <MessageChatItem group={group} />
+        </div>
       ))}
     </div>
   );

@@ -21,14 +21,6 @@ export const getMessage = createAsyncThunk(
   }
 );
 
-export const sendMess = createAsyncThunk(
-  "message/send",
-  async (data: TSendMess) => {
-    const res = await messageApi.sendMess(data);
-    return res.data;
-  }
-);
-
 export const messageSlice = createSlice({
   name: "messageSlice",
   initialState,

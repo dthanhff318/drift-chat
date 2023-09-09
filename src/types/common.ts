@@ -11,14 +11,15 @@ export type TUSer = {
 };
 
 export type TGroup = {
-  _id: string;
-  members: TUSer[];
-  listAdmin: string[];
-  typeGroup: boolean;
+  id?: string;
+  name?: string;
+  members?: TUSer[];
+  admins?: string[];
+  isGroup?: boolean;
 };
 export type TMessage = {
-  _id: string;
-  senderId: string;
-  group: string;
-  content: string;
+  id?: string;
+  senderId?: string;
+  group?: string;
+  content?: string;
 };
