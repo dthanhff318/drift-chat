@@ -1,8 +1,10 @@
 import {
   getRefreshTokenFromLocalStorage,
   getTokenFromLocalStorage,
+  removeUserLs,
   saveToken,
 } from "app/helpers/localStorage";
+import { pathLoginPage } from "app/routes/routesConfig";
 // import { TRefreshTokenRequest } from "app/pages/AuthPage/slice/authTypes";
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
@@ -25,8 +27,6 @@ const headers: Readonly<Record<string, string | boolean>> = {
   "X-Requested-With": "XMLHttpRequest",
 };
 
-// We can use the following function to inject the JWT token through an interceptor
-// We get the `accessToken` from the localStorage that we set when we authenticate
 const injectToken = (config: AxiosRequestConfig): any => {
   const token = getTokenFromLocalStorage();
   if (token != null && config) {
@@ -35,15 +35,6 @@ const injectToken = (config: AxiosRequestConfig): any => {
     }
     config.headers.Authorization = `Bearer ${token}`;
   }
-
-  // const language = "en";
-  // if (language && config) {
-  //   if (!config.headers) {
-  //     config.headers = {};
-  //   }
-  //   config.headers["Accept-Language"] = language;
-  // }
-
   return config;
 };
 
@@ -117,10 +108,9 @@ class Http {
     return this.http.delete<T, R>(url, config);
   }
 
-  // Handle global app errors
-  // We can handle generic app errors depending on the status code
   private async handleError(error) {
     const { response, config } = error;
+
     if (config.url !== "/auth" && config.url !== "/auth/refresh" && response) {
       if (response.status === StatusCode.Unauthorized && !config._retry) {
         config._retry = true;
@@ -135,7 +125,11 @@ class Http {
           saveToken(accessToken, "accessToken");
           saveToken(refreshToken, "refreshToken");
           return this.http(config);
-        } catch (_error) {
+        } catch (_error: any) {
+          if (_error.response.status === StatusCode.Forbidden) {
+            window.location.href = pathLoginPage;
+            removeUserLs();
+          }
           return Promise.reject(_error);
         }
       }

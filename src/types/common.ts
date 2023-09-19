@@ -16,10 +16,12 @@ export type TGroup = {
   members?: TUSer[];
   admins?: string[];
   isGroup?: boolean;
+  newestMess?: TMessage;
 };
 export type TMessage = {
   id?: string;
   senderId?: string;
   group?: string;
   content?: string;
+  createdAt?: string;
 };

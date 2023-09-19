@@ -13,32 +13,9 @@ const initialState: TMessageState = {
   loading: false,
 };
 
-export const getMessage = createAsyncThunk(
-  "message/getMessage",
-  async (data: TQueryMess) => {
-    const res = await messageApi.getMessage(data);
-    return res.data;
-  }
-);
-
 export const messageSlice = createSlice({
   name: "messageSlice",
   initialState,
   reducers: {},
-  extraReducers(builder) {
-    builder.addCase(getMessage.rejected, (state) => {
-      state.loading = false;
-      state.message = [];
-    });
-    builder.addCase(getMessage.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(
-      getMessage.fulfilled,
-      (state, action: PayloadAction<TMessage[]>) => {
-        state.message = action.payload;
-        state.loading = false;
-      }
-    );
-  },
+  extraReducers(builder) {},
 });

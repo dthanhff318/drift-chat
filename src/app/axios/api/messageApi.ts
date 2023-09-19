@@ -2,10 +2,9 @@ import { axiosClient } from "../axiosClient";
 import { TQueryMess, TSendMess } from "./typeApi";
 
 const messageApi = {
-  getMessage: (data: TQueryMess) => {
+  getMessages: (data: TQueryMess) => {
     return axiosClient.get(
-      // `/message?page=${data.page}&limit=${data.limit}&groupId=${data.groupId}`
-      `/message?groupId=${data.groupId}`
+      `/message?sortBy=createdAt:desc&page=${data.page}&limit=${data.limit}&groupId=${data.groupId}`
     );
   },
   sendMessage: (data: TSendMess) => {

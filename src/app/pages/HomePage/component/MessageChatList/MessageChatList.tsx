@@ -5,8 +5,7 @@ import MessageChatItem from "../MessageChatItem/MessageChatItem";
 type Props = {};
 
 const MessageChatList = (props: Props) => {
-  const { groups, saveCurrentGroup } = useService();
-  console.log(groups);
+  const { groups } = useService();
 
   return (
     <div className={s.msgList}>

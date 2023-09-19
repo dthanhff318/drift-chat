@@ -18,7 +18,6 @@ const BoxChat = (props: Props) => {
     groups,
     currentGroup,
     currentUser,
-    listMessage,
     message,
     messages,
     setMessage,
@@ -50,11 +49,12 @@ const BoxChat = (props: Props) => {
       <div className={s.content}>
         {messages.map((e, i) => (
           <div
+            key={e.id}
             className={c(
               s.message,
               e.senderId !== currentUser.id ? s.left : s.right
             )}
-            ref={i === listMessage.length - 1 ? ref : undefined}
+            ref={i === messages.length - 1 ? ref : undefined}
           >
             <div className={s.contentWrap}>
               <span className={c(s.contentMsg)}>{e.content}</span>

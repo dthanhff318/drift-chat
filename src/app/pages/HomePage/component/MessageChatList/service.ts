@@ -2,7 +2,7 @@ import groupStore from "app/storeZustand/groupStore";
 import { useEffect } from "react";
 
 export const useService = () => {
-  const { groups, getGroups, saveCurrentGroup } = groupStore();
+  const { groups, currentGroup, getGroups, saveCurrentGroup } = groupStore();
 
   useEffect(() => {
     getGroups();

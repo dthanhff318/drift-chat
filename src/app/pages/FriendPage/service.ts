@@ -7,8 +7,6 @@ import {
 } from "./slice/servicesSlice";
 import { AnyAction } from "@reduxjs/toolkit";
 import friendsApi from "app/axios/api/friends";
-import { RootState } from "store/configStore";
-import { getUserFromLs } from "app/helpers/localStorage";
 import authStore from "app/storeZustand/authStore";
 
 const useService = () => {

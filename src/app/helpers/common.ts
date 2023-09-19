@@ -1,1 +1,1 @@
-export const LIMIT_MESS = 10;
+export const LIMIT_DATA_PER_PAGE = 10;

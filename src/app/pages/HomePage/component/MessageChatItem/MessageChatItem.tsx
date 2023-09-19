@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import c from "clsx";
 import s from "../style.module.scss";
 import Avatar from "app/components/Avatar/Avatar";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "store/configStore";
 import { TGroup } from "types/common";
-import { setGroup } from "store/groupSlice";
 import authStore from "app/storeZustand/authStore";
-import { saveGroupToLs } from "app/helpers/localStorage";
 import groupStore from "app/storeZustand/groupStore";
+import messageStore from "app/storeZustand/messageStore";
+import socketStore from "app/storeZustand/socketStore";
+import moment from "moment";
+import { convertTimeFromNow } from "app/helpers/time";
 
 type Props = {
   group: TGroup;
@@ -16,6 +16,8 @@ type Props = {
 
 const MessageChatItem = ({ group }: Props) => {
   const { currentUser } = authStore();
+  const { clearStateMessages } = messageStore();
+  const { socket } = socketStore();
   const { currentGroup, saveCurrentGroup } = groupStore();
 
   let friendData: any;
@@ -26,22 +28,28 @@ const MessageChatItem = ({ group }: Props) => {
 
   const handleSaveCurrentGroup = () => {
     saveCurrentGroup(group.id ?? "");
+    socket?.emit("joinRoom", currentGroup);
   };
 
   return (
     <div
       className={c(s.msgItem, group.id === currentGroup ? s.grActive : null)}
-      onClick={handleSaveCurrentGroup}
+      onClick={() => {
+        handleSaveCurrentGroup();
+        clearStateMessages();
+      }}
     >
       <Avatar src={friendData.photoUrl ?? ""} />
       <div className={s.msgInfo}>
         <div className={s.firstLine}>
           <p className={s.name}>{friendData.displayName ?? group.name}</p>
-          <p className={s.time}>10:20</p>
+          <p className={s.time}>
+            {convertTimeFromNow(group.newestMess?.createdAt ?? "")}
+          </p>
         </div>
         <div className={s.secondLine}>
-          <p className={s.lastMsg}>seconcondLicondLine</p>
-          <span className={s.msgUnread}>5</span>
+          <p className={s.lastMsg}>{group.newestMess?.content}</p>
+          <span className={s.msgUnread}>0</span>
         </div>
       </div>
     </div>
