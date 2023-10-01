@@ -7,7 +7,6 @@ import authStore from "app/storeZustand/authStore";
 import groupStore from "app/storeZustand/groupStore";
 import messageStore from "app/storeZustand/messageStore";
 import socketStore from "app/storeZustand/socketStore";
-import moment from "moment";
 import { convertTimeFromNow } from "app/helpers/time";
 
 type Props = {
@@ -48,7 +47,7 @@ const MessageChatItem = ({ group }: Props) => {
           </p>
         </div>
         <div className={s.secondLine}>
-          <p className={s.lastMsg}>{group.newestMess?.content}</p>
+          <span className={s.lastMsg}>{group.newestMess?.content}</span>
           <span className={s.msgUnread}>0</span>
         </div>
       </div>

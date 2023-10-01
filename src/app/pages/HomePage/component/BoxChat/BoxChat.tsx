@@ -60,7 +60,7 @@ const BoxChat = (props: Props) => {
               <span className={c(s.contentMsg)}>{e.content}</span>
               <div className={s.options}></div>
             </div>
-            <p className={s.timeSend}>12:10 PM</p>
+            {/* <p className={s.timeSend}>12:10 PM</p> */}
           </div>
         ))}
       </div>

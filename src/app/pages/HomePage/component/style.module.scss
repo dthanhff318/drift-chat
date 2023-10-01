@@ -174,6 +174,8 @@ $header-hight: 5rem;
           color: $text-color-dark;
           text-overflow: ellipsis;
           white-space: nowrap;
+          overflow: hidden;
+          max-width: 90%;
         }
         .msgUnread {
           background-color: $primary-color;

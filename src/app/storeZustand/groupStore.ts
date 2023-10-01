@@ -8,6 +8,7 @@ type TGroupStore = {
   currentGroup: string;
   getGroups: () => void;
   saveCurrentGroup: (groupId: string) => void;
+  saveGroups: (groups: TGroup[]) => void;
 };
 
 const groupStore = create<TGroupStore>((set) => ({
@@ -23,6 +24,7 @@ const groupStore = create<TGroupStore>((set) => ({
     set({ currentGroup: groupId });
     saveGroupToLs(groupId);
   },
+  saveGroups: (groups: TGroup[]) => set({ groups }),
 }));
 
 export default groupStore;

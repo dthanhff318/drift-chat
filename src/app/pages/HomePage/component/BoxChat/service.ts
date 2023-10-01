@@ -3,11 +3,15 @@ import authStore from "app/storeZustand/authStore";
 import groupStore from "app/storeZustand/groupStore";
 import messageStore from "app/storeZustand/messageStore";
 import socketStore from "app/storeZustand/socketStore";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
+import { TGroup, TMessage } from "types/common";
+
+export const DEFAULT_PAST_TIME = "1970-01-01T00:00:00.000Z";
 
 export const useService = () => {
-  const { groups, currentGroup } = groupStore();
+  const { groups, currentGroup, saveGroups } = groupStore();
   const { currentUser } = authStore();
   const { socket } = socketStore();
   const { messages, page, hasMore, updateMessage, getMessages } =
@@ -26,10 +30,24 @@ export const useService = () => {
         };
         const res = await messageApi.sendMessage(messBody);
         updateMessage(res.data);
+        updateListChannelChat(res.data);
         setMessage("");
         socket?.emit("sendMessage", message);
       }
     } catch (err) {}
+  };
+
+  const updateListChannelChat = (newMess: TMessage) => {
+    const newGroups = groups
+      .map((gr) =>
+        gr.id === newMess.group ? { ...gr, newestMess: newMess } : gr
+      )
+      .sort(
+        (a: TGroup, b: TGroup) =>
+          (moment(b.newestMess?.createdAt ?? DEFAULT_PAST_TIME) as any) -
+          (moment(a.newestMess?.createdAt ?? DEFAULT_PAST_TIME) as any)
+      );
+    saveGroups(newGroups);
   };
 
   useEffect(() => {
