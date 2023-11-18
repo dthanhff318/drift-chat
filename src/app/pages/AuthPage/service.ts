@@ -25,6 +25,8 @@ const useService = () => {
     provider.setCustomParameters({ prompt: "select_account" });
     signInWithPopup(auth, provider)
       .then(async (result) => {
+        console.log(result.user);
+
         const { displayName, email, photoURL, uid } = result.user;
         const userInfo = {
           displayName,

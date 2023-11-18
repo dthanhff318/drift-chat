@@ -10,7 +10,7 @@ type TMessageStore = {
   page: number;
   hasMore: boolean;
   getMessages: (groupId: string, pageNumber: number) => void;
-  saveMessage: (messages: TMessage[]) => void;
+  saveMessages: (messages: TMessage[]) => void;
   updateMessage: (message: TMessage) => void;
   clearStateMessages: () => void;
 };
@@ -49,7 +49,7 @@ const messageStore = create<TMessageStore>((set) => ({
       });
     } catch (err) {}
   },
-  saveMessage: (messages: TMessage[]) => {
+  saveMessages: (messages: TMessage[]) => {
     set({ messages: messages });
   },
   updateMessage: (message: TMessage) => {
