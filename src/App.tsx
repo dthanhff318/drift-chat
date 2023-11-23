@@ -49,9 +49,10 @@ function App() {
       socketInstance.off("sendMess", handleListenSend);
     };
   }, [listMessage1]);
+  
   const { isAuth } = useSelector((state: RootState) => state.auth);
   const checkAuthLocal = !!Object.entries(getUserFromLs()).length ?? isAuth;
-  console.log(!!Object.entries(getUserFromLs()).length);
+
   return (
     <>
       <Router>
