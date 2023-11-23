@@ -1,4 +1,6 @@
 import moment from "moment";
+import { TGroup } from "types/common";
+import { getUserFromLs } from "./localStorage";
 
 export const getPublicImageUrl = (name: string) =>
   `${process.env.PUBLIC_URL}/images/${name}`;
@@ -11,15 +13,23 @@ export const convertDiffTime = (time: string) => {
 
   let diffMinutes = now.diff(lastActive, "minutes");
   let diffHours = now.diff(lastActive, "hours");
+  // console.log(diffHours, diffMinutes);
+  // console.log(moment(time).startOf("hour").fromNow());
 
   // Áp dụng quy tắc hiển thị tương ứng
   if (diffMinutes <= 1) {
-    return "1 phút trước";
+    return "few minutes ago";
   } else if (diffMinutes < 60) {
-    return diffMinutes + " phút trước";
-  } else if (diffHours < 24) {
-    return diffHours + " giờ trước";
+    return diffMinutes + " minutes ago";
   } else {
-    return lastActive.format("D/M/YYYY HH:mm:ss");
+    return diffHours + " hour ago";
   }
+};
+
+export const getInfoDirectmess = (group: TGroup) => {
+  const user = getUserFromLs();
+  if (group.isGroup === false) {
+    return group.members?.find((m) => m.uid !== user.uid);
+  }
+  return;
 };

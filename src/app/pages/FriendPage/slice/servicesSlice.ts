@@ -1,14 +1,14 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import friendsApi from "app/axios/api/friends";
-import servicesApi from "app/axios/api/services";
+import servicesApi from "app/axios/api/userApi";
 import { TUSer } from "types/common";
 
 type TInitState = {
   listAllUser: Array<TUSer>;
-  listFriend: Array<string>;
-  listRequest: Array<string>;
-  listAccept: Array<string>;
-  listBlock: Array<string>;
+  listFriend: Array<TUSer>;
+  listRequest: Array<TUSer>;
+  listAccept: Array<TUSer>;
+  listBlock: Array<TUSer>;
 };
 const initialState: TInitState = {
   listAllUser: [],

@@ -1,19 +1,29 @@
+import friendsApi from "app/axios/api/friends";
 import Avatar from "app/components/Avatar/Avatar";
 import React from "react";
+import { TUSer } from "types/common";
 import s from "./style.module.scss";
 type Props = {
-    data : string
+  data: TUSer;
 };
 
-const FriendRow = (props: Props) => {
+const FriendRow = ({ data }: Props) => {
+  const handleAccept = async (id: string) => {
+    await friendsApi.acceptFrRequest(id);
+  };
   return (
     <div className={s.frRow}>
       <div className={s.info}>
-        <Avatar />
-        <span className={s.name}>Duy Thanh zzz</span>
+        <Avatar src={data.photoUrl} />
+        <span className={s.name}>{data.displayName}</span>
       </div>
       <span className={s.timeActive}>14 years ago</span>
-      <button className={s.actionBtn}>Unblock</button>
+      <button
+        className={s.actionBtn}
+        onClick={() => handleAccept(data.id ?? "")}
+      >
+        Accept
+      </button>
     </div>
   );
 };

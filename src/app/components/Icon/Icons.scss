@@ -1,0 +1,16 @@
+.icon-component {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@mixin size($size) {
+    width: $size;
+    height: $size;
+}
+@for $i from 1 through 100 {
+    .size#{$i}{
+        svg{
+            @include size($i+px);
+        }
+    }
+}

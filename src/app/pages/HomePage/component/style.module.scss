@@ -138,6 +138,7 @@ $header-hight: 5rem;
   flex-direction: column;
   overflow-y: scroll;
   .msgItem {
+    cursor: pointer;
     padding: 0 8% 0 5%;
     min-height: 5rem;
     display: flex;
@@ -173,6 +174,8 @@ $header-hight: 5rem;
           color: $text-color-dark;
           text-overflow: ellipsis;
           white-space: nowrap;
+          overflow: hidden;
+          max-width: 90%;
         }
         .msgUnread {
           background-color: $primary-color;
@@ -184,6 +187,9 @@ $header-hight: 5rem;
           line-height: 1.1rem;
         }
       }
+    }
+    &.grActive {
+      background-color: #80808054;
     }
   }
 }
@@ -211,15 +217,15 @@ $header-hight: 5rem;
     padding: 0.5rem 1rem;
     background-color: $black;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     gap: 1rem 0;
     overflow-y: scroll;
     height: 100%;
-
     .message {
       display: inline-block;
       width: fit-content;
-      width: 65%;
+      max-width: 50%;
+      justify-content: end;
       .contentWrap {
         display: flex;
         .options {
