@@ -34,6 +34,7 @@ const MessageChatItem = ({ group }: Props) => {
     <div
       className={c(s.msgItem, group.id === currentGroup ? s.grActive : null)}
       onClick={() => {
+        if (group.id === currentGroup) return;
         handleSaveCurrentGroup();
         clearStateMessages();
       }}

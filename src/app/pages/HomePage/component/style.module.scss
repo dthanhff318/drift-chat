@@ -154,6 +154,7 @@ $header-hight: 5rem;
       flex-direction: column;
       flex: 1;
       gap: 0.5rem 0;
+      max-width: 75%;
       .firstLine {
         display: flex;
         justify-content: space-between;
@@ -214,6 +215,7 @@ $header-hight: 5rem;
     }
   }
   .content {
+    position: relative;
     padding: 0.5rem 1rem;
     background-color: $black;
     display: flex;

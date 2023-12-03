@@ -9,6 +9,7 @@ type TMessageStore = {
   messages: TMessage[];
   page: number;
   hasMore: boolean;
+  firstTimeLoading: boolean;
   getMessages: (groupId: string, pageNumber: number) => void;
   saveMessages: (messages: TMessage[]) => void;
   updateMessage: (message: TMessage) => void;
@@ -19,8 +20,12 @@ const messageStore = create<TMessageStore>((set) => ({
   messages: [],
   page: 1,
   hasMore: true,
+  firstTimeLoading: false,
   getMessages: async (groupId, pageNumber = 1) => {
     try {
+      if (pageNumber === 1) {
+        set({ firstTimeLoading: true });
+      }
       const data = {
         page: pageNumber,
         limit: LIMIT_DATA_PER_PAGE,
@@ -31,7 +36,7 @@ const messageStore = create<TMessageStore>((set) => ({
 
       set((state) => {
         let newListMessage: TMessage[] = [];
-        let page;
+        let page: number;
         if (state.messages.length) {
           page = state.page + 1;
           newListMessage = [...state.messages, ...results];
@@ -39,12 +44,11 @@ const messageStore = create<TMessageStore>((set) => ({
           newListMessage = results;
           page = 2;
         }
-        console.log(newListMessage);
-
         return {
           messages: newListMessage,
           page,
           hasMore: Number(page) <= Number(totalPages),
+          firstTimeLoading: false,
         };
       });
     } catch (err) {}

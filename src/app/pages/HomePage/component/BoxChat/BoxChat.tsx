@@ -8,6 +8,7 @@ import Picker from "@emoji-mart/react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useService } from "./service";
 import { TUSer } from "types/common";
+import Loading from "app/components/Loading/Loading";
 
 type Props = {};
 
@@ -20,6 +21,7 @@ const BoxChat = (props: Props) => {
     currentUser,
     message,
     messages,
+    firstTimeLoading,
     setMessage,
     handleSendMess,
     ref,
@@ -47,9 +49,10 @@ const BoxChat = (props: Props) => {
         </span>
       </div>
       <div className={s.content}>
+        <Loading loading={firstTimeLoading} />
         {messages.map((e, i) => (
           <div
-            key={e.id}
+            key={i}
             className={c(
               s.message,
               e.senderId !== currentUser.id ? s.left : s.right

@@ -14,8 +14,14 @@ export const useService = () => {
   const { groups, currentGroup, saveGroups } = groupStore();
   const { currentUser } = authStore();
   const { socket } = socketStore();
-  const { messages, page, hasMore, updateMessage, getMessages, saveMessages } =
-    messageStore();
+  const {
+    messages,
+    page,
+    hasMore,
+    firstTimeLoading,
+    updateMessage,
+    getMessages,
+  } = messageStore();
 
   const [ref, inView] = useInView();
   const [message, setMessage] = useState("");
@@ -32,7 +38,7 @@ export const useService = () => {
         updateMessage(res.data);
         updateListChannelChat(res.data);
         setMessage("");
-        socket?.emit("sendMessage", res.data);
+        socket?.emit("sendMessage", { ...res.data, room: currentGroup });
       }
     } catch (err) {}
   };
@@ -58,11 +64,13 @@ export const useService = () => {
     if (currentGroup) getMessages(currentGroup, 1);
   }, [currentGroup]);
 
+  // Listen event when other user send message
   useEffect(() => {
     socket?.on("sendMessage", (mess) => {
-      saveMessages([mess, ...messages]);
+      updateMessage(mess);
     });
   }, []);
+  console.log(messages);
 
   return {
     message,
@@ -70,6 +78,7 @@ export const useService = () => {
     groups,
     currentGroup,
     currentUser,
+    firstTimeLoading,
     ref,
     setMessage,
     handleSendMess,

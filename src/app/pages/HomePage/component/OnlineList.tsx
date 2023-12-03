@@ -10,8 +10,8 @@ const OnlineList = (props: Props) => {
       <div className={s.list}>
         {Array(8)
           .fill(1)
-          .map((e) => (
-            <div className={s.itemUser}>
+          .map((e, i) => (
+            <div className={s.itemUser} key={i}>
               <Avatar />
               <span className={s.userName}>Smaple</span>
             </div>
