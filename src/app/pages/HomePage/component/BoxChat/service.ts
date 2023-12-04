@@ -67,10 +67,13 @@ export const useService = () => {
   // Listen event when other user send message
   useEffect(() => {
     socket?.on("sendMessage", (mess) => {
-      updateMessage(mess);
+      const { room } = mess;
+      const selectGroup = groupStore.getState().currentGroup;
+      if (room === selectGroup) {
+        updateMessage(mess);
+      }
     });
   }, []);
-  console.log(messages);
 
   return {
     message,
