@@ -1,5 +1,4 @@
 import React from "react";
-import c from "clsx";
 import s from "../style.module.scss";
 import Avatar from "app/components/Avatar/Avatar";
 import { TGroup } from "types/common";
@@ -32,7 +31,9 @@ const MessageChatItem = ({ group }: Props) => {
 
   return (
     <div
-      className={c(s.msgItem, group.id === currentGroup ? s.grActive : null)}
+      className={`${s.msgItem} ${
+        group.id === currentGroup ? s.grActive : null
+      }`}
       onClick={() => {
         if (group.id === currentGroup) return;
         handleSaveCurrentGroup();

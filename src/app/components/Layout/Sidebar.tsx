@@ -5,7 +5,6 @@ import {
   SketchOutlined,
   UsergroupDeleteOutlined,
 } from "@ant-design/icons";
-import c from "clsx";
 import s from "./style.module.scss";
 import { NavLink } from "react-router-dom";
 import {
@@ -13,7 +12,6 @@ import {
   pathHomePage,
   pathSettingsPage,
 } from "app/routes/routesConfig";
-import { getUserFromLs } from "app/helpers/localStorage";
 type Props = {};
 
 const Sidebar = (props: Props) => {
@@ -26,7 +24,7 @@ const Sidebar = (props: Props) => {
         <NavLink
           exact
           to={pathHomePage}
-          className={c(s.btnNav)}
+          className={s.btnNav}
           activeClassName={s.active}
         >
           <MessageOutlined />
@@ -34,7 +32,7 @@ const Sidebar = (props: Props) => {
         <NavLink
           exact
           to={pathFriendPage}
-          className={c(s.btnNav)}
+          className={s.btnNav}
           activeClassName={s.active}
         >
           <UsergroupDeleteOutlined />
@@ -42,7 +40,7 @@ const Sidebar = (props: Props) => {
         <NavLink
           exact
           to={pathSettingsPage}
-          className={c(s.btnNav)}
+          className={s.btnNav}
           activeClassName={s.active}
         >
           <SettingOutlined />

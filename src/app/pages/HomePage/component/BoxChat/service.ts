@@ -4,7 +4,7 @@ import groupStore from "app/storeZustand/groupStore";
 import messageStore from "app/storeZustand/messageStore";
 import socketStore from "app/storeZustand/socketStore";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { TGroup, TMessage } from "types/common";
 
@@ -24,19 +24,25 @@ export const useService = () => {
   } = messageStore();
 
   const [ref, inView] = useInView();
+
+  const inputUploadRef = useRef<HTMLInputElement>(null);
+
   const [message, setMessage] = useState("");
+  const [openEmoji, setOpenEmoji] = useState<boolean>(false);
 
   const handleSendMess = async () => {
     try {
+      if (!message.trim()) return;
       if (currentUser.id) {
         const messBody = {
           senderId: currentUser.id ?? "",
           group: currentGroup,
-          content: message,
+          content: message.trim(),
         };
         const res = await messageApi.sendMessage(messBody);
         updateMessage(res.data);
         updateListChannelChat(res.data);
+        setOpenEmoji(false);
         setMessage("");
         socket?.emit("sendMessage", { ...res.data, room: currentGroup });
       }
@@ -82,6 +88,9 @@ export const useService = () => {
     currentGroup,
     currentUser,
     firstTimeLoading,
+    openEmoji,
+    inputUploadRef,
+    setOpenEmoji,
     ref,
     setMessage,
     handleSendMess,

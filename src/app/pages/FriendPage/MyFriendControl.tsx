@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import s from "./style.module.scss";
-import c from "clsx";
 import FriendRow from "./FriendRow";
 import { TUSer } from "types/common";
 type Props = {};
@@ -12,19 +11,19 @@ const MyFriendControl = (props: Props) => {
     <div className={s.friendControlWrap}>
       <div className={s.controlHeader}>
         <div
-          className={c(s.item, control === "friend" ? s.active : "")}
+          className={(s.item, control === "friend" ? s.active : "")}
           onClick={() => setControl("friend")}
         >
           My Friend
         </div>
         <div
-          className={c(s.item, control === "approve" ? s.active : "")}
+          className={(s.item, control === "approve" ? s.active : "")}
           onClick={() => setControl("approve")}
         >
           Approve
         </div>
         <div
-          className={c(s.item, control === "blocked" ? s.active : "")}
+          className={(s.item, control === "blocked" ? s.active : "")}
           onClick={() => setControl("blocked")}
         >
           Blocked

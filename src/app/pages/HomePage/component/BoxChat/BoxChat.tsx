@@ -1,8 +1,11 @@
-import { SendOutlined, SmileOutlined } from "@ant-design/icons";
+import {
+  PaperClipOutlined,
+  SendOutlined,
+  SmileOutlined,
+} from "@ant-design/icons";
 import Avatar from "app/components/Avatar/Avatar";
 import React, { useState } from "react";
 import s from "../style.module.scss";
-import c from "clsx";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import TextareaAutosize from "react-textarea-autosize";
@@ -13,7 +16,6 @@ import Loading from "app/components/Loading/Loading";
 type Props = {};
 
 const BoxChat = (props: Props) => {
-  const [openEmoji, setOpenEmoji] = useState<boolean>(false);
   const [selectedEmoji, setSelectedEmoji] = useState(null);
   const {
     groups,
@@ -22,6 +24,9 @@ const BoxChat = (props: Props) => {
     message,
     messages,
     firstTimeLoading,
+    openEmoji,
+    inputUploadRef,
+    setOpenEmoji,
     setMessage,
     handleSendMess,
     ref,
@@ -33,6 +38,7 @@ const BoxChat = (props: Props) => {
     friend = groupDetail?.members?.find((e) => e.id !== currentUser.id) ?? {};
   }
   const handleInputChange = (event) => {
+    setOpenEmoji(false);
     setMessage(event.target.value);
   };
   const handleEmojiSelect = (emojiObject) => {
@@ -53,14 +59,18 @@ const BoxChat = (props: Props) => {
         {messages.map((e, i) => (
           <div
             key={i}
-            className={c(
-              s.message,
+            className={`${s.message} ${
               e.senderId !== currentUser.id ? s.left : s.right
-            )}
+            }`}
             ref={i === messages.length - 1 ? ref : undefined}
           >
             <div className={s.contentWrap}>
-              <span className={c(s.contentMsg)}>{e.content}</span>
+              <span
+                className={s.contentMsg}
+                dangerouslySetInnerHTML={{
+                  __html: e.content?.replaceAll("\n", "<br />") || "",
+                }}
+              />
               <div className={s.options}></div>
             </div>
             {/* <p className={s.timeSend}>12:10 PM</p> */}
@@ -68,13 +78,16 @@ const BoxChat = (props: Props) => {
         ))}
       </div>
       <div className={s.chatting}>
+        <div className={s.chattingFunction}>
+          <PaperClipOutlined className={s.emojiIcon} />
+        </div>
         <TextareaAutosize
           className={s.inputChat}
           value={message}
           onChange={handleInputChange}
           maxRows={4}
           onKeyDown={(e: any) => {
-            if (e.code === "Enter") {
+            if (e.code === "Enter" && !e.shiftKey) {
               handleSendMess();
             }
           }}
@@ -87,8 +100,8 @@ const BoxChat = (props: Props) => {
               data={data}
               open={false}
               onEmojiSelect={handleEmojiSelect}
-              emojiButtonSize={28}
-              emojiSize={22}
+              emojiButtonSize={30}
+              emojiSize={24}
             />
           </div>
         )}
@@ -100,6 +113,7 @@ const BoxChat = (props: Props) => {
           <SendOutlined className={s.iconSend} />
         </button>
       </div>
+      <input type="file" className={s.inputUpload} ref={inputUploadRef} />
     </div>
   );
 };
