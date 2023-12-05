@@ -37,9 +37,9 @@ const BoxChat = (props: Props) => {
   if (!groupDetail?.isGroup) {
     friend = groupDetail?.members?.find((e) => e.id !== currentUser.id) ?? {};
   }
-  const handleInputChange = (event) => {
+  const handleInputChange = (e) => {
     setOpenEmoji(false);
-    setMessage(event.target.value);
+    setMessage(e.target.value);
   };
   const handleEmojiSelect = (emojiObject) => {
     setSelectedEmoji(emojiObject);

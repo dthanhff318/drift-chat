@@ -1,7 +1,7 @@
 import React from "react";
 import s from "../style.module.scss";
 import Avatar from "app/components/Avatar/Avatar";
-import { TGroup } from "types/common";
+import { TGroup, TUSer } from "types/common";
 import authStore from "app/storeZustand/authStore";
 import groupStore from "app/storeZustand/groupStore";
 import messageStore from "app/storeZustand/messageStore";
@@ -18,10 +18,10 @@ const MessageChatItem = ({ group }: Props) => {
   const { socket } = socketStore();
   const { currentGroup, saveCurrentGroup } = groupStore();
 
-  let friendData: any;
+  let friendData: TUSer = {};
 
   if (!group.isGroup) {
-    friendData = group.members?.find((u) => u.uid !== currentUser.uid);
+    friendData = group.members?.find((u) => u.uid !== currentUser.uid) ?? {};
   }
 
   const handleSaveCurrentGroup = () => {
@@ -40,7 +40,7 @@ const MessageChatItem = ({ group }: Props) => {
         clearStateMessages();
       }}
     >
-      <Avatar src={friendData.photoUrl ?? ""} />
+      <Avatar online={friendData.isOnline} src={friendData.photoUrl ?? ""} />
       <div className={s.msgInfo}>
         <div className={s.firstLine}>
           <p className={s.name}>{friendData.displayName ?? group.name}</p>

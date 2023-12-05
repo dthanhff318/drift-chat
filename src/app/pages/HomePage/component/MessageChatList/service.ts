@@ -7,6 +7,7 @@ export const useService = () => {
   useEffect(() => {
     getGroups();
   }, []);
+
   return {
     groups,
     getGroups,
