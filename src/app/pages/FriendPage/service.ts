@@ -1,5 +1,4 @@
 import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import {
   getAllUserInApp,
@@ -11,7 +10,6 @@ import authStore from "app/storeZustand/authStore";
 
 const useService = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
   const { currentUser } = authStore();
   const handleAddFriend = async (friendId: string) => {
     try {
@@ -19,8 +17,8 @@ const useService = () => {
     } catch (err) {}
   };
   useEffect(() => {
-    dispatch(getAllUserInApp() as unknown as AnyAction);
-    dispatch(getDataFriendCommunication() as unknown as AnyAction);
+    // dispatch(getAllUserInApp() as unknown as AnyAction);
+    // dispatch(getDataFriendCommunication() as unknown as AnyAction);
   }, []);
   return {
     currentUser,

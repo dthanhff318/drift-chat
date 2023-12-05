@@ -1,14 +1,8 @@
 import authApi from "app/axios/api/auth";
 import { pathHomePage } from "app/routes/routesConfig";
-import {
-  FacebookAuthProvider,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "app/firebase/configFirebase";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { saveUser } from "app/pages/AuthPage/authSlice/authSlice";
 import { saveToken } from "app/helpers/localStorage";
 import authStore from "app/storeZustand/authStore";
 
@@ -17,7 +11,6 @@ const provider = new GoogleAuthProvider();
 
 const useService = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
 
   const { saveCurrentUser } = authStore();
 
@@ -38,7 +31,6 @@ const useService = () => {
         const { token, user } = res.data;
         saveToken(token.accessToken, "accessToken");
         saveToken(token.refreshToken, "refreshToken");
-        dispatch(saveUser(user));
         saveCurrentUser(user);
         history.push(pathHomePage);
       })

@@ -4,8 +4,6 @@ import React from "react";
 import s from "./style.module.scss";
 import useService from "./service";
 import moment from "moment";
-import { useSelector } from "react-redux";
-import { RootState } from "store/configStore";
 import { TUSer } from "types/common";
 import { convertDiffTime } from "app/helpers/funcs";
 import MyFriendControl from "./MyFriendControl";
@@ -14,9 +12,6 @@ type Props = {};
 
 const FriendPage = (props: Props) => {
   const { handleAddFriend, currentUser } = useService();
-  const { listAllUser, listRequest } = useSelector(
-    (state: RootState) => state.services
-  );
 
   return (
     <div className={s.frWrapper}>
@@ -42,7 +37,7 @@ const FriendPage = (props: Props) => {
               <th>Action</th>
             </thead>
             <tbody className={s.tableBody}>
-              {listAllUser
+              {/* {listAllUser
                 .filter((e) => e.id !== currentUser.id)
                 .map((user: TUSer) => (
                   <tr key={user.id} className={s.row}>
@@ -66,7 +61,7 @@ const FriendPage = (props: Props) => {
                       </button>
                     </td>
                   </tr>
-                ))}
+                ))} */}
             </tbody>
           </table>
         </div>

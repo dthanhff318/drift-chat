@@ -7,14 +7,12 @@ import {
 } from "@ant-design/icons";
 import c from "clsx";
 import s from "./style.module.scss";
-import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import {
   pathFriendPage,
   pathHomePage,
   pathSettingsPage,
 } from "app/routes/routesConfig";
-import { RootState } from "store/configStore";
 import { getUserFromLs } from "app/helpers/localStorage";
 type Props = {};
 
