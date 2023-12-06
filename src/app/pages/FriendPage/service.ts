@@ -1,10 +1,6 @@
 import { useHistory } from "react-router-dom";
 import { useEffect } from "react";
-import {
-  getAllUserInApp,
-  getDataFriendCommunication,
-} from "./slice/servicesSlice";
-import { AnyAction } from "@reduxjs/toolkit";
+
 import friendsApi from "app/axios/api/friends";
 import authStore from "app/storeZustand/authStore";
 

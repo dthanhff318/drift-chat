@@ -62,6 +62,12 @@ export const useService = () => {
     saveGroups(newGroups);
   };
 
+  const onUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+    if (!files) return;
+    console.log(files[0]);
+  };
+
   useEffect(() => {
     page > 1 && inView && hasMore && getMessages(currentGroup, page);
   }, [inView]);
@@ -69,17 +75,6 @@ export const useService = () => {
   useEffect(() => {
     if (currentGroup) getMessages(currentGroup, 1);
   }, [currentGroup]);
-
-  // Listen event when other user send message
-  useEffect(() => {
-    socket?.on("sendMessage", (mess) => {
-      const { room } = mess;
-      const selectGroup = groupStore.getState().currentGroup;
-      if (room === selectGroup) {
-        updateMessage(mess);
-      }
-    });
-  }, []);
 
   return {
     message,
@@ -90,6 +85,7 @@ export const useService = () => {
     firstTimeLoading,
     openEmoji,
     inputUploadRef,
+    onUploadImage,
     setOpenEmoji,
     ref,
     setMessage,

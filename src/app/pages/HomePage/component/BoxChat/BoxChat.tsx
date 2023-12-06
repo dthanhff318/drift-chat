@@ -26,6 +26,7 @@ const BoxChat = (props: Props) => {
     firstTimeLoading,
     openEmoji,
     inputUploadRef,
+    onUploadImage,
     setOpenEmoji,
     setMessage,
     handleSendMess,
@@ -79,7 +80,12 @@ const BoxChat = (props: Props) => {
       </div>
       <div className={s.chatting}>
         <div className={s.chattingFunction}>
-          <PaperClipOutlined className={s.emojiIcon} />
+          <PaperClipOutlined
+            className={s.emojiIcon}
+            onClick={() => {
+              inputUploadRef.current?.click();
+            }}
+          />
         </div>
         <TextareaAutosize
           className={s.inputChat}
@@ -113,7 +119,12 @@ const BoxChat = (props: Props) => {
           <SendOutlined className={s.iconSend} />
         </button>
       </div>
-      <input type="file" className={s.inputUpload} ref={inputUploadRef} />
+      <input
+        type="file"
+        className={s.inputUpload}
+        ref={inputUploadRef}
+        onChange={onUploadImage}
+      />
     </div>
   );
 };
