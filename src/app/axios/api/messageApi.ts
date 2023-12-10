@@ -10,6 +10,13 @@ const messageApi = {
   sendMessage: (data: TSendMess) => {
     return axiosClient.post("/message/send", data);
   },
+  sendMessageWithImage: (data: FormData) => {
+    return axiosClient.post("/message/send-with-image", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  },
 };
 
 export default messageApi;

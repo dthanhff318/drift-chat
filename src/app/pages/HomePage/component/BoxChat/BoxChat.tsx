@@ -1,4 +1,6 @@
 import {
+  CloseCircleFilled,
+  CloseCircleOutlined,
   PaperClipOutlined,
   SendOutlined,
   SmileOutlined,
@@ -26,6 +28,8 @@ const BoxChat = (props: Props) => {
     firstTimeLoading,
     openEmoji,
     inputUploadRef,
+    file,
+    setFile,
     onUploadImage,
     setOpenEmoji,
     setMessage,
@@ -66,6 +70,7 @@ const BoxChat = (props: Props) => {
             ref={i === messages.length - 1 ? ref : undefined}
           >
             <div className={s.contentWrap}>
+              {e.image && <img className={s.contentImage} src={e.image} />}
               <span
                 className={s.contentMsg}
                 dangerouslySetInnerHTML={{
@@ -78,6 +83,15 @@ const BoxChat = (props: Props) => {
           </div>
         ))}
       </div>
+      {file && (
+        <div className={s.imagePreview}>
+          <img className={s.image} src={URL.createObjectURL(file)} alt="" />
+          <CloseCircleFilled
+            className={s.iconRemoveImg}
+            onClick={() => setFile(null)}
+          />
+        </div>
+      )}
       <div className={s.chatting}>
         <div className={s.chattingFunction}>
           <PaperClipOutlined

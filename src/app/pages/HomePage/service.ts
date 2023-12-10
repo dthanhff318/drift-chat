@@ -1,3 +1,4 @@
+import groupApi from "app/axios/api/group";
 import groupStore from "app/storeZustand/groupStore";
 import messageStore from "app/storeZustand/messageStore";
 import socketStore from "app/storeZustand/socketStore";
@@ -13,16 +14,23 @@ export const useService = () => {
   const { updateMessage } = messageStore();
 
   const updateListChannelChat = (newMess: TMessage) => {
-    const listChannelChat = groupStore.getState().groups;
-    const newGroups = listChannelChat
-      .map((gr) =>
-        gr.id === newMess.group ? { ...gr, newestMess: newMess } : gr
-      )
+    const { groups } = groupStore.getState();
+    let unreadCount = 0;
+    const newGroups = groups
+      .map((gr) => {
+        if (gr.id === newMess.group) {
+          unreadCount = (gr.unread ?? 0) + 1;
+          return { ...gr, newestMess: newMess, unread: unreadCount };
+        } else {
+          return gr;
+        }
+      })
       .sort(
         (a: TGroup, b: TGroup) =>
           (moment(b.newestMess?.createdAt ?? DEFAULT_PAST_TIME) as any) -
           (moment(a.newestMess?.createdAt ?? DEFAULT_PAST_TIME) as any)
       );
+    groupApi.updateUnReadMess(newMess.group ?? "", unreadCount);
     saveGroups(newGroups);
   };
 

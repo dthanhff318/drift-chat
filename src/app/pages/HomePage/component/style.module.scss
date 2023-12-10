@@ -177,6 +177,10 @@ $header-hight: 5rem;
           white-space: nowrap;
           overflow: hidden;
           max-width: 90%;
+          &.unread {
+            font-weight: 600;
+            color: white;
+          }
         }
         .msgUnread {
           background-color: $primary-color;
@@ -230,6 +234,12 @@ $header-hight: 5rem;
       justify-content: end;
       .contentWrap {
         display: flex;
+        flex-direction: column;
+        .contentImage {
+          width: 12rem;
+          height: 8rem;
+          object-fit: contain;
+        }
         .options {
         }
       }
@@ -268,6 +278,23 @@ $header-hight: 5rem;
           color: $text-color-dark;
         }
       }
+    }
+  }
+  .imagePreview {
+    padding: 1rem 0 0 1rem;
+    position: relative;
+    .image {
+      object-fit: cover;
+      width: 4rem;
+      height: 4rem;
+      border-radius: 0.75rem;
+    }
+    .iconRemoveImg {
+      position: absolute;
+      transform: translate(-0.5rem, -0.5rem);
+      color: white;
+      cursor: pointer;
+      font-size: 1.2rem;
     }
   }
   .chatting {

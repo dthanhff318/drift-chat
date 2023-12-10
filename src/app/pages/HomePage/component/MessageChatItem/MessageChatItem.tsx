@@ -7,6 +7,7 @@ import groupStore from "app/storeZustand/groupStore";
 import messageStore from "app/storeZustand/messageStore";
 import socketStore from "app/storeZustand/socketStore";
 import { convertTimeFromNow } from "app/helpers/time";
+import groupApi from "app/axios/api/group";
 
 type Props = {
   group: TGroup;
@@ -16,7 +17,7 @@ const MessageChatItem = ({ group }: Props) => {
   const { currentUser } = authStore();
   const { clearStateMessages } = messageStore();
   const { socket } = socketStore();
-  const { currentGroup, saveCurrentGroup } = groupStore();
+  const { currentGroup, groups, saveCurrentGroup, saveGroups } = groupStore();
 
   let friendData: TUSer = {};
 
@@ -24,19 +25,30 @@ const MessageChatItem = ({ group }: Props) => {
     friendData = group.members?.find((u) => u.uid !== currentUser.uid) ?? {};
   }
 
-  const handleSaveCurrentGroup = () => {
-    saveCurrentGroup(group.id ?? "");
-    socket?.emit("joinRoom", currentGroup);
+  const handleSaveCurrentGroup = async () => {
+    try {
+      saveCurrentGroup(group.id ?? "");
+      const res = await groupApi.updateUnReadMess(group.id ?? "", 0);
+      const updateListGroup = groups.map((e) =>
+        e.id === (res.data as TGroup).id ? { ...e, unread: 0 } : e
+      );
+      saveGroups(updateListGroup);
+      socket?.emit("joinRoom", currentGroup);
+    } catch (err) {}
   };
+
+  const newestMessNotMine = group.newestMess?.senderId !== currentUser.id;
+
+  const isUnread = group.unread !== 0 && newestMessNotMine;
 
   return (
     <div
       className={`${s.msgItem} ${
         group.id === currentGroup ? s.grActive : null
       }`}
-      onClick={() => {
+      onClick={async () => {
         if (group.id === currentGroup) return;
-        handleSaveCurrentGroup();
+        await handleSaveCurrentGroup();
         clearStateMessages();
       }}
     >
@@ -49,8 +61,10 @@ const MessageChatItem = ({ group }: Props) => {
           </p>
         </div>
         <div className={s.secondLine}>
-          <span className={s.lastMsg}>{group.newestMess?.content}</span>
-          <span className={s.msgUnread}>0</span>
+          <span className={`${s.lastMsg} ${isUnread ? s.unread : ""}`}>
+            {`${newestMessNotMine ? "" : "You"}: ${group.newestMess?.content}`}
+          </span>
+          {isUnread && <span className={s.msgUnread}>{group.unread}</span>}
         </div>
       </div>
     </div>

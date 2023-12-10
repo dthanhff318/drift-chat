@@ -29,11 +29,19 @@ export const useService = () => {
 
   const [message, setMessage] = useState("");
   const [openEmoji, setOpenEmoji] = useState<boolean>(false);
+  const [file, setFile] = useState<File | null>(null);
 
   const handleSendMess = async () => {
     try {
-      if (!message.trim()) return;
-      if (currentUser.id) {
+      if (file) {
+        const formMessage = new FormData();
+        formMessage.append("image", file);
+        formMessage.append("senderId", currentUser.id ?? "");
+        formMessage.append("group", currentGroup);
+        formMessage.append("content", message.trim());
+        const res = await messageApi.sendMessageWithImage(formMessage);
+      } else {
+        if (!message.trim()) return;
         const messBody = {
           senderId: currentUser.id ?? "",
           group: currentGroup,
@@ -65,7 +73,7 @@ export const useService = () => {
   const onUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     if (!files) return;
-    console.log(files[0]);
+    setFile(files[0]);
   };
 
   useEffect(() => {
@@ -85,6 +93,8 @@ export const useService = () => {
     firstTimeLoading,
     openEmoji,
     inputUploadRef,
+    file,
+    setFile,
     onUploadImage,
     setOpenEmoji,
     ref,

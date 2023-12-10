@@ -17,6 +17,7 @@ export type TGroup = {
   admins?: string[];
   isGroup?: boolean;
   newestMess?: TMessage;
+  unread?: number;
 };
 export type TMessage = {
   id?: string;
@@ -24,4 +25,5 @@ export type TMessage = {
   group?: string;
   content?: string;
   createdAt?: string;
+  image?: string;
 };
