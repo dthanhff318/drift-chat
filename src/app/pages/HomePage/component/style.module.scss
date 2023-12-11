@@ -236,9 +236,9 @@ $header-hight: 5rem;
         display: flex;
         flex-direction: column;
         .contentImage {
-          width: 12rem;
-          height: 8rem;
-          object-fit: contain;
+          width: 16rem;
+          height: 13rem;
+          object-fit: cover;
         }
         .options {
         }
@@ -253,6 +253,9 @@ $header-hight: 5rem;
           display: block;
           width: 100%;
           padding: 0.5rem 1rem;
+          &.hasImage {
+            border-radius: 0 0 15px 15px;
+          }
         }
         .timeSend {
           margin-top: 0.5rem;
@@ -270,6 +273,9 @@ $header-hight: 5rem;
           display: block;
           width: 100%;
           padding: 0.5rem 1rem;
+          &.hasImage {
+            border-radius: 0 0 15px 15px;
+          }
         }
         .timeSend {
           margin-top: 0.5rem;

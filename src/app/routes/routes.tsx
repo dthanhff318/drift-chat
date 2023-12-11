@@ -10,6 +10,7 @@ import {
 // import SuspenseFallback from "../components/Common/SuspenseFallback/SuspenseFallback";
 import Layout from "app/components/Layout/Layout";
 import { IndexedObject } from "types/common";
+import Loading from "app/components/Loading/Loading";
 
 export type RoutesProps = {
   exact?: boolean;
@@ -34,7 +35,7 @@ const RenderRoutes = ({
   currentUser: any;
 }) => {
   return (
-    <Suspense fallback={<h1>Loading</h1>}>
+    <Suspense fallback={<Loading loading />}>
       <Switch>
         {routes.map((route, i) => {
           const Layout = route.layout || Fragment;

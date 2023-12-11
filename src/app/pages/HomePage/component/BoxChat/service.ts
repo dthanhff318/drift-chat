@@ -32,6 +32,7 @@ export const useService = () => {
   const [file, setFile] = useState<File | null>(null);
 
   const handleSendMess = async () => {
+    let resMessage: TMessage;
     try {
       if (file) {
         const formMessage = new FormData();
@@ -40,6 +41,8 @@ export const useService = () => {
         formMessage.append("group", currentGroup);
         formMessage.append("content", message.trim());
         const res = await messageApi.sendMessageWithImage(formMessage);
+        resMessage = res.data as TMessage;
+        setFile(null);
       } else {
         if (!message.trim()) return;
         const messBody = {
@@ -48,12 +51,13 @@ export const useService = () => {
           content: message.trim(),
         };
         const res = await messageApi.sendMessage(messBody);
-        updateMessage(res.data);
-        updateListChannelChat(res.data);
-        setOpenEmoji(false);
-        setMessage("");
-        socket?.emit("sendMessage", { ...res.data, room: currentGroup });
+        resMessage = res.data as TMessage;
       }
+      updateMessage(resMessage);
+      updateListChannelChat(resMessage);
+      setOpenEmoji(false);
+      setMessage("");
+      socket?.emit("sendMessage", { ...resMessage, room: currentGroup });
     } catch (err) {}
   };
 

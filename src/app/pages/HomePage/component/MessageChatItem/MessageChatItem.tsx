@@ -62,7 +62,7 @@ const MessageChatItem = ({ group }: Props) => {
         </div>
         <div className={s.secondLine}>
           <span className={`${s.lastMsg} ${isUnread ? s.unread : ""}`}>
-            {`${newestMessNotMine ? "" : "You"}: ${group.newestMess?.content}`}
+            {`${newestMessNotMine ? "" : "You: "} ${group.newestMess?.content}`}
           </span>
           {isUnread && <span className={s.msgUnread}>{group.unread}</span>}
         </div>

@@ -14,6 +14,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { useService } from "./service";
 import { TUSer } from "types/common";
 import Loading from "app/components/Loading/Loading";
+import { Image } from "antd";
 
 type Props = {};
 
@@ -70,9 +71,13 @@ const BoxChat = (props: Props) => {
             ref={i === messages.length - 1 ? ref : undefined}
           >
             <div className={s.contentWrap}>
-              {e.image && <img className={s.contentImage} src={e.image} />}
+              {e.image && (
+                <Image.PreviewGroup>
+                  <Image className={s.contentImage} src={e.image} />
+                </Image.PreviewGroup>
+              )}
               <span
-                className={s.contentMsg}
+                className={`${s.contentMsg} ${e.image ? s.hasImage : ""}`}
                 dangerouslySetInnerHTML={{
                   __html: e.content?.replaceAll("\n", "<br />") || "",
                 }}
