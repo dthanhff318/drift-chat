@@ -1,0 +1,59 @@
+.profileWrap {
+  background: linear-gradient(
+    90deg,
+    #171b1d 0%,
+    rgb(35, 57, 161) 21%,
+    rgb(34, 117, 143) 50%,
+    rgb(24, 37, 78) 85%
+  );
+  width: 100%;
+  height: 100vh;
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+// Header
+
+.headerProfile {
+  width: 100%;
+  height: 16rem;
+  background-position: center;
+  background-size: cover;
+  border-radius: 2rem;
+  display: flex;
+  align-items: center;
+  .userInfo {
+    border-radius: 1.5rem;
+    background-color: rgba(51, 51, 51, 0.6);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-right: 1rem;
+    overflow: hidden;
+    .avatarProfile {
+      width: 9rem;
+      height: 9rem;
+      object-fit: cover;
+      object-position: center;
+      margin-left: 2rem;
+      border-top-left-radius: 1.5rem;
+      border-bottom-left-radius: 1.5rem;
+    }
+    .detailInfo {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      color: white;
+      gap: 1rem;
+      .name {
+        font-weight: 600;
+        font-size: 1.2rem;
+      }
+      .joinAt {
+        font-size: 1rem;
+      }
+    }
+  }
+}

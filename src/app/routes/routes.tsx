@@ -5,6 +5,7 @@ import {
   pathHomePage,
   pathLoginPage,
   pathNotFoundPage,
+  pathProfile,
   pathSettingsPage,
 } from "./routesConfig";
 // import SuspenseFallback from "../components/Common/SuspenseFallback/SuspenseFallback";
@@ -97,6 +98,12 @@ export const routes = [
         exact: true,
         path: pathSettingsPage,
         component: lazy(() => import("app/pages/SettingsPage/SettingsPage")),
+        auth: true,
+      },
+      {
+        exact: true,
+        path: pathProfile,
+        component: lazy(() => import("app/pages/ProfilePage/ProfilePage")),
         auth: true,
       },
       {

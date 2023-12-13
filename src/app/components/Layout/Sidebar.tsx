@@ -3,6 +3,7 @@ import {
   MessageOutlined,
   SettingOutlined,
   SketchOutlined,
+  SmileOutlined,
   UsergroupDeleteOutlined,
 } from "@ant-design/icons";
 import s from "./style.module.scss";
@@ -10,6 +11,7 @@ import { NavLink } from "react-router-dom";
 import {
   pathFriendPage,
   pathHomePage,
+  pathProfile,
   pathSettingsPage,
 } from "app/routes/routesConfig";
 type Props = {};
@@ -36,6 +38,14 @@ const Sidebar = (props: Props) => {
           activeClassName={s.active}
         >
           <UsergroupDeleteOutlined />
+        </NavLink>
+        <NavLink
+          exact
+          to={pathProfile}
+          className={s.btnNav}
+          activeClassName={s.active}
+        >
+          <SmileOutlined />
         </NavLink>
         <NavLink
           exact

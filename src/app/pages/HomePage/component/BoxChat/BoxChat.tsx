@@ -1,6 +1,7 @@
 import {
   CloseCircleFilled,
   CloseCircleOutlined,
+  LoadingOutlined,
   PaperClipOutlined,
   SendOutlined,
   SmileOutlined,
@@ -30,6 +31,7 @@ const BoxChat = (props: Props) => {
     openEmoji,
     inputUploadRef,
     file,
+    loading,
     setFile,
     onUploadImage,
     setOpenEmoji,
@@ -76,12 +78,14 @@ const BoxChat = (props: Props) => {
                   <Image className={s.contentImage} src={e.image} />
                 </Image.PreviewGroup>
               )}
-              <span
-                className={`${s.contentMsg} ${e.image ? s.hasImage : ""}`}
-                dangerouslySetInnerHTML={{
-                  __html: e.content?.replaceAll("\n", "<br />") || "",
-                }}
-              />
+              {e.content && (
+                <span
+                  className={`${s.contentMsg} ${e.image ? s.hasImage : ""}`}
+                  dangerouslySetInnerHTML={{
+                    __html: e.content?.replaceAll("\n", "<br />") || "",
+                  }}
+                />
+              )}
               <div className={s.options}></div>
             </div>
             {/* <p className={s.timeSend}>12:10 PM</p> */}
@@ -135,7 +139,11 @@ const BoxChat = (props: Props) => {
           onClick={() => setOpenEmoji((prev) => !prev)}
         />
         <button className={s.sendMsg} onClick={handleSendMess}>
-          <SendOutlined className={s.iconSend} />
+          {loading ? (
+            <LoadingOutlined className={s.iconSend} />
+          ) : (
+            <SendOutlined className={s.iconSend} />
+          )}
         </button>
       </div>
       <input

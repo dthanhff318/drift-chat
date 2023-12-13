@@ -30,10 +30,12 @@ export const useService = () => {
   const [message, setMessage] = useState("");
   const [openEmoji, setOpenEmoji] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSendMess = async () => {
     let resMessage: TMessage;
     try {
+      setLoading(true);
       if (file) {
         const formMessage = new FormData();
         formMessage.append("image", file);
@@ -44,7 +46,10 @@ export const useService = () => {
         resMessage = res.data as TMessage;
         setFile(null);
       } else {
-        if (!message.trim()) return;
+        if (!message.trim()) {
+          setLoading(false);
+          return;
+        }
         const messBody = {
           senderId: currentUser.id ?? "",
           group: currentGroup,
@@ -58,7 +63,10 @@ export const useService = () => {
       setOpenEmoji(false);
       setMessage("");
       socket?.emit("sendMessage", { ...resMessage, room: currentGroup });
-    } catch (err) {}
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    }
   };
 
   const updateListChannelChat = (newMess: TMessage) => {
@@ -98,6 +106,7 @@ export const useService = () => {
     openEmoji,
     inputUploadRef,
     file,
+    loading,
     setFile,
     onUploadImage,
     setOpenEmoji,
