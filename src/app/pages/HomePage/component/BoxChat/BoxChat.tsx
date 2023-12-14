@@ -2,6 +2,7 @@ import {
   CloseCircleFilled,
   CloseCircleOutlined,
   LoadingOutlined,
+  MoreOutlined,
   PaperClipOutlined,
   SendOutlined,
   SmileOutlined,
@@ -15,7 +16,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { useService } from "./service";
 import { TUSer } from "types/common";
 import Loading from "app/components/Loading/Loading";
-import { Image } from "antd";
+import { Image, Popover } from "antd";
 
 type Props = {};
 
@@ -86,8 +87,13 @@ const BoxChat = (props: Props) => {
                   }}
                 />
               )}
-              <div className={s.options}></div>
             </div>
+            <Popover placement="topLeft" title={"text"} content={"content"}>
+              <div className={s.options}>
+                <MoreOutlined />
+              </div>
+            </Popover>
+
             {/* <p className={s.timeSend}>12:10 PM</p> */}
           </div>
         ))}

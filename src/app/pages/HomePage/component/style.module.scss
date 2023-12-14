@@ -232,6 +232,7 @@ $header-hight: 5rem;
       width: fit-content;
       max-width: 50%;
       justify-content: end;
+      position: relative;
       .contentWrap {
         display: flex;
         flex-direction: column;
@@ -240,7 +241,26 @@ $header-hight: 5rem;
           height: 13rem;
           object-fit: cover;
         }
+      }
+      .options {
+        position: absolute;
+        top: 50%;
+        right: -3rem;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        font-size: 1rem;
+        color: white;
+        background-color: rgba(141, 141, 141, 0.2);
+        transform: translateY(-50%);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      &:hover {
         .options {
+          display: flex;
         }
       }
       &.right {
@@ -284,6 +304,8 @@ $header-hight: 5rem;
           color: $text-color-dark;
         }
       }
+    }
+    .options {
     }
   }
   .imagePreview {
