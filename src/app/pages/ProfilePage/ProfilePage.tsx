@@ -10,7 +10,7 @@ const ProfilePage = (props: Props) => {
 
   return (
     <div className={s.profileWrap}>
-      <HeaderProfile />
+      <HeaderProfile user={currentUser} />
     </div>
   );
 };

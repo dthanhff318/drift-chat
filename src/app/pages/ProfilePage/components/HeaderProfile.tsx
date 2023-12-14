@@ -1,16 +1,21 @@
 import {
+  AppstoreOutlined,
   CopyOutlined,
   FacebookFilled,
   SkypeFilled,
   UserAddOutlined,
 } from "@ant-design/icons";
 import Button from "app/components/Button/Button";
+import { getPublicImageUrl } from "app/helpers/funcs";
 import { url } from "inspector";
 import React from "react";
 import s from "../style.module.scss";
-type Props = {};
+import { TUSer } from "types/common";
+type Props = {
+  user: TUSer;
+};
 
-const HeaderProfile = (props: Props) => {
+const HeaderProfile = ({ user }: Props) => {
   return (
     <div
       className={s.headerProfile}
@@ -19,19 +24,22 @@ const HeaderProfile = (props: Props) => {
       }}
     >
       <div className={s.userInfo}>
-        <img
-          src="https://img-cdn.2game.vn/pictures/xemgame/2018/10/24/665ad696-khazix-2.jpg"
-          className={s.avatarProfile}
-          alt=""
-        />
+        <img src={user.photoUrl} className={s.avatarProfile} alt="" />
         <div className={s.detailInfo}>
           <p className={s.name}>
-            Duy Thanh{" "}
+            {user.displayName}
             <span className={s.idValue}>
-              #4vb5d4 <CopyOutlined className={s.idCopy} />
+              {user.uid} <CopyOutlined className={s.idCopy} />
             </span>
           </p>
-          <span className={s.joinAt}>18 Dec 2013</span>
+          <div className={s.coinWrap}>
+            <img
+              src={getPublicImageUrl("coin-drift.png")}
+              className={s.coinImg}
+              alt=""
+            />
+            <span>{user.coin}</span>
+          </div>
           <div className={s.btnGroup}>
             <Button
               icon={<UserAddOutlined />}
@@ -57,6 +65,9 @@ const HeaderProfile = (props: Props) => {
             }}
           />
         </div>
+      </div>
+      <div className={s.iconGallery}>
+        <AppstoreOutlined />
       </div>
     </div>
   );

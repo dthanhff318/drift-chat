@@ -48,8 +48,8 @@ const MessageChatItem = ({ group }: Props) => {
       }`}
       onClick={async () => {
         if (group.id === currentGroup) return;
-        await handleSaveCurrentGroup();
         clearStateMessages();
+        await handleSaveCurrentGroup();
       }}
     >
       <Avatar online={friendData.isOnline} src={friendData.photoUrl ?? ""} />

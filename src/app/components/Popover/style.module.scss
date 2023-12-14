@@ -1,0 +1,20 @@
+@import "../../scss/variables.scss";
+.popoverWrapper {
+  min-width: 7rem;
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.25rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    &:hover {
+      background: rgb(223, 223, 223);
+    }
+    &:not(:last-child) {
+      margin-bottom: 0.25rem;
+    }
+  }
+}

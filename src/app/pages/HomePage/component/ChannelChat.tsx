@@ -16,7 +16,7 @@ const ChannelChat = ({ infoUser }: Props) => {
         <Avatar src={infoUser?.photoUrl} />
         <div className={s.accountInfo}>
           <span className={s.name}>{infoUser?.displayName}</span>
-          <span className={s.status}>hello mgn</span>
+          <span className={s.status}>{infoUser?.introduction}</span>
         </div>
         <MoreOutlined className={s.moreBtn} />
       </div>

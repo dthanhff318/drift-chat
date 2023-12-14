@@ -1,6 +1,7 @@
 import {
   CloseCircleFilled,
   CloseCircleOutlined,
+  EnterOutlined,
   LoadingOutlined,
   MoreOutlined,
   PaperClipOutlined,
@@ -14,9 +15,10 @@ import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useService } from "./service";
-import { TUSer } from "types/common";
+import { TMessage, TUSer } from "types/common";
 import Loading from "app/components/Loading/Loading";
 import { Image, Popover } from "antd";
+import PopoverCustom from "app/components/Popover/Popover";
 
 type Props = {};
 
@@ -33,6 +35,8 @@ const BoxChat = (props: Props) => {
     inputUploadRef,
     file,
     loading,
+    reply,
+    setReply,
     setFile,
     onUploadImage,
     setOpenEmoji,
@@ -40,6 +44,25 @@ const BoxChat = (props: Props) => {
     handleSendMess,
     ref,
   } = useService();
+
+  const renderDataPopover = (mess: TMessage) => {
+    return [
+      {
+        icon: <SendOutlined />,
+        text: "Reply",
+        onClick: () => {
+          setReply(mess);
+        },
+      },
+      {
+        icon: <SendOutlined />,
+        text: "Delete",
+        onClick: () => {
+          console.log(1);
+        },
+      },
+    ];
+  };
 
   let friend: TUSer = {};
   const groupDetail = groups.find((e) => e.id === currentGroup);
@@ -68,36 +91,55 @@ const BoxChat = (props: Props) => {
         {messages.map((e, i) => (
           <div
             key={i}
-            className={`${s.message} ${
+            className={`${s.messageWrap} ${
               e.senderId !== currentUser.id ? s.left : s.right
             }`}
-            ref={i === messages.length - 1 ? ref : undefined}
           >
-            <div className={s.contentWrap}>
-              {e.image && (
-                <Image.PreviewGroup>
-                  <Image className={s.contentImage} src={e.image} />
-                </Image.PreviewGroup>
-              )}
-              {e.content && (
-                <span
-                  className={`${s.contentMsg} ${e.image ? s.hasImage : ""}`}
-                  dangerouslySetInnerHTML={{
-                    __html: e.content?.replaceAll("\n", "<br />") || "",
-                  }}
-                />
-              )}
-            </div>
-            <Popover placement="topLeft" title={"text"} content={"content"}>
-              <div className={s.options}>
-                <MoreOutlined />
+            <div
+              className={`${s.message}`}
+              ref={i === messages.length - 1 ? ref : undefined}
+            >
+              <div className={s.contentWrap}>
+                {e.image && (
+                  <Image.PreviewGroup>
+                    <Image className={s.contentImage} src={e.image} />
+                  </Image.PreviewGroup>
+                )}
+                {e.content && (
+                  <span
+                    className={`${s.contentMsg} ${e.image ? s.hasImage : ""}`}
+                    dangerouslySetInnerHTML={{
+                      __html: e.content?.replaceAll("\n", "<br />") || "",
+                    }}
+                  />
+                )}
+                <Popover
+                  placement={e.senderId !== currentUser.id ? "right" : "left"}
+                  content={<PopoverCustom data={renderDataPopover(e)} />}
+                >
+                  <div className={s.options}>
+                    <MoreOutlined />
+                  </div>
+                </Popover>
               </div>
-            </Popover>
-
-            {/* <p className={s.timeSend}>12:10 PM</p> */}
+            </div>
           </div>
         ))}
       </div>
+      {reply.id && (
+        <div className={s.replyWrap}>
+          <div className={s.replyValue}>
+            <div className={s.iconReply}>
+              <EnterOutlined />
+            </div>
+            <span className={s.replyText}>Reply : </span>
+            <p className={s.replyMess}>{reply.content}</p>
+          </div>
+          <div className={s.closeIcon} onClick={() => setReply({})}>
+            <CloseCircleOutlined />
+          </div>
+        </div>
+      )}
       {file && (
         <div className={s.imagePreview}>
           <img className={s.image} src={URL.createObjectURL(file)} alt="" />
@@ -107,51 +149,53 @@ const BoxChat = (props: Props) => {
           />
         </div>
       )}
-      <div className={s.chatting}>
-        <div className={s.chattingFunction}>
-          <PaperClipOutlined
-            className={s.emojiIcon}
-            onClick={() => {
-              inputUploadRef.current?.click();
-            }}
-          />
-        </div>
-        <TextareaAutosize
-          className={s.inputChat}
-          value={message}
-          onChange={handleInputChange}
-          maxRows={4}
-          onKeyDown={(e: any) => {
-            if (e.code === "Enter" && !e.shiftKey) {
-              handleSendMess();
-            }
-          }}
-          placeholder="Type something..."
-        />
-        {openEmoji && (
-          <div className={s.emojiPicker}>
-            <Picker
-              theme="dark"
-              data={data}
-              open={false}
-              onEmojiSelect={handleEmojiSelect}
-              emojiButtonSize={30}
-              emojiSize={24}
+      {currentGroup && (
+        <div className={s.chatting}>
+          <div className={s.chattingFunction}>
+            <PaperClipOutlined
+              className={s.emojiIcon}
+              onClick={() => {
+                inputUploadRef.current?.click();
+              }}
             />
           </div>
-        )}
-        <SmileOutlined
-          className={s.emojiIcon}
-          onClick={() => setOpenEmoji((prev) => !prev)}
-        />
-        <button className={s.sendMsg} onClick={handleSendMess}>
-          {loading ? (
-            <LoadingOutlined className={s.iconSend} />
-          ) : (
-            <SendOutlined className={s.iconSend} />
+          <TextareaAutosize
+            className={s.inputChat}
+            value={message}
+            onChange={handleInputChange}
+            maxRows={4}
+            onKeyDown={(e: any) => {
+              if (e.code === "Enter" && !e.shiftKey) {
+                handleSendMess();
+              }
+            }}
+            placeholder="Type something..."
+          />
+          {openEmoji && (
+            <div className={s.emojiPicker}>
+              <Picker
+                theme="dark"
+                data={data}
+                open={false}
+                onEmojiSelect={handleEmojiSelect}
+                emojiButtonSize={30}
+                emojiSize={24}
+              />
+            </div>
           )}
-        </button>
-      </div>
+          <SmileOutlined
+            className={s.emojiIcon}
+            onClick={() => setOpenEmoji((prev) => !prev)}
+          />
+          <button className={s.sendMsg} onClick={handleSendMess}>
+            {loading ? (
+              <LoadingOutlined className={s.iconSend} />
+            ) : (
+              <SendOutlined className={s.iconSend} />
+            )}
+          </button>
+        </div>
+      )}
       <input
         type="file"
         className={s.inputUpload}

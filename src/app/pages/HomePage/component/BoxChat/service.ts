@@ -7,6 +7,8 @@ import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { TGroup, TMessage } from "types/common";
+import { SendOutlined } from "@ant-design/icons";
+import React from "react";
 
 export const DEFAULT_PAST_TIME = "1970-01-01T00:00:00.000Z";
 
@@ -31,6 +33,7 @@ export const useService = () => {
   const [openEmoji, setOpenEmoji] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [reply, setReply] = useState<TMessage>({});
 
   const handleSendMess = async () => {
     let resMessage: TMessage;
@@ -93,7 +96,11 @@ export const useService = () => {
   }, [inView]);
 
   useEffect(() => {
-    if (currentGroup) getMessages(currentGroup, 1);
+    if (currentGroup) {
+      getMessages(currentGroup, 1);
+    }
+    setReply({});
+    setFile(null);
   }, [currentGroup]);
 
   return {
@@ -107,6 +114,8 @@ export const useService = () => {
     inputUploadRef,
     file,
     loading,
+    reply,
+    setReply,
     setFile,
     onUploadImage,
     setOpenEmoji,

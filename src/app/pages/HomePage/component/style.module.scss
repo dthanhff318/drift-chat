@@ -227,6 +227,53 @@ $header-hight: 5rem;
     gap: 1rem 0;
     overflow-y: scroll;
     height: 100%;
+    .messageWrap {
+      width: 100%;
+      &:hover {
+        .options {
+          display: flex;
+        }
+      }
+      &.left {
+        text-align: left;
+        .contentMsg {
+          border-radius: 0px 15px 15px 15px;
+          background-color: $background-dark-light-1;
+          color: $text-color-dark;
+          overflow-wrap: break-word;
+          display: block;
+          width: 100%;
+          padding: 0.5rem 1rem;
+          &.hasImage {
+            border-radius: 0 0 15px 15px;
+          }
+        }
+      }
+      &.right {
+        text-align: right;
+        .contentMsg {
+          background-color: $primary-color;
+          color: $black;
+          border-radius: 15px 0 15px 15px;
+          overflow-wrap: break-word;
+          display: block;
+          width: 100%;
+          padding: 0.5rem 1rem;
+          &.hasImage {
+            border-radius: 0 0 15px 15px;
+          }
+        }
+        .timeSend {
+          margin-top: 0.5rem;
+          color: white;
+          font-size: 0.8rem;
+          color: $text-color-dark;
+        }
+        .options {
+          left: -3rem;
+        }
+      }
+    }
     .message {
       display: inline-block;
       width: fit-content;
@@ -258,54 +305,44 @@ $header-hight: 5rem;
         justify-content: center;
         cursor: pointer;
       }
-      &:hover {
-        .options {
-          display: flex;
-        }
+    }
+  }
+
+  // Chat Area
+  .replyWrap {
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem 0 1.5rem;
+    justify-content: space-between;
+    .replyValue {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      width: 90%;
+      .iconReply {
+        font-size: 1.3rem;
+        transform: scaleX(-1);
       }
-      &.right {
-        align-self: flex-end;
-        .contentMsg {
-          background-color: $primary-color;
-          color: $black;
-          border-radius: 15px 0 15px 15px;
-          overflow-wrap: break-word;
-          display: block;
-          width: 100%;
-          padding: 0.5rem 1rem;
-          &.hasImage {
-            border-radius: 0 0 15px 15px;
-          }
-        }
-        .timeSend {
-          margin-top: 0.5rem;
-          color: white;
-          font-size: 0.8rem;
-          color: $text-color-dark;
-        }
+      .replyText{
+        white-space: nowrap;
+        -webkit-line-clamp: 1;
       }
-      &.left {
-        .contentMsg {
-          border-radius: 0px 15px 15px 15px;
-          background-color: $background-dark-light-1;
-          color: $text-color-dark;
-          overflow-wrap: break-word;
-          display: block;
-          width: 100%;
-          padding: 0.5rem 1rem;
-          &.hasImage {
-            border-radius: 0 0 15px 15px;
-          }
-        }
-        .timeSend {
-          margin-top: 0.5rem;
-          color: white;
-          font-size: 0.8rem;
-          color: $text-color-dark;
-        }
+      .replyMess {
+        width: 100%;
+        font-weight: 550;
+        white-space: nowrap;
+        overflow: hidden;
+        -webkit-line-clamp: 1;
+        text-overflow: ellipsis;
       }
     }
-    .options {
+    .closeIcon {
+      font-size: 1.3rem;
+      cursor: pointer;
+      &:hover {
+        color: rgb(231, 69, 69);
+      }
     }
   }
   .imagePreview {

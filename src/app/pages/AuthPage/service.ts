@@ -5,6 +5,7 @@ import { auth } from "app/firebase/configFirebase";
 import { useHistory } from "react-router-dom";
 import { saveToken } from "app/helpers/localStorage";
 import authStore from "app/storeZustand/authStore";
+import { nanoid } from "nanoid";
 
 const provider = new GoogleAuthProvider();
 // const provider = new FacebookAuthProvider();
@@ -18,14 +19,13 @@ const useService = () => {
     provider.setCustomParameters({ prompt: "select_account" });
     signInWithPopup(auth, provider)
       .then(async (result) => {
-        console.log(result.user);
-
-        const { displayName, email, photoURL, uid } = result.user;
+        const { displayName, email, photoURL } = result.user;
+        const genShortUid = nanoid(6);
         const userInfo = {
           displayName,
           email,
           photoURL,
-          uid,
+          genShortUid,
         };
         const res = await authApi.login(userInfo);
         const { token, user } = res.data;

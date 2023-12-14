@@ -8,6 +8,8 @@ export type TUSer = {
   isOnline?: boolean;
   lastActive?: Date;
   id?: string;
+  coin?: number;
+  introduction?: string;
 };
 
 export type TGroup = {
