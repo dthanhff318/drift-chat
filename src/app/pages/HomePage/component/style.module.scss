@@ -207,15 +207,32 @@ $header-hight: 5rem;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  position: relative;
   .headerBox {
     min-height: $header-hight;
     border-bottom: 1px solid $border-dark;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 0 1rem;
-    .title {
+    .infoGroup {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      .title {
+        color: $white;
+        margin-left: 1rem;
+      }
+    }
+    .iconOpennav {
       color: $white;
-      margin-left: 1rem;
+      font-size: 1.3rem;
+      padding: 0.5rem;
+      cursor: pointer;
+      &:hover {
+        transform: scale(1.2);
+        transition: all 0.3s linear;
+      }
     }
   }
   .content {
@@ -229,6 +246,8 @@ $header-hight: 5rem;
     height: 100%;
     .messageWrap {
       width: 100%;
+      // background-color: $primary-color;
+
       &:hover {
         .options {
           display: flex;
@@ -236,32 +255,28 @@ $header-hight: 5rem;
       }
       &.left {
         text-align: left;
-        .contentMsg {
-          border-radius: 0px 15px 15px 15px;
+        .contentWrap {
           background-color: $background-dark-light-1;
+        }
+        .contentMsg {
           color: $text-color-dark;
           overflow-wrap: break-word;
           display: block;
           width: 100%;
           padding: 0.5rem 1rem;
-          &.hasImage {
-            border-radius: 0 0 15px 15px;
-          }
         }
       }
       &.right {
         text-align: right;
-        .contentMsg {
+        .contentWrap {
           background-color: $primary-color;
+        }
+        .contentMsg {
           color: $black;
-          border-radius: 15px 0 15px 15px;
           overflow-wrap: break-word;
           display: block;
           width: 100%;
           padding: 0.5rem 1rem;
-          &.hasImage {
-            border-radius: 0 0 15px 15px;
-          }
         }
         .timeSend {
           margin-top: 0.5rem;
@@ -283,6 +298,30 @@ $header-hight: 5rem;
       .contentWrap {
         display: flex;
         flex-direction: column;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        .replyMess {
+          color: rgb(0, 0, 0);
+          background-color: rgba(240, 248, 255, 0.6);
+          padding: 1.25rem 1rem 0.5rem;
+          font-style: italic;
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          white-space: nowrap;
+          overflow: hidden;
+          -webkit-line-clamp: 1;
+          text-overflow: ellipsis;
+          border-bottom: 1px solid gray;
+          .enterIcon {
+            transform: scaleX(-1) translateY(-0.5rem);
+            font-size: 1.3rem;
+          }
+          .replyContent {
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
+        }
         .contentImage {
           width: 16rem;
           height: 13rem;
@@ -324,7 +363,7 @@ $header-hight: 5rem;
         font-size: 1.3rem;
         transform: scaleX(-1);
       }
-      .replyText{
+      .replyText {
         white-space: nowrap;
         -webkit-line-clamp: 1;
       }
@@ -411,5 +450,29 @@ $header-hight: 5rem;
   }
   .inputUpload {
     display: none;
+  }
+  .sideChat {
+    position: absolute;
+    width: 25rem;
+    right: -25rem;
+    height: 100vh;
+    background: rgba(161, 143, 143, 0.3);
+    transition: all 0.1s linear;
+    &.open {
+      right: 0;
+    }
+    .iconCloseNav {
+      color: $white;
+      font-size: 1.3rem;
+      padding: 0.5rem;
+      cursor: pointer;
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      &:hover {
+        transform: scale(1.2);
+        transition: all 0.3s linear;
+      }
+    }
   }
 }

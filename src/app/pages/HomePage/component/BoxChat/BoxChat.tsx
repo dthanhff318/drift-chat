@@ -2,9 +2,11 @@ import {
   CloseCircleFilled,
   CloseCircleOutlined,
   EnterOutlined,
+  LeftSquareOutlined,
   LoadingOutlined,
   MoreOutlined,
   PaperClipOutlined,
+  RightSquareOutlined,
   SendOutlined,
   SmileOutlined,
 } from "@ant-design/icons";
@@ -36,6 +38,8 @@ const BoxChat = (props: Props) => {
     file,
     loading,
     reply,
+    openSideChat,
+    setOpenSideChat,
     setReply,
     setFile,
     onUploadImage,
@@ -81,10 +85,15 @@ const BoxChat = (props: Props) => {
   return (
     <div className={s.boxChatWrap}>
       <div className={s.headerBox}>
-        <Avatar src={friend?.photoUrl} />
-        <span className={s.title}>
-          {groupDetail?.isGroup ? groupDetail.name : friend?.displayName}
-        </span>
+        <div className={s.infoGroup}>
+          <Avatar src={friend?.photoUrl} />
+          <span className={s.title}>
+            {groupDetail?.isGroup ? groupDetail.name : friend?.displayName}
+          </span>
+        </div>
+        <div className={s.iconOpennav} onClick={() => setOpenSideChat(true)}>
+          <LeftSquareOutlined />
+        </div>
       </div>
       <div className={s.content}>
         <Loading loading={firstTimeLoading} />
@@ -100,6 +109,14 @@ const BoxChat = (props: Props) => {
               ref={i === messages.length - 1 ? ref : undefined}
             >
               <div className={s.contentWrap}>
+                {e.replyMessage && (
+                  <div className={s.replyMess}>
+                    <div className={s.enterIcon}>
+                      <EnterOutlined />
+                    </div>
+                    <p className={s.replyContent}>{e.replyMessage?.content}</p>
+                  </div>
+                )}
                 {e.image && (
                   <Image.PreviewGroup>
                     <Image className={s.contentImage} src={e.image} />
@@ -126,6 +143,7 @@ const BoxChat = (props: Props) => {
           </div>
         ))}
       </div>
+
       {reply.id && (
         <div className={s.replyWrap}>
           <div className={s.replyValue}>
@@ -202,6 +220,13 @@ const BoxChat = (props: Props) => {
         ref={inputUploadRef}
         onChange={onUploadImage}
       />
+      {/* {openSideChat && ( */}
+      <div className={`${s.sideChat} ${openSideChat ? s.open : ""}`}>
+        <div className={s.iconCloseNav} onClick={() => setOpenSideChat(false)}>
+          <RightSquareOutlined />
+        </div>
+      </div>
+      {/* )} */}
     </div>
   );
 };

@@ -33,6 +33,7 @@ export const useService = () => {
   const [openEmoji, setOpenEmoji] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [openSideChat, setOpenSideChat] = useState<boolean>(false);
   const [reply, setReply] = useState<TMessage>({});
 
   const handleSendMess = async () => {
@@ -115,6 +116,8 @@ export const useService = () => {
     file,
     loading,
     reply,
+    openSideChat,
+    setOpenSideChat,
     setReply,
     setFile,
     onUploadImage,

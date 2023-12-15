@@ -28,4 +28,5 @@ export type TMessage = {
   content?: string;
   createdAt?: string;
   image?: string;
+  replyMessage?: TMessage;
 };
