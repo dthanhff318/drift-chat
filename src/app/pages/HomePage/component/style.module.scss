@@ -313,6 +313,7 @@ $header-hight: 5rem;
           -webkit-line-clamp: 1;
           text-overflow: ellipsis;
           border-bottom: 1px solid gray;
+          cursor: pointer;
           .enterIcon {
             transform: scaleX(-1) translateY(-0.5rem);
             font-size: 1.3rem;

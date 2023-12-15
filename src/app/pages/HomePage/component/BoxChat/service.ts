@@ -6,9 +6,10 @@ import socketStore from "app/storeZustand/socketStore";
 import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import { TGroup, TMessage } from "types/common";
+import { IndexedObject, TGroup, TMessage } from "types/common";
 import { SendOutlined } from "@ant-design/icons";
 import React from "react";
+import { TSendMess } from "app/axios/api/typeApi";
 
 export const DEFAULT_PAST_TIME = "1970-01-01T00:00:00.000Z";
 
@@ -46,6 +47,9 @@ export const useService = () => {
         formMessage.append("senderId", currentUser.id ?? "");
         formMessage.append("group", currentGroup);
         formMessage.append("content", message.trim());
+        if (reply.id) {
+          formMessage.append("replyMessage", reply.id);
+        }
         const res = await messageApi.sendMessageWithImage(formMessage);
         resMessage = res.data as TMessage;
         setFile(null);
@@ -54,11 +58,14 @@ export const useService = () => {
           setLoading(false);
           return;
         }
-        const messBody = {
+        const messBody: TSendMess = {
           senderId: currentUser.id ?? "",
           group: currentGroup,
           content: message.trim(),
         };
+        if (reply.id) {
+          messBody.replyMessage = reply.id;
+        }
         const res = await messageApi.sendMessage(messBody);
         resMessage = res.data as TMessage;
       }
@@ -92,6 +99,27 @@ export const useService = () => {
     setFile(files[0]);
   };
 
+  const isMessageLoaded = (messId: string) => {
+    const listMess = messageStore.getState().messages;
+    return !!listMess.find((e) => e.id === messId);
+  };
+
+  const scrollMessageIntoView = (messId: string) => {
+    console.log(!isMessageLoaded(messId));
+
+    if (!isMessageLoaded(messId)) {
+      getMessages(currentGroup, page);
+      // scrollMessageIntoView(messId);
+    } else {
+      const ele = document.querySelector(`#m${messId}`);
+      ele?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest",
+      });
+    }
+  };
+
   useEffect(() => {
     page > 1 && inView && hasMore && getMessages(currentGroup, page);
   }, [inView]);
@@ -117,6 +145,8 @@ export const useService = () => {
     loading,
     reply,
     openSideChat,
+    scrollMessageIntoView,
+    isMessageLoaded,
     setOpenSideChat,
     setReply,
     setFile,

@@ -8,4 +8,5 @@ export type TSendMess = {
   senderId: string;
   group: string;
   content: string;
+  replyMessage?: string;
 };

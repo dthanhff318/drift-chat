@@ -39,6 +39,7 @@ const BoxChat = (props: Props) => {
     loading,
     reply,
     openSideChat,
+    scrollMessageIntoView,
     setOpenSideChat,
     setReply,
     setFile,
@@ -103,6 +104,7 @@ const BoxChat = (props: Props) => {
             className={`${s.messageWrap} ${
               e.senderId !== currentUser.id ? s.left : s.right
             }`}
+            id={`m${e.id}`}
           >
             <div
               className={`${s.message}`}
@@ -110,7 +112,12 @@ const BoxChat = (props: Props) => {
             >
               <div className={s.contentWrap}>
                 {e.replyMessage && (
-                  <div className={s.replyMess}>
+                  <div
+                    className={s.replyMess}
+                    onClick={() =>
+                      scrollMessageIntoView(e.replyMessage?.id ?? "")
+                    }
+                  >
                     <div className={s.enterIcon}>
                       <EnterOutlined />
                     </div>
