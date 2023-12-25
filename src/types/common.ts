@@ -1,6 +1,6 @@
 export type IndexedObject<V = any> = { [k: string]: V };
 
-export type TUSer = {
+export type TUser = {
   displayName?: string;
   email?: string;
   uid?: string;
@@ -15,7 +15,7 @@ export type TUSer = {
 export type TGroup = {
   id?: string;
   name?: string;
-  members?: TUSer[];
+  members?: TUser[];
   admins?: string[];
   isGroup?: boolean;
   newestMess?: TMessage;
@@ -29,4 +29,11 @@ export type TMessage = {
   createdAt?: string;
   image?: string;
   replyMessage?: TMessage;
+};
+
+export type TDataCommunicate = {
+  listAccept?: TUser[];
+  listBlock?: TUser[];
+  listFriend?: TUser[];
+  listRequest?: TUser[];
 };

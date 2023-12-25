@@ -13,7 +13,7 @@ const provider = new GoogleAuthProvider();
 const useService = () => {
   const history = useHistory();
 
-  const { saveCurrentUser } = authStore();
+  const { saveCurrenTUser } = authStore();
 
   const handleLoginFirebase = () => {
     provider.setCustomParameters({ prompt: "select_account" });
@@ -25,13 +25,15 @@ const useService = () => {
           displayName,
           email,
           photoURL,
-          genShortUid,
+          uid: genShortUid,
         };
         const res = await authApi.login(userInfo);
         const { token, user } = res.data;
         saveToken(token.accessToken, "accessToken");
         saveToken(token.refreshToken, "refreshToken");
-        saveCurrentUser(user);
+        console.log(user);
+
+        saveCurrenTUser(user);
         history.push(pathHomePage);
       })
       .catch((err) => console.log(err));

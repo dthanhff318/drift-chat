@@ -13,18 +13,18 @@ function App() {
   const history = useHistory();
   const accessToken = getTokenFromLocalStorage();
 
-  const { saveCurrentUser } = authStore();
+  const { saveCurrenTUser } = authStore();
   const { setSocket } = socketStore();
-  const getCurrentUser = async () => {
+  const getCurrenTUser = async () => {
     try {
-      const res = await authApi.getCurrentUser();
-      saveCurrentUser(res.data);
+      const res = await authApi.getCurrenTUser();
+      saveCurrenTUser(res.data);
     } catch (err) {}
     // history.replace(pathLoginPage);
   };
   useEffect(() => {
     if (accessToken) {
-      getCurrentUser();
+      getCurrenTUser();
     }
   }, []);
 
@@ -35,7 +35,7 @@ function App() {
   return (
     <>
       <Router>
-        <RenderRoutes routes={routes} checkAuthLocal={true} currentUser={{}} />
+        <RenderRoutes routes={routes} checkAuthLocal={true} currenTUser={{}} />
       </Router>
     </>
   );

@@ -1,14 +1,14 @@
-import { TUSer } from "types/common";
+import { TUser } from "types/common";
 import { create } from "zustand";
 
 type TAuthStore = {
-  currentUser: TUSer;
-  saveCurrentUser: (user: TUSer) => void;
+  currenTUser: TUser;
+  saveCurrenTUser: (user: TUser) => void;
 };
 
 const authStore = create<TAuthStore>((set) => ({
-  currentUser: {},
-  saveCurrentUser: (user: TUSer) => set({ currentUser: user }),
+  currenTUser: {},
+  saveCurrenTUser: (user: TUser) => set({ currenTUser: user }),
 }));
 
 export default authStore;

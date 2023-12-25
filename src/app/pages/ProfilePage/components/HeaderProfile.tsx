@@ -10,9 +10,9 @@ import { getPublicImageUrl } from "app/helpers/funcs";
 import { url } from "inspector";
 import React from "react";
 import s from "../style.module.scss";
-import { TUSer } from "types/common";
+import { TUser } from "types/common";
 type Props = {
-  user: TUSer;
+  user: TUser;
 };
 
 const HeaderProfile = ({ user }: Props) => {

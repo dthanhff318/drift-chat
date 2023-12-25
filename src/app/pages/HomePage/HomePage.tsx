@@ -7,12 +7,12 @@ import { useService } from "./service";
 type Props = {};
 
 const HomePage = (props: Props) => {
-  const { currentUser } = authStore();
+  const { currenTUser } = authStore();
   const {} = useService();
 
   return (
     <div className={s.wrapper}>
-      <ChannelChat infoUser={currentUser} />
+      <ChannelChat infoUser={currenTUser} />
       <BoxChat />
     </div>
   );

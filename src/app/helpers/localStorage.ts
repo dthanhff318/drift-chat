@@ -1,4 +1,4 @@
-import { IndexedObject, TUSer } from "types/common";
+import { IndexedObject, TUser } from "types/common";
 
 export const getTokenFromLocalStorage = () =>
   localStorage.getItem("accessToken");
@@ -18,7 +18,7 @@ export const removeUserLs = () => {
   localStorage.removeItem("refreshToken");
 };
 
-export const getUserFromLs = (): TUSer =>
+export const geTUserFromLs = (): TUser =>
   JSON.parse(localStorage.getItem("userInfo") ?? "{}");
 
 export const saveGroupToLs = (data) =>

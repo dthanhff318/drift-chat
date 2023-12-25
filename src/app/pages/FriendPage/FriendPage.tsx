@@ -4,14 +4,15 @@ import React from "react";
 import s from "./style.module.scss";
 import useService from "./service";
 import moment from "moment";
-import { TUSer } from "types/common";
+import { TUser } from "types/common";
 import { convertDiffTime } from "app/helpers/funcs";
 import MyFriendControl from "./MyFriendControl";
 
 type Props = {};
 
 const FriendPage = (props: Props) => {
-  const { handleAddFriend, currentUser } = useService();
+  const { dataCommunicate, lisTUser, handleAddFriend, currenTUser } =
+    useService();
 
   return (
     <div className={s.frWrapper}>
@@ -37,9 +38,9 @@ const FriendPage = (props: Props) => {
               <th>Action</th>
             </thead>
             <tbody className={s.tableBody}>
-              {/* {listAllUser
-                .filter((e) => e.id !== currentUser.id)
-                .map((user: TUSer) => (
+              {lisTUser
+                .filter((e) => e.id !== currenTUser.id)
+                .map((user: TUser) => (
                   <tr key={user.id} className={s.row}>
                     <td className={s.large}>
                       <div className={s.memberItem}>
@@ -55,13 +56,13 @@ const FriendPage = (props: Props) => {
                         onClick={() => handleAddFriend(user.id ?? "")}
                         className={s.buttonAccept}
                       >
-                        {listRequest.find((u) => u === user.id)
+                        {dataCommunicate.listRequest?.find((u) => u === user.id)
                           ? "Cancel"
                           : "Add"}
                       </button>
                     </td>
                   </tr>
-                ))} */}
+                ))}
             </tbody>
           </table>
         </div>

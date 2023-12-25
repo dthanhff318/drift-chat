@@ -17,7 +17,7 @@ const authApi = {
       uid,
     });
   },
-  getCurrentUser: () => {
+  getCurrenTUser: () => {
     return axiosClient.get("auth/current-user");
   },
 };

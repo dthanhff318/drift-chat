@@ -3,21 +3,27 @@ import { useEffect } from "react";
 
 import friendsApi from "app/axios/api/friends";
 import authStore from "app/storeZustand/authStore";
+import friendStore from "app/storeZustand/friendStore";
+import servicesStore from "app/storeZustand/servicesStore";
 
 const useService = () => {
   const history = useHistory();
-  const { currentUser } = authStore();
+  const { currenTUser } = authStore();
+  const { dataCommunicate, getDataCommunicate } = friendStore();
+  const { lisTUser, getLisTUser } = servicesStore();
   const handleAddFriend = async (friendId: string) => {
     try {
       await friendsApi.addFriend(friendId);
     } catch (err) {}
   };
   useEffect(() => {
-    // dispatch(getAllUserInApp() as unknown as AnyAction);
-    // dispatch(getDataFriendCommunication() as unknown as AnyAction);
+    getDataCommunicate();
+    getLisTUser();
   }, []);
   return {
-    currentUser,
+    currenTUser,
+    dataCommunicate,
+    lisTUser,
     handleAddFriend,
   };
 };

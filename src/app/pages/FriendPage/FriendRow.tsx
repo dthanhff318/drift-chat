@@ -1,10 +1,10 @@
 import friendsApi from "app/axios/api/friends";
 import Avatar from "app/components/Avatar/Avatar";
 import React from "react";
-import { TUSer } from "types/common";
+import { TUser } from "types/common";
 import s from "./style.module.scss";
 type Props = {
-  data: TUSer;
+  data: TUser;
 };
 
 const FriendRow = ({ data }: Props) => {

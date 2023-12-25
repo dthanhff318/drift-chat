@@ -17,7 +17,7 @@ import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useService } from "./service";
-import { TMessage, TUSer } from "types/common";
+import { TMessage, TUser } from "types/common";
 import Loading from "app/components/Loading/Loading";
 import { Image, Popover } from "antd";
 import PopoverCustom from "app/components/Popover/Popover";
@@ -29,7 +29,7 @@ const BoxChat = (props: Props) => {
   const {
     groups,
     currentGroup,
-    currentUser,
+    currenTUser,
     message,
     messages,
     firstTimeLoading,
@@ -69,10 +69,10 @@ const BoxChat = (props: Props) => {
     ];
   };
 
-  let friend: TUSer = {};
+  let friend: TUser = {};
   const groupDetail = groups.find((e) => e.id === currentGroup);
   if (!groupDetail?.isGroup) {
-    friend = groupDetail?.members?.find((e) => e.id !== currentUser.id) ?? {};
+    friend = groupDetail?.members?.find((e) => e.id !== currenTUser.id) ?? {};
   }
   const handleInputChange = (e) => {
     setOpenEmoji(false);
@@ -102,7 +102,7 @@ const BoxChat = (props: Props) => {
           <div
             key={i}
             className={`${s.messageWrap} ${
-              e.senderId !== currentUser.id ? s.left : s.right
+              e.senderId !== currenTUser.id ? s.left : s.right
             }`}
             id={`m${e.id}`}
           >
@@ -138,7 +138,7 @@ const BoxChat = (props: Props) => {
                   />
                 )}
                 <Popover
-                  placement={e.senderId !== currentUser.id ? "right" : "left"}
+                  placement={e.senderId !== currenTUser.id ? "right" : "left"}
                   content={<PopoverCustom data={renderDataPopover(e)} />}
                 >
                   <div className={s.options}>

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import s from "./style.module.scss";
 import FriendRow from "./FriendRow";
-import { TUSer } from "types/common";
+import { TUser } from "types/common";
+import friendStore from "app/storeZustand/friendStore";
 type Props = {};
 type TControl = "friend" | "approve" | "blocked";
 const MyFriendControl = (props: Props) => {
   const [control, setControl] = useState<TControl>("friend");
-
+  const { dataCommunicate } = friendStore();
   return (
     <div className={s.friendControlWrap}>
       <div className={s.controlHeader}>
@@ -30,10 +31,10 @@ const MyFriendControl = (props: Props) => {
         </div>
       </div>
       <div className={s.controlContent}>
-        {/* {control === "friend" &&
-          listFriend.map((t: TUSer) => <FriendRow data={t} />)}
+        {control === "friend" &&
+          dataCommunicate.listFriend?.map((t: TUser) => <FriendRow data={t} />)}
         {control === "approve" &&
-          listAccept.map((t: TUSer) => <FriendRow data={t} />)} */}
+          dataCommunicate.listAccept?.map((t: TUser) => <FriendRow data={t} />)}
       </div>
     </div>
   );

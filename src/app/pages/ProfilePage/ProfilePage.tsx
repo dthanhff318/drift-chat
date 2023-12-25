@@ -6,11 +6,11 @@ import HeaderProfile from "./components/HeaderProfile";
 type Props = {};
 
 const ProfilePage = (props: Props) => {
-  const { currentUser } = authStore.getState();
+  const { currenTUser } = authStore.getState();
 
   return (
     <div className={s.profileWrap}>
-      <HeaderProfile user={currentUser} />
+      <HeaderProfile user={currenTUser} />
     </div>
   );
 };

@@ -15,7 +15,7 @@ export const DEFAULT_PAST_TIME = "1970-01-01T00:00:00.000Z";
 
 export const useService = () => {
   const { groups, currentGroup, saveGroups } = groupStore();
-  const { currentUser } = authStore();
+  const { currenTUser } = authStore();
   const { socket } = socketStore();
   const {
     messages,
@@ -44,7 +44,7 @@ export const useService = () => {
       if (file) {
         const formMessage = new FormData();
         formMessage.append("image", file);
-        formMessage.append("senderId", currentUser.id ?? "");
+        formMessage.append("senderId", currenTUser.id ?? "");
         formMessage.append("group", currentGroup);
         formMessage.append("content", message.trim());
         if (reply.id) {
@@ -59,7 +59,7 @@ export const useService = () => {
           return;
         }
         const messBody: TSendMess = {
-          senderId: currentUser.id ?? "",
+          senderId: currenTUser.id ?? "",
           group: currentGroup,
           content: message.trim(),
         };
@@ -137,7 +137,7 @@ export const useService = () => {
     messages,
     groups,
     currentGroup,
-    currentUser,
+    currenTUser,
     firstTimeLoading,
     openEmoji,
     inputUploadRef,

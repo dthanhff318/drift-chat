@@ -1,7 +1,7 @@
 import React from "react";
 import s from "../style.module.scss";
 import Avatar from "app/components/Avatar/Avatar";
-import { TGroup, TUSer } from "types/common";
+import { TGroup, TUser } from "types/common";
 import authStore from "app/storeZustand/authStore";
 import groupStore from "app/storeZustand/groupStore";
 import messageStore from "app/storeZustand/messageStore";
@@ -14,15 +14,15 @@ type Props = {
 };
 
 const MessageChatItem = ({ group }: Props) => {
-  const { currentUser } = authStore();
+  const { currenTUser } = authStore();
   const { clearStateMessages } = messageStore();
   const { socket } = socketStore();
   const { currentGroup, groups, saveCurrentGroup, saveGroups } = groupStore();
 
-  let friendData: TUSer = {};
+  let friendData: TUser = {};
 
   if (!group.isGroup) {
-    friendData = group.members?.find((u) => u.uid !== currentUser.uid) ?? {};
+    friendData = group.members?.find((u) => u.uid !== currenTUser.uid) ?? {};
   }
 
   const handleSaveCurrentGroup = async () => {
@@ -37,7 +37,7 @@ const MessageChatItem = ({ group }: Props) => {
     } catch (err) {}
   };
 
-  const newestMessNotMine = group.newestMess?.senderId !== currentUser.id;
+  const newestMessNotMine = group.newestMess?.senderId !== currenTUser.id;
 
   const isUnread = group.unread !== 0 && newestMessNotMine;
 
