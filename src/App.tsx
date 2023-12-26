@@ -8,20 +8,24 @@ import authApi from "app/axios/api/auth";
 import { pathLoginPage } from "app/routes/routesConfig";
 import authStore from "app/storeZustand/authStore";
 import socketStore from "app/storeZustand/socketStore";
+
 const socketInstance = io("http://localhost:4000");
+
 function App() {
   const history = useHistory();
   const accessToken = getTokenFromLocalStorage();
 
   const { saveCurrenTUser } = authStore();
   const { setSocket } = socketStore();
+
   const getCurrenTUser = async () => {
     try {
       const res = await authApi.getCurrenTUser();
       saveCurrenTUser(res.data);
     } catch (err) {}
-    // history.replace(pathLoginPage);
+    history.replace(pathLoginPage);
   };
+
   useEffect(() => {
     if (accessToken) {
       getCurrenTUser();

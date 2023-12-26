@@ -5,7 +5,8 @@ import { auth } from "app/firebase/configFirebase";
 import { useHistory } from "react-router-dom";
 import { saveToken } from "app/helpers/localStorage";
 import authStore from "app/storeZustand/authStore";
-import { nanoid } from "nanoid";
+import { notification } from "antd";
+import { TUser } from "types/common";
 
 const provider = new GoogleAuthProvider();
 // const provider = new FacebookAuthProvider();
@@ -19,22 +20,26 @@ const useService = () => {
     provider.setCustomParameters({ prompt: "select_account" });
     signInWithPopup(auth, provider)
       .then(async (result) => {
-        const { displayName, email, photoURL } = result.user;
-        const genShortUid = nanoid(6);
+        const { displayName, email, photoURL, uid } = result.user;
         const userInfo = {
           displayName,
           email,
           photoURL,
-          uid: genShortUid,
+          uid,
         };
         const res = await authApi.login(userInfo);
-        const { token, user } = res.data;
+        const { token, user }: { token: any; user: TUser } = res.data;
         saveToken(token.accessToken, "accessToken");
         saveToken(token.refreshToken, "refreshToken");
         console.log(user);
 
         saveCurrenTUser(user);
         history.push(pathHomePage);
+        notification.success({
+          message: `Welcome sir, ${user.displayName}`,
+          description: "Let's experience this special social network",
+          duration: 2,
+        });
       })
       .catch((err) => console.log(err));
   };

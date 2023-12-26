@@ -10,6 +10,7 @@ import { IndexedObject, TGroup, TMessage } from "types/common";
 import { SendOutlined } from "@ant-design/icons";
 import React from "react";
 import { TSendMess } from "app/axios/api/typeApi";
+import { notification } from "antd";
 
 export const DEFAULT_PAST_TIME = "1970-01-01T00:00:00.000Z";
 
@@ -105,11 +106,14 @@ export const useService = () => {
   };
 
   const scrollMessageIntoView = (messId: string) => {
-    console.log(!isMessageLoaded(messId));
-
     if (!isMessageLoaded(messId)) {
-      getMessages(currentGroup, page);
+      // getMessages(currentGroup, page);
       // scrollMessageIntoView(messId);
+      notification.info({
+        message: `Message is old`,
+        description: "Let's experience this special social network",
+        duration: 2,
+      });
     } else {
       const ele = document.querySelector(`#m${messId}`);
       ele?.scrollIntoView({

@@ -29,7 +29,7 @@ const HeaderProfile = ({ user }: Props) => {
           <p className={s.name}>
             {user.displayName}
             <span className={s.idValue}>
-              {user.uid} <CopyOutlined className={s.idCopy} />
+              {user.inviteId} <CopyOutlined className={s.idCopy} />
             </span>
           </p>
           <div className={s.coinWrap}>

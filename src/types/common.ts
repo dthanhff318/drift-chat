@@ -10,6 +10,7 @@ export type TUser = {
   id?: string;
   coin?: number;
   introduction?: string;
+  inviteId?: string;
 };
 
 export type TGroup = {
