@@ -22,8 +22,9 @@ function App() {
     try {
       const res = await authApi.getCurrenTUser();
       saveCurrenTUser(res.data);
-    } catch (err) {}
-    history.replace(pathLoginPage);
+    } catch (err) {
+      history.replace(pathLoginPage);
+    }
   };
 
   useEffect(() => {

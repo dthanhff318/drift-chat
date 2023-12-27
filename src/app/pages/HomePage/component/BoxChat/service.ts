@@ -111,7 +111,7 @@ export const useService = () => {
       // scrollMessageIntoView(messId);
       notification.info({
         message: `Message is old`,
-        description: "Let's experience this special social network",
+        description: "This feature is coming soon",
         duration: 2,
       });
     } else {
@@ -128,8 +128,9 @@ export const useService = () => {
     page > 1 && inView && hasMore && getMessages(currentGroup, page);
   }, [inView]);
 
+  // Get message page 1
   useEffect(() => {
-    if (currentGroup) {
+    if (currentGroup && !messages.length) {
       getMessages(currentGroup, 1);
     }
     setReply({});

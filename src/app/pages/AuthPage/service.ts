@@ -7,6 +7,8 @@ import { saveToken } from "app/helpers/localStorage";
 import authStore from "app/storeZustand/authStore";
 import { notification } from "antd";
 import { TUser } from "types/common";
+import socketStore from "app/storeZustand/socketStore";
+import socketInstance from "./../../socketConfig/socketIoConfig";
 
 const provider = new GoogleAuthProvider();
 // const provider = new FacebookAuthProvider();
@@ -15,6 +17,7 @@ const useService = () => {
   const history = useHistory();
 
   const { saveCurrenTUser } = authStore();
+  const { socket } = socketStore();
 
   const handleLoginFirebase = () => {
     provider.setCustomParameters({ prompt: "select_account" });
@@ -31,8 +34,7 @@ const useService = () => {
         const { token, user }: { token: any; user: TUser } = res.data;
         saveToken(token.accessToken, "accessToken");
         saveToken(token.refreshToken, "refreshToken");
-        console.log(user);
-
+        // Emit event user login
         saveCurrenTUser(user);
         history.push(pathHomePage);
         notification.success({
@@ -40,6 +42,7 @@ const useService = () => {
           description: "Let's experience this special social network",
           duration: 2,
         });
+        socket?.emit("userLogin", user);
       })
       .catch((err) => console.log(err));
   };
