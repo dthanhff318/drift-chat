@@ -7,7 +7,6 @@ import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { IndexedObject, TGroup, TMessage } from "types/common";
-import { SendOutlined } from "@ant-design/icons";
 import React from "react";
 import { TSendMess } from "app/axios/api/typeApi";
 import { notification } from "antd";
@@ -24,6 +23,7 @@ export const useService = () => {
     hasMore,
     firstTimeLoading,
     updateMessage,
+    updateListMessage,
     getMessages,
   } = messageStore();
 
@@ -124,6 +124,16 @@ export const useService = () => {
     }
   };
 
+  const deleteMessage = async (mess: TMessage) => {
+    if (!mess.id) return;
+    const res = await messageApi.updateMessage(mess.id, {
+      isDelete: true,
+    });
+    const updateMess = res.data;
+    socket?.emit("deleteMessage", updateMess);
+    updateListMessage(updateMess);
+  };
+
   useEffect(() => {
     page > 1 && inView && hasMore && getMessages(currentGroup, page);
   }, [inView]);
@@ -160,5 +170,6 @@ export const useService = () => {
     ref,
     setMessage,
     handleSendMess,
+    deleteMessage,
   };
 };

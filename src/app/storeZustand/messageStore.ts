@@ -13,6 +13,7 @@ type TMessageStore = {
   getMessages: (groupId: string, pageNumber: number) => void;
   saveMessages: (messages: TMessage[]) => void;
   updateMessage: (message: TMessage) => void;
+  updateListMessage: (message: TMessage) => void;
   clearStateMessages: () => void;
 };
 
@@ -60,6 +61,14 @@ const messageStore = create<TMessageStore>((set) => ({
     set((state) => ({ messages: [message, ...state.messages] }));
   },
   clearStateMessages: () => set({ messages: [], page: 1, hasMore: true }),
+  updateListMessage: (mess: TMessage) => {
+    set(({ messages }) => {
+      const newList = messages.map((e) => (e.id === mess.id ? mess : e));
+      return {
+        messages: newList,
+      };
+    });
+  },
 }));
 
 export default messageStore;

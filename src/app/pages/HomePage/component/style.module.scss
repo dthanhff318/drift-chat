@@ -257,6 +257,14 @@ $header-hight: 5rem;
         text-align: left;
         .contentWrap {
           background-color: $background-dark-light-1;
+          &.messageDeleted {
+            background-color: transparent;
+            border: 1px solid $text-color-dark;
+            color: $white;
+            .contentMsg {
+              color: $white;
+            }
+          }
         }
         .contentMsg {
           color: $text-color-dark;
@@ -270,6 +278,14 @@ $header-hight: 5rem;
         text-align: right;
         .contentWrap {
           background-color: $primary-color;
+          &.messageDeleted {
+            background-color: transparent;
+            border: 1px solid $text-color-dark;
+            color: $white;
+            .contentMsg {
+              color: $white;
+            }
+          }
         }
         .contentMsg {
           color: $black;
