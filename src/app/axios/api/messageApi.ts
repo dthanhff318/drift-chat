@@ -1,5 +1,6 @@
 import { axiosClient } from "../axiosClient";
 import { TQueryMess, TSendMess } from "./typeApi";
+import { TMessage } from "types/common";
 
 const messageApi = {
   getMessages: (data: TQueryMess) => {
@@ -17,6 +18,8 @@ const messageApi = {
       },
     });
   },
+  updateMessage: (id: string, dataUpdate: TMessage) =>
+    axiosClient.patch(`message/delete/${id}`, dataUpdate),
 };
 
 export default messageApi;

@@ -12,7 +12,7 @@ export const DEFAULT_PAST_TIME = "1970-01-01T00:00:00.000Z";
 export const useService = () => {
   const { saveGroups } = groupStore();
   const { socket } = socketStore();
-  const { updateMessage } = messageStore();
+  const { updateMessage, updateListMessage } = messageStore();
 
   const updateListChannelChat = (newMess: TMessage) => {
     const { groups } = groupStore.getState();
@@ -37,6 +37,7 @@ export const useService = () => {
 
   // Listen event when other user send message
   useEffect(() => {
+    // Send message
     socket?.on("sendMessage", (mess) => {
       const { group } = mess;
       const selectGroup = groupStore.getState().currentGroup;
@@ -46,6 +47,11 @@ export const useService = () => {
         updateListChannelChat(mess);
       }
     });
+
+    // Delete message
+    // socket?.on("deleteMessage", (mess) => {
+    //   updateListMessage(mess);
+    // });
   }, []);
 
   return {};

@@ -30,6 +30,7 @@ export type TMessage = {
   createdAt?: string;
   image?: string;
   replyMessage?: TMessage;
+  isDelete?: boolean;
 };
 
 export type TDataCommunicate = {

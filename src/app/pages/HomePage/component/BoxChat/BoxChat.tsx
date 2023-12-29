@@ -1,6 +1,7 @@
 import {
   CloseCircleFilled,
   CloseCircleOutlined,
+  DeleteOutlined,
   EnterOutlined,
   LeftSquareOutlined,
   LoadingOutlined,
@@ -21,6 +22,7 @@ import { TMessage, TUser } from "types/common";
 import Loading from "app/components/Loading/Loading";
 import { Image, Popover } from "antd";
 import PopoverCustom from "app/components/Popover/Popover";
+import authStore from "app/storeZustand/authStore";
 
 type Props = {};
 
@@ -48,22 +50,26 @@ const BoxChat = (props: Props) => {
     setMessage,
     handleSendMess,
     ref,
+    deleteMessage,
   } = useService();
 
   const renderDataPopover = (mess: TMessage) => {
+    const { currenTUser } = authStore.getState();
     return [
       {
         icon: <SendOutlined />,
         text: "Reply",
+        hidden: false,
         onClick: () => {
           setReply(mess);
         },
       },
       {
-        icon: <SendOutlined />,
+        icon: <DeleteOutlined />,
         text: "Delete",
+        hidden: currenTUser.id !== mess.senderId,
         onClick: () => {
-          console.log(1);
+          deleteMessage(mess);
         },
       },
     ];
@@ -110,7 +116,11 @@ const BoxChat = (props: Props) => {
               className={`${s.message}`}
               ref={i === messages.length - 1 ? ref : undefined}
             >
-              <div className={s.contentWrap}>
+              <div
+                className={`${s.contentWrap} ${
+                  e.isDelete ? s.messageDeleted : ""
+                }`}
+              >
                 {e.replyMessage && (
                   <div
                     className={s.replyMess}
@@ -124,12 +134,12 @@ const BoxChat = (props: Props) => {
                     <p className={s.replyContent}>{e.replyMessage?.content}</p>
                   </div>
                 )}
-                {e.image && (
+                {e.image && !e.isDelete && (
                   <Image.PreviewGroup>
                     <Image className={s.contentImage} src={e.image} />
                   </Image.PreviewGroup>
                 )}
-                {e.content && (
+                {e.content && !e.isDelete && (
                   <span
                     className={`${s.contentMsg} ${e.image ? s.hasImage : ""}`}
                     dangerouslySetInnerHTML={{
@@ -137,13 +147,22 @@ const BoxChat = (props: Props) => {
                     }}
                   />
                 )}
+                {(e.content || e.image) && e.isDelete && (
+                  <span
+                    className={`${s.contentMsg} ${e.image ? s.hasImage : ""}`}
+                  >
+                    Message was deleted
+                  </span>
+                )}
                 <Popover
                   placement={e.senderId !== currenTUser.id ? "right" : "left"}
                   content={<PopoverCustom data={renderDataPopover(e)} />}
                 >
-                  <div className={s.options}>
-                    <MoreOutlined />
-                  </div>
+                  {!e.isDelete && (
+                    <div className={s.options}>
+                      <MoreOutlined />
+                    </div>
+                  )}
                 </Popover>
               </div>
             </div>
@@ -205,6 +224,7 @@ const BoxChat = (props: Props) => {
                 onEmojiSelect={handleEmojiSelect}
                 emojiButtonSize={30}
                 emojiSize={24}
+                exceptEmojis={[]}
               />
             </div>
           )}
