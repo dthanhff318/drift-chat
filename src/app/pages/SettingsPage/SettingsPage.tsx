@@ -10,13 +10,13 @@ import authStore from "app/storeZustand/authStore";
 type Props = {};
 
 const SettingsPage = (props: Props) => {
-  const { currenTUser } = authStore.getState();
+  const { currenTUser, logout } = authStore.getState();
   const infoUser = currenTUser ?? geTUserFromLs();
   const history = useHistory();
   const handleLogout = async () => {
-    await authApi.logout(infoUser.uid ?? "");
+    // await authApi.logout(infoUser.uid ?? "");
     await signOut(auth).then(() => {
-      // dispatch(signouTUser());
+      logout();
       history.push(pathLoginPage);
     });
   };
