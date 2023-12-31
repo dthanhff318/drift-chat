@@ -1,0 +1,10 @@
+@import "../../scss/variables.scss";
+.wrapper {
+  padding: 0.5rem;
+  margin-top: 1rem;
+  .title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $black;
+  }
+}

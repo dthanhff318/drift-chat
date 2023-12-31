@@ -89,13 +89,14 @@
     border-radius: 12px;
     height: 80vh;
     width: 100%;
+    position: relative;
     overflow-y: auto;
     .memberTable {
       border-collapse: collapse;
       width: 100%;
       .tableHead {
         font-weight: 600;
-        font-size: 1rem;
+        font-size: 0.75rem;
         height: 3.5rem;
         position: sticky;
         top: 0;
@@ -141,6 +142,8 @@
           color: $text-color-dark;
           padding: 0.5rem 1rem;
           text-align: center;
+          font-size: 0.85rem;
+
           &.small {
             width: 20%;
             .buttonAccept {

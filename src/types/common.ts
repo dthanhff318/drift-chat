@@ -39,3 +39,8 @@ export type TDataCommunicate = {
   listFriend?: TUser[];
   listRequest?: TUser[];
 };
+
+export type TQuery = {
+  q?: string;
+  page?: number;
+};

@@ -151,7 +151,7 @@ const BoxChat = (props: Props) => {
                   <span
                     className={`${s.contentMsg} ${e.image ? s.hasImage : ""}`}
                   >
-                    Message was deleted
+                    This message has been deleted
                   </span>
                 )}
                 <Popover

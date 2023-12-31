@@ -1,19 +1,29 @@
-import friendsApi from "app/axios/api/friends";
-import userApi from "app/axios/api/userApi";
-import { TUser } from "types/common";
+import servicesApi from "app/axios/api/servicesApi";
+import { TQuery, TUser } from "types/common";
 import { create } from "zustand";
 
+export enum EFriendLoading {
+  NONE = "none",
+  LIST = "list",
+}
+
 type TServicesStore = {
+  loadingFriendPage: EFriendLoading;
   lisTUser: TUser[];
-  getLisTUser: () => void;
+  getListUser: (query: TQuery) => void;
 };
 
 const servicesStore = create<TServicesStore>((set) => ({
+  loadingFriendPage: EFriendLoading.NONE,
   lisTUser: [],
-  getLisTUser: async () => {
+  getListUser: async (query: TQuery) => {
     try {
-      const res = await userApi.getAllUser();
-      return set({ lisTUser: res.data });
+      set({ loadingFriendPage: EFriendLoading.LIST });
+      const res = await servicesApi.getUsers(query);
+      return set({
+        lisTUser: res.data,
+        loadingFriendPage: EFriendLoading.NONE,
+      });
     } catch (err) {}
   },
 }));

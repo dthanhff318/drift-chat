@@ -1,0 +1,24 @@
+@import "../../../../scss/variables.scss";
+
+.wrapper {
+  .usersSelectWrap {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    .icAdd {
+      font-size: 1.4rem;
+      cursor: pointer;
+      &:hover {
+        color: $text-color-dark;
+        transition: all 0.2s linear;
+      }
+    }
+    .users {
+      display: flex;
+      align-items: center;
+      margin-left: 1rem;
+    }
+  }
+  .searchUserWrap {
+  }
+}

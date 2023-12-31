@@ -1,14 +1,26 @@
 @import "../../scss/variables.scss";
 .avatarWrapper {
-  height: 3rem;
-  width: 3rem;
+  height: 2.75rem;
+  width: 2.75rem;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   img {
     object-fit: cover;
     border-radius: 50%;
-    height: 3rem;
-    width: 3rem;
+    height: 2.75rem;
+    width: 2.75rem;
     cursor: pointer;
+  }
+  .text {
+    border-radius: 50%;
+    height: 2.5rem;
+    width: 2.5rem;
+    border: 1px solid $text-color-dark;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .tag {
     position: absolute;

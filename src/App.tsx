@@ -15,7 +15,7 @@ function App() {
   const history = useHistory();
   const accessToken = getTokenFromLocalStorage();
 
-  const { saveCurrenTUser } = authStore();
+  const { currenTUser, saveCurrenTUser } = authStore();
   const { setSocket } = socketStore();
 
   const getCurrenTUser = async () => {
@@ -37,10 +37,16 @@ function App() {
   useEffect(() => {
     setSocket(socketInstance);
   }, []);
+
+  const checkAuthLocal = accessToken || currenTUser.id;
   return (
     <>
       <Router>
-        <RenderRoutes routes={routes} checkAuthLocal={true} currenTUser={{}} />
+        <RenderRoutes
+          routes={routes}
+          checkAuthLocal={!!checkAuthLocal}
+          currenTUser={{}}
+        />
       </Router>
     </>
   );

@@ -1,31 +1,51 @@
 import { SearchOutlined } from "@ant-design/icons";
 import Avatar from "app/components/Avatar/Avatar";
-import React from "react";
-import s from "./style.module.scss";
-import useService from "./service";
-import moment from "moment";
-import { TUser } from "types/common";
 import { convertDiffTime } from "app/helpers/funcs";
+import React from "react";
+import { TUser } from "types/common";
 import MyFriendControl from "./MyFriendControl";
+import useService from "./service";
+import s from "./style.module.scss";
+import Loading from "app/components/Loading/Loading";
+import { EFriendLoading } from "app/storeZustand/servicesStore";
 
 type Props = {};
 
 const FriendPage = (props: Props) => {
-  const { dataCommunicate, lisTUser, handleAddFriend, currenTUser } =
-    useService();
+  const {
+    dataCommunicate,
+    lisTUser,
+    searchValue,
+    currenTUser,
+    loadingFriendPage,
+    setSearchValue,
+    handleAddFriend,
+    handleSearchUser,
+  } = useService();
 
   return (
     <div className={s.frWrapper}>
       <div className={s.memberGroupWrapper}>
         <div className={s.memberSearch}>
           <div className={s.searchForm}>
-            <input type="text" className={s.searchInput} />
-            <div className={s.btnSearch}>
+            <input
+              type="text"
+              className={s.searchInput}
+              placeholder="Enter name of user"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearchUser()}
+            />
+            <div className={s.btnSearch} onClick={handleSearchUser}>
               <SearchOutlined />
             </div>
           </div>
         </div>
         <div className={s.memberList}>
+          <Loading
+            loading={loadingFriendPage === EFriendLoading.LIST}
+            fullScreen={false}
+          />
           <table className={s.memberTable}>
             <thead className={s.tableHead}>
               <th>Name</th>

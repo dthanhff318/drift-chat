@@ -4,15 +4,19 @@ import React, { ReactNode, useState } from "react";
 import s from "./style.module.scss";
 type Props = {
   children: ReactNode;
+  title: string;
   open: boolean;
   onOk: () => void;
   onCancel: () => void;
 };
 
-const ModalCommon = ({ children, onCancel, onOk, open }: Props) => {
+const ModalCommon = ({ children, title, onCancel, onOk, open }: Props) => {
   return (
     <Modal open={open} onCancel={onCancel} onOk={onOk}>
-      {children}
+      <div className={s.wrapper}>
+        <h3 className={s.title}>{title}</h3>
+        {children}
+      </div>
     </Modal>
   );
 };
