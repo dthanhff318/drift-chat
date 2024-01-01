@@ -8,11 +8,19 @@ type Props = {
   open: boolean;
   onOk: () => void;
   onCancel: () => void;
+  footer?: ReactNode;
 };
 
-const ModalCommon = ({ children, title, onCancel, onOk, open }: Props) => {
+const ModalCommon = ({
+  footer,
+  children,
+  title,
+  onCancel,
+  onOk,
+  open,
+}: Props) => {
   return (
-    <Modal open={open} onCancel={onCancel} onOk={onOk}>
+    <Modal open={open} onCancel={onCancel} onOk={onOk} footer={footer}>
       <div className={s.wrapper}>
         <h3 className={s.title}>{title}</h3>
         {children}

@@ -1,3 +1,4 @@
+import { TGroup } from "types/common";
 import { axiosClient } from "../axiosClient";
 
 const groupApi = {
@@ -8,6 +9,9 @@ const groupApi = {
     return axiosClient.patch(`/groups/${groupId}`, {
       unread: unreadCount,
     });
+  },
+  createGroup: (data: TGroup) => {
+    return axiosClient.post("/groups/create-group", data);
   },
 };
 

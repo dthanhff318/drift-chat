@@ -26,7 +26,6 @@ const useService = () => {
 
   // Get data
   useEffect(() => {
-    getDataCommunicate();
     getListUser({ q: searchValue });
   }, []);
 

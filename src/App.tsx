@@ -8,6 +8,7 @@ import authApi from "app/axios/api/auth";
 import { pathLoginPage } from "app/routes/routesConfig";
 import authStore from "app/storeZustand/authStore";
 import socketStore from "app/storeZustand/socketStore";
+import friendStore from "app/storeZustand/friendStore";
 
 const socketInstance = io("http://localhost:4000");
 
@@ -16,6 +17,7 @@ function App() {
   const accessToken = getTokenFromLocalStorage();
 
   const { currenTUser, saveCurrenTUser } = authStore();
+  const { getDataCommunicate } = friendStore();
   const { setSocket } = socketStore();
 
   const getCurrenTUser = async () => {
@@ -36,6 +38,10 @@ function App() {
   // Add socket to App
   useEffect(() => {
     setSocket(socketInstance);
+  }, []);
+
+  useEffect(() => {
+    getDataCommunicate();
   }, []);
 
   const checkAuthLocal = accessToken || currenTUser.id;
