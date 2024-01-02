@@ -49,9 +49,9 @@ export const useService = () => {
     });
 
     // Delete message
-    // socket?.on("deleteMessage", (mess) => {
-    //   updateListMessage(mess);
-    // });
+    socket?.on("deleteMessage", (mess) => {
+      updateListMessage(mess);
+    });
   }, []);
 
   return {};
