@@ -116,6 +116,7 @@ const BoxChat = (props: Props) => {
               className={`${s.message}`}
               ref={i === messages.length - 1 ? ref : undefined}
             >
+              {e.senderId !== currenTUser.id && <Avatar size="s" />}
               <div
                 className={`${s.contentWrap} ${
                   e.isDelete ? s.messageDeleted : ""

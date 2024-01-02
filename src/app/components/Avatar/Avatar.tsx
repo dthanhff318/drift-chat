@@ -5,15 +5,20 @@ type Props = {
   src?: string;
   online?: boolean;
   text?: string;
+  size?: "s" | "m" | "l";
 };
 
-const Avatar = ({ text, src, online }: Props) => {
+const Avatar = ({ text, src, online, size = "m" }: Props) => {
   return (
-    <div className={s.avatarWrapper}>
+    <div className={`${s.avatarWrapper} }`}>
       {text ? (
-        <span className={s.text}>{text}</span>
+        <span className={`${s.text} ${s[size]}`}>{text}</span>
       ) : (
-        <img src={src ? src : getPublicImageUrl("avt.png")} alt="" />
+        <img
+          className={`${s[size]}`}
+          src={src ? src : getPublicImageUrl("avt.png")}
+          alt=""
+        />
       )}
       {online && (
         <div className={s.tag}>

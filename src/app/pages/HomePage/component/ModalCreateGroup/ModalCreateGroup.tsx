@@ -1,11 +1,11 @@
 import { PlusCircleFilled } from "@ant-design/icons";
-import React, { useState } from "react";
-import s from "./style.module.scss";
-import Avatar from "app/components/Avatar/Avatar";
-import friendStore from "app/storeZustand/friendStore";
-import { TGroup, TUser } from "types/common";
 import groupApi from "app/axios/api/group";
+import Avatar from "app/components/Avatar/Avatar";
 import Button from "app/components/Button/Button";
+import friendStore from "app/storeZustand/friendStore";
+import React, { useRef, useState } from "react";
+import { TUser } from "types/common";
+import s from "./style.module.scss";
 type Props = {};
 
 const ModalCreateGroup = ({}: Props) => {
@@ -14,6 +14,7 @@ const ModalCreateGroup = ({}: Props) => {
   } = friendStore();
 
   const [users, setUsers] = useState<TUser[]>([]);
+  const inputNameRef = useRef<HTMLInputElement>(null);
 
   const handleSelectUser = (user: TUser) => {
     const isUserHasSelect = users.find((e) => e.id === user.id);
@@ -27,17 +28,21 @@ const ModalCreateGroup = ({}: Props) => {
 
   const handleCreateGroup = async () => {
     const dataGroup = {
-      name: "",
+      name: inputNameRef.current?.value,
       membersId: users.map((e) => e.id),
     };
-    console.log(1);
-
     const res = await groupApi.createGroup(dataGroup);
     console.log(res);
   };
 
   return (
     <div className={s.wrapper}>
+      <input
+        ref={inputNameRef}
+        type="text"
+        className={s.inputName}
+        placeholder="Group name ..."
+      />
       <div className={s.usersSelectWrap}>
         <div className={s.icAdd}>
           <PlusCircleFilled />

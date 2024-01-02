@@ -266,6 +266,7 @@ $header-hight: 5rem;
       &.left {
         text-align: left;
         .contentWrap {
+          margin-left: 0.35rem;
           background-color: $background-dark-light-1;
           &.messageDeleted {
             background-color: transparent;
@@ -316,10 +317,9 @@ $header-hight: 5rem;
       }
     }
     .message {
-      display: inline-block;
+      display: inline-flex;
       width: fit-content;
       max-width: 50%;
-      justify-content: end;
       position: relative;
       .contentWrap {
         display: flex;

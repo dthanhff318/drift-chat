@@ -1,6 +1,13 @@
 @import "../../../../scss/variables.scss";
 
 .wrapper {
+  .inputName {
+    margin-top: 1rem;
+    padding: 0.25rem;
+    font-size: 0.9rem;
+    outline: none;
+    width: 80%;
+  }
   .usersSelectWrap {
     margin-top: 1rem;
     display: flex;
@@ -17,6 +24,7 @@
       display: flex;
       align-items: center;
       margin-left: 1rem;
+      gap: 0.25rem;
     }
   }
   .searchUserWrap {

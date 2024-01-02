@@ -6,13 +6,19 @@ type Props = {
   text: string;
   fill?: boolean;
   onClick?: () => void;
+  disabled?: boolean;
 };
 
-const Button = ({ text, icon, fill, onClick }: Props) => {
+const Button = ({ text, icon, fill, disabled, onClick }: Props) => {
   return (
     <button
-      className={`${s.buttonWrapper} ${fill ? s.fill : ""}`}
-      onClick={onClick}
+      className={`${s.buttonWrapper} ${fill ? s.fill : ""} ${
+        disabled && s.disabled
+      }`}
+      onClick={() => {
+        if (disabled || !onClick) return;
+        onClick();
+      }}
     >
       {icon && icon}
       <span className={`${s.buttonText} ${fill ? s.fill : ""}`}>{text}</span>
