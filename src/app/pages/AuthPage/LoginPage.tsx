@@ -1,42 +1,40 @@
-import { logOutFireBase } from "app/firebase/fireBaseFuncs";
-import React from "react";
+import { QRCode } from "antd";
+import GoogleIcon from "app/components/Icon/Google/GoogleIcon";
+import { getPublicImageUrl } from "app/helpers/funcs";
+import React, { useEffect, useRef } from "react";
 import useService from "./service";
 import s from "./style.module.scss";
-import GoogleIcon from "app/components/Icon/Google/GoogleIcon";
-import FaceBook from "app/components/Icon/FaceBook/FaceBook";
-import FacebookLogin from "react-facebook-login";
 
 type Props = {};
 
 const LoginPage = (props: Props) => {
-  const { handleLoginFirebase } = useService();
-  const responseFacebook = (response) => {
-    console.log(response);
-  };
+  const { imageRef, handleMouseOver, handleLoginFirebase } = useService();
+
   return (
-    <div className={s.container}>
-      <div className={s.loginWrap}>
+    <div className={s.container} onMouseMove={handleMouseOver}>
+      <img
+        className={s.bgImage}
+        ref={imageRef}
+        src={getPublicImageUrl("bgLoginPage.jpeg")}
+        alt=""
+      />
+      <div id="loginWrap" className={s.loginWrap}>
         <div className={s.loginContainer}>
-          <p className={s.titleLogin}>Login</p>
+          <img
+            className={s.logoApp}
+            src={getPublicImageUrl("icLogo.png")}
+            alt=""
+          />
           <button onClick={handleLoginFirebase} className={s.google}>
             <GoogleIcon />
             <p>Login Google</p>
           </button>
-          {/* <button>
-            <FaceBook />
-            <p>Login Facebook</p>
-          </button> */}
+          <div className={s.qrLogin}>
+            <QRCode value="https://ant.design/" color={"#004c9d"} bordered />
+            <span className={s.text}>Login with QR, scan now !</span>
+          </div>
         </div>
-        <div className={s.bottom}>
-          <p>Or sign up using</p>
-          <button>Sign Up</button>
-        </div>
-        <FacebookLogin
-          appId="6145375098807296"
-          autoLoad={false}
-          callback={responseFacebook}
-        />
-        ;
+        <div className={s.bottom}></div>
       </div>
     </div>
   );

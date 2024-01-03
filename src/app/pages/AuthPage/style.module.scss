@@ -1,58 +1,135 @@
-.container{
-    background-image: url("../../../../public/backgroundLogin.jpg");
-    // width: 100%;
-    height: 100vh;
-    background-size: cover;
-    margin: auto;
+@import "../../scss/variables.scss";
+.container {
+  //   background-image: url("../../../../public/images//bgLoginPage.jpeg");
+  // width: 100%;
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  .bgImage {
+    transition: all linear 2s;
+    position: absolute;
+    object-fit: cover;
+    transform: scale(1.2);
+  }
+  .loginWrap {
+    margin-left: 10rem;
+    background-color: hsl(71, 41%, 95%, 0.8);
+    border-radius: 5px;
+    width: 30%;
+    height: 70%;
+    padding: 2.5rem 1rem;
     display: flex;
-    justify-content: center;
-    .loginWrap{
-        background-color: hsl(71, 41%, 95%, 0.8);
-        border-radius: 5px;
-        width: 35%;
-        padding: 30px 20px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1;
+    .loginContainer {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+      .logoApp {
+        width: 10rem;
+        height: 10rem;
+        transition: all 0.2s linear;
+        animation: myAnim 2s ease 0s 1 normal forwards;
+        &:hover {
+          filter: drop-shadow(5px 5px 10px #fff700);
+        }
+      }
+      .titleLogin {
+        font-size: 30px;
+        font-weight: 600;
+        text-align: center;
+      }
+      button {
+        margin-top: 2rem;
+        font-size: 18px;
+        padding: 10px 15px;
+        border-radius: 4px;
+        width: 60%;
+        background-color: hsla(217, 70%, 48%, 0.874);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: white;
+        &:hover {
+        }
+      }
+      .qrLogin {
+        margin-top: 2rem;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-between;
-        margin: 100px 0;
-        .loginContainer{
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: center;
-            .titleLogin{
-                font-size: 30px;
-                font-weight: 600;
-                text-align: center;
-            }
-            button{
-                font-size: 18px;
-                padding: 10px 15px;
-                border-radius: 4px;
-                width: 80%;
-                background-color: hsla(217, 84%, 52%, 0.874);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                &:hover{
-                    
-                }
-            }
+        .text {
+          color: black;
+          font-size: 1rem;
+          margin-top: 1rem;
+          font-weight: 600;
         }
-        
-        .bottom{
-            margin-top: 40px;
-            display: flex;
-            flex-direction: column;
-            button{
-                background-color: hsla(217, 84%, 52%, 0.874);
-                padding: 5px 15px;
-                border-radius: 4px;
-                cursor: pointer;
-            }
-        }
+      }
     }
+
+    .bottom {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      button {
+        background-color: hsla(217, 84%, 52%, 0.874);
+        padding: 5px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+@keyframes myAnim {
+  0% {
+    animation-timing-function: ease-in;
+    opacity: 0;
+    transform: translateY(-25rem);
+  }
+
+  38% {
+    animation-timing-function: ease-out;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  55% {
+    animation-timing-function: ease-in;
+    transform: translateY(-6.5rem);
+  }
+
+  72% {
+    animation-timing-function: ease-out;
+    transform: translateY(0);
+  }
+
+  81% {
+    animation-timing-function: ease-in;
+    transform: translateY(-2.8rem);
+  }
+
+  90% {
+    animation-timing-function: ease-out;
+    transform: translateY(0);
+  }
+
+  95% {
+    animation-timing-function: ease-in;
+    transform: translateY(-0.8rem);
+  }
+
+  100% {
+    animation-timing-function: ease-out;
+    transform: translateY(0);
+  }
 }

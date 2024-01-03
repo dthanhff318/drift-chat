@@ -9,6 +9,7 @@ import { notification } from "antd";
 import { TUser } from "types/common";
 import socketStore from "app/storeZustand/socketStore";
 import socketInstance from "./../../socketConfig/socketIoConfig";
+import { useRef } from "react";
 
 const provider = new GoogleAuthProvider();
 // const provider = new FacebookAuthProvider();
@@ -18,6 +19,29 @@ const useService = () => {
 
   const { saveCurrenTUser } = authStore();
   const { socket } = socketStore();
+
+  const imageRef = useRef<HTMLImageElement>(null);
+
+  const handleMouseOver = (e) => {
+    if (e.target.closest(`#loginWrap`)) {
+      return;
+    }
+    const pointerX = e.pageX;
+    const pointerY = e.pageY;
+    const newPos = calculatePosBg(pointerX, pointerY);
+    (imageRef.current as HTMLImageElement).style.objectPosition = newPos;
+  };
+
+  const calculatePosBg = (pointerX: number, pointerY: number) => {
+    const centerW = window.innerWidth / 2;
+    const centerH = window.innerHeight / 2;
+
+    if (pointerX > centerW) {
+      return pointerY > centerH ? "-4rem -4rem" : "-4rem 4rem";
+    } else {
+      return pointerY > centerH ? "4rem -4rem" : "4rem 4rem";
+    }
+  };
 
   const handleLoginFirebase = () => {
     provider.setCustomParameters({ prompt: "select_account" });
@@ -47,6 +71,8 @@ const useService = () => {
       .catch((err) => console.log(err));
   };
   return {
+    imageRef,
+    handleMouseOver,
     handleLoginFirebase,
   };
 };
