@@ -104,71 +104,74 @@ const BoxChat = (props: Props) => {
       </div>
       <div className={s.content}>
         <Loading loading={firstTimeLoading} />
-        {messages.map((e, i) => (
-          <div
-            key={i}
-            className={`${s.messageWrap} ${
-              e.senderId !== currenTUser.id ? s.left : s.right
-            }`}
-            id={`m${e.id}`}
-          >
+        {messages.map((e, i) => {
+          const otherMess = e.senderId !== currenTUser.id;
+          return (
             <div
-              className={`${s.message}`}
-              ref={i === messages.length - 1 ? ref : undefined}
+              key={i}
+              className={`${s.messageWrap} ${otherMess ? s.left : s.right}`}
+              id={`m${e.id}`}
             >
-              {e.senderId !== currenTUser.id && <Avatar size="s" />}
               <div
-                className={`${s.contentWrap} ${
-                  e.isDelete ? s.messageDeleted : ""
-                }`}
+                className={`${s.message}`}
+                ref={i === messages.length - 1 ? ref : undefined}
               >
-                {e.replyMessage && (
-                  <div
-                    className={s.replyMess}
-                    onClick={() =>
-                      scrollMessageIntoView(e.replyMessage?.id ?? "")
-                    }
-                  >
-                    <div className={s.enterIcon}>
-                      <EnterOutlined />
-                    </div>
-                    <p className={s.replyContent}>{e.replyMessage?.content}</p>
-                  </div>
-                )}
-                {e.image && !e.isDelete && (
-                  <Image.PreviewGroup>
-                    <Image className={s.contentImage} src={e.image} />
-                  </Image.PreviewGroup>
-                )}
-                {e.content && !e.isDelete && (
-                  <span
-                    className={`${s.contentMsg} ${e.image ? s.hasImage : ""}`}
-                    dangerouslySetInnerHTML={{
-                      __html: e.content?.replaceAll("\n", "<br />") || "",
-                    }}
-                  />
-                )}
-                {(e.content || e.image) && e.isDelete && (
-                  <span
-                    className={`${s.contentMsg} ${e.image ? s.hasImage : ""}`}
-                  >
-                    This message has been deleted
-                  </span>
-                )}
-                <Popover
-                  placement={e.senderId !== currenTUser.id ? "right" : "left"}
-                  content={<PopoverCustom data={renderDataPopover(e)} />}
+                {otherMess && <Avatar size="s" src={e.senderId?.photoUrl} />}
+                <div
+                  className={`${s.contentWrap} ${
+                    e.isDelete ? s.messageDeleted : ""
+                  }`}
                 >
-                  {!e.isDelete && (
-                    <div className={s.options}>
-                      <MoreOutlined />
+                  {e.replyMessage && (
+                    <div
+                      className={s.replyMess}
+                      onClick={() =>
+                        scrollMessageIntoView(e.replyMessage?.id ?? "")
+                      }
+                    >
+                      <div className={s.enterIcon}>
+                        <EnterOutlined />
+                      </div>
+                      <p className={s.replyContent}>
+                        {e.replyMessage?.content}
+                      </p>
                     </div>
                   )}
-                </Popover>
+                  {e.image && !e.isDelete && (
+                    <Image.PreviewGroup>
+                      <Image className={s.contentImage} src={e.image} />
+                    </Image.PreviewGroup>
+                  )}
+                  {e.content && !e.isDelete && (
+                    <span
+                      className={`${s.contentMsg} ${e.image ? s.hasImage : ""}`}
+                      dangerouslySetInnerHTML={{
+                        __html: e.content?.replaceAll("\n", "<br />") || "",
+                      }}
+                    />
+                  )}
+                  {(e.content || e.image) && e.isDelete && (
+                    <span
+                      className={`${s.contentMsg} ${e.image ? s.hasImage : ""}`}
+                    >
+                      This message has been deleted
+                    </span>
+                  )}
+                  <Popover
+                    placement={otherMess ? "right" : "left"}
+                    content={<PopoverCustom data={renderDataPopover(e)} />}
+                  >
+                    {!e.isDelete && (
+                      <div className={s.options}>
+                        <MoreOutlined />
+                      </div>
+                    )}
+                  </Popover>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {reply.id && (
