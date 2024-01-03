@@ -14,7 +14,7 @@ import { notification } from "antd";
 export const DEFAULT_PAST_TIME = "1970-01-01T00:00:00.000Z";
 
 export const useService = () => {
-  const { groups, currentGroup, saveGroups } = groupStore();
+  const { groups, currentGroup, detailGroup, saveGroups } = groupStore();
   const { currenTUser } = authStore();
   const { socket } = socketStore();
   const {
@@ -69,10 +69,14 @@ export const useService = () => {
         }
         const res = await messageApi.sendMessage(messBody);
         resMessage = res.data as TMessage;
+        if (reply.id) {
+          resMessage.replyMessage = reply;
+        }
       }
       updateMessage(resMessage);
       updateListChannelChat(resMessage);
       setOpenEmoji(false);
+      setReply({});
       setMessage("");
       socket?.emit("sendMessage", { ...resMessage, room: currentGroup });
       setLoading(false);
@@ -160,6 +164,7 @@ export const useService = () => {
     loading,
     reply,
     openSideChat,
+    detailGroup,
     scrollMessageIntoView,
     isMessageLoaded,
     setOpenSideChat,

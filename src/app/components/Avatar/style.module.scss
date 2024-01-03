@@ -8,6 +8,10 @@
     border-radius: 50%;
     object-fit: cover;
     cursor: pointer;
+    &.l {
+      height: 3.75rem;
+      width: 3.75rem;
+    }
     &.m {
       height: 2.75rem;
       width: 2.75rem;

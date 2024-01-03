@@ -27,7 +27,6 @@ const ChannelChat = ({ infoUser }: Props) => {
             <span className={s.name}>{infoUser?.displayName}</span>
             <span className={s.status}>{infoUser?.introduction}</span>
           </div>
-          <MoreOutlined className={s.moreBtn} />
         </div>
         <div className={s.searchWrap}>
           <SearchOutlined className={s.searchIcon} />

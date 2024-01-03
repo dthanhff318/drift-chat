@@ -1,5 +1,5 @@
 import moment from "moment";
-import { TGroup } from "types/common";
+import { TGroup, TUser } from "types/common";
 import { geTUserFromLs } from "./localStorage";
 
 export const getPublicImageUrl = (name: string) =>
@@ -32,4 +32,8 @@ export const getInfoDirectmess = (group: TGroup) => {
     return group.members?.find((m) => m.uid !== user.uid);
   }
   return;
+};
+
+export const getUserById = (id: string, listUser: TUser[]) => {
+  return listUser.find((e) => e.id === id) ?? {};
 };

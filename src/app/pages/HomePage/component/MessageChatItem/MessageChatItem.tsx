@@ -17,7 +17,8 @@ const MessageChatItem = ({ group }: Props) => {
   const { currenTUser } = authStore();
   const { clearStateMessages } = messageStore();
   const { socket } = socketStore();
-  const { currentGroup, groups, saveCurrentGroup, saveGroups } = groupStore();
+  const { currentGroup, groups, getDetailGroup, saveCurrentGroup, saveGroups } =
+    groupStore();
 
   let friendData: TUser = {};
 
@@ -49,6 +50,7 @@ const MessageChatItem = ({ group }: Props) => {
       onClick={async () => {
         if (group.id === currentGroup) return;
         clearStateMessages();
+        await getDetailGroup(group.id ?? "");
         await handleSaveCurrentGroup();
       }}
     >

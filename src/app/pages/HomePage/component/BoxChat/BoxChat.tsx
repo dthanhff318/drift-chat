@@ -2,6 +2,7 @@ import {
   CloseCircleFilled,
   CloseCircleOutlined,
   DeleteOutlined,
+  EditOutlined,
   EnterOutlined,
   LeftSquareOutlined,
   LoadingOutlined,
@@ -23,6 +24,7 @@ import Loading from "app/components/Loading/Loading";
 import { Image, Popover } from "antd";
 import PopoverCustom from "app/components/Popover/Popover";
 import authStore from "app/storeZustand/authStore";
+import { getUserById } from "app/helpers/funcs";
 
 type Props = {};
 
@@ -41,6 +43,7 @@ const BoxChat = (props: Props) => {
     loading,
     reply,
     openSideChat,
+    detailGroup,
     scrollMessageIntoView,
     setOpenSideChat,
     setReply,
@@ -116,7 +119,15 @@ const BoxChat = (props: Props) => {
                 className={`${s.message}`}
                 ref={i === messages.length - 1 ? ref : undefined}
               >
-                {otherMess && <Avatar size="s" src={e.senderId?.photoUrl} />}
+                {otherMess && (
+                  <Avatar
+                    size="s"
+                    src={
+                      getUserById(e.senderId ?? "", groupDetail?.members ?? [])
+                        .photoUrl
+                    }
+                  />
+                )}
                 <div
                   className={`${s.contentWrap} ${
                     e.isDelete ? s.messageDeleted : ""
@@ -253,8 +264,15 @@ const BoxChat = (props: Props) => {
       />
       {/* {openSideChat && ( */}
       <div className={`${s.sideChat} ${openSideChat ? s.open : ""}`}>
-        <div className={s.iconCloseNav} onClick={() => setOpenSideChat(false)}>
-          <RightSquareOutlined />
+        <div className={s.content}>
+          <div
+            className={s.iconCloseNav}
+            onClick={() => setOpenSideChat(false)}
+          >
+            <RightSquareOutlined />
+          </div>
+          <Avatar size="l" />
+          <span className={s.groupName}>lov3ss</span>
         </div>
       </div>
       {/* )} */}

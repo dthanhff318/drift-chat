@@ -13,6 +13,9 @@ const groupApi = {
   createGroup: (data: TGroup) => {
     return axiosClient.post("/groups/create-group", data);
   },
+  getDetailGroup: (groupId: string) => {
+    return axiosClient.get(`/groups/${groupId}`);
+  },
 };
 
 export default groupApi;
