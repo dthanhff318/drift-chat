@@ -14,7 +14,8 @@ import { notification } from "antd";
 export const DEFAULT_PAST_TIME = "1970-01-01T00:00:00.000Z";
 
 export const useService = () => {
-  const { groups, currentGroup, detailGroup, saveGroups } = groupStore();
+  const { groups, currentGroup, detailGroup, loadingDetailGroup, saveGroups } =
+    groupStore();
   const { currenTUser } = authStore();
   const { socket } = socketStore();
   const {
@@ -158,6 +159,7 @@ export const useService = () => {
     currentGroup,
     currenTUser,
     firstTimeLoading,
+    loadingDetailGroup,
     openEmoji,
     inputUploadRef,
     file,

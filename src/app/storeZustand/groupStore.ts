@@ -4,6 +4,7 @@ import { TGroup } from "types/common";
 import { create } from "zustand";
 
 type TGroupStore = {
+  loadingDetailGroup: boolean;
   groups: TGroup[];
   detailGroup: TGroup;
   currentGroup: string;
@@ -14,6 +15,7 @@ type TGroupStore = {
 };
 
 const groupStore = create<TGroupStore>((set) => ({
+  loadingDetailGroup: false,
   groups: [],
   detailGroup: {},
   getGroups: async () => {
@@ -24,8 +26,9 @@ const groupStore = create<TGroupStore>((set) => ({
   },
   getDetailGroup: async (id: string) => {
     try {
+      set({ loadingDetailGroup: true });
       const res = await groupApi.getDetailGroup(id);
-      set({ detailGroup: res.data });
+      set({ detailGroup: res.data, loadingDetailGroup: false });
     } catch (err) {}
   },
   currentGroup: "",

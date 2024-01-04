@@ -13,7 +13,6 @@ import friendStore from "app/storeZustand/friendStore";
 const socketInstance = io("http://localhost:4000");
 
 function App() {
-  const history = useHistory();
   const accessToken = getTokenFromLocalStorage();
 
   const { currenTUser, saveCurrenTUser } = authStore();
@@ -25,7 +24,8 @@ function App() {
       const res = await authApi.getCurrenTUser();
       saveCurrenTUser(res.data);
     } catch (err) {
-      history.replace(pathLoginPage);
+      localStorage.clear();
+      window.location.href = pathLoginPage;
     }
   };
 

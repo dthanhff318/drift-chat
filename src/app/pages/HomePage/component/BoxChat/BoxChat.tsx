@@ -25,6 +25,7 @@ import { Image, Popover } from "antd";
 import PopoverCustom from "app/components/Popover/Popover";
 import authStore from "app/storeZustand/authStore";
 import { getUserById } from "app/helpers/funcs";
+import SideChat from "../SideChat/SideChat";
 
 type Props = {};
 
@@ -37,6 +38,7 @@ const BoxChat = (props: Props) => {
     message,
     messages,
     firstTimeLoading,
+    loadingDetailGroup,
     openEmoji,
     inputUploadRef,
     file,
@@ -106,7 +108,7 @@ const BoxChat = (props: Props) => {
         </div>
       </div>
       <div className={s.content}>
-        <Loading loading={firstTimeLoading} />
+        <Loading loading={firstTimeLoading || loadingDetailGroup} />
         {messages.map((e, i) => {
           const otherMess = e.senderId !== currenTUser.id;
           return (
@@ -262,20 +264,7 @@ const BoxChat = (props: Props) => {
         ref={inputUploadRef}
         onChange={onUploadImage}
       />
-      {/* {openSideChat && ( */}
-      <div className={`${s.sideChat} ${openSideChat ? s.open : ""}`}>
-        <div className={s.content}>
-          <div
-            className={s.iconCloseNav}
-            onClick={() => setOpenSideChat(false)}
-          >
-            <RightSquareOutlined />
-          </div>
-          <Avatar size="l" />
-          <span className={s.groupName}>lov3ss</span>
-        </div>
-      </div>
-      {/* )} */}
+      <SideChat isOpen={openSideChat} onClose={() => setOpenSideChat(false)} />
     </div>
   );
 };
