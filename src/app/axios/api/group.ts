@@ -16,6 +16,9 @@ const groupApi = {
   getDetailGroup: (groupId: string) => {
     return axiosClient.get(`/groups/${groupId}`);
   },
+  updateGroup: (groupId: string, data: TGroup) => {
+    return axiosClient.patch(`/groups/${groupId}`, data);
+  },
 };
 
 export default groupApi;

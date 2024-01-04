@@ -18,10 +18,14 @@
     color: $background-dark-light;
   }
   .inputChange {
-    margin-top: 1rem;
+    margin: 1rem 0;
     outline: 1px solid $black;
     font-size: 1.2rem;
     border-radius: 0.5rem;
     padding: 0.5rem 1.25rem;
+  }
+  .btnFooter {
+    margin-top: 1rem;
+    align-self: flex-end;
   }
 }

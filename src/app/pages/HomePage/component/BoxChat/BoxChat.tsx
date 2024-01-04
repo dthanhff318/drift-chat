@@ -96,6 +96,7 @@ const BoxChat = (props: Props) => {
 
   return (
     <div className={s.boxChatWrap}>
+      <Loading loading={firstTimeLoading || loadingDetailGroup} />
       <div className={s.headerBox}>
         <div className={s.infoGroup}>
           <Avatar src={friend?.photoUrl} />
@@ -108,7 +109,6 @@ const BoxChat = (props: Props) => {
         </div>
       </div>
       <div className={s.content}>
-        <Loading loading={firstTimeLoading || loadingDetailGroup} />
         {messages.map((e, i) => {
           const otherMess = e.senderId !== currenTUser.id;
           return (
@@ -264,7 +264,11 @@ const BoxChat = (props: Props) => {
         ref={inputUploadRef}
         onChange={onUploadImage}
       />
-      <SideChat isOpen={openSideChat} onClose={() => setOpenSideChat(false)} />
+      <SideChat
+        detailGroup={detailGroup}
+        isOpen={openSideChat}
+        onClose={() => setOpenSideChat(false)}
+      />
     </div>
   );
 };
