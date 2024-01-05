@@ -1,5 +1,5 @@
 import moment from "moment";
-import { TGroup, TUser } from "types/common";
+import { IndexedObject, TGroup, TUser } from "types/common";
 import { geTUserFromLs } from "./localStorage";
 
 export const getPublicImageUrl = (name: string) =>
@@ -37,3 +37,11 @@ export const getInfoDirectmess = (group: TGroup) => {
 export const getUserById = (id: string, listUser: TUser[]) => {
   return listUser.find((e) => e.id === id) ?? {};
 };
+
+export const replacePathParams = (
+  path: string,
+  params: IndexedObject<string>
+): string =>
+  path.replace(/:([^/]+)/g, (_, p1) =>
+    encodeURIComponent(params[p1] ? params[p1] : "")
+  );

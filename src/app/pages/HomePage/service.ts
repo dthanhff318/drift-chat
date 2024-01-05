@@ -6,13 +6,18 @@ import socketStore from "app/storeZustand/socketStore";
 import moment from "moment";
 import { useEffect } from "react";
 import { TGroup, TMessage } from "types/common";
+import { useHistory, useParams } from "react-router-dom";
+import { pathHomePage, pathHomePageChat } from "app/routes/routesConfig";
+import { replacePathParams } from "app/helpers/funcs";
 
 export const DEFAULT_PAST_TIME = "1970-01-01T00:00:00.000Z";
 
 export const useService = () => {
-  const { saveGroups } = groupStore();
+  const { currentGroup, saveCurrentGroup, saveGroups } = groupStore();
   const { socket } = socketStore();
   const { updateMessage, updateListMessage } = messageStore();
+  const history = useHistory();
+  const { id } = useParams<{ id: string }>();
 
   const updateListChannelChat = (newMess: TMessage) => {
     const { groups } = groupStore.getState();
@@ -52,6 +57,16 @@ export const useService = () => {
     socket?.on("deleteMessage", (mess) => {
       updateListMessage(mess);
     });
+  }, []);
+
+  useEffect(() => {
+    const idGroup = currentGroup || id;
+    if (idGroup) {
+      saveCurrentGroup(idGroup);
+      history.push(replacePathParams(pathHomePageChat, { id: idGroup }));
+    } else {
+      history.push(pathHomePage);
+    }
   }, []);
 
   return {};

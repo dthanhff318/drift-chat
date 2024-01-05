@@ -3,11 +3,16 @@ import s from "./style.module.scss";
 import FriendRow from "./FriendRow";
 import { TUser } from "types/common";
 import friendStore from "app/storeZustand/friendStore";
+import friendsApi from "app/axios/api/friends";
 type Props = {};
 type TControl = "friend" | "approve" | "blocked";
 const MyFriendControl = (props: Props) => {
   const [control, setControl] = useState<TControl>("friend");
   const { dataCommunicate } = friendStore();
+
+  const handleAccept = async (id: string) => {
+    await friendsApi.acceptFrRequest(id);
+  };
 
   return (
     <div className={s.friendControlWrap}>
@@ -33,9 +38,19 @@ const MyFriendControl = (props: Props) => {
       </div>
       <div className={s.controlContent}>
         {control === "friend" &&
-          dataCommunicate.listFriend?.map((t: TUser) => <FriendRow data={t} />)}
+          dataCommunicate.listFriend?.map((t: TUser) => (
+            <FriendRow data={t} textButton="Message" onClick={() => {}} />
+          ))}
         {control === "approve" &&
-          dataCommunicate.listAccept?.map((t: TUser) => <FriendRow data={t} />)}
+          dataCommunicate.listAccept?.map((t: TUser) => (
+            <FriendRow
+              data={t}
+              textButton="Accept"
+              onClick={() => {
+                handleAccept(t.id ?? "");
+              }}
+            />
+          ))}
       </div>
     </div>
   );

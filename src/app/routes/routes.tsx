@@ -3,6 +3,7 @@ import { Switch, Redirect, Route } from "react-router-dom";
 import {
   pathFriendPage,
   pathHomePage,
+  pathHomePageChat,
   pathLoginPage,
   pathNotFoundPage,
   pathProfile,
@@ -104,6 +105,12 @@ export const routes = [
         exact: true,
         path: pathProfile,
         component: lazy(() => import("app/pages/ProfilePage/ProfilePage")),
+        auth: true,
+      },
+      {
+        exact: false,
+        path: pathHomePageChat,
+        component: lazy(() => import("app/pages/HomePage/HomePage")),
         auth: true,
       },
       {

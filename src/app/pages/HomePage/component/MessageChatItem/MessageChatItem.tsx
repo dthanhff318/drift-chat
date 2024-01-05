@@ -8,12 +8,16 @@ import messageStore from "app/storeZustand/messageStore";
 import socketStore from "app/storeZustand/socketStore";
 import { convertTimeFromNow } from "app/helpers/time";
 import groupApi from "app/axios/api/group";
+import { useHistory } from "react-router-dom";
+import { pathHomePage, pathHomePageChat } from "app/routes/routesConfig";
+import { replacePathParams } from "app/helpers/funcs";
 
 type Props = {
   group: TGroup;
 };
 
 const MessageChatItem = ({ group }: Props) => {
+  const history = useHistory();
   const { currenTUser } = authStore();
   const { clearStateMessages } = messageStore();
   const { socket } = socketStore();
@@ -48,7 +52,10 @@ const MessageChatItem = ({ group }: Props) => {
         group.id === currentGroup ? s.grActive : null
       }`}
       onClick={async () => {
-        if (group.id === currentGroup) return;
+        if (!group.id || group.id === currentGroup) return;
+        history.push(
+          replacePathParams(pathHomePageChat, { id: group.id ?? "" })
+        );
         clearStateMessages();
         await getDetailGroup(group.id ?? "");
         await handleSaveCurrentGroup();
@@ -64,11 +71,15 @@ const MessageChatItem = ({ group }: Props) => {
         </div>
         <div className={s.secondLine}>
           <span className={`${s.lastMsg} ${isUnread ? s.unread : ""}`}>
-            {`${newestMessNotMine ? "" : "You: "} ${
-              !!group.newestMess?.content
-                ? group.newestMess?.content
-                : "Send an image"
-            }`}
+            {!!group.newestMess?.id
+              ? `${newestMessNotMine ? "" : "You: "} ${
+                  !!group.newestMess?.content
+                    ? group.newestMess?.content
+                    : "Send an image"
+                }`
+              : group.isGroup
+              ? "Let say hi with everyone"
+              : `Let say hi with ${friendData.displayName}`}
           </span>
           {isUnread && <span className={s.msgUnread}>{group.unread}</span>}
         </div>
