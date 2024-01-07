@@ -41,7 +41,9 @@ function App() {
   }, []);
 
   useEffect(() => {
-    getDataCommunicate();
+    if (accessToken || currenTUser) {
+      getDataCommunicate();
+    }
   }, []);
 
   const checkAuthLocal = accessToken || currenTUser.id;

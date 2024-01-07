@@ -55,8 +55,13 @@ const ChannelChat = ({ infoUser }: Props) => {
       <ModalCommon
         title="Create group chat with ..."
         open={modal}
-        children={<ModalCreateGroup />}
-        footer={null}
+        children={
+          <ModalCreateGroup
+            onClose={() => {
+              setModal(false);
+            }}
+          />
+        }
         onOk={() => {}}
         onCancel={() => {
           setModal(false);

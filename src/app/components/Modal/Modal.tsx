@@ -2,28 +2,25 @@ import { UserOutlined } from "@ant-design/icons";
 import { Dropdown, MenuProps, Modal } from "antd";
 import React, { ReactNode, useState } from "react";
 import s from "./style.module.scss";
+import Button from "../Button/Button";
 type Props = {
   children: ReactNode;
   title: string;
   open: boolean;
   onOk: () => void;
   onCancel: () => void;
-  footer?: ReactNode;
 };
 
-const ModalCommon = ({
-  footer,
-  children,
-  title,
-  onCancel,
-  onOk,
-  open,
-}: Props) => {
+const ModalCommon = ({ children, title, onCancel, onOk, open }: Props) => {
   return (
-    <Modal open={open} onCancel={onCancel} onOk={onOk} footer={footer}>
+    <Modal open={open} onCancel={onCancel} onOk={onOk} footer={null}>
       <div className={s.wrapper}>
         <h3 className={s.title}>{title}</h3>
-        {children}
+        <div className={s.content}>{children}</div>
+        <div className={s.footer}>
+          <Button loading={false} text="Cancel" onClick={async () => {}} />
+          <Button loading={false} text="OK" onClick={async () => {}} />
+        </div>
       </div>
     </Modal>
   );

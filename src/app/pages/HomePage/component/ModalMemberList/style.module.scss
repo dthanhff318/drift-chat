@@ -1,0 +1,84 @@
+@import "../../../../scss/variables.scss";
+
+.wrapper {
+  width: 100%;
+  .inputName {
+    margin-top: 1rem;
+    padding: 0.25rem;
+    font-size: 0.9rem;
+    outline: none;
+    width: 80%;
+  }
+  .usersSelectWrap {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    .icAdd {
+      font-size: 1.4rem;
+      cursor: pointer;
+      &:hover {
+        color: $text-color-dark;
+        transition: all 0.2s linear;
+      }
+    }
+    .users {
+      display: flex;
+      align-items: center;
+      margin-left: 1rem;
+      gap: 0.25rem;
+    }
+  }
+  .searchUserWrap {
+    margin-top: 1rem;
+    width: 100%;
+    .inputSearch {
+      padding: 0.25rem;
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .usersToChoose {
+      margin-top: 0.5rem;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+      max-height: 12rem;
+      overflow: scroll;
+      padding-right: 0.5rem;
+      .userItem {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        min-height: 3.3rem;
+        border-radius: 0.25rem;
+        padding-left: 1rem;
+        justify-content: space-between;
+        &:hover {
+          background: rgb(234, 244, 245);
+        }
+        &.active {
+          background: rgba(110, 214, 240, 0.5);
+        }
+        .userInfoWrap {
+          display: flex;
+          align-items: center;
+          .userName {
+            margin-left: 1rem;
+            font-weight: 600;
+          }
+        }
+        .inputCheck {
+          margin-right: 2rem;
+          font-size: 2rem;
+        }
+      }
+    }
+  }
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2rem;
+  }
+}

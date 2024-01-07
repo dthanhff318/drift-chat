@@ -1,0 +1,46 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  .member {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    &:hover {
+      background-color: beige;
+    }
+    .nameWrap {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+      .inputEditNickname {
+        outline: none;
+      }
+      .nicknameWrap {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        .nickname {
+          font-weight: 550;
+          font-size: 0.9rem;
+          display: flex;
+          align-items: center;
+        }
+        .icChangeNickname {
+          font-size: 0.9rem;
+          cursor: pointer;
+        }
+      }
+      .name {
+        font-size: 0.8rem;
+      }
+    }
+    .icDelMember {
+      font-size: 1.2rem;
+      color: red;
+    }
+  }
+}

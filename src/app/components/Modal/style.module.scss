@@ -28,4 +28,14 @@
     margin-top: 1rem;
     align-self: flex-end;
   }
+  .content {
+    margin: 1rem 0;
+    width: 100%;
+  }
+  .footer {
+    display: flex;
+    gap: 2rem;
+    width: 100%;
+    justify-content: end;
+  }
 }

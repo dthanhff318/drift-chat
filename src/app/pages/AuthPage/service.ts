@@ -10,6 +10,7 @@ import { TUser } from "types/common";
 import socketStore from "app/storeZustand/socketStore";
 import socketInstance from "./../../socketConfig/socketIoConfig";
 import { useRef } from "react";
+import friendStore from "app/storeZustand/friendStore";
 
 const provider = new GoogleAuthProvider();
 // const provider = new FacebookAuthProvider();
@@ -18,6 +19,7 @@ const useService = () => {
   const history = useHistory();
 
   const { saveCurrenTUser } = authStore();
+  const { getDataCommunicate } = friendStore();
   const { socket } = socketStore();
 
   const imageRef = useRef<HTMLImageElement>(null);
@@ -58,17 +60,24 @@ const useService = () => {
         const { token, user }: { token: any; user: TUser } = res.data;
         saveToken(token.accessToken, "accessToken");
         saveToken(token.refreshToken, "refreshToken");
-        // Emit event user login
         saveCurrenTUser(user);
+        await getDataCommunicate();
         history.push(pathHomePage);
         notification.success({
           message: `Welcome sir, ${user.displayName}`,
           description: "Let's experience this special social network",
-          duration: 2,
+          duration: 4,
         });
+        // Emit event user login
         socket?.emit("userLogin", user);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        notification.error({
+          message: `Login error! Try again`,
+          description: "Something error now, try again later",
+          duration: 4,
+        });
+      });
   };
   return {
     imageRef,

@@ -11,7 +11,7 @@ type Props = {
   onClose: () => void;
 };
 
-const ModalCreateGroup = ({ onClose }: Props) => {
+const ModalMemberList = ({ onClose }: Props) => {
   const {
     dataCommunicate: { listFriend },
   } = friendStore();
@@ -93,12 +93,8 @@ const ModalCreateGroup = ({ onClose }: Props) => {
           })}
         </div>
       </div>
-      <div className={s.footer}>
-        <Button text="Cancel" />
-        <Button text="Create" onClick={() => handleCreateGroup()} />
-      </div>
     </div>
   );
 };
 
-export default ModalCreateGroup;
+export default ModalMemberList;
