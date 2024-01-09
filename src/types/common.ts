@@ -17,10 +17,11 @@ export type TGroup = {
   id?: string;
   name?: string;
   members?: TUser[];
-  admins?: string[];
+  admins?: TUser[];
   isGroup?: boolean;
   newestMess?: TMessage;
   unread?: number;
+  setting?: TSettingUserGroup[];
 };
 export type TMessage = {
   id?: string;
@@ -43,4 +44,10 @@ export type TDataCommunicate = {
 export type TQuery = {
   q?: string;
   page?: number;
+};
+
+export type TSettingUserGroup = {
+  user: string;
+  nickname: string;
+  theme: string;
 };

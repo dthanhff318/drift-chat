@@ -6,18 +6,30 @@ import {
   DeleteOutlined,
   TagOutlined,
 } from "@ant-design/icons";
+import groupApi from "app/axios/api/group";
+import authStore from "app/storeZustand/authStore";
+import { getNameUser } from "app/helpers/funcs";
+import groupStore from "app/storeZustand/groupStore";
 type Props = {
   detailGroup: TGroup;
 };
 
 const ListMember = ({ detailGroup }: Props) => {
-  const { members } = detailGroup;
+  const { members, id, setting, admins } = detailGroup;
   const [edit, setEdit] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleEditNickname = async () => {
-    const newNickname = inputRef.current?.value;
-    console.log(newNickname);
+  const { getDetailGroup } = groupStore();
+  const handleEditNickname = async (idUser: string) => {
+    try {
+      const newNickname = inputRef.current?.value ?? "";
+      await groupApi.updateSettingGroup({
+        id: id ?? "",
+        nickname: newNickname,
+        userId: idUser,
+      });
+      getDetailGroup(id ?? "");
+    } catch (err) {}
   };
 
   return (
@@ -31,15 +43,18 @@ const ListMember = ({ detailGroup }: Props) => {
                   type="text"
                   ref={inputRef}
                   className={s.inputEditNickname}
+                  maxLength={20}
                 />
               ) : (
-                <span className={s.nickname}>tiz dep try</span>
+                <span className={s.nickname}>
+                  {getNameUser(e, setting ?? [])}
+                </span>
               )}
               {edit === e.id ? (
                 <div
                   className={s.icChangeNickname}
                   onClick={() => {
-                    handleEditNickname();
+                    handleEditNickname(e.id ?? "");
                     setEdit("");
                   }}
                 >
@@ -48,10 +63,15 @@ const ListMember = ({ detailGroup }: Props) => {
               ) : (
                 <div
                   className={s.icChangeNickname}
-                  onClick={() => setEdit(e.id ?? "")}
+                  onClick={() => {
+                    setEdit(e.id ?? "");
+                  }}
                 >
                   <TagOutlined />
                 </div>
+              )}
+              {admins?.map((e) => e.id).includes(e.id ?? "") && (
+                <span>( Admin )</span>
               )}
             </div>
             <span className={s.name}>{e.displayName}</span>

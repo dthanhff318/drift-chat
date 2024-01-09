@@ -45,7 +45,11 @@ const SideChat = ({ isOpen, detailGroup, onClose }: Props) => {
         <span className={s.groupName}>{detailGroup.name}</span>
         <div className={s.chatSettings}>
           {arrSettings.map((e) => (
-            <div className={`${s.chatItem} ${s.editName}`} onClick={e.onClick}>
+            <div
+              key={e.key}
+              className={`${s.chatItem} ${s.editName}`}
+              onClick={e.onClick}
+            >
               <span className={s.textKey}>{e.key}</span>
               <div className={s.icon}>{e.icon}</div>
             </div>

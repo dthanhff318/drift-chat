@@ -19,6 +19,14 @@ const groupApi = {
   updateGroup: (groupId: string, data: TGroup) => {
     return axiosClient.patch(`/groups/${groupId}`, data);
   },
+  updateSettingGroup: (data: {
+    id: string;
+    nickname: string;
+    userId: string;
+  }) => {
+    const { id, nickname, userId } = data;
+    return axiosClient.patch(`/groups/nick-name/${id}`, { nickname, userId });
+  },
 };
 
 export default groupApi;

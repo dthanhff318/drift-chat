@@ -13,7 +13,13 @@ type Props = {
 
 const ModalCommon = ({ children, title, onCancel, onOk, open }: Props) => {
   return (
-    <Modal open={open} onCancel={onCancel} onOk={onOk} footer={null}>
+    <Modal
+      open={open}
+      onCancel={onCancel}
+      onOk={onOk}
+      footer={null}
+      zIndex={10000}
+    >
       <div className={s.wrapper}>
         <h3 className={s.title}>{title}</h3>
         <div className={s.content}>{children}</div>

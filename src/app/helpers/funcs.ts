@@ -1,5 +1,5 @@
 import moment from "moment";
-import { IndexedObject, TGroup, TUser } from "types/common";
+import { IndexedObject, TGroup, TSettingUserGroup, TUser } from "types/common";
 import { geTUserFromLs } from "./localStorage";
 
 export const getPublicImageUrl = (name: string) =>
@@ -45,3 +45,8 @@ export const replacePathParams = (
   path.replace(/:([^/]+)/g, (_, p1) =>
     encodeURIComponent(params[p1] ? params[p1] : "")
   );
+
+export const getNameUser = (user: TUser, setting: TSettingUserGroup[]) => {
+  const userSetting = setting.find((e) => e.user === user.id);
+  return userSetting?.nickname ? userSetting?.nickname : user.displayName;
+};
