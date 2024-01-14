@@ -20,6 +20,7 @@ const ListMember = ({ detailGroup }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { getDetailGroup } = groupStore();
+  const { currenTUser } = authStore();
   const handleEditNickname = async (idUser: string) => {
     try {
       const newNickname = inputRef.current?.value ?? "";
@@ -32,55 +33,73 @@ const ListMember = ({ detailGroup }: Props) => {
     } catch (err) {}
   };
 
+  const handleRemoveMemberGroup = async (member: string) => {
+    try {
+      const res = await groupApi.removeMember({
+        idGroup: detailGroup.id ?? "",
+        member,
+      });
+    } catch (err) {}
+  };
+
   return (
     <div className={s.wrapper}>
-      {members?.map((e) => (
-        <div className={s.member} key={e.id}>
-          <div className={s.nameWrap}>
-            <div className={s.nicknameWrap}>
-              {edit === e.id ? (
-                <input
-                  type="text"
-                  ref={inputRef}
-                  className={s.inputEditNickname}
-                  maxLength={20}
-                />
-              ) : (
-                <span className={s.nickname}>
-                  {getNameUser(e, setting ?? [])}
-                </span>
-              )}
-              {edit === e.id ? (
-                <div
-                  className={s.icChangeNickname}
-                  onClick={() => {
-                    handleEditNickname(e.id ?? "");
-                    setEdit("");
-                  }}
-                >
-                  <CheckCircleOutlined />
-                </div>
-              ) : (
-                <div
-                  className={s.icChangeNickname}
-                  onClick={() => {
-                    setEdit(e.id ?? "");
-                  }}
-                >
-                  <TagOutlined />
-                </div>
-              )}
-              {admins?.map((e) => e.id).includes(e.id ?? "") && (
-                <span>( Admin )</span>
-              )}
+      {members?.map((e) => {
+        const isAdminGroup = admins?.map((e) => e.id).includes(e.id ?? "");
+        const isCurrentUserIsAdmin = admins
+          ?.map((e) => e.id)
+          .includes(currenTUser.id);
+        return (
+          <div className={s.member} key={e.id}>
+            <div className={s.nameWrap}>
+              <div className={s.nicknameWrap}>
+                {edit === e.id ? (
+                  <input
+                    type="text"
+                    ref={inputRef}
+                    className={s.inputEditNickname}
+                    maxLength={20}
+                  />
+                ) : (
+                  <span className={s.nickname}>
+                    {getNameUser(e, setting ?? [])}
+                  </span>
+                )}
+                {edit === e.id ? (
+                  <div
+                    className={s.icChangeNickname}
+                    onClick={() => {
+                      handleEditNickname(e.id ?? "");
+                      setEdit("");
+                    }}
+                  >
+                    <CheckCircleOutlined />
+                  </div>
+                ) : (
+                  <div
+                    className={s.icChangeNickname}
+                    onClick={() => {
+                      setEdit(e.id ?? "");
+                    }}
+                  >
+                    <TagOutlined />
+                  </div>
+                )}
+                {isAdminGroup && <span>( Admin )</span>}
+              </div>
+              <span className={s.name}>{e.displayName}</span>
             </div>
-            <span className={s.name}>{e.displayName}</span>
+            {isCurrentUserIsAdmin && (
+              <div
+                className={s.icDelMember}
+                onClick={() => handleRemoveMemberGroup(e.id ?? "")}
+              >
+                <DeleteOutlined />
+              </div>
+            )}
           </div>
-          <div className={s.icDelMember}>
-            <DeleteOutlined />
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

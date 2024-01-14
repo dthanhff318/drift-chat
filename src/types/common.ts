@@ -22,6 +22,7 @@ export type TGroup = {
   newestMess?: TMessage;
   unread?: number;
   setting?: TSettingUserGroup[];
+  photo?: string;
 };
 export type TMessage = {
   id?: string;

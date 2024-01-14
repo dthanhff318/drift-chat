@@ -9,9 +9,18 @@ type Props = {
   loading?: boolean;
   onClick?: () => void;
   disabled?: boolean;
+  type?: "button" | "submit";
 };
 
-const Button = ({ text, icon, fill, disabled, loading, onClick }: Props) => {
+const Button = ({
+  text,
+  icon,
+  fill,
+  disabled,
+  loading,
+  type,
+  onClick,
+}: Props) => {
   return (
     <button
       className={`${s.buttonWrapper} ${fill ? s.fill : ""} ${
@@ -21,6 +30,7 @@ const Button = ({ text, icon, fill, disabled, loading, onClick }: Props) => {
         if (disabled || !onClick || loading) return;
         onClick();
       }}
+      type={type}
     >
       {loading ? (
         <LoadingOutlined />

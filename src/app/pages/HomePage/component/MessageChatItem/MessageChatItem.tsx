@@ -57,7 +57,6 @@ const MessageChatItem = ({ group }: Props) => {
           replacePathParams(pathHomePageChat, { id: group.id ?? "" })
         );
         clearStateMessages();
-        await getDetailGroup(group.id ?? "");
         await handleSaveCurrentGroup();
       }}
     >

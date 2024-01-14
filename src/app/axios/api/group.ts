@@ -27,6 +27,17 @@ const groupApi = {
     const { id, nickname, userId } = data;
     return axiosClient.patch(`/groups/nick-name/${id}`, { nickname, userId });
   },
+  removeMember: (data: { idGroup: string; member: string }) => {
+    const { idGroup, member } = data;
+    return axiosClient.post(`groups/remove-member/${idGroup}`, { member });
+  },
+  changePhotoGroup: (groupId: string, data: FormData) => {
+    return axiosClient.post(`/groups/change-photo/${groupId}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  },
 };
 
 export default groupApi;

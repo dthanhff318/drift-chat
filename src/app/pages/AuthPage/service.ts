@@ -72,6 +72,8 @@ const useService = () => {
         socket?.emit("userLogin", user);
       })
       .catch((err) => {
+        console.log(err);
+
         notification.error({
           message: `Login error! Try again`,
           description: "Something error now, try again later",

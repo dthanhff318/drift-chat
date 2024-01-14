@@ -127,7 +127,7 @@ class Http {
           return this.http(config);
         } catch (_error: any) {
           if (_error.response.status === StatusCode.Forbidden) {
-            window.location.href = pathLoginPage;
+            // window.location.href = pathLoginPage;
             removeUserLs();
           }
           return Promise.reject(_error);

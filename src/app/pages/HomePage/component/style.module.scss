@@ -249,17 +249,29 @@ $header-hight: 5rem;
     background-color: $black;
     display: flex;
     flex-direction: column-reverse;
-    gap: 1rem 0;
+    gap: 0.25rem 0;
     overflow-y: scroll;
     height: 100%;
     .messageWrap {
       width: 100%;
-      // background-color: $primary-color;
-
+      position: relative;
+      &:last-child {
+        margin-top: 1.75rem;
+      }
+      &.mgBot {
+        margin-bottom: 1.75rem;
+      }
       &:hover {
         .options {
           display: flex;
         }
+      }
+      .nickname {
+        color: $text-color-dark;
+        font-size: 0.7rem;
+        position: absolute;
+        left: 2rem;
+        top: -1.25rem;
       }
       &.left {
         text-align: left;
@@ -284,6 +296,9 @@ $header-hight: 5rem;
         }
       }
       &.right {
+        .nickname {
+          display: none;
+        }
         text-align: right;
         .contentWrap {
           background-color: $primary-color;
@@ -324,6 +339,9 @@ $header-hight: 5rem;
         flex-direction: column;
         border-radius: 0.75rem;
         overflow: hidden;
+        &.hideAvt {
+          margin-left: 2rem;
+        }
         .replyMess {
           color: rgb(0, 0, 0);
           background-color: rgba(240, 248, 255, 0.6);

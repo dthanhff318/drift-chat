@@ -13,9 +13,10 @@ import { replacePathParams } from "app/helpers/funcs";
 export const DEFAULT_PAST_TIME = "1970-01-01T00:00:00.000Z";
 
 export const useService = () => {
-  const { currentGroup, saveCurrentGroup, saveGroups } = groupStore();
+  const { currentGroup, saveCurrentGroup, saveGroups, getDetailGroup } =
+    groupStore();
   const { socket } = socketStore();
-  const { updateMessage, updateListMessage } = messageStore();
+  const { updateMessage, updateListMessage, getMessages } = messageStore();
   const history = useHistory();
   const { id } = useParams<{ id: string }>();
 
@@ -60,14 +61,18 @@ export const useService = () => {
   }, []);
 
   useEffect(() => {
-    const idGroup = currentGroup || id;
+    const idGroup = id || currentGroup;
+    console.log(1);
+
     if (idGroup) {
-      saveCurrentGroup(idGroup);
       history.push(replacePathParams(pathHomePageChat, { id: idGroup }));
+      getDetailGroup(idGroup);
+      getMessages(idGroup, 1, true);
+      saveCurrentGroup(idGroup);
     } else {
       history.push(pathHomePage);
     }
-  }, []);
+  }, [id]);
 
   return {};
 };

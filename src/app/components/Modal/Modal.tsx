@@ -7,11 +7,19 @@ type Props = {
   children: ReactNode;
   title: string;
   open: boolean;
+  hideFooter?: boolean;
   onOk: () => void;
   onCancel: () => void;
 };
 
-const ModalCommon = ({ children, title, onCancel, onOk, open }: Props) => {
+const ModalCommon = ({
+  children,
+  title,
+  hideFooter,
+  onCancel,
+  onOk,
+  open,
+}: Props) => {
   return (
     <Modal
       open={open}
@@ -23,10 +31,12 @@ const ModalCommon = ({ children, title, onCancel, onOk, open }: Props) => {
       <div className={s.wrapper}>
         <h3 className={s.title}>{title}</h3>
         <div className={s.content}>{children}</div>
-        <div className={s.footer}>
-          <Button loading={false} text="Cancel" onClick={async () => {}} />
-          <Button loading={false} text="OK" onClick={async () => {}} />
-        </div>
+        {!hideFooter && (
+          <div className={s.footer}>
+            <Button loading={false} text="Cancel" onClick={async () => {}} />
+            <Button loading={false} text="OK" onClick={async () => {}} />
+          </div>
+        )}
       </div>
     </Modal>
   );

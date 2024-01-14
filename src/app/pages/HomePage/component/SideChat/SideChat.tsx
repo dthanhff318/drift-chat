@@ -11,6 +11,8 @@ import { useService } from "./service";
 import s from "./style.module.scss";
 import ModalCommon from "app/components/Modal/Modal";
 import ListMember from "./component/ListMember/ListMember";
+import { Popover } from "antd";
+import PopoverCustom from "app/components/Popover/Popover";
 type Props = {
   detailGroup: TGroup;
   isOpen: boolean;
@@ -18,7 +20,15 @@ type Props = {
 };
 
 const SideChat = ({ isOpen, detailGroup, onClose }: Props) => {
-  const { modal, loading, setModal, handleUpdateNameGroup } = useService();
+  const {
+    modal,
+    loading,
+    dataPopover,
+    inputUploadRef,
+    handleUploadPhoto,
+    setModal,
+    handleUpdateNameGroup,
+  } = useService();
 
   const arrSettings = [
     {
@@ -41,7 +51,14 @@ const SideChat = ({ isOpen, detailGroup, onClose }: Props) => {
         <div className={s.iconCloseNav} onClick={onClose}>
           <RightSquareOutlined />
         </div>
-        <Avatar size="l" />
+        <Popover
+          placement={"right"}
+          content={<PopoverCustom data={dataPopover} />}
+        >
+          <div className={s.options}>
+            <Avatar size="l" src={detailGroup.photo} />
+          </div>
+        </Popover>
         <span className={s.groupName}>{detailGroup.name}</span>
         <div className={s.chatSettings}>
           {arrSettings.map((e) => (
@@ -73,6 +90,12 @@ const SideChat = ({ isOpen, detailGroup, onClose }: Props) => {
         onCancel={() => setModal("")}
         children={<ListMember detailGroup={detailGroup} />}
         onOk={() => {}}
+      />
+      <input
+        type="file"
+        onChange={handleUploadPhoto}
+        ref={inputUploadRef}
+        className={s.inputUpload}
       />
     </div>
   );
