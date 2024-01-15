@@ -9,21 +9,21 @@ import {
   PaperClipOutlined,
   SendOutlined,
   SmileOutlined,
-} from "@ant-design/icons";
-import data from "@emoji-mart/data";
-import Picker from "@emoji-mart/react";
-import { Image, Popover } from "antd";
-import Avatar from "app/components/Avatar/Avatar";
-import Loading from "app/components/Loading/Loading";
-import PopoverCustom from "app/components/Popover/Popover";
-import { getNameUser, getUserById } from "app/helpers/funcs";
-import authStore from "app/storeZustand/authStore";
-import React, { useState } from "react";
-import TextareaAutosize from "react-textarea-autosize";
-import { TMessage, TUser } from "types/common";
-import SideChat from "../SideChat/SideChat";
-import s from "../style.module.scss";
-import { useService } from "./service";
+} from '@ant-design/icons';
+import data from '@emoji-mart/data';
+import Picker from '@emoji-mart/react';
+import { Image, Popover } from 'antd';
+import Avatar from 'app/components/Avatar/Avatar';
+import Loading from 'app/components/Loading/Loading';
+import PopoverCustom from 'app/components/Popover/Popover';
+import { getNameUser, getUserById } from 'app/helpers/funcs';
+import authStore from 'app/storeZustand/authStore';
+import React, { useState } from 'react';
+import TextareaAutosize from 'react-textarea-autosize';
+import { TMessage, TUser } from 'types/common';
+import SideChat from '../SideChat/SideChat';
+import s from '../style.module.scss';
+import { useService } from './service';
 
 type Props = {};
 
@@ -61,7 +61,7 @@ const BoxChat = (props: Props) => {
     return [
       {
         icon: <SendOutlined />,
-        text: "Reply",
+        text: 'Reply',
         hidden: false,
         onClick: () => {
           setReply(mess);
@@ -69,7 +69,7 @@ const BoxChat = (props: Props) => {
       },
       {
         icon: <DeleteOutlined />,
-        text: "Delete",
+        text: 'Delete',
         hidden: currenTUser.id !== mess.senderId,
         onClick: () => {
           deleteMessage(mess);
@@ -109,28 +109,20 @@ const BoxChat = (props: Props) => {
       <div className={s.content}>
         {messages.map((e, i) => {
           const otherMess = e.senderId !== currenTUser.id;
-          const findUserOwnMess =
-            detailGroup.members?.find((m) => m.id === e.senderId) ?? {};
+          const findUserOwnMess = detailGroup.members?.find((m) => m.id === e.senderId) ?? {};
           let prevMess = !!i ? messages[i - 1] : messages[i];
-          let nextMess =
-            i < messages.length - 1 ? messages[i + 1] : messages[i];
+          let nextMess = i < messages.length - 1 ? messages[i + 1] : messages[i];
 
           const isShowNickname =
-            (e.senderId === prevMess.senderId &&
-              nextMess.senderId !== e.senderId) ||
+            (e.senderId === prevMess.senderId && nextMess.senderId !== e.senderId) ||
             i === messages.length - 1 ||
-            (e.senderId !== prevMess.senderId &&
-              e.senderId !== nextMess.senderId);
+            (e.senderId !== prevMess.senderId && e.senderId !== nextMess.senderId);
           const isShowAvatar =
-            (e.senderId !== prevMess.senderId &&
-              nextMess.senderId === e.senderId) ||
+            (e.senderId !== prevMess.senderId && nextMess.senderId === e.senderId) ||
             i === 0 ||
-            (e.senderId !== prevMess.senderId &&
-              e.senderId !== nextMess.senderId);
+            (e.senderId !== prevMess.senderId && e.senderId !== nextMess.senderId);
           const marginMess =
-            (e.senderId !== prevMess.senderId &&
-              nextMess.senderId === e.senderId &&
-              i !== 0) ||
+            (e.senderId !== prevMess.senderId && nextMess.senderId === e.senderId && i !== 0) ||
             (e.senderId === currenTUser.id &&
               nextMess.senderId !== e.senderId &&
               e.senderId !== prevMess.senderId);
@@ -139,7 +131,7 @@ const BoxChat = (props: Props) => {
             <div
               key={i}
               className={`${s.messageWrap} ${otherMess ? s.left : s.right} ${
-                marginMess ? s.mgBot : ""
+                marginMess ? s.mgBot : ''
               }`}
               id={`m${e.id}`}
             >
@@ -148,37 +140,27 @@ const BoxChat = (props: Props) => {
                   {getNameUser(findUserOwnMess, detailGroup.setting ?? [])}
                 </span>
               )}
-              <div
-                className={`${s.message}`}
-                ref={i === messages.length - 1 ? ref : undefined}
-              >
+              <div className={`${s.message}`} ref={i === messages.length - 1 ? ref : undefined}>
                 {otherMess && isShowAvatar && (
                   <Avatar
                     size="s"
-                    src={
-                      getUserById(e.senderId ?? "", groupDetail?.members ?? [])
-                        .photoUrl
-                    }
+                    src={getUserById(e.senderId ?? '', groupDetail?.members ?? []).photoUrl}
                   />
                 )}
                 <div
                   className={`${s.contentWrap} ${
-                    e.isDelete ? s.messageDeleted : ""
-                  } ${isShowAvatar ? "" : s.hideAvt} `}
+                    e.isDelete ? s.messageDeleted : ''
+                  } ${isShowAvatar ? '' : s.hideAvt} `}
                 >
                   {e.replyMessage && (
                     <div
                       className={s.replyMess}
-                      onClick={() =>
-                        scrollMessageIntoView(e.replyMessage?.id ?? "")
-                      }
+                      onClick={() => scrollMessageIntoView(e.replyMessage?.id ?? '')}
                     >
                       <div className={s.enterIcon}>
                         <EnterOutlined />
                       </div>
-                      <p className={s.replyContent}>
-                        {e.replyMessage?.content}
-                      </p>
+                      <p className={s.replyContent}>{e.replyMessage?.content}</p>
                     </div>
                   )}
                   {e.image && !e.isDelete && (
@@ -188,21 +170,19 @@ const BoxChat = (props: Props) => {
                   )}
                   {e.content && !e.isDelete && (
                     <span
-                      className={`${s.contentMsg} ${e.image ? s.hasImage : ""}`}
+                      className={`${s.contentMsg} ${e.image ? s.hasImage : ''}`}
                       dangerouslySetInnerHTML={{
-                        __html: e.content?.replaceAll("\n", "<br />") || "",
+                        __html: e.content?.replaceAll('\n', '<br />') || '',
                       }}
                     />
                   )}
                   {(e.content || e.image) && e.isDelete && (
-                    <span
-                      className={`${s.contentMsg} ${e.image ? s.hasImage : ""}`}
-                    >
+                    <span className={`${s.contentMsg} ${e.image ? s.hasImage : ''}`}>
                       This message has been deleted
                     </span>
                   )}
                   <Popover
-                    placement={otherMess ? "right" : "left"}
+                    placement={otherMess ? 'right' : 'left'}
                     content={<PopoverCustom data={renderDataPopover(e)} />}
                   >
                     {!e.isDelete && (
@@ -235,10 +215,7 @@ const BoxChat = (props: Props) => {
       {file && (
         <div className={s.imagePreview}>
           <img className={s.image} src={URL.createObjectURL(file)} alt="" />
-          <CloseCircleFilled
-            className={s.iconRemoveImg}
-            onClick={() => setFile(null)}
-          />
+          <CloseCircleFilled className={s.iconRemoveImg} onClick={() => setFile(null)} />
         </div>
       )}
       {currentGroup && (
@@ -257,7 +234,7 @@ const BoxChat = (props: Props) => {
             onChange={handleInputChange}
             maxRows={4}
             onKeyDown={(e: any) => {
-              if (e.code === "Enter" && !e.shiftKey) {
+              if (e.code === 'Enter' && !e.shiftKey) {
                 handleSendMess();
               }
             }}
@@ -276,10 +253,7 @@ const BoxChat = (props: Props) => {
               />
             </div>
           )}
-          <SmileOutlined
-            className={s.emojiIcon}
-            onClick={() => setOpenEmoji((prev) => !prev)}
-          />
+          <SmileOutlined className={s.emojiIcon} onClick={() => setOpenEmoji((prev) => !prev)} />
           <button className={s.sendMsg} onClick={handleSendMess}>
             {loading ? (
               <LoadingOutlined className={s.iconSend} />
@@ -289,12 +263,7 @@ const BoxChat = (props: Props) => {
           </button>
         </div>
       )}
-      <input
-        type="file"
-        className={s.inputUpload}
-        ref={inputUploadRef}
-        onChange={onUploadImage}
-      />
+      <input type="file" className={s.inputUpload} ref={inputUploadRef} onChange={onUploadImage} />
       <SideChat
         detailGroup={detailGroup}
         isOpen={openSideChat}

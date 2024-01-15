@@ -1,13 +1,13 @@
-import { SearchOutlined } from "@ant-design/icons";
-import Avatar from "app/components/Avatar/Avatar";
-import { convertDiffTime } from "app/helpers/funcs";
-import React from "react";
-import { TUser } from "types/common";
-import MyFriendControl from "./MyFriendControl";
-import useService from "./service";
-import s from "./style.module.scss";
-import Loading from "app/components/Loading/Loading";
-import { EFriendLoading } from "app/storeZustand/servicesStore";
+import { SearchOutlined } from '@ant-design/icons';
+import Avatar from 'app/components/Avatar/Avatar';
+import { convertDiffTime } from 'app/helpers/funcs';
+import React from 'react';
+import { TUser } from 'types/common';
+import MyFriendControl from './MyFriendControl';
+import useService from './service';
+import s from './style.module.scss';
+import Loading from 'app/components/Loading/Loading';
+import { EFriendLoading } from 'app/storeZustand/servicesStore';
 
 type Props = {};
 
@@ -34,7 +34,7 @@ const FriendPage = (props: Props) => {
               placeholder="Enter name of user"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSearchUser()}
+              onKeyDown={(e) => e.key === 'Enter' && handleSearchUser()}
             />
             <div className={s.btnSearch} onClick={handleSearchUser}>
               <SearchOutlined />
@@ -42,10 +42,7 @@ const FriendPage = (props: Props) => {
           </div>
         </div>
         <div className={s.memberList}>
-          <Loading
-            loading={loadingFriendPage === EFriendLoading.LIST}
-            fullScreen={false}
-          />
+          <Loading loading={loadingFriendPage === EFriendLoading.LIST} fullScreen={false} />
           <table className={s.memberTable}>
             <thead className={s.tableHead}>
               <th>Name</th>
@@ -69,16 +66,14 @@ const FriendPage = (props: Props) => {
                       </div>
                     </td>
                     <td className={s.medium}>
-                      {convertDiffTime((user.lastActive ?? "").toString())}
+                      {convertDiffTime((user.lastActive ?? '').toString())}
                     </td>
                     <td className={s.small}>
                       <button
-                        onClick={() => handleAddFriend(user.id ?? "")}
+                        onClick={() => handleAddFriend(user.id ?? '')}
                         className={s.buttonAccept}
                       >
-                        {dataCommunicate.listRequest?.find((u) => u === user.id)
-                          ? "Cancel"
-                          : "Add"}
+                        {dataCommunicate.listRequest?.find((u) => u === user.id) ? 'Cancel' : 'Add'}
                       </button>
                     </td>
                   </tr>

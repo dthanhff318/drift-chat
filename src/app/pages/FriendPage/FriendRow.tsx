@@ -1,7 +1,7 @@
-import Avatar from "app/components/Avatar/Avatar";
-import React from "react";
-import { TUser } from "types/common";
-import s from "./style.module.scss";
+import Avatar from 'app/components/Avatar/Avatar';
+import React from 'react';
+import { TUser } from 'types/common';
+import s from './style.module.scss';
 type Props = {
   data: TUser;
   textButton: string;

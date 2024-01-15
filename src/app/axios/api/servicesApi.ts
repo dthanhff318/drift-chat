@@ -1,6 +1,6 @@
-import { TQuery } from "types/common";
-import { axiosClient } from "../axiosClient";
-import queryString from "query-string";
+import { TQuery } from 'types/common';
+import { axiosClient } from '../axiosClient';
+import queryString from 'query-string';
 
 const servicesApi = {
   getUsers: (query: TQuery) => {

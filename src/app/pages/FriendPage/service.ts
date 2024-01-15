@@ -1,16 +1,16 @@
-import { useEffect, useRef, useState } from "react";
-import friendsApi from "app/axios/api/friends";
-import authStore from "app/storeZustand/authStore";
-import friendStore from "app/storeZustand/friendStore";
-import servicesStore from "app/storeZustand/servicesStore";
-import { TQuery } from "types/common";
+import { useEffect, useRef, useState } from 'react';
+import friendsApi from 'app/axios/api/friends';
+import authStore from 'app/storeZustand/authStore';
+import friendStore from 'app/storeZustand/friendStore';
+import servicesStore from 'app/storeZustand/servicesStore';
+import { TQuery } from 'types/common';
 
 const useService = () => {
   const { currenTUser } = authStore();
   const { dataCommunicate, getDataCommunicate } = friendStore();
   const { loadingFriendPage, lisTUser, getListUser } = servicesStore();
 
-  const [searchValue, setSearchValue] = useState<string>("");
+  const [searchValue, setSearchValue] = useState<string>('');
 
   const handleAddFriend = async (friendId: string) => {
     try {

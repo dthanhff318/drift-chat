@@ -1,8 +1,8 @@
-import { Modal } from "antd";
-import React, { ReactNode, useState } from "react";
-import s from "./style.module.scss";
-import { IndexedObject } from "types/common";
-import Button from "../Button/Button";
+import { Modal } from 'antd';
+import React, { ReactNode, useState } from 'react';
+import s from './style.module.scss';
+import { IndexedObject } from 'types/common';
+import Button from '../Button/Button';
 type Props = {
   title: string;
   open: boolean;
@@ -13,15 +13,7 @@ type Props = {
   onCancel: () => void;
 };
 
-const ModalInput = ({
-  title,
-  desc,
-  initValue,
-  loading,
-  onOk,
-  onCancel,
-  open,
-}: Props) => {
+const ModalInput = ({ title, desc, initValue, loading, onOk, onCancel, open }: Props) => {
   const [text, setText] = useState<string>(initValue);
 
   return (

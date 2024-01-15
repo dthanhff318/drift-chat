@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
 interface Props {
   className?: string;
@@ -7,12 +7,12 @@ interface Props {
 
 const FaceBook: FC<Props> = (props) => {
   return (
-    <div style={{ display: "flex", alignItems: "center" }}>
+    <div style={{ display: 'flex', alignItems: 'center' }}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         xmlSpace="preserve"
         viewBox="0 0 40 40"
-        style={{ width: "20px", height: "20px", marginRight: "20px" }}
+        style={{ width: '20px', height: '20px', marginRight: '20px' }}
       >
         <linearGradient
           id="a"

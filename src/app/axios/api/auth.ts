@@ -1,11 +1,11 @@
-import { User } from "@firebase/auth";
-import { axiosClient } from "../axiosClient";
-import { IndexedObject } from "types/common";
+import { User } from '@firebase/auth';
+import { axiosClient } from '../axiosClient';
+import { IndexedObject } from 'types/common';
 
 const authApi = {
   login: (dataUser: Partial<User>): IndexedObject => {
     const { displayName, email, photoURL: photoUrl, uid } = dataUser;
-    return axiosClient.post("/auth/login/firebase", {
+    return axiosClient.post('/auth/login/firebase', {
       displayName,
       email,
       photoUrl,
@@ -13,12 +13,12 @@ const authApi = {
     });
   },
   logout: (uid: string) => {
-    return axiosClient.post("/auth/logout", {
+    return axiosClient.post('/auth/logout', {
       uid,
     });
   },
   getCurrenTUser: () => {
-    return axiosClient.get("auth/current-user");
+    return axiosClient.get('auth/current-user');
   },
 };
 

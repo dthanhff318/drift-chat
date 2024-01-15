@@ -1,29 +1,29 @@
-import groupApi from "app/axios/api/group";
-import groupStore from "app/storeZustand/groupStore";
-import { useRef, useState } from "react";
-import { IndexedObject } from "types/common";
+import groupApi from 'app/axios/api/group';
+import groupStore from 'app/storeZustand/groupStore';
+import { useRef, useState } from 'react';
+import { IndexedObject } from 'types/common';
 
-type TModalSideChat = "" | "change-name-group" | "list-member";
-type TLoadingSideChat = "" | "change-name-group" | "photo";
+type TModalSideChat = '' | 'change-name-group' | 'list-member';
+type TLoadingSideChat = '' | 'change-name-group' | 'photo';
 
 export const useService = () => {
   const { getGroups, getDetailGroup, currentGroup, detailGroup } = groupStore();
-  const [loading, setLoading] = useState<TLoadingSideChat>("");
-  const [modal, setModal] = useState<TModalSideChat>("");
+  const [loading, setLoading] = useState<TLoadingSideChat>('');
+  const [modal, setModal] = useState<TModalSideChat>('');
   const inputUploadRef = useRef<HTMLInputElement>(null);
 
   const dataPopover = [
     {
-      icon: "",
-      text: "Change",
+      icon: '',
+      text: 'Change',
       hidden: false,
       onClick: () => {
         inputUploadRef.current?.click();
       },
     },
     {
-      icon: "",
-      text: "View",
+      icon: '',
+      text: 'View',
       hidden: false,
       onClick: () => {
         // deleteMessage(mess);
@@ -32,13 +32,13 @@ export const useService = () => {
   ];
   const handleUpdateNameGroup = async (data: IndexedObject) => {
     try {
-      setLoading("change-name-group");
+      setLoading('change-name-group');
       await groupApi.updateGroup(currentGroup, data);
       getGroups();
       getDetailGroup(currentGroup);
-      setLoading("");
+      setLoading('');
     } catch (err) {
-      setLoading("");
+      setLoading('');
     }
   };
 
@@ -48,16 +48,13 @@ export const useService = () => {
       if (!files) {
         return;
       }
-      setLoading("photo");
+      setLoading('photo');
       const formUpload = new FormData();
-      formUpload.append("image", files[0]);
-      const res = await groupApi.changePhotoGroup(
-        detailGroup.id ?? "",
-        formUpload
-      );
-      setLoading("");
+      formUpload.append('image', files[0]);
+      const res = await groupApi.changePhotoGroup(detailGroup.id ?? '', formUpload);
+      setLoading('');
     } catch (err) {
-      setLoading("");
+      setLoading('');
     }
   };
 

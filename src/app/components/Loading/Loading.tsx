@@ -1,5 +1,5 @@
-import React from "react";
-import s from "./style.module.scss";
+import React from 'react';
+import s from './style.module.scss';
 
 type Props = {
   fullScreen?: boolean;
@@ -9,7 +9,7 @@ type Props = {
 const Loading = ({ fullScreen, loading = true }: Props) => {
   if (!loading) return null;
   return (
-    <div className={`${s.loadingWrapper} ${fullScreen ? s.full : ""}`}>
+    <div className={`${s.loadingWrapper} ${fullScreen ? s.full : ''}`}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="3rem"

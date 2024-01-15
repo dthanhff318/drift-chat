@@ -1,10 +1,10 @@
-import React from "react";
-import s from "./style.module.scss";
-import { Form, Input } from "antd";
-import Button from "app/components/Button/Button";
-import authStore from "app/storeZustand/authStore";
-import userApi from "app/axios/api/user";
-import { TUser } from "types/common";
+import React from 'react';
+import s from './style.module.scss';
+import { Form, Input } from 'antd';
+import Button from 'app/components/Button/Button';
+import authStore from 'app/storeZustand/authStore';
+import userApi from 'app/axios/api/user';
+import { TUser } from 'types/common';
 
 type Props = {
   callbackWhenUpdate: () => void;
@@ -33,14 +33,14 @@ const UserInfoDetail = ({ callbackWhenUpdate }: Props) => {
         <Form.Item
           label="Name"
           name="displayName"
-          rules={[{ required: true, message: "Please input your username!" }]}
+          rules={[{ required: true, message: 'Please input your username!' }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           label="Introduction"
           name="introduction"
-          rules={[{ required: true, message: "Please input your username!" }]}
+          rules={[{ required: true, message: 'Please input your username!' }]}
         >
           <Input />
         </Form.Item>

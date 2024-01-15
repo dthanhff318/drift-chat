@@ -1,5 +1,5 @@
-import React, { ReactNode } from "react";
-import s from "./style.module.scss";
+import React, { ReactNode } from 'react';
+import s from './style.module.scss';
 
 type TDataPopover = {
   icon: ReactNode;
@@ -22,7 +22,7 @@ const PopoverCustom = ({ data }: Props) => {
               {e.icon && e.icon}
               <p>{e.text}</p>
             </div>
-          )
+          ),
       )}
     </div>
   );

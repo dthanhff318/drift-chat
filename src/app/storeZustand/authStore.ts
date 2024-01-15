@@ -1,7 +1,7 @@
-import { TUser } from "types/common";
-import { create } from "zustand";
+import { TUser } from 'types/common';
+import { create } from 'zustand';
 
-export type TLoadingAuth = "update-user" | "";
+export type TLoadingAuth = 'update-user' | '';
 
 type TAuthStore = {
   loading: TLoadingAuth;
@@ -11,7 +11,7 @@ type TAuthStore = {
 };
 
 const authStore = create<TAuthStore>((set) => ({
-  loading: "",
+  loading: '',
   currenTUser: {},
   saveCurrenTUser: (user: TUser) => set({ currenTUser: user }),
   logout: () => {

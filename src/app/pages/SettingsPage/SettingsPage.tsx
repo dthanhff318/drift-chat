@@ -1,11 +1,11 @@
-import React from "react";
-import { auth } from "app/firebase/configFirebase";
-import { signOut } from "firebase/auth";
-import { useHistory } from "react-router-dom";
-import { pathLoginPage } from "app/routes/routesConfig";
-import authApi from "app/axios/api/auth";
-import { geTUserFromLs } from "app/helpers/localStorage";
-import authStore from "app/storeZustand/authStore";
+import React from 'react';
+import { auth } from 'app/firebase/configFirebase';
+import { signOut } from 'firebase/auth';
+import { useHistory } from 'react-router-dom';
+import { pathLoginPage } from 'app/routes/routesConfig';
+import authApi from 'app/axios/api/auth';
+import { geTUserFromLs } from 'app/helpers/localStorage';
+import authStore from 'app/storeZustand/authStore';
 
 type Props = {};
 

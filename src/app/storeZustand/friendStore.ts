@@ -1,6 +1,6 @@
-import friendsApi from "app/axios/api/friends";
-import { TDataCommunicate } from "types/common";
-import { create } from "zustand";
+import friendsApi from 'app/axios/api/friends';
+import { TDataCommunicate } from 'types/common';
+import { create } from 'zustand';
 
 type TFriendStore = {
   dataCommunicate: TDataCommunicate;

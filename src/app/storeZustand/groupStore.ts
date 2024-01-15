@@ -1,7 +1,7 @@
-import groupApi from "app/axios/api/group";
-import { saveGroupToLs } from "app/helpers/localStorage";
-import { TGroup } from "types/common";
-import { create } from "zustand";
+import groupApi from 'app/axios/api/group';
+import { saveGroupToLs } from 'app/helpers/localStorage';
+import { TGroup } from 'types/common';
+import { create } from 'zustand';
 
 type TGroupStore = {
   loadingDetailGroup: boolean;
@@ -31,7 +31,7 @@ const groupStore = create<TGroupStore>((set) => ({
       set({ detailGroup: res.data, loadingDetailGroup: false });
     } catch (err) {}
   },
-  currentGroup: "",
+  currentGroup: '',
   saveCurrentGroup: (groupId: string) => {
     set({ currentGroup: groupId });
     saveGroupToLs(groupId);

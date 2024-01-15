@@ -1,12 +1,12 @@
-import { PlusCircleFilled } from "@ant-design/icons";
-import groupApi from "app/axios/api/group";
-import Avatar from "app/components/Avatar/Avatar";
-import Button from "app/components/Button/Button";
-import friendStore from "app/storeZustand/friendStore";
-import React, { useRef, useState } from "react";
-import { TUser } from "types/common";
-import s from "./style.module.scss";
-import groupStore from "app/storeZustand/groupStore";
+import { PlusCircleFilled } from '@ant-design/icons';
+import groupApi from 'app/axios/api/group';
+import Avatar from 'app/components/Avatar/Avatar';
+import Button from 'app/components/Button/Button';
+import friendStore from 'app/storeZustand/friendStore';
+import React, { useRef, useState } from 'react';
+import { TUser } from 'types/common';
+import s from './style.module.scss';
+import groupStore from 'app/storeZustand/groupStore';
 type Props = {
   onClose: () => void;
 };
@@ -44,12 +44,7 @@ const ModalCreateGroup = ({ onClose }: Props) => {
 
   return (
     <div className={s.wrapper}>
-      <input
-        ref={inputNameRef}
-        type="text"
-        className={s.inputName}
-        placeholder="Group name ..."
-      />
+      <input ref={inputNameRef} type="text" className={s.inputName} placeholder="Group name ..." />
       <div className={s.usersSelectWrap}>
         <div className={s.icAdd}>
           <PlusCircleFilled />
@@ -60,11 +55,7 @@ const ModalCreateGroup = ({ onClose }: Props) => {
               <Avatar src={user.photoUrl} />
             </div>
           ))}
-          {users && users?.length > 6 ? (
-            <Avatar text={(users?.length - 6).toString()} />
-          ) : (
-            <></>
-          )}
+          {users && users?.length > 6 ? <Avatar text={(users?.length - 6).toString()} /> : <></>}
         </div>
       </div>
       <div className={s.searchUserWrap}>
@@ -75,7 +66,7 @@ const ModalCreateGroup = ({ onClose }: Props) => {
             return (
               <div
                 key={user.id}
-                className={`${s.userItem} ${isUserSelected ? s.active : ""}`}
+                className={`${s.userItem} ${isUserSelected ? s.active : ''}`}
                 onClick={() => handleSelectUser(user)}
               >
                 <div className={s.userInfoWrap}>

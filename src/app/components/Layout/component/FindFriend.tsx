@@ -1,6 +1,6 @@
-import React from "react";
-import { SearchOutlined } from "@ant-design/icons";
-import s from "./style.module.scss";
+import React from 'react';
+import { SearchOutlined } from '@ant-design/icons';
+import s from './style.module.scss';
 
 type Props = {};
 

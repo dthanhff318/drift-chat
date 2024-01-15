@@ -1,9 +1,9 @@
-import groupApi from "app/axios/api/group";
-import messageApi from "app/axios/api/messageApi";
-import { LIMIT_DATA_PER_PAGE } from "app/helpers/common";
-import { saveGroupToLs } from "app/helpers/localStorage";
-import { TGroup, TMessage } from "types/common";
-import { create } from "zustand";
+import groupApi from 'app/axios/api/group';
+import messageApi from 'app/axios/api/messageApi';
+import { LIMIT_DATA_PER_PAGE } from 'app/helpers/common';
+import { saveGroupToLs } from 'app/helpers/localStorage';
+import { TGroup, TMessage } from 'types/common';
+import { create } from 'zustand';
 
 type TMessageStore = {
   messages: TMessage[];
@@ -40,9 +40,7 @@ const messageStore = create<TMessageStore>((set) => ({
         let page: number;
         if (state.messages.length) {
           page = state.page + 1;
-          newListMessage = isNew
-            ? [...results]
-            : [...state.messages, ...results];
+          newListMessage = isNew ? [...results] : [...state.messages, ...results];
         } else {
           newListMessage = results;
           page = 2;

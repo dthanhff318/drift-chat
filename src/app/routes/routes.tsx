@@ -1,5 +1,5 @@
-import React, { Suspense, Fragment, lazy } from "react";
-import { Switch, Redirect, Route } from "react-router-dom";
+import React, { Suspense, Fragment, lazy } from 'react';
+import { Switch, Redirect, Route } from 'react-router-dom';
 import {
   pathFriendPage,
   pathHomePage,
@@ -8,11 +8,11 @@ import {
   pathNotFoundPage,
   pathProfile,
   pathSettingsPage,
-} from "./routesConfig";
+} from './routesConfig';
 // import SuspenseFallback from "../components/Common/SuspenseFallback/SuspenseFallback";
-import Layout from "app/components/Layout/Layout";
-import { IndexedObject } from "types/common";
-import Loading from "app/components/Loading/Loading";
+import Layout from 'app/components/Layout/Layout';
+import { IndexedObject } from 'types/common';
+import Loading from 'app/components/Loading/Loading';
 
 export type RoutesProps = {
   exact?: boolean;
@@ -77,51 +77,51 @@ export const routes = [
   {
     exact: true,
     path: pathNotFoundPage,
-    component: lazy(() => import("app/pages/Notfound/NotfoundPage")),
+    component: lazy(() => import('app/pages/Notfound/NotfoundPage')),
   },
   {
     exact: true,
     path: pathLoginPage,
-    component: lazy(() => import("app/pages/AuthPage/LoginPage")),
+    component: lazy(() => import('app/pages/AuthPage/LoginPage')),
   },
   {
-    path: "*",
+    path: '*',
     layout: Layout,
     component: () => <Redirect to={pathHomePage} />,
     routes: [
       {
         exact: true,
         path: pathFriendPage,
-        component: lazy(() => import("app/pages/FriendPage/FriendPage")),
+        component: lazy(() => import('app/pages/FriendPage/FriendPage')),
         auth: true,
       },
       {
         exact: true,
         path: pathSettingsPage,
-        component: lazy(() => import("app/pages/SettingsPage/SettingsPage")),
+        component: lazy(() => import('app/pages/SettingsPage/SettingsPage')),
         auth: true,
       },
       {
         exact: true,
         path: pathProfile,
-        component: lazy(() => import("app/pages/ProfilePage/ProfilePage")),
+        component: lazy(() => import('app/pages/ProfilePage/ProfilePage')),
         auth: true,
       },
       {
         exact: false,
         path: pathHomePageChat,
-        component: lazy(() => import("app/pages/HomePage/HomePage")),
+        component: lazy(() => import('app/pages/HomePage/HomePage')),
         auth: true,
       },
       {
         exact: true,
         path: pathHomePage,
-        component: lazy(() => import("app/pages/HomePage/HomePage")),
+        component: lazy(() => import('app/pages/HomePage/HomePage')),
         auth: true,
       },
       {
         exact: true,
-        path: "*",
+        path: '*',
         component: () => <Redirect to={pathNotFoundPage} />,
       },
     ],

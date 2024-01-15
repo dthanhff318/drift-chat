@@ -1,14 +1,14 @@
-import { axiosClient } from "../axiosClient";
+import { axiosClient } from '../axiosClient';
 
 const friendsApi = {
   getInfoCommuication: () => {
-    return axiosClient.get("/friends");
+    return axiosClient.get('/friends');
   },
   addFriend: (friendId: string) => {
-    return axiosClient.post("/friends/add", { friendId });
+    return axiosClient.post('/friends/add', { friendId });
   },
   acceptFrRequest: (friendId: string) => {
-    return axiosClient.post("/friends/accept", { friendId });
+    return axiosClient.post('/friends/accept', { friendId });
   },
 };
 

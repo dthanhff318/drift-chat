@@ -1,8 +1,8 @@
-import moment from "moment";
+import moment from 'moment';
 
 export const convertTimeFromNow = (lastTime: string) => {
   if (!lastTime) {
-    return "";
+    return '';
   }
   const currentTime = moment();
   const targetTime = moment(lastTime);
@@ -10,7 +10,7 @@ export const convertTimeFromNow = (lastTime: string) => {
   const minutes = duration.asMinutes();
 
   if (minutes < 1) {
-    return "just now";
+    return 'just now';
   } else if (minutes < 60) {
     return `${Math.floor(minutes)}m`;
   } else {

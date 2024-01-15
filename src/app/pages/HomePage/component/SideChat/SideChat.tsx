@@ -1,18 +1,14 @@
-import {
-  EditOutlined,
-  RightSquareOutlined,
-  SolutionOutlined,
-} from "@ant-design/icons";
-import Avatar from "app/components/Avatar/Avatar";
-import ModalInput from "app/components/Modal/ModalInput";
-import React from "react";
-import { TGroup } from "types/common";
-import { useService } from "./service";
-import s from "./style.module.scss";
-import ModalCommon from "app/components/Modal/Modal";
-import ListMember from "./component/ListMember/ListMember";
-import { Popover } from "antd";
-import PopoverCustom from "app/components/Popover/Popover";
+import { EditOutlined, RightSquareOutlined, SolutionOutlined } from '@ant-design/icons';
+import Avatar from 'app/components/Avatar/Avatar';
+import ModalInput from 'app/components/Modal/ModalInput';
+import React from 'react';
+import { TGroup } from 'types/common';
+import { useService } from './service';
+import s from './style.module.scss';
+import ModalCommon from 'app/components/Modal/Modal';
+import ListMember from './component/ListMember/ListMember';
+import { Popover } from 'antd';
+import PopoverCustom from 'app/components/Popover/Popover';
 type Props = {
   detailGroup: TGroup;
   isOpen: boolean;
@@ -32,29 +28,26 @@ const SideChat = ({ isOpen, detailGroup, onClose }: Props) => {
 
   const arrSettings = [
     {
-      key: "Edit name group chat",
+      key: 'Edit name group chat',
       icon: <EditOutlined />,
-      className: "",
-      onClick: () => setModal("change-name-group"),
+      className: '',
+      onClick: () => setModal('change-name-group'),
     },
     {
-      key: "Members",
+      key: 'Members',
       icon: <SolutionOutlined />,
-      className: "",
-      onClick: () => setModal("list-member"),
+      className: '',
+      onClick: () => setModal('list-member'),
     },
   ];
 
   return (
-    <div className={`${s.sideChat} ${isOpen ? s.open : ""}`}>
+    <div className={`${s.sideChat} ${isOpen ? s.open : ''}`}>
       <div className={s.content}>
         <div className={s.iconCloseNav} onClick={onClose}>
           <RightSquareOutlined />
         </div>
-        <Popover
-          placement={"right"}
-          content={<PopoverCustom data={dataPopover} />}
-        >
+        <Popover placement={'right'} content={<PopoverCustom data={dataPopover} />}>
           <div className={s.options}>
             <Avatar size="l" src={detailGroup.photo} />
           </div>
@@ -62,11 +55,7 @@ const SideChat = ({ isOpen, detailGroup, onClose }: Props) => {
         <span className={s.groupName}>{detailGroup.name}</span>
         <div className={s.chatSettings}>
           {arrSettings.map((e) => (
-            <div
-              key={e.key}
-              className={`${s.chatItem} ${s.editName}`}
-              onClick={e.onClick}
-            >
+            <div key={e.key} className={`${s.chatItem} ${s.editName}`} onClick={e.onClick}>
               <span className={s.textKey}>{e.key}</span>
               <div className={s.icon}>{e.icon}</div>
             </div>
@@ -76,18 +65,18 @@ const SideChat = ({ isOpen, detailGroup, onClose }: Props) => {
       <ModalInput
         title="Change name group chat"
         desc="All members can see it"
-        initValue={detailGroup.name ?? ""}
-        open={modal === "change-name-group"}
-        loading={loading === "change-name-group"}
+        initValue={detailGroup.name ?? ''}
+        open={modal === 'change-name-group'}
+        loading={loading === 'change-name-group'}
         onOk={handleUpdateNameGroup}
-        onCancel={() => setModal("")}
+        onCancel={() => setModal('')}
       />
 
       <ModalCommon
         title="Members"
-        open={modal === "list-member"}
+        open={modal === 'list-member'}
         // loading={loading === "change-name-group"}
-        onCancel={() => setModal("")}
+        onCancel={() => setModal('')}
         children={<ListMember detailGroup={detailGroup} />}
         onOk={() => {}}
       />

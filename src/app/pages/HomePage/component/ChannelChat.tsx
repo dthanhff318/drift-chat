@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   MoreOutlined,
   RightOutlined,
   SearchOutlined,
   UsergroupAddOutlined,
-} from "@ant-design/icons";
-import s from "./style.module.scss";
-import OnlineList from "./OnlineList";
-import { TUser } from "types/common";
-import Avatar from "app/components/Avatar/Avatar";
-import MessageChatList from "./MessageChatList/MessageChatList";
-import ModalCommon from "app/components/Modal/Modal";
-import ModalCreateGroup from "./ModalCreateGroup/ModalCreateGroup";
+} from '@ant-design/icons';
+import s from './style.module.scss';
+import OnlineList from './OnlineList';
+import { TUser } from 'types/common';
+import Avatar from 'app/components/Avatar/Avatar';
+import MessageChatList from './MessageChatList/MessageChatList';
+import ModalCommon from 'app/components/Modal/Modal';
+import ModalCreateGroup from './ModalCreateGroup/ModalCreateGroup';
 
 type Props = {
   infoUser: TUser;
@@ -30,11 +30,7 @@ const ChannelChat = ({ infoUser }: Props) => {
         </div>
         <div className={s.searchWrap}>
           <SearchOutlined className={s.searchIcon} />
-          <input
-            placeholder="Search or start new chat"
-            type="text"
-            className={s.searchInput}
-          />
+          <input placeholder="Search or start new chat" type="text" className={s.searchInput} />
         </div>
         <div className={s.header}>
           <p className={s.status}>Online now</p>

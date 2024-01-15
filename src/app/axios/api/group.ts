@@ -1,9 +1,9 @@
-import { TGroup } from "types/common";
-import { axiosClient } from "../axiosClient";
+import { TGroup } from 'types/common';
+import { axiosClient } from '../axiosClient';
 
 const groupApi = {
   getAllGroup: () => {
-    return axiosClient.get("/groups");
+    return axiosClient.get('/groups');
   },
   updateUnReadMess: (groupId: string, unreadCount: number) => {
     return axiosClient.patch(`/groups/${groupId}`, {
@@ -11,7 +11,7 @@ const groupApi = {
     });
   },
   createGroup: (data: TGroup) => {
-    return axiosClient.post("/groups/create-group", data);
+    return axiosClient.post('/groups/create-group', data);
   },
   getDetailGroup: (groupId: string) => {
     return axiosClient.get(`/groups/${groupId}`);
@@ -19,11 +19,7 @@ const groupApi = {
   updateGroup: (groupId: string, data: TGroup) => {
     return axiosClient.patch(`/groups/${groupId}`, data);
   },
-  updateSettingGroup: (data: {
-    id: string;
-    nickname: string;
-    userId: string;
-  }) => {
+  updateSettingGroup: (data: { id: string; nickname: string; userId: string }) => {
     const { id, nickname, userId } = data;
     return axiosClient.patch(`/groups/nick-name/${id}`, { nickname, userId });
   },
@@ -34,7 +30,7 @@ const groupApi = {
   changePhotoGroup: (groupId: string, data: FormData) => {
     return axiosClient.post(`/groups/change-photo/${groupId}`, data, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     });
   },

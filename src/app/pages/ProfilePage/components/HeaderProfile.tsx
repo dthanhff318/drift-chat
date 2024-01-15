@@ -4,27 +4,27 @@ import {
   HighlightOutlined,
   SkypeFilled,
   UserAddOutlined,
-} from "@ant-design/icons";
-import { Image } from "antd";
-import Button from "app/components/Button/Button";
-import { getPublicImageUrl } from "app/helpers/funcs";
-import React, { useRef, useState } from "react";
-import { TUser } from "types/common";
-import s from "../style.module.scss";
-import ModalCommon from "app/components/Modal/Modal";
-import UserInfoDetail from "./UserInfoDetail/UserInfoDetail";
-import userApi from "app/axios/api/user";
-import authStore from "app/storeZustand/authStore";
-import Loading from "app/components/Loading/Loading";
+} from '@ant-design/icons';
+import { Image } from 'antd';
+import Button from 'app/components/Button/Button';
+import { getPublicImageUrl } from 'app/helpers/funcs';
+import React, { useRef, useState } from 'react';
+import { TUser } from 'types/common';
+import s from '../style.module.scss';
+import ModalCommon from 'app/components/Modal/Modal';
+import UserInfoDetail from './UserInfoDetail/UserInfoDetail';
+import userApi from 'app/axios/api/user';
+import authStore from 'app/storeZustand/authStore';
+import Loading from 'app/components/Loading/Loading';
 type Props = {
   user: TUser;
 };
 
-type TLoadingHeaderProfile = "" | "avatar";
+type TLoadingHeaderProfile = '' | 'avatar';
 
 const HeaderProfile = ({ user }: Props) => {
   const [modal, setModal] = useState<boolean>(false);
-  const [loading, setLoading] = useState<TLoadingHeaderProfile>("");
+  const [loading, setLoading] = useState<TLoadingHeaderProfile>('');
   const [preview, setPreview] = useState<boolean>(false);
   const inputUploadAvt = useRef<HTMLInputElement>(null);
 
@@ -36,14 +36,14 @@ const HeaderProfile = ({ user }: Props) => {
       if (!files) {
         return;
       }
-      setLoading("avatar");
+      setLoading('avatar');
       const formUpload = new FormData();
-      formUpload.append("image", files[0]);
+      formUpload.append('image', files[0]);
       const res = await userApi.uploadAvatar(formUpload);
       saveCurrenTUser(res.data as TUser);
-      setLoading("");
+      setLoading('');
     } catch (err) {
-      setLoading("");
+      setLoading('');
     }
   };
   return (
@@ -59,14 +59,11 @@ const HeaderProfile = ({ user }: Props) => {
             <img src={user.photoUrl} className={s.avatarProfile} alt="" />
             {!loading && (
               <div className={s.avtOptions}>
-                <Button
-                  text="Edit"
-                  onClick={() => inputUploadAvt.current?.click()}
-                />
+                <Button text="Edit" onClick={() => inputUploadAvt.current?.click()} />
                 <Button text="View" onClick={() => setPreview(true)} />
               </div>
             )}
-            <Loading loading={loading === "avatar"} />
+            <Loading loading={loading === 'avatar'} />
           </div>
           <div className={s.detailInfo}>
             <p className={s.name}>
@@ -77,11 +74,7 @@ const HeaderProfile = ({ user }: Props) => {
             </p>
             <p className={s.introduction}>{user.introduction}</p>
             <div className={s.coinWrap}>
-              <img
-                src={getPublicImageUrl("coin-drift.png")}
-                className={s.coinImg}
-                alt=""
-              />
+              <img src={getPublicImageUrl('coin-drift.png')} className={s.coinImg} alt="" />
               <span>{user.coin}</span>
             </div>
           </div>
@@ -90,14 +83,14 @@ const HeaderProfile = ({ user }: Props) => {
           <div className={s.socialItem}>
             <FacebookFilled
               style={{
-                color: "#0088cb",
+                color: '#0088cb',
               }}
             />
           </div>
           <div className={s.socialItem}>
             <SkypeFilled
               style={{
-                color: "#319fd5",
+                color: '#319fd5',
               }}
             />
           </div>
@@ -125,7 +118,7 @@ const HeaderProfile = ({ user }: Props) => {
       />
       <Image
         width={200}
-        style={{ display: "none" }}
+        style={{ display: 'none' }}
         src={user.photoUrl}
         preview={{
           visible: preview,

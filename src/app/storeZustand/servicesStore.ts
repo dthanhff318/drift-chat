@@ -1,10 +1,10 @@
-import servicesApi from "app/axios/api/servicesApi";
-import { TQuery, TUser } from "types/common";
-import { create } from "zustand";
+import servicesApi from 'app/axios/api/servicesApi';
+import { TQuery, TUser } from 'types/common';
+import { create } from 'zustand';
 
 export enum EFriendLoading {
-  NONE = "none",
-  LIST = "list",
+  NONE = 'none',
+  LIST = 'list',
 }
 
 type TServicesStore = {
