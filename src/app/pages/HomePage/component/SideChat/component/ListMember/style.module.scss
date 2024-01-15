@@ -2,6 +2,22 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  .addMemberWrap {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    &:hover {
+      color: rgb(9, 90, 241);
+      cursor: pointer;
+    }
+    .icAdd {
+      font-size: 1.2rem;
+    }
+    .title {
+      font-size: 0.9rem;
+    }
+  }
   .member {
     width: 100%;
     display: flex;

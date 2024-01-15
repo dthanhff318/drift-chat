@@ -44,3 +44,18 @@ export const getNameUser = (user: TUser, setting: TSettingUserGroup[]) => {
   const userSetting = setting.find((e) => e.user === user.id);
   return userSetting?.nickname ? userSetting?.nickname : user.displayName;
 };
+
+export const getNameAndAvatarChat = (group: TGroup, currentUserId: string) => {
+  if (group.isGroup) {
+    return {
+      nameGroup: group.name,
+      avatarGroup: group.photo,
+    };
+  } else {
+    const friend = group?.members?.find((e) => e.id !== currentUserId) ?? {};
+    return {
+      nameGroup: friend.displayName,
+      avatarGroup: friend.photoUrl,
+    };
+  }
+};

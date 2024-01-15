@@ -10,7 +10,7 @@ import { convertTimeFromNow } from 'app/helpers/time';
 import groupApi from 'app/axios/api/group';
 import { useHistory } from 'react-router-dom';
 import { pathHomePage, pathHomePageChat } from 'app/routes/routesConfig';
-import { replacePathParams } from 'app/helpers/funcs';
+import { getNameAndAvatarChat, replacePathParams } from 'app/helpers/funcs';
 
 type Props = {
   group: TGroup;
@@ -21,13 +21,7 @@ const MessageChatItem = ({ group }: Props) => {
   const { currenTUser } = authStore();
   const { clearStateMessages } = messageStore();
   const { socket } = socketStore();
-  const { currentGroup, groups, getDetailGroup, saveCurrentGroup, saveGroups } = groupStore();
-
-  let friendData: TUser = {};
-
-  if (!group.isGroup) {
-    friendData = group.members?.find((u) => u.uid !== currenTUser.uid) ?? {};
-  }
+  const { currentGroup, groups, saveCurrentGroup, saveGroups } = groupStore();
 
   const handleSaveCurrentGroup = async () => {
     try {
@@ -45,6 +39,8 @@ const MessageChatItem = ({ group }: Props) => {
 
   const isUnread = group.unread !== 0 && newestMessNotMine;
 
+  const { nameGroup, avatarGroup } = getNameAndAvatarChat(group, currenTUser.id ?? '');
+
   return (
     <div
       className={`${s.msgItem} ${group.id === currentGroup ? s.grActive : null}`}
@@ -55,10 +51,10 @@ const MessageChatItem = ({ group }: Props) => {
         await handleSaveCurrentGroup();
       }}
     >
-      <Avatar online={friendData.isOnline} src={friendData.photoUrl ?? ''} />
+      <Avatar online={false} src={avatarGroup} />
       <div className={s.msgInfo}>
         <div className={s.firstLine}>
-          <p className={s.name}>{friendData.displayName ?? group.name}</p>
+          <p className={s.name}>{nameGroup}</p>
           <p className={s.time}>{convertTimeFromNow(group.newestMess?.createdAt ?? '')}</p>
         </div>
         <div className={s.secondLine}>
@@ -69,7 +65,7 @@ const MessageChatItem = ({ group }: Props) => {
                 }`
               : group.isGroup
                 ? 'Let say hi with everyone'
-                : `Let say hi with ${friendData.displayName}`}
+                : `Let say hi with ${nameGroup}`}
           </span>
           {isUnread && <span className={s.msgUnread}>{group.unread}</span>}
         </div>

@@ -7,9 +7,8 @@ import { replacePathParams } from 'app/helpers/funcs';
 import { pathHomePageChat } from 'app/routes/routesConfig';
 import groupStore from 'app/storeZustand/groupStore';
 import messageStore from 'app/storeZustand/messageStore';
-type Props = {};
 
-const OnlineList = (props: Props) => {
+const OnlineList = () => {
   const history = useHistory();
   const { id } = useParams<{ id: string }>();
   const {
@@ -19,8 +18,9 @@ const OnlineList = (props: Props) => {
   const { clearStateMessages } = messageStore();
   const handleSelectChat = (idGroup: string) => {
     const findGroup = groups.find(
-      (g) => g.members?.length === 2 && !!g.members.find((e) => e.id === idGroup),
+      (g) => g.members?.length === 2 && !!g.members.find((e) => e.id === idGroup && !g.isGroup),
     );
+    console.log(findGroup);
 
     if (id === findGroup?.id) return;
     history.push(replacePathParams(pathHomePageChat, { id: findGroup?.id ?? '' }));

@@ -16,7 +16,7 @@ import { Image, Popover } from 'antd';
 import Avatar from 'app/components/Avatar/Avatar';
 import Loading from 'app/components/Loading/Loading';
 import PopoverCustom from 'app/components/Popover/Popover';
-import { getNameUser, getUserById } from 'app/helpers/funcs';
+import { getNameAndAvatarChat, getNameUser, getUserById } from 'app/helpers/funcs';
 import authStore from 'app/storeZustand/authStore';
 import React, { useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -91,16 +91,15 @@ const BoxChat = (props: Props) => {
     setSelectedEmoji(emojiObject);
     setMessage(message + emojiObject.native);
   };
+  const { nameGroup, avatarGroup } = getNameAndAvatarChat(detailGroup, currenTUser.id ?? '');
 
   return (
     <div className={s.boxChatWrap}>
       <Loading loading={firstTimeLoading || loadingDetailGroup} />
       <div className={s.headerBox}>
         <div className={s.infoGroup}>
-          <Avatar src={friend?.photoUrl} />
-          <span className={s.title}>
-            {groupDetail?.isGroup ? groupDetail.name : friend?.displayName}
-          </span>
+          <Avatar src={avatarGroup} />
+          <span className={s.title}>{nameGroup}</span>
         </div>
         <div className={s.iconOpennav} onClick={() => setOpenSideChat(true)}>
           <LeftSquareOutlined />

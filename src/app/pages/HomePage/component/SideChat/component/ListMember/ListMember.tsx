@@ -1,7 +1,12 @@
 import React, { useRef, useState } from 'react';
 import s from './style.module.scss';
 import { TGroup } from 'types/common';
-import { CheckCircleOutlined, DeleteOutlined, TagOutlined } from '@ant-design/icons';
+import {
+  CheckCircleOutlined,
+  DeleteOutlined,
+  TagOutlined,
+  UserAddOutlined,
+} from '@ant-design/icons';
 import groupApi from 'app/axios/api/group';
 import authStore from 'app/storeZustand/authStore';
 import { getNameUser } from 'app/helpers/funcs';
@@ -13,10 +18,12 @@ type Props = {
 const ListMember = ({ detailGroup }: Props) => {
   const { members, id, setting, admins } = detailGroup;
   const [edit, setEdit] = useState<string>('');
+  const [addMember, setAddMember] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { getDetailGroup } = groupStore();
   const { currenTUser } = authStore();
+
   const handleEditNickname = async (idUser: string) => {
     try {
       const newNickname = inputRef.current?.value ?? '';
@@ -40,6 +47,12 @@ const ListMember = ({ detailGroup }: Props) => {
 
   return (
     <div className={s.wrapper}>
+      <div className={s.addMemberWrap}>
+        <div className={s.addDesc}>
+          <UserAddOutlined className={s.icAdd} />
+          <span className={s.title}>Add more member</span>
+        </div>
+      </div>
       {members?.map((e) => {
         const isAdminGroup = admins?.map((e) => e.id).includes(e.id ?? '');
         const isCurrentUserIsAdmin = admins?.map((e) => e.id).includes(currenTUser.id);
