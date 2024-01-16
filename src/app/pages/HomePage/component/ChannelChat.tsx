@@ -54,6 +54,7 @@ const ChannelChat = ({ infoUser }: Props) => {
         onCancel={() => {
           setModal(false);
         }}
+        hideFooter
       >
         <ModalCreateGroup
           onClose={() => {

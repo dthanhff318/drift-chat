@@ -9,6 +9,7 @@ import { TGroup } from 'types/common';
 import ListMember from './component/ListMember/ListMember';
 import { useService } from './service';
 import s from './style.module.scss';
+import AddMember from './component/AddMember/AddMember';
 type Props = {
   detailGroup: TGroup;
   isOpen: boolean;
@@ -38,6 +39,12 @@ const SideChat = ({ isOpen, detailGroup, onClose }: Props) => {
       icon: <SolutionOutlined />,
       className: '',
       onClick: () => setModal('list-member'),
+    },
+    {
+      key: 'Add more member',
+      icon: <SolutionOutlined />,
+      className: '',
+      onClick: () => setModal('add-member'),
     },
   ];
 
@@ -72,13 +79,16 @@ const SideChat = ({ isOpen, detailGroup, onClose }: Props) => {
         onCancel={() => setModal('')}
       />
 
+      <ModalCommon title="Members" open={modal === 'list-member'} onCancel={() => setModal('')}>
+        <ListMember detailGroup={detailGroup} />
+      </ModalCommon>
+
       <ModalCommon
-        title="Members"
-        open={modal === 'list-member'}
-        // loading={loading === "change-name-group"}
+        title="Add people to group"
+        open={modal === 'add-member'}
         onCancel={() => setModal('')}
       >
-        <ListMember detailGroup={detailGroup} />
+        <AddMember detailGroup={detailGroup} />
       </ModalCommon>
       <input
         type="file"

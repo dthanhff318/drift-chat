@@ -20,8 +20,6 @@ const OnlineList = () => {
     const findGroup = groups.find(
       (g) => g.members?.length === 2 && !!g.members.find((e) => e.id === idGroup && !g.isGroup),
     );
-    console.log(findGroup);
-
     if (id === findGroup?.id) return;
     history.push(replacePathParams(pathHomePageChat, { id: findGroup?.id ?? '' }));
     clearStateMessages();

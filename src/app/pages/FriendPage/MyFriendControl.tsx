@@ -4,14 +4,31 @@ import FriendRow from './FriendRow';
 import { TUser } from 'types/common';
 import friendStore from 'app/storeZustand/friendStore';
 import friendsApi from 'app/axios/api/friends';
+import groupStore from 'app/storeZustand/groupStore';
+import { useHistory } from 'react-router-dom';
+import { replacePathParams } from 'app/helpers/funcs';
+import { pathHomePageChat } from 'app/routes/routesConfig';
+import messageStore from 'app/storeZustand/messageStore';
 type TControl = 'friend' | 'approve' | 'blocked';
 
 const MyFriendControl = () => {
+  const history = useHistory();
   const [control, setControl] = useState<TControl>('friend');
-  const { dataCommunicate } = friendStore();
+  const { dataCommunicate, getDataCommunicate } = friendStore();
+  const { groups } = groupStore();
+  const { clearStateMessages } = messageStore();
 
   const handleAccept = async (id: string) => {
     await friendsApi.acceptFrRequest(id);
+    getDataCommunicate();
+  };
+
+  const handleGoToChat = (idGroup: string) => {
+    const findGroup = groups.find(
+      (g) => g.members?.length === 2 && !!g.members.find((e) => e.id === idGroup && !g.isGroup),
+    );
+    history.push(replacePathParams(pathHomePageChat, { id: findGroup?.id ?? '' }));
+    clearStateMessages();
   };
 
   return (
@@ -44,7 +61,7 @@ const MyFriendControl = () => {
                 data={t}
                 textButton="Message"
                 onClick={() => {
-                  console.log(1);
+                  handleGoToChat(t.id ?? '');
                 }}
               />
             </div>

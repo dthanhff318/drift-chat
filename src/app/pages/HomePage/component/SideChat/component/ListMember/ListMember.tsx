@@ -19,7 +19,6 @@ type Props = {
 const ListMember = ({ detailGroup }: Props) => {
   const { members, id, setting, admins } = detailGroup;
   const [edit, setEdit] = useState<string>('');
-  const [addMember, setAddMember] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { getDetailGroup } = groupStore();
@@ -60,12 +59,6 @@ const ListMember = ({ detailGroup }: Props) => {
 
   return (
     <div className={s.wrapper}>
-      <div className={s.addMemberWrap}>
-        <div className={s.addDesc}>
-          <UserAddOutlined className={s.icAdd} />
-          <span className={s.title}>Add more member</span>
-        </div>
-      </div>
       {members?.map((e) => {
         const isAdminGroup = admins?.map((e) => e.id).includes(e.id ?? '');
         const isCurrentUserIsAdmin = admins?.map((e) => e.id).includes(currenTUser.id);

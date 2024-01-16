@@ -3,7 +3,7 @@ import groupStore from 'app/storeZustand/groupStore';
 import { useRef, useState } from 'react';
 import { IndexedObject } from 'types/common';
 
-type TModalSideChat = '' | 'change-name-group' | 'list-member';
+type TModalSideChat = '' | 'change-name-group' | 'list-member' | 'add-member';
 type TLoadingSideChat = '' | 'change-name-group' | 'photo';
 
 export const useService = () => {

@@ -55,27 +55,34 @@ const FriendPage = () => {
             <tbody className={s.tableBody}>
               {lisTUser
                 .filter((e) => e.id !== currenTUser.id)
-                .map((user: TUser) => (
-                  <tr key={user.id} className={s.row}>
-                    <td className={s.large}>
-                      <div className={s.memberItem}>
-                        <Avatar src={user.photoUrl} />
-                        <span>{user.displayName}</span>
-                      </div>
-                    </td>
-                    <td className={s.medium}>
-                      {convertDiffTime((user.lastActive ?? '').toString())}
-                    </td>
-                    <td className={s.small}>
-                      <button
-                        onClick={() => handleAddFriend(user.id ?? '')}
-                        className={s.buttonAccept}
-                      >
-                        {dataCommunicate.listRequest?.find((u) => u === user.id) ? 'Cancel' : 'Add'}
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                .map((user: TUser) => {
+                  const alreadyFriend = dataCommunicate.listFriend?.find((f) => f.id === user.id);
+                  return (
+                    <tr key={user.id} className={s.row}>
+                      <td className={s.large}>
+                        <div className={s.memberItem}>
+                          <Avatar src={user.photoUrl} />
+                          <span>{user.displayName}</span>
+                        </div>
+                      </td>
+                      <td className={s.medium}>
+                        {convertDiffTime((user.lastActive ?? '').toString())}
+                      </td>
+                      <td className={s.small}>
+                        {alreadyFriend ? (
+                          <></>
+                        ) : (
+                          <button
+                            onClick={() => handleAddFriend(user.id ?? '')}
+                            className={s.buttonAccept}
+                          >
+                            Add
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>
