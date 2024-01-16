@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   MessageOutlined,
   SettingOutlined,
@@ -6,17 +5,17 @@ import {
   SmileOutlined,
   UsergroupDeleteOutlined,
 } from '@ant-design/icons';
-import s from './style.module.scss';
-import { NavLink } from 'react-router-dom';
 import {
   pathFriendPage,
   pathHomePage,
   pathProfile,
   pathSettingsPage,
 } from 'app/routes/routesConfig';
-type Props = {};
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import s from './style.module.scss';
 
-const Sidebar = (props: Props) => {
+const Sidebar = () => {
   return (
     <aside className={s.sideBarWrap}>
       <div className={s.logo}>

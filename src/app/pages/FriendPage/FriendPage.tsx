@@ -9,9 +9,7 @@ import s from './style.module.scss';
 import Loading from 'app/components/Loading/Loading';
 import { EFriendLoading } from 'app/storeZustand/servicesStore';
 
-type Props = {};
-
-const FriendPage = (props: Props) => {
+const FriendPage = () => {
   const {
     dataCommunicate,
     lisTUser,

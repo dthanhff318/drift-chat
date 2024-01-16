@@ -6,12 +6,12 @@ export const getPublicImageUrl = (name: string) => `${process.env.PUBLIC_URL}/im
 
 export const convertDiffTime = (time: string) => {
   // Lấy thời gian hiện tại của máy tính
-  let now = moment();
-  let lastActive = moment(time);
+  const now = moment();
+  const lastActive = moment(time);
   // Giả sử lastActive là một số Unix timestamp (thời gian tính từ ngày 1/1/1970)
 
-  let diffMinutes = now.diff(lastActive, 'minutes');
-  let diffHours = now.diff(lastActive, 'hours');
+  const diffMinutes = now.diff(lastActive, 'minutes');
+  const diffHours = now.diff(lastActive, 'hours');
   // console.log(diffHours, diffMinutes);
   // console.log(moment(time).startOf("hour").fromNow());
 

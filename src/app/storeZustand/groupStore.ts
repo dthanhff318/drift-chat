@@ -1,3 +1,4 @@
+import { notification } from 'antd';
 import groupApi from 'app/axios/api/group';
 import { saveGroupToLs } from 'app/helpers/localStorage';
 import { TGroup } from 'types/common';
@@ -22,14 +23,26 @@ const groupStore = create<TGroupStore>((set) => ({
     try {
       const res = await groupApi.getAllGroup();
       set({ groups: res.data });
-    } catch (err) {}
+    } catch (err) {
+      notification.error({
+        message: `Error`,
+        description: 'Try again',
+        duration: 4,
+      });
+    }
   },
   getDetailGroup: async (id: string) => {
     try {
       set({ loadingDetailGroup: true });
       const res = await groupApi.getDetailGroup(id);
       set({ detailGroup: res.data, loadingDetailGroup: false });
-    } catch (err) {}
+    } catch (err) {
+      notification.error({
+        message: `Error`,
+        description: 'Try again',
+        duration: 4,
+      });
+    }
   },
   currentGroup: '',
   saveCurrentGroup: (groupId: string) => {

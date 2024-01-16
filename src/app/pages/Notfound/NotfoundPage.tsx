@@ -1,8 +1,6 @@
 import React from 'react';
 
-type Props = {};
-
-const NotfoundPage = (props: Props) => {
+const NotfoundPage = () => {
   return <div>NotfoundPage</div>;
 };
 

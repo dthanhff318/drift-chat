@@ -1,3 +1,4 @@
+import { notification } from 'antd';
 import servicesApi from 'app/axios/api/servicesApi';
 import { TQuery, TUser } from 'types/common';
 import { create } from 'zustand';
@@ -24,7 +25,13 @@ const servicesStore = create<TServicesStore>((set) => ({
         lisTUser: res.data,
         loadingFriendPage: EFriendLoading.NONE,
       });
-    } catch (err) {}
+    } catch (err) {
+      notification.error({
+        message: `Error`,
+        description: 'Try again',
+        duration: 4,
+      });
+    }
   },
 }));
 

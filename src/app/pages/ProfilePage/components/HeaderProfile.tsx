@@ -105,7 +105,6 @@ const HeaderProfile = ({ user }: Props) => {
         onCancel={() => {
           setModal(false);
         }}
-        onOk={() => {}}
         hideFooter={true}
       >
         <UserInfoDetail callbackWhenUpdate={() => setModal(false)} />

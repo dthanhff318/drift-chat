@@ -3,9 +3,7 @@ import authStore from 'app/storeZustand/authStore';
 import s from './style.module.scss';
 import HeaderProfile from './components/HeaderProfile';
 
-type Props = {};
-
-const ProfilePage = (props: Props) => {
+const ProfilePage = () => {
   const { currenTUser } = authStore.getState();
 
   return (

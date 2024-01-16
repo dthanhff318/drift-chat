@@ -11,6 +11,7 @@ import groupApi from 'app/axios/api/group';
 import { useHistory } from 'react-router-dom';
 import { pathHomePage, pathHomePageChat } from 'app/routes/routesConfig';
 import { getNameAndAvatarChat, replacePathParams } from 'app/helpers/funcs';
+import { notification } from 'antd';
 
 type Props = {
   group: TGroup;
@@ -32,7 +33,13 @@ const MessageChatItem = ({ group }: Props) => {
       );
       saveGroups(updateListGroup);
       socket?.emit('joinRoom', currentGroup);
-    } catch (err) {}
+    } catch (err) {
+      notification.error({
+        message: `Error`,
+        description: 'Try again',
+        duration: 4,
+      });
+    }
   };
 
   const newestMessNotMine = group.newestMess?.senderId !== currenTUser.id;
@@ -59,9 +66,9 @@ const MessageChatItem = ({ group }: Props) => {
         </div>
         <div className={s.secondLine}>
           <span className={`${s.lastMsg} ${isUnread ? s.unread : ''}`}>
-            {!!group.newestMess?.id
+            {group.newestMess?.id
               ? `${newestMessNotMine ? '' : 'You: '} ${
-                  !!group.newestMess?.content ? group.newestMess?.content : 'Send an image'
+                  group.newestMess?.content ? group.newestMess?.content : 'Send an image'
                 }`
               : group.isGroup
                 ? 'Let say hi with everyone'

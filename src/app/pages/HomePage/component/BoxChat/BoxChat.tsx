@@ -25,9 +25,7 @@ import SideChat from '../SideChat/SideChat';
 import s from '../style.module.scss';
 import { useService } from './service';
 
-type Props = {};
-
-const BoxChat = (props: Props) => {
+const BoxChat = () => {
   const [selectedEmoji, setSelectedEmoji] = useState(null);
   const {
     groups,
@@ -109,8 +107,8 @@ const BoxChat = (props: Props) => {
         {messages.map((e, i) => {
           const otherMess = e.senderId !== currenTUser.id;
           const findUserOwnMess = detailGroup.members?.find((m) => m.id === e.senderId) ?? {};
-          let prevMess = !!i ? messages[i - 1] : messages[i];
-          let nextMess = i < messages.length - 1 ? messages[i + 1] : messages[i];
+          const prevMess = i ? messages[i - 1] : messages[i];
+          const nextMess = i < messages.length - 1 ? messages[i + 1] : messages[i];
 
           const isShowNickname =
             (e.senderId === prevMess.senderId && nextMess.senderId !== e.senderId) ||

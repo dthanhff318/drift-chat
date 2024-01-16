@@ -1,3 +1,4 @@
+import { notification } from 'antd';
 import friendsApi from 'app/axios/api/friends';
 import { TDataCommunicate } from 'types/common';
 import { create } from 'zustand';
@@ -13,7 +14,13 @@ const friendStore = create<TFriendStore>((set) => ({
     try {
       const res = await friendsApi.getInfoCommuication();
       return set({ dataCommunicate: res.data });
-    } catch (err) {}
+    } catch (err) {
+      notification.error({
+        message: `Error`,
+        description: 'Try again',
+        duration: 4,
+      });
+    }
   },
 }));
 

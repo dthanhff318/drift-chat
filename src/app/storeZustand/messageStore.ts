@@ -1,3 +1,4 @@
+import { notification } from 'antd';
 import groupApi from 'app/axios/api/group';
 import messageApi from 'app/axios/api/messageApi';
 import { LIMIT_DATA_PER_PAGE } from 'app/helpers/common';
@@ -52,7 +53,13 @@ const messageStore = create<TMessageStore>((set) => ({
           firstTimeLoading: false,
         };
       });
-    } catch (err) {}
+    } catch (err) {
+      notification.error({
+        message: `Error`,
+        description: 'Try again',
+        duration: 4,
+      });
+    }
   },
   saveMessages: (messages: TMessage[]) => {
     set({ messages: messages });

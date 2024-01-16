@@ -1,6 +1,6 @@
 import React from 'react';
 import s from './style.module.scss';
-import { Form, Input } from 'antd';
+import { Form, Input, notification } from 'antd';
 import Button from 'app/components/Button/Button';
 import authStore from 'app/storeZustand/authStore';
 import userApi from 'app/axios/api/user';
@@ -19,7 +19,13 @@ const UserInfoDetail = ({ callbackWhenUpdate }: Props) => {
         saveCurrenTUser(res.data as TUser);
         callbackWhenUpdate();
       }
-    } catch (err) {}
+    } catch (err) {
+      notification.error({
+        message: `Error`,
+        description: 'Try again',
+        duration: 4,
+      });
+    }
   };
   return (
     <div className={s.wrapper}>

@@ -4,9 +4,9 @@ import FriendRow from './FriendRow';
 import { TUser } from 'types/common';
 import friendStore from 'app/storeZustand/friendStore';
 import friendsApi from 'app/axios/api/friends';
-type Props = {};
 type TControl = 'friend' | 'approve' | 'blocked';
-const MyFriendControl = (props: Props) => {
+
+const MyFriendControl = () => {
   const [control, setControl] = useState<TControl>('friend');
   const { dataCommunicate } = friendStore();
 
@@ -39,17 +39,27 @@ const MyFriendControl = (props: Props) => {
       <div className={s.controlContent}>
         {control === 'friend' &&
           dataCommunicate.listFriend?.map((t: TUser) => (
-            <FriendRow data={t} textButton="Message" onClick={() => {}} />
+            <div key={t.id}>
+              <FriendRow
+                data={t}
+                textButton="Message"
+                onClick={() => {
+                  console.log(1);
+                }}
+              />
+            </div>
           ))}
         {control === 'approve' &&
           dataCommunicate.listAccept?.map((t: TUser) => (
-            <FriendRow
-              data={t}
-              textButton="Accept"
-              onClick={() => {
-                handleAccept(t.id ?? '');
-              }}
-            />
+            <div key={t.id}>
+              <FriendRow
+                data={t}
+                textButton="Accept"
+                onClick={() => {
+                  handleAccept(t.id ?? '');
+                }}
+              />
+            </div>
           ))}
       </div>
     </div>

@@ -11,6 +11,7 @@ import groupApi from 'app/axios/api/group';
 import authStore from 'app/storeZustand/authStore';
 import { getNameUser } from 'app/helpers/funcs';
 import groupStore from 'app/storeZustand/groupStore';
+import { notification } from 'antd';
 type Props = {
   detailGroup: TGroup;
 };
@@ -33,7 +34,13 @@ const ListMember = ({ detailGroup }: Props) => {
         userId: idUser,
       });
       getDetailGroup(id ?? '');
-    } catch (err) {}
+    } catch (err) {
+      notification.error({
+        message: `Error`,
+        description: 'Try again',
+        duration: 4,
+      });
+    }
   };
 
   const handleRemoveMemberGroup = async (member: string) => {
@@ -42,7 +49,13 @@ const ListMember = ({ detailGroup }: Props) => {
         idGroup: detailGroup.id ?? '',
         member,
       });
-    } catch (err) {}
+    } catch (err) {
+      notification.error({
+        message: `Error`,
+        description: 'Try again',
+        duration: 4,
+      });
+    }
   };
 
   return (

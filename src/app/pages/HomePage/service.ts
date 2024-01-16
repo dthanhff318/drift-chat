@@ -61,7 +61,6 @@ export const useService = () => {
 
   useEffect(() => {
     const idGroup = id || currentGroup;
-    console.log(1);
 
     if (idGroup) {
       history.push(replacePathParams(pathHomePageChat, { id: idGroup }));
