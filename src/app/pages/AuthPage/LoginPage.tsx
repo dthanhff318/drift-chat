@@ -1,13 +1,11 @@
 import { QRCode } from 'antd';
 import GoogleIcon from 'app/components/Icon/Google/GoogleIcon';
 import { getPublicImageUrl } from 'app/helpers/funcs';
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import useService from './service';
 import s from './style.module.scss';
 
-type Props = {};
-
-const LoginPage = (props: Props) => {
+const LoginPage = () => {
   const { imageRef, handleMouseOver, handleLoginFirebase } = useService();
 
   return (

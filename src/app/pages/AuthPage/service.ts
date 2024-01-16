@@ -1,16 +1,15 @@
-import authApi from 'app/axios/api/auth';
-import { pathHomePage } from 'app/routes/routesConfig';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { auth } from 'app/firebase/configFirebase';
-import { useHistory } from 'react-router-dom';
-import { saveToken } from 'app/helpers/localStorage';
-import authStore from 'app/storeZustand/authStore';
 import { notification } from 'antd';
-import { TUser } from 'types/common';
-import socketStore from 'app/storeZustand/socketStore';
-import socketInstance from './../../socketConfig/socketIoConfig';
-import { useRef } from 'react';
+import authApi from 'app/axios/api/auth';
+import { auth } from 'app/firebase/configFirebase';
+import { saveToken } from 'app/helpers/localStorage';
+import { pathHomePage } from 'app/routes/routesConfig';
+import authStore from 'app/storeZustand/authStore';
 import friendStore from 'app/storeZustand/friendStore';
+import socketStore from 'app/storeZustand/socketStore';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { useRef } from 'react';
+import { useHistory } from 'react-router-dom';
+import { TUser } from 'types/common';
 
 const provider = new GoogleAuthProvider();
 // const provider = new FacebookAuthProvider();
@@ -58,6 +57,8 @@ const useService = () => {
         };
         const res = await authApi.login(userInfo);
         const { token, user }: { token: any; user: TUser } = res.data;
+        console.log(token);
+
         saveToken(token.accessToken, 'accessToken');
         saveToken(token.refreshToken, 'refreshToken');
         saveCurrenTUser(user);
