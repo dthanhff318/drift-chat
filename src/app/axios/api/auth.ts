@@ -12,9 +12,9 @@ const authApi = {
       uid,
     });
   },
-  logout: (uid: string) => {
+  logout: (refreshToken: string) => {
     return axiosClient.post('/auth/logout', {
-      uid,
+      refreshToken,
     });
   },
   getCurrenTUser: () => {

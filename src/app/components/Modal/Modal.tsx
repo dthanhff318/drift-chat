@@ -1,14 +1,13 @@
-import { UserOutlined } from '@ant-design/icons';
-import { Dropdown, MenuProps, Modal } from 'antd';
-import React, { ReactNode, useState } from 'react';
-import s from './style.module.scss';
+import { Modal } from 'antd';
+import React, { ReactNode } from 'react';
 import Button from '../Button/Button';
+import s from './style.module.scss';
 type Props = {
   children: ReactNode;
   title: string;
   open: boolean;
   hideFooter?: boolean;
-  onOk: () => void;
+  onOk?: () => void;
   onCancel: () => void;
 };
 
@@ -20,8 +19,8 @@ const ModalCommon = ({ children, title, hideFooter, onCancel, onOk, open }: Prop
         <div className={s.content}>{children}</div>
         {!hideFooter && (
           <div className={s.footer}>
-            <Button loading={false} text="Cancel" onClick={async () => {}} />
-            <Button loading={false} text="OK" onClick={async () => {}} />
+            <Button loading={false} text="Cancel" />
+            <Button loading={false} text="OK" />
           </div>
         )}
       </div>

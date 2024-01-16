@@ -1,7 +1,6 @@
-import { getPublicImageUrl } from 'app/helpers/funcs';
+import { LoadingOutlined } from '@ant-design/icons';
 import React from 'react';
 import s from './style.module.scss';
-import { LoadingOutlined } from '@ant-design/icons';
 type Props = {
   icon?: React.ReactNode;
   text: string;

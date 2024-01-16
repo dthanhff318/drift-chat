@@ -1,23 +1,19 @@
-import React from 'react';
 import { auth } from 'app/firebase/configFirebase';
-import { signOut } from 'firebase/auth';
-import { useHistory } from 'react-router-dom';
-import { pathLoginPage } from 'app/routes/routesConfig';
-import authApi from 'app/axios/api/auth';
 import { geTUserFromLs } from 'app/helpers/localStorage';
 import authStore from 'app/storeZustand/authStore';
+import { signOut } from 'firebase/auth';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 
-type Props = {};
-
-const SettingsPage = (props: Props) => {
+const SettingsPage = () => {
   const { currenTUser, logout } = authStore.getState();
   const infoUser = currenTUser ?? geTUserFromLs();
   const history = useHistory();
   const handleLogout = async () => {
     // await authApi.logout(infoUser.uid ?? "");
     await signOut(auth).then(() => {
-      logout();
-      history.push(pathLoginPage);
+      // logout();
+      // history.push(pathLoginPage);
     });
   };
   return (

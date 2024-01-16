@@ -1,14 +1,14 @@
 import { EditOutlined, RightSquareOutlined, SolutionOutlined } from '@ant-design/icons';
+import { Popover } from 'antd';
 import Avatar from 'app/components/Avatar/Avatar';
+import ModalCommon from 'app/components/Modal/Modal';
 import ModalInput from 'app/components/Modal/ModalInput';
+import PopoverCustom from 'app/components/Popover/Popover';
 import React from 'react';
 import { TGroup } from 'types/common';
+import ListMember from './component/ListMember/ListMember';
 import { useService } from './service';
 import s from './style.module.scss';
-import ModalCommon from 'app/components/Modal/Modal';
-import ListMember from './component/ListMember/ListMember';
-import { Popover } from 'antd';
-import PopoverCustom from 'app/components/Popover/Popover';
 type Props = {
   detailGroup: TGroup;
   isOpen: boolean;
@@ -77,9 +77,9 @@ const SideChat = ({ isOpen, detailGroup, onClose }: Props) => {
         open={modal === 'list-member'}
         // loading={loading === "change-name-group"}
         onCancel={() => setModal('')}
-        children={<ListMember detailGroup={detailGroup} />}
-        onOk={() => {}}
-      />
+      >
+        <ListMember detailGroup={detailGroup} />
+      </ModalCommon>
       <input
         type="file"
         onChange={handleUploadPhoto}
