@@ -22,7 +22,7 @@ const Sidebar = () => {
         <SketchOutlined className={s.logoIcon} />
       </div>
       <div className={s.navOptions}>
-        <NavLink exact to={pathHomePage} className={s.btnNav} activeClassName={s.active}>
+        <NavLink to={pathHomePage} className={s.btnNav} activeClassName={s.active}>
           <MessageOutlined />
         </NavLink>
         <NavLink exact to={pathFriendPage} className={s.btnNav} activeClassName={s.active}>

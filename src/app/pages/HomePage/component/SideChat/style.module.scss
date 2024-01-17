@@ -1,4 +1,4 @@
-@import "../../../../scss/variables.scss";
+@import '../../../../scss/variables.scss';
 .sideChat {
   position: fixed;
   width: 25rem;
@@ -25,6 +25,7 @@
     .groupName {
       display: flex;
       gap: 1rem;
+      margin-top: 1rem;
       align-items: center;
       font-weight: 550;
       font-size: 1.1rem;
@@ -55,6 +56,9 @@
         &:hover {
           background-color: rgb(122, 122, 122);
         }
+        &.hidden {
+          display: none;
+        }
       }
       .editName {
         width: 100%;
@@ -69,6 +73,12 @@
           font-size: 1.3rem;
           cursor: pointer;
         }
+      }
+      .previewTheme {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        border: 2px solid whitesmoke;
       }
     }
   }

@@ -1,22 +1,25 @@
 import groupApi from 'app/axios/api/group';
+import authStore from 'app/storeZustand/authStore';
 import groupStore from 'app/storeZustand/groupStore';
 import { useRef, useState } from 'react';
 import { IndexedObject } from 'types/common';
 
-type TModalSideChat = '' | 'change-name-group' | 'list-member' | 'add-member';
+type TModalSideChat = '' | 'change-name-group' | 'change-theme' | 'list-member' | 'add-member';
 type TLoadingSideChat = '' | 'change-name-group' | 'photo';
 
 export const useService = () => {
+  const { currenTUser } = authStore();
   const { getGroups, getDetailGroup, currentGroup, detailGroup } = groupStore();
   const [loading, setLoading] = useState<TLoadingSideChat>('');
   const [modal, setModal] = useState<TModalSideChat>('');
+  const [preview, setPreview] = useState<boolean>(false);
   const inputUploadRef = useRef<HTMLInputElement>(null);
 
   const dataPopover = [
     {
       icon: '',
       text: 'Change',
-      hidden: false,
+      hidden: !detailGroup.isGroup,
       onClick: () => {
         inputUploadRef.current?.click();
       },
@@ -26,7 +29,7 @@ export const useService = () => {
       text: 'View',
       hidden: false,
       onClick: () => {
-        // deleteMessage(mess);
+        setPreview(true);
       },
     },
   ];
@@ -63,6 +66,9 @@ export const useService = () => {
     loading,
     dataPopover,
     inputUploadRef,
+    currenTUser,
+    preview,
+    setPreview,
     handleUploadPhoto,
     setModal,
     handleUpdateNameGroup,

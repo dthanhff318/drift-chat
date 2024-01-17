@@ -23,6 +23,7 @@ export type TGroup = {
   unread?: number;
   setting?: TSettingUserGroup[];
   photo?: string;
+  themeColor?: string;
 };
 export type TMessage = {
   id?: string;
