@@ -10,6 +10,7 @@ import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { TUser } from 'types/common';
+import settingStore from './../../storeZustand/settingStore';
 
 const provider = new GoogleAuthProvider();
 // const provider = new FacebookAuthProvider();
@@ -18,6 +19,7 @@ const useService = () => {
   const history = useHistory();
 
   const { saveCurrenTUser } = authStore();
+  const { getSettings } = settingStore();
   const { getDataCommunicate } = friendStore();
   const { socket } = socketStore();
 
@@ -62,6 +64,7 @@ const useService = () => {
         saveToken(token.accessToken, 'accessToken');
         saveToken(token.refreshToken, 'refreshToken');
         saveCurrenTUser(user);
+        await getSettings();
         await getDataCommunicate();
         history.push(pathHomePage);
         notification.success({
