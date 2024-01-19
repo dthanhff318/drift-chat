@@ -46,7 +46,7 @@ const AddMember = ({ detailGroup }: Props) => {
     <div className={s.wrapper}>
       <div className={s.usersSelectWrap}>
         <div className={s.icAdd}>
-          <PlusCircleFilled />
+          <PlusCircleFilled rev={undefined} />
         </div>
         <div className={s.users}>
           {users?.map((user) => (

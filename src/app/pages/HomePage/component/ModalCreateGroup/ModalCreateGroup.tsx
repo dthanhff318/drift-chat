@@ -47,7 +47,7 @@ const ModalCreateGroup = ({ onClose }: Props) => {
       <input ref={inputNameRef} type="text" className={s.inputName} placeholder="Group name ..." />
       <div className={s.usersSelectWrap}>
         <div className={s.icAdd}>
-          <PlusCircleFilled />
+          <PlusCircleFilled rev={undefined} />
         </div>
         <div className={s.users}>
           {users?.map((user) => (

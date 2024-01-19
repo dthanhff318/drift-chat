@@ -29,21 +29,21 @@ const ChannelChat = ({ infoUser }: Props) => {
           </div>
         </div>
         <div className={s.searchWrap}>
-          <SearchOutlined className={s.searchIcon} />
+          <SearchOutlined className={s.searchIcon} rev={undefined} />
           <input placeholder="Search or start new chat" type="text" className={s.searchInput} />
         </div>
         <div className={s.header}>
           <p className={s.status}>Online now</p>
           <p className={s.more}>
             <span>More</span>
-            <RightOutlined />
+            <RightOutlined rev={undefined} />
           </p>
         </div>
         <OnlineList />
         <div className={s.header}>
           <p className={s.status}>Messages</p>
           <div className={`${s.more} ${s.icon}`} onClick={() => setModal(true)}>
-            <UsergroupAddOutlined />
+            <UsergroupAddOutlined rev={undefined} />
           </div>
         </div>
         <MessageChatList />

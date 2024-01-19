@@ -19,20 +19,20 @@ const Sidebar = () => {
   return (
     <aside className={s.sideBarWrap}>
       <div className={s.logo}>
-        <SketchOutlined className={s.logoIcon} />
+        <SketchOutlined className={s.logoIcon} rev={undefined} />
       </div>
       <div className={s.navOptions}>
         <NavLink to={pathHomePage} className={s.btnNav} activeClassName={s.active}>
-          <MessageOutlined />
+          <MessageOutlined rev={undefined} />
         </NavLink>
         <NavLink exact to={pathFriendPage} className={s.btnNav} activeClassName={s.active}>
-          <UsergroupDeleteOutlined />
+          <UsergroupDeleteOutlined rev={undefined} />
         </NavLink>
         <NavLink exact to={pathProfile} className={s.btnNav} activeClassName={s.active}>
-          <SmileOutlined />
+          <SmileOutlined rev={undefined} />
         </NavLink>
         <NavLink exact to={pathSettingsPage} className={s.btnNav} activeClassName={s.active}>
-          <SettingOutlined />
+          <SettingOutlined rev={undefined} />
         </NavLink>
       </div>
       <div className={s.user}></div>

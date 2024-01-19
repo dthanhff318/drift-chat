@@ -35,7 +35,7 @@ const FriendPage = () => {
               onKeyDown={(e) => e.key === 'Enter' && handleSearchUser()}
             />
             <div className={s.btnSearch} onClick={handleSearchUser}>
-              <SearchOutlined />
+              <SearchOutlined rev={undefined} />
             </div>
           </div>
         </div>

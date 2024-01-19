@@ -84,7 +84,7 @@ const ListMember = ({ detailGroup }: Props) => {
                       setEdit('');
                     }}
                   >
-                    <CheckCircleOutlined />
+                    <CheckCircleOutlined rev={undefined} />
                   </div>
                 ) : (
                   <div
@@ -93,7 +93,7 @@ const ListMember = ({ detailGroup }: Props) => {
                       setEdit(e.id ?? '');
                     }}
                   >
-                    <TagOutlined />
+                    <TagOutlined rev={undefined} />
                   </div>
                 )}
                 {isAdminGroup && <span>( Admin )</span>}
@@ -102,7 +102,7 @@ const ListMember = ({ detailGroup }: Props) => {
             </div>
             {isCurrentUserIsAdmin && (
               <div className={s.icDelMember} onClick={() => handleRemoveMemberGroup(e.id ?? '')}>
-                <DeleteOutlined />
+                <DeleteOutlined rev={undefined} />
               </div>
             )}
           </div>

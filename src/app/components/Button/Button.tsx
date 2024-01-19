@@ -22,7 +22,7 @@ const Button = ({ text, icon, fill, disabled, loading, type, onClick }: Props) =
       type={type}
     >
       {loading ? (
-        <LoadingOutlined />
+        <LoadingOutlined rev={undefined} />
       ) : (
         <>
           {icon && icon}

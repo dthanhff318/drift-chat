@@ -39,19 +39,19 @@ const SideChat = ({ isOpen, detailGroup, onClose }: Props) => {
   const arrSettings = [
     {
       key: 'Edit name group chat',
-      icon: <EditOutlined />,
+      icon: <EditOutlined rev={undefined} />,
       className: detailGroup.isGroup ? '' : s.hidden,
       onClick: () => setModal('change-name-group'),
     },
     {
       key: 'Members',
-      icon: <SolutionOutlined />,
+      icon: <SolutionOutlined rev={undefined} />,
       className: detailGroup.isGroup ? '' : s.hidden,
       onClick: () => setModal('list-member'),
     },
     {
       key: 'Add more member',
-      icon: <SolutionOutlined />,
+      icon: <SolutionOutlined rev={undefined} />,
       className: detailGroup.isGroup ? '' : s.hidden,
       onClick: () => setModal('add-member'),
     },
@@ -73,7 +73,7 @@ const SideChat = ({ isOpen, detailGroup, onClose }: Props) => {
     <div className={`${s.sideChat} ${isOpen ? s.open : ''}`}>
       <div className={s.content}>
         <div className={s.iconCloseNav} onClick={onClose}>
-          <RightSquareOutlined />
+          <RightSquareOutlined rev={undefined} />
         </div>
         <Popover placement={'right'} content={<PopoverCustom data={dataPopover} />}>
           <div className={s.options}>

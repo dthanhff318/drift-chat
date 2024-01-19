@@ -9,7 +9,7 @@ const FindFriend = (props: Props) => {
     <div className={s.findFrWrap}>
       <div className={s.searchWrap}>
         <input type="text" className={s.searchInput} />
-        <SearchOutlined />
+        <SearchOutlined rev={undefined} />
       </div>
       <div className={s.listSuggest}>hi</div>
     </div>

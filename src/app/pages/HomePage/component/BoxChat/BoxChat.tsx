@@ -58,7 +58,7 @@ const BoxChat = () => {
     const { currenTUser } = authStore.getState();
     return [
       {
-        icon: <SendOutlined />,
+        icon: <SendOutlined rev={undefined} />,
         text: 'Reply',
         hidden: false,
         onClick: () => {
@@ -66,7 +66,7 @@ const BoxChat = () => {
         },
       },
       {
-        icon: <DeleteOutlined />,
+        icon: <DeleteOutlined rev={undefined} />,
         text: 'Delete',
         hidden: currenTUser.id !== mess.senderId,
         onClick: () => {
@@ -100,7 +100,7 @@ const BoxChat = () => {
           <span className={s.title}>{nameGroup}</span>
         </div>
         <div className={s.iconOpennav} onClick={() => setOpenSideChat(true)}>
-          <LeftSquareOutlined />
+          <LeftSquareOutlined rev={undefined} />
         </div>
       </div>
       <div className={s.content}>
@@ -155,7 +155,7 @@ const BoxChat = () => {
                       onClick={() => scrollMessageIntoView(e.replyMessage?.id ?? '')}
                     >
                       <div className={s.enterIcon}>
-                        <EnterOutlined />
+                        <EnterOutlined rev={undefined} />
                       </div>
                       <p className={s.replyContent}>{e.replyMessage?.content}</p>
                     </div>
@@ -184,7 +184,7 @@ const BoxChat = () => {
                   >
                     {!e.isDelete && (
                       <div className={s.options}>
-                        <MoreOutlined />
+                        <MoreOutlined rev={undefined} />
                       </div>
                     )}
                   </Popover>
@@ -199,20 +199,24 @@ const BoxChat = () => {
         <div className={s.replyWrap}>
           <div className={s.replyValue}>
             <div className={s.iconReply}>
-              <EnterOutlined />
+              <EnterOutlined rev={undefined} />
             </div>
             <span className={s.replyText}>Reply : </span>
             <p className={s.replyMess}>{reply.content}</p>
           </div>
           <div className={s.closeIcon} onClick={() => setReply({})}>
-            <CloseCircleOutlined />
+            <CloseCircleOutlined rev={undefined} />
           </div>
         </div>
       )}
       {file && (
         <div className={s.imagePreview}>
           <img className={s.image} src={URL.createObjectURL(file)} alt="" />
-          <CloseCircleFilled className={s.iconRemoveImg} onClick={() => setFile(null)} />
+          <CloseCircleFilled
+            className={s.iconRemoveImg}
+            onClick={() => setFile(null)}
+            rev={undefined}
+          />
         </div>
       )}
       {currentGroup && (
@@ -223,6 +227,7 @@ const BoxChat = () => {
               onClick={() => {
                 inputUploadRef.current?.click();
               }}
+              rev={undefined}
             />
           </div>
           <TextareaAutosize
@@ -250,12 +255,16 @@ const BoxChat = () => {
               />
             </div>
           )}
-          <SmileOutlined className={s.emojiIcon} onClick={() => setOpenEmoji((prev) => !prev)} />
+          <SmileOutlined
+            className={s.emojiIcon}
+            onClick={() => setOpenEmoji((prev) => !prev)}
+            rev={undefined}
+          />
           <button className={s.sendMsg} onClick={handleSendMess}>
             {loading ? (
-              <LoadingOutlined className={s.iconSend} />
+              <LoadingOutlined className={s.iconSend} rev={undefined} />
             ) : (
-              <SendOutlined className={s.iconSend} />
+              <SendOutlined className={s.iconSend} rev={undefined} />
             )}
           </button>
         </div>

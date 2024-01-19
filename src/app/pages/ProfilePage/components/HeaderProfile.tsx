@@ -69,7 +69,7 @@ const HeaderProfile = ({ user }: Props) => {
             <p className={s.name}>
               {user.displayName}
               <span className={s.idValue}>
-                {user.inviteId} <CopyOutlined className={s.idCopy} />
+                {user.inviteId} <CopyOutlined className={s.idCopy} rev={undefined} />
               </span>
             </p>
             <p className={s.introduction}>{user.introduction}</p>
@@ -85,6 +85,7 @@ const HeaderProfile = ({ user }: Props) => {
               style={{
                 color: '#0088cb',
               }}
+              rev={undefined}
             />
           </div>
           <div className={s.socialItem}>
@@ -92,11 +93,12 @@ const HeaderProfile = ({ user }: Props) => {
               style={{
                 color: '#319fd5',
               }}
+              rev={undefined}
             />
           </div>
         </div>
         <div className={s.iconGallery} onClick={() => setModal(true)}>
-          <HighlightOutlined />
+          <HighlightOutlined rev={undefined} />
         </div>
       </div>
       <ModalCommon
