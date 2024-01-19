@@ -3,4 +3,22 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  .themeList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    .themeItem {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      &.themeSelected {
+        border: 0.25rem solid gray;
+      }
+    }
+  }
+  .btnBottom {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+  }
 }

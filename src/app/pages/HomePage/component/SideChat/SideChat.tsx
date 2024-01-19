@@ -60,7 +60,7 @@ const SideChat = ({ isOpen, detailGroup, onClose }: Props) => {
       className: '',
       onClick: () => setModal('change-theme'),
       component: (
-        <div style={{ backgroundColor: detailGroup.themeColor }} className={s.previewTheme}></div>
+        <div style={{ backgroundColor: detailGroup.theme }} className={s.previewTheme}></div>
       ),
     },
   ];
