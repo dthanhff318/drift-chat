@@ -1,5 +1,6 @@
 import {
   ControlBar,
+  DisconnectButton,
   GridLayout,
   LiveKitRoom,
   ParticipantTile,
@@ -11,9 +12,10 @@ import React from 'react';
 
 type Props = {
   token: string;
+  onDisconnect: () => void;
 };
 
-const LiveKitWrap = ({ token }: Props) => {
+const LiveKitWrap = ({ token, onDisconnect }: Props) => {
   return (
     <LiveKitRoom
       video={true}
@@ -23,6 +25,7 @@ const LiveKitWrap = ({ token }: Props) => {
       // Use the default LiveKit theme for nice styles.
       data-lk-theme="default"
       style={{ height: '70vh', width: '90vw' }}
+      onDisconnected={onDisconnect}
     >
       {/* Your custom component with basic video conferencing functionality. */}
       <MyVideoConference />

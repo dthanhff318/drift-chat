@@ -306,7 +306,7 @@ const BoxChat = () => {
         />
       </div>
       <ModalCommon title="" open={!!queryUrlObj.video} hideFooter={true} onCancel={handleVideoCall}>
-        <LiveKitWrap token={token} />
+        <LiveKitWrap token={token} onDisconnect={handleVideoCall} />
       </ModalCommon>
     </>
   );
