@@ -10,14 +10,14 @@ import ModalCommon from 'app/components/Modal/Modal';
 import ModalInput from 'app/components/Modal/ModalInput';
 import PopoverCustom from 'app/components/Popover/Popover';
 import React from 'react';
-import { TGroup } from 'types/common';
+import { TGroup, TGroupDetail } from 'types/common';
 import ListMember from './component/ListMember/ListMember';
 import { useService } from './service';
 import s from './style.module.scss';
 import AddMember from './component/AddMember/AddMember';
 import ChangeTheme from './component/ChangeTheme/ChangeTheme';
 type Props = {
-  detailGroup: TGroup;
+  detailGroup: TGroupDetail;
   isOpen: boolean;
   onClose: () => void;
 };
@@ -60,7 +60,7 @@ const SideChat = ({ isOpen, detailGroup, onClose }: Props) => {
       className: '',
       onClick: () => setModal('change-theme'),
       component: (
-        <div style={{ backgroundColor: detailGroup.theme }} className={s.previewTheme}></div>
+        <div style={{ backgroundColor: detailGroup.theme?.value }} className={s.previewTheme}></div>
       ),
     },
   ];
@@ -111,6 +111,7 @@ const SideChat = ({ isOpen, detailGroup, onClose }: Props) => {
       <ModalCommon
         title="Add people to group"
         open={modal === 'add-member'}
+        hideFooter={true}
         onCancel={() => setModal('')}
       >
         <AddMember detailGroup={detailGroup} />

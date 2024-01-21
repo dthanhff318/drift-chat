@@ -25,6 +25,20 @@ export type TGroup = {
   photo?: string;
   theme?: string;
 };
+
+export type TGroupDetail = {
+  id?: string;
+  name?: string;
+  members?: TUser[];
+  admins?: TUser[];
+  isGroup?: boolean;
+  newestMess?: TMessage;
+  unread?: number;
+  setting?: TSettingUserGroup[];
+  photo?: string;
+  theme?: TTheme;
+};
+
 export type TMessage = {
   id?: string;
   senderId?: string;

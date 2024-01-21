@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { IndexedObject, TGroup, TSettingUserGroup, TUser } from 'types/common';
+import { IndexedObject, TGroup, TGroupDetail, TSettingUserGroup, TUser } from 'types/common';
 import { geTUserFromLs } from './localStorage';
 
 export const getPublicImageUrl = (name: string) => `${process.env.PUBLIC_URL}/images/${name}`;
@@ -45,7 +45,7 @@ export const getNameUser = (user: TUser, setting: TSettingUserGroup[]) => {
   return userSetting?.nickname ? userSetting?.nickname : user.displayName;
 };
 
-export const getNameAndAvatarChat = (group: TGroup, currentUserId: string) => {
+export const getNameAndAvatarChat = (group: TGroup | TGroupDetail, currentUserId: string) => {
   if (group.isGroup) {
     return {
       nameGroup: group.name,

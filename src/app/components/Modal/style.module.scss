@@ -1,4 +1,8 @@
-@import "../../scss/variables.scss";
+@import '../../scss/variables.scss';
+.customModal {
+  min-width: 40vw;
+  width: fit-content !important;
+}
 .wrapper {
   padding: 0.5rem;
   margin-top: 1rem;

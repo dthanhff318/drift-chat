@@ -1,4 +1,4 @@
-import { TGroup } from 'types/common';
+import { TGroup, TGroupDetail } from 'types/common';
 import { axiosClient } from '../axiosClient';
 
 const groupApi = {
@@ -33,6 +33,10 @@ const groupApi = {
         'Content-Type': 'multipart/form-data',
       },
     });
+  },
+  addMember: (data: { idGroup: string; members: string[] }) => {
+    const { idGroup, members } = data;
+    return axiosClient.post(`groups/add-member/${idGroup}`, { members });
   },
 };
 

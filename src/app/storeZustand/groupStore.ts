@@ -1,13 +1,13 @@
+import { create } from 'zustand';
 import { notification } from 'antd';
 import groupApi from 'app/axios/api/group';
 import { saveGroupToLs } from 'app/helpers/localStorage';
-import { TGroup } from 'types/common';
-import { create } from 'zustand';
+import { TGroup, TGroupDetail } from 'types/common';
 
 type TGroupStore = {
   loadingDetailGroup: boolean;
   groups: TGroup[];
-  detailGroup: TGroup;
+  detailGroup: TGroupDetail;
   currentGroup: string;
   getGroups: () => void;
   saveCurrentGroup: (groupId: string) => void;

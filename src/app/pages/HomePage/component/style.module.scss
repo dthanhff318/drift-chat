@@ -1,4 +1,4 @@
-@import "../../../scss//variables.scss";
+@import '../../../scss//variables.scss';
 $header-hight: 5rem;
 .channelWrap {
   background-color: $background-dark;
@@ -232,15 +232,22 @@ $header-hight: 5rem;
         font-size: 0.9rem;
       }
     }
-    .iconOpennav {
+    .rightHeadBoxchat {
+      display: flex;
+      align-items: center;
       color: $white;
-      font-size: 1.3rem;
-      padding: 0.5rem;
+      gap: 2rem;
+      margin-right: 0.5rem;
       cursor: pointer;
-      &:hover {
-        transform: scale(1.2);
-        transition: all 0.3s linear;
+      .rightBtn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
+      // &:hover {
+      //   transform: scale(1.2);
+      //   transition: all 0.3s linear;
+      // }
     }
   }
   .content {

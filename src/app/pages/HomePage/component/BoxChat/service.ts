@@ -10,10 +10,16 @@ import { IndexedObject, TGroup, TMessage } from 'types/common';
 import React from 'react';
 import { TSendMess } from 'app/axios/api/typeApi';
 import { notification } from 'antd';
+import qs from 'query-string';
+import { useHistory, useParams } from 'react-router-dom';
+import authApi from 'app/axios/api/auth';
 
 export const DEFAULT_PAST_TIME = '1970-01-01T00:00:00.000Z';
 
 export const useService = () => {
+  const history = useHistory();
+  const params = useParams();
+
   const { groups, currentGroup, detailGroup, loadingDetailGroup, saveGroups } = groupStore();
   const { currenTUser } = authStore();
   const { socket } = socketStore();
@@ -37,6 +43,7 @@ export const useService = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [openSideChat, setOpenSideChat] = useState<boolean>(false);
   const [reply, setReply] = useState<TMessage>({});
+  const [token, setToken] = useState<string>('');
 
   const handleSendMess = async () => {
     let resMessage: TMessage;
@@ -136,6 +143,36 @@ export const useService = () => {
     updateListMessage(updateMess);
   };
 
+  const queryUrlObj = qs.parse(history.location.search);
+  const isVideo = queryUrlObj.video;
+  const handleVideoCall = () => {
+    if (!isVideo) {
+    }
+    const url = qs.stringifyUrl(
+      {
+        url: history.location.pathname,
+        query: {
+          video: isVideo ? undefined : true,
+        },
+      },
+      {
+        skipNull: true,
+      },
+    );
+    history.push(url);
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await authApi.getTokenLivekit(detailGroup.id ?? '');
+        setToken(res.data);
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+  }, [isVideo]);
+
   useEffect(() => {
     page > 1 && inView && hasMore && getMessages(currentGroup, page);
   }, [inView]);
@@ -164,6 +201,8 @@ export const useService = () => {
     reply,
     openSideChat,
     detailGroup,
+    token,
+    queryUrlObj,
     scrollMessageIntoView,
     isMessageLoaded,
     setOpenSideChat,
@@ -175,5 +214,6 @@ export const useService = () => {
     setMessage,
     handleSendMess,
     deleteMessage,
+    handleVideoCall,
   };
 };

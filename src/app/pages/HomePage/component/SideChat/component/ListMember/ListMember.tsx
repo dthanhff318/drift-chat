@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import s from './style.module.scss';
-import { TGroup } from 'types/common';
+import { TGroup, TGroupDetail } from 'types/common';
 import {
   CheckCircleOutlined,
   DeleteOutlined,
@@ -13,7 +13,7 @@ import { getNameUser } from 'app/helpers/funcs';
 import groupStore from 'app/storeZustand/groupStore';
 import { notification } from 'antd';
 type Props = {
-  detailGroup: TGroup;
+  detailGroup: TGroupDetail;
 };
 
 const ListMember = ({ detailGroup }: Props) => {

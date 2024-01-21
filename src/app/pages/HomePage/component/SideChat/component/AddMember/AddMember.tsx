@@ -1,33 +1,26 @@
-import React, { useRef, useState } from 'react';
-import s from './style.module.scss';
-import { TGroup, TUser } from 'types/common';
-import {
-  CheckCircleOutlined,
-  DeleteOutlined,
-  PlusCircleFilled,
-  TagOutlined,
-  UserAddOutlined,
-} from '@ant-design/icons';
-import groupApi from 'app/axios/api/group';
-import authStore from 'app/storeZustand/authStore';
-import { getNameUser } from 'app/helpers/funcs';
-import groupStore from 'app/storeZustand/groupStore';
-import { notification } from 'antd';
-import friendStore from 'app/storeZustand/friendStore';
+import { PlusCircleFilled } from '@ant-design/icons';
 import Avatar from 'app/components/Avatar/Avatar';
+import authStore from 'app/storeZustand/authStore';
+import friendStore from 'app/storeZustand/friendStore';
+import React, { useRef, useState } from 'react';
+import { TGroupDetail, TUser } from 'types/common';
+import s from './style.module.scss';
+import groupApi from 'app/axios/api/group';
+import Button from 'app/components/Button/Button';
+import groupStore from 'app/storeZustand/groupStore';
 type Props = {
-  detailGroup: TGroup;
+  detailGroup: TGroupDetail;
 };
 
 const AddMember = ({ detailGroup }: Props) => {
-  const { members, id, setting, admins } = detailGroup;
+  const { members, id } = detailGroup;
   const [users, setUsers] = useState<TUser[]>([]);
-
+  const [loading, setLoading] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const {
     dataCommunicate: { listFriend },
   } = friendStore();
-
+  const { getDetailGroup } = groupStore();
   const { currenTUser } = authStore();
 
   const handleSelectUser = (user: TUser) => {
@@ -42,6 +35,21 @@ const AddMember = ({ detailGroup }: Props) => {
   const listMemberId = members?.map((e) => e.id);
   const listUserToAdd = listFriend?.filter((e) => !listMemberId?.includes(e.id));
 
+  const handleAddMemberToGroup = async () => {
+    try {
+      const listMemberAdd = users.map((e) => e.id ?? '');
+      if (!id || !listMemberAdd.length) return;
+      setLoading(true);
+      await groupApi.addMember({
+        idGroup: id,
+        members: listMemberAdd,
+      });
+      getDetailGroup(id);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    }
+  };
   return (
     <div className={s.wrapper}>
       <div className={s.usersSelectWrap}>
@@ -82,6 +90,9 @@ const AddMember = ({ detailGroup }: Props) => {
             );
           })}
         </div>
+      </div>
+      <div className={s.btnBottom}>
+        <Button text="Change" onClick={handleAddMemberToGroup} loading={loading} />
       </div>
     </div>
   );

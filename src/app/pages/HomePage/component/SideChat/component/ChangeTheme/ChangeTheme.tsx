@@ -5,37 +5,40 @@ import authStore from 'app/storeZustand/authStore';
 import friendStore from 'app/storeZustand/friendStore';
 import settingStore from 'app/storeZustand/settingStore';
 import React, { useState } from 'react';
-import { TGroup, TTheme } from 'types/common';
+import { TGroup, TGroupDetail, TTheme } from 'types/common';
 import s from './style.module.scss';
+import groupStore from 'app/storeZustand/groupStore';
 type Props = {
-  detailGroup: TGroup;
+  detailGroup: TGroupDetail;
 };
 
 const ChangeTheme = ({ detailGroup }: Props) => {
   const { id } = detailGroup;
-  const [theme, setTheme] = useState<TTheme>(
-    detailGroup.theme ? { value: detailGroup.theme } : { value: '#000000' },
-  );
+  const [loading, setLoading] = useState<boolean>(false);
+  const [theme, setTheme] = useState<TTheme>(detailGroup.theme ? detailGroup.theme : {});
 
   const {
     settings: { themes },
   } = settingStore();
-  console.log(themes);
+
+  const { getDetailGroup } = groupStore();
 
   const handleChangeTheme = async (theme: TTheme) => {
     try {
       if (!id) return;
-      const res = await groupApi.updateGroup(id, { theme: theme.name });
+      setLoading(true);
+      await groupApi.updateGroup(id, { theme: theme.name });
+      getDetailGroup(id);
+      setLoading(false);
     } catch (err) {
       notification.error({
         message: `Error`,
         description: 'Try again',
-        duration: 4,
+        duration: 2,
       });
+      setLoading(false);
     }
   };
-
-  console.log(themes);
 
   return (
     <div className={s.wrapper}>
@@ -50,7 +53,7 @@ const ChangeTheme = ({ detailGroup }: Props) => {
         ))}
       </div>
       <div className={s.btnBottom}>
-        <Button text="Change" onClick={() => handleChangeTheme(theme)} />
+        <Button text="Change" onClick={() => handleChangeTheme(theme)} loading={loading} />
       </div>
     </div>
   );

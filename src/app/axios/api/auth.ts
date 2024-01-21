@@ -20,6 +20,9 @@ const authApi = {
   getCurrenTUser: () => {
     return axiosClient.get('auth/current-user');
   },
+  getTokenLivekit: (room: string) => {
+    return axiosClient.get(`auth/gen-token-livekit?room=${room}`);
+  },
 };
 
 export default authApi;
