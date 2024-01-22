@@ -18,7 +18,7 @@ import Loading from 'app/components/Loading/Loading';
 import PopoverCustom from 'app/components/Popover/Popover';
 import { getNameAndAvatarChat, getNameUser, getUserById } from 'app/helpers/funcs';
 import authStore from 'app/storeZustand/authStore';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { TMessage, TUser } from 'types/common';
 import SideChat from '../SideChat/SideChat';
@@ -37,6 +37,7 @@ import { Track } from 'livekit-client';
 import '@livekit/components-styles';
 import ModalCommon from 'app/components/Modal/Modal';
 import LiveKitWrap from '../LiveKitWrap/LiveKitWrap';
+import useClickOutSide from 'app/hook/useClickOutSide';
 
 const BoxChat = () => {
   const [selectedEmoji, setSelectedEmoji] = useState(null);
@@ -107,7 +108,13 @@ const BoxChat = () => {
   };
 
   const { nameGroup, avatarGroup } = getNameAndAvatarChat(detailGroup, currenTUser.id ?? '');
-
+  const sideChatRef = useRef<HTMLDivElement>(null);
+  const triggerSidechatRef = useRef<HTMLDivElement>(null);
+  useClickOutSide({
+    parentRef: sideChatRef,
+    triggerElement: triggerSidechatRef,
+    callback: () => setOpenSideChat(false),
+  });
   return (
     <>
       <div className={s.boxChatWrap}>
@@ -299,11 +306,13 @@ const BoxChat = () => {
           ref={inputUploadRef}
           onChange={onUploadImage}
         />
-        <SideChat
-          detailGroup={detailGroup}
-          isOpen={openSideChat}
-          onClose={() => setOpenSideChat(false)}
-        />
+        {openSideChat && (
+          <SideChat
+            detailGroup={detailGroup}
+            isOpen={openSideChat}
+            onClose={() => setOpenSideChat(false)}
+          />
+        )}
       </div>
       <ModalCommon title="" open={!!queryUrlObj.video} hideFooter={true} onCancel={handleVideoCall}>
         <LiveKitWrap token={token} onDisconnect={handleVideoCall} />

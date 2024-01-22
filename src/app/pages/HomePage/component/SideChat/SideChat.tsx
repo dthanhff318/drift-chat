@@ -9,7 +9,7 @@ import Avatar from 'app/components/Avatar/Avatar';
 import ModalCommon from 'app/components/Modal/Modal';
 import ModalInput from 'app/components/Modal/ModalInput';
 import PopoverCustom from 'app/components/Popover/Popover';
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { TGroup, TGroupDetail } from 'types/common';
 import ListMember from './component/ListMember/ListMember';
 import { useService } from './service';
@@ -22,7 +22,7 @@ type Props = {
   onClose: () => void;
 };
 
-const SideChat = ({ isOpen, detailGroup, onClose }: Props) => {
+const SideChat = forwardRef(({ isOpen, detailGroup, onClose }: Props, ref) => {
   const {
     modal,
     loading,
@@ -34,7 +34,7 @@ const SideChat = ({ isOpen, detailGroup, onClose }: Props) => {
     handleUploadPhoto,
     setModal,
     handleUpdateNameGroup,
-  } = useService();
+  } = useService({ onClose });
 
   const arrSettings = [
     {
@@ -70,7 +70,7 @@ const SideChat = ({ isOpen, detailGroup, onClose }: Props) => {
   const avatarChat = detailGroup.isGroup ? detailGroup.photo : enemyChat?.photoUrl;
   const nameChat = detailGroup.isGroup ? detailGroup.name : enemyChat?.displayName;
   return (
-    <div className={`${s.sideChat} ${isOpen ? s.open : ''}`}>
+    <div ref={ref as any} className={`${s.sideChat} ${isOpen ? s.open : ''}`}>
       <div className={s.content}>
         <div className={s.iconCloseNav} onClick={onClose}>
           <RightSquareOutlined rev={undefined} />
@@ -145,6 +145,8 @@ const SideChat = ({ isOpen, detailGroup, onClose }: Props) => {
       />
     </div>
   );
-};
+});
+
+SideChat.displayName = 'SideChat';
 
 export default SideChat;
