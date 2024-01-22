@@ -308,6 +308,7 @@ const BoxChat = () => {
         />
         {openSideChat && (
           <SideChat
+            ref={sideChatRef}
             detailGroup={detailGroup}
             isOpen={openSideChat}
             onClose={() => setOpenSideChat(false)}

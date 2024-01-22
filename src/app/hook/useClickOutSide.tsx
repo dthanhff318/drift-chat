@@ -7,19 +7,17 @@ type Props = {
 };
 const useClickOutSide = ({ parentRef, triggerElement, callback }: Props) => {
   const handleClickElement = (e) => {
-    console.log(parentRef);
-
     const targetElement = e.target;
     if (!parentRef.current || parentRef.current.contains(targetElement)) {
       return;
     }
+    console.log(parentRef.current.contains(targetElement));
+
     callback();
   };
   useEffect(() => {
     document.addEventListener('click', handleClickElement);
     return () => {
-      console.log(12);
-
       document.removeEventListener('click', handleClickElement);
     };
   }, [parentRef]);
