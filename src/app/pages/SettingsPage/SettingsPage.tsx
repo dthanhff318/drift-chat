@@ -6,29 +6,20 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import s from './style.module.scss';
 import Button from 'app/components/Button/Button';
+import authApi from 'app/axios/api/auth';
+import { pathLoginPage } from 'app/routes/routesConfig';
 
 const SettingsPage = () => {
-  const { currenTUser, logout } = authStore.getState();
+  const { currenTUser, logout } = authStore();
   const infoUser = currenTUser ?? geTUserFromLs();
   const history = useHistory();
   const handleLogout = async () => {
-    // await authApi.logout(infoUser.uid ?? "");
+    await authApi.logout(infoUser.uid ?? '');
     await signOut(auth).then(() => {
-      // logout();
-      // history.push(pathLoginPage);
+      logout();
+      history.push(pathLoginPage);
     });
   };
-
-  useEffect(() => {
-    // (async () => {
-    //   try {
-    //     const res = await authApi.getTokenLivekit();
-    //     setToken(res.data);
-    //   } catch (e) {
-    //     console.log(e);
-    //   }
-    // })();
-  }, []);
 
   return (
     <div className={s.wrapper}>
