@@ -36,6 +36,7 @@ export const useService = () => {
   const [ref, inView] = useInView();
 
   const inputUploadRef = useRef<HTMLInputElement>(null);
+  const triggerSidechatRef = useRef<HTMLDivElement>(null);
 
   const [message, setMessage] = useState('');
   const [openEmoji, setOpenEmoji] = useState<boolean>(false);
@@ -203,6 +204,7 @@ export const useService = () => {
     detailGroup,
     token,
     queryUrlObj,
+    triggerSidechatRef,
     scrollMessageIntoView,
     isMessageLoaded,
     setOpenSideChat,

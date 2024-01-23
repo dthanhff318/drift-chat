@@ -9,16 +9,18 @@ type TModalSideChat = '' | 'change-name-group' | 'change-theme' | 'list-member' 
 type TLoadingSideChat = '' | 'change-name-group' | 'photo';
 
 type Props = {
+  triggerSidechatRef: any;
   onClose: () => void;
 };
 
-export const useService = ({ onClose }: Props) => {
+export const useService = ({ triggerSidechatRef, onClose }: Props) => {
   const { currenTUser } = authStore();
   const { getGroups, getDetailGroup, currentGroup, detailGroup } = groupStore();
   const [loading, setLoading] = useState<TLoadingSideChat>('');
   const [modal, setModal] = useState<TModalSideChat>('');
   const [preview, setPreview] = useState<boolean>(false);
   const inputUploadRef = useRef<HTMLInputElement>(null);
+  const sideChatRef = useRef<HTMLDivElement>(null);
 
   const dataPopover = [
     {
@@ -66,6 +68,12 @@ export const useService = ({ onClose }: Props) => {
     }
   };
 
+  useClickOutSide({
+    parentRef: sideChatRef,
+    triggerRef: triggerSidechatRef,
+    callback: onClose,
+  });
+
   return {
     modal,
     loading,
@@ -73,6 +81,7 @@ export const useService = ({ onClose }: Props) => {
     inputUploadRef,
     currenTUser,
     preview,
+    sideChatRef,
     setPreview,
     handleUploadPhoto,
     setModal,

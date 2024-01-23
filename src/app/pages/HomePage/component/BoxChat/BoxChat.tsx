@@ -58,6 +58,7 @@ const BoxChat = () => {
     detailGroup,
     token,
     queryUrlObj,
+    triggerSidechatRef,
     scrollMessageIntoView,
     setOpenSideChat,
     setReply,
@@ -108,13 +109,7 @@ const BoxChat = () => {
   };
 
   const { nameGroup, avatarGroup } = getNameAndAvatarChat(detailGroup, currenTUser.id ?? '');
-  const sideChatRef = useRef<HTMLDivElement>(null);
-  const triggerSidechatRef = useRef<HTMLDivElement>(null);
-  useClickOutSide({
-    parentRef: sideChatRef,
-    triggerElement: triggerSidechatRef,
-    callback: () => setOpenSideChat(false),
-  });
+
   return (
     <>
       <div className={s.boxChatWrap}>
@@ -306,14 +301,12 @@ const BoxChat = () => {
           ref={inputUploadRef}
           onChange={onUploadImage}
         />
-        {openSideChat && (
-          <SideChat
-            ref={sideChatRef}
-            detailGroup={detailGroup}
-            isOpen={openSideChat}
-            onClose={() => setOpenSideChat(false)}
-          />
-        )}
+        <SideChat
+          triggerSidechatRef={triggerSidechatRef}
+          detailGroup={detailGroup}
+          isOpen={openSideChat}
+          onClose={() => setOpenSideChat(false)}
+        />
       </div>
       <ModalCommon title="" open={!!queryUrlObj.video} hideFooter={true} onCancel={handleVideoCall}>
         <LiveKitWrap token={token} onDisconnect={handleVideoCall} />
