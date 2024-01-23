@@ -145,8 +145,14 @@ export const useService = () => {
 
   const queryUrlObj = qs.parse(history.location.search);
   const isVideo = queryUrlObj.video;
-  const handleVideoCall = () => {
+  const handleVideoCall = async () => {
     if (!isVideo) {
+      try {
+        const res = await authApi.getTokenLivekit(detailGroup.id ?? '');
+        setToken(res.data);
+      } catch (e) {
+        console.log(e);
+      }
     }
     const url = qs.stringifyUrl(
       {
@@ -162,16 +168,16 @@ export const useService = () => {
     history.push(url);
   };
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await authApi.getTokenLivekit(detailGroup.id ?? '');
-        setToken(res.data);
-      } catch (e) {
-        console.log(e);
-      }
-    })();
-  }, [isVideo]);
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const res = await authApi.getTokenLivekit(detailGroup.id ?? '');
+  //       setToken(res.data);
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   })();
+  // }, [isVideo]);
 
   useEffect(() => {
     page > 1 && inView && hasMore && getMessages(currentGroup, page);
