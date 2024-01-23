@@ -1,13 +1,18 @@
 import groupApi from 'app/axios/api/group';
+import useClickOutSide from 'app/hook/useClickOutSide';
 import authStore from 'app/storeZustand/authStore';
 import groupStore from 'app/storeZustand/groupStore';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { IndexedObject } from 'types/common';
 
 type TModalSideChat = '' | 'change-name-group' | 'change-theme' | 'list-member' | 'add-member';
 type TLoadingSideChat = '' | 'change-name-group' | 'photo';
 
-export const useService = () => {
+type Props = {
+  onClose: () => void;
+};
+
+export const useService = ({ onClose }: Props) => {
   const { currenTUser } = authStore();
   const { getGroups, getDetailGroup, currentGroup, detailGroup } = groupStore();
   const [loading, setLoading] = useState<TLoadingSideChat>('');
