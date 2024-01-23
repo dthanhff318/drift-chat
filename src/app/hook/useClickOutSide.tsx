@@ -3,12 +3,18 @@ import { useEffect } from 'react';
 type Props = {
   parentRef: React.RefObject<any>;
   callback: () => void;
-  triggerRef?: any;
+  triggerRef?: React.RefObject<any>;
 };
 const useClickOutSide = ({ parentRef, triggerRef, callback }: Props) => {
   const handleClickElement = (e) => {
     const targetElement = e.target;
-    if (!parentRef.current || parentRef.current.contains(targetElement)) {
+    if (
+      !parentRef?.current ||
+      !triggerRef?.current ||
+      parentRef?.current.contains(targetElement) ||
+      triggerRef?.current.contains(targetElement) ||
+      targetElement.closest('.ant-modal-root')
+    ) {
       return;
     }
     callback();

@@ -16,7 +16,12 @@ import { Image, Popover } from 'antd';
 import Avatar from 'app/components/Avatar/Avatar';
 import Loading from 'app/components/Loading/Loading';
 import PopoverCustom from 'app/components/Popover/Popover';
-import { getNameAndAvatarChat, getNameUser, getUserById } from 'app/helpers/funcs';
+import {
+  getNameAndAvatarChat,
+  getNameUser,
+  getPublicImageUrl,
+  getUserById,
+} from 'app/helpers/funcs';
 import authStore from 'app/storeZustand/authStore';
 import React, { useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -112,202 +117,217 @@ const BoxChat = () => {
 
   return (
     <>
-      <div className={s.boxChatWrap}>
-        <Loading loading={firstTimeLoading || loadingDetailGroup} />
-        <div className={s.headerBox}>
-          <div className={s.infoGroup}>
-            <Avatar src={avatarGroup} />
-            <span className={s.title}>{nameGroup}</span>
-          </div>
-          <div className={s.rightHeadBoxchat}>
-            <div className={s.rightBtn} onClick={handleVideoCall}>
-              <Video size={28} />
+      {detailGroup.id ? (
+        <div className={s.boxChatWrap}>
+          <Loading loading={firstTimeLoading || loadingDetailGroup} />
+          <div className={s.headerBox}>
+            <div className={s.infoGroup}>
+              <Avatar src={avatarGroup} />
+              <span className={s.title}>{nameGroup}</span>
             </div>
-            <div className={s.rightBtn} onClick={() => setOpenSideChat(true)}>
-              <AlignJustify size={28} />
-            </div>
-          </div>
-        </div>
-
-        <div className={s.content} style={{ background: detailGroup.theme?.value }}>
-          {messages.map((e, i) => {
-            const otherMess = e.senderId !== currenTUser.id;
-            const findUserOwnMess = detailGroup.members?.find((m) => m.id === e.senderId) ?? {};
-            const prevMess = i ? messages[i - 1] : messages[i];
-            const nextMess = i < messages.length - 1 ? messages[i + 1] : messages[i];
-
-            const isShowNickname =
-              (e.senderId === prevMess.senderId && nextMess.senderId !== e.senderId) ||
-              i === messages.length - 1 ||
-              (e.senderId !== prevMess.senderId && e.senderId !== nextMess.senderId);
-            const isShowAvatar =
-              (e.senderId !== prevMess.senderId && nextMess.senderId === e.senderId) ||
-              i === 0 ||
-              (e.senderId !== prevMess.senderId && e.senderId !== nextMess.senderId);
-            const marginMess =
-              (e.senderId !== prevMess.senderId && nextMess.senderId === e.senderId && i !== 0) ||
-              (e.senderId === currenTUser.id &&
-                nextMess.senderId !== e.senderId &&
-                e.senderId !== prevMess.senderId);
-
-            return (
+            <div className={s.rightHeadBoxchat}>
+              <div className={s.rightBtn} onClick={handleVideoCall}>
+                <Video size={28} />
+              </div>
               <div
-                key={i}
-                className={`${s.messageWrap} ${otherMess ? s.left : s.right} ${
-                  marginMess ? s.mgBot : ''
-                }`}
-                id={`m${e.id}`}
+                ref={triggerSidechatRef}
+                className={s.rightBtn}
+                onClick={() => setOpenSideChat(true)}
               >
-                {isShowNickname && (
-                  <span className={s.nickname}>
-                    {getNameUser(findUserOwnMess, detailGroup.setting ?? [])}
-                  </span>
-                )}
-                <div className={`${s.message}`} ref={i === messages.length - 1 ? ref : undefined}>
-                  {otherMess && isShowAvatar && (
-                    <Avatar
-                      size="s"
-                      src={getUserById(e.senderId ?? '', groupDetail?.members ?? []).photoUrl}
-                    />
+                <AlignJustify size={28} />
+              </div>
+            </div>
+          </div>
+
+          <div className={s.content} style={{ background: detailGroup.theme?.value }}>
+            {messages.map((e, i) => {
+              const otherMess = e.senderId !== currenTUser.id;
+              const findUserOwnMess = detailGroup.members?.find((m) => m.id === e.senderId) ?? {};
+              const prevMess = i ? messages[i - 1] : messages[i];
+              const nextMess = i < messages.length - 1 ? messages[i + 1] : messages[i];
+
+              const isShowNickname =
+                (e.senderId === prevMess.senderId && nextMess.senderId !== e.senderId) ||
+                i === messages.length - 1 ||
+                (e.senderId !== prevMess.senderId && e.senderId !== nextMess.senderId);
+              const isShowAvatar =
+                (e.senderId !== prevMess.senderId && nextMess.senderId === e.senderId) ||
+                i === 0 ||
+                (e.senderId !== prevMess.senderId && e.senderId !== nextMess.senderId);
+              const marginMess =
+                (e.senderId !== prevMess.senderId && nextMess.senderId === e.senderId && i !== 0) ||
+                (e.senderId === currenTUser.id &&
+                  nextMess.senderId !== e.senderId &&
+                  e.senderId !== prevMess.senderId);
+
+              return (
+                <div
+                  key={i}
+                  className={`${s.messageWrap} ${otherMess ? s.left : s.right} ${
+                    marginMess ? s.mgBot : ''
+                  }`}
+                  id={`m${e.id}`}
+                >
+                  {isShowNickname && (
+                    <span className={s.nickname}>
+                      {getNameUser(findUserOwnMess, detailGroup.setting ?? [])}
+                    </span>
                   )}
-                  <div
-                    className={`${s.contentWrap} ${
-                      e.isDelete ? s.messageDeleted : ''
-                    } ${isShowAvatar ? '' : s.hideAvt} `}
-                  >
-                    {e.replyMessage && (
-                      <div
-                        className={s.replyMess}
-                        onClick={() => scrollMessageIntoView(e.replyMessage?.id ?? '')}
-                      >
-                        <div className={s.enterIcon}>
-                          <EnterOutlined rev={undefined} />
-                        </div>
-                        <p className={s.replyContent}>{e.replyMessage?.content}</p>
-                      </div>
-                    )}
-                    {e.image && !e.isDelete && (
-                      <Image.PreviewGroup>
-                        <Image className={s.contentImage} src={e.image} />
-                      </Image.PreviewGroup>
-                    )}
-                    {e.content && !e.isDelete && (
-                      <span
-                        className={`${s.contentMsg} ${e.image ? s.hasImage : ''}`}
-                        dangerouslySetInnerHTML={{
-                          __html: e.content?.replaceAll('\n', '<br />') || '',
-                        }}
+                  <div className={`${s.message}`} ref={i === messages.length - 1 ? ref : undefined}>
+                    {otherMess && isShowAvatar && (
+                      <Avatar
+                        size="s"
+                        src={getUserById(e.senderId ?? '', groupDetail?.members ?? []).photoUrl}
                       />
                     )}
-                    {(e.content || e.image) && e.isDelete && (
-                      <span className={`${s.contentMsg} ${e.image ? s.hasImage : ''}`}>
-                        This message has been deleted
-                      </span>
-                    )}
-                    <Popover
-                      placement={otherMess ? 'right' : 'left'}
-                      content={<PopoverCustom data={renderDataPopover(e)} />}
+                    <div
+                      className={`${s.contentWrap} ${
+                        e.isDelete ? s.messageDeleted : ''
+                      } ${isShowAvatar ? '' : s.hideAvt} `}
                     >
-                      {!e.isDelete && (
-                        <div className={s.options}>
-                          <MoreOutlined rev={undefined} />
+                      {e.replyMessage && (
+                        <div
+                          className={s.replyMess}
+                          onClick={() => scrollMessageIntoView(e.replyMessage?.id ?? '')}
+                        >
+                          <div className={s.enterIcon}>
+                            <EnterOutlined rev={undefined} />
+                          </div>
+                          <p className={s.replyContent}>{e.replyMessage?.content}</p>
                         </div>
                       )}
-                    </Popover>
+                      {e.image && !e.isDelete && (
+                        <Image.PreviewGroup>
+                          <Image className={s.contentImage} src={e.image} />
+                        </Image.PreviewGroup>
+                      )}
+                      {e.content && !e.isDelete && (
+                        <span
+                          className={`${s.contentMsg} ${e.image ? s.hasImage : ''}`}
+                          dangerouslySetInnerHTML={{
+                            __html: e.content?.replaceAll('\n', '<br />') || '',
+                          }}
+                        />
+                      )}
+                      {(e.content || e.image) && e.isDelete && (
+                        <span className={`${s.contentMsg} ${e.image ? s.hasImage : ''}`}>
+                          This message has been deleted
+                        </span>
+                      )}
+                      <Popover
+                        placement={otherMess ? 'right' : 'left'}
+                        content={<PopoverCustom data={renderDataPopover(e)} />}
+                      >
+                        {!e.isDelete && (
+                          <div className={s.options}>
+                            <MoreOutlined rev={undefined} />
+                          </div>
+                        )}
+                      </Popover>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
 
-        {reply.id && (
-          <div className={s.replyWrap}>
-            <div className={s.replyValue}>
-              <div className={s.iconReply}>
-                <EnterOutlined rev={undefined} />
+          {reply.id && (
+            <div className={s.replyWrap}>
+              <div className={s.replyValue}>
+                <div className={s.iconReply}>
+                  <EnterOutlined rev={undefined} />
+                </div>
+                <span className={s.replyText}>Reply : </span>
+                <p className={s.replyMess}>{reply.content}</p>
               </div>
-              <span className={s.replyText}>Reply : </span>
-              <p className={s.replyMess}>{reply.content}</p>
+              <div className={s.closeIcon} onClick={() => setReply({})}>
+                <CloseCircleOutlined rev={undefined} />
+              </div>
             </div>
-            <div className={s.closeIcon} onClick={() => setReply({})}>
-              <CloseCircleOutlined rev={undefined} />
-            </div>
-          </div>
-        )}
-        {file && (
-          <div className={s.imagePreview}>
-            <img className={s.image} src={URL.createObjectURL(file)} alt="" />
-            <CloseCircleFilled
-              className={s.iconRemoveImg}
-              onClick={() => setFile(null)}
-              rev={undefined}
-            />
-          </div>
-        )}
-        {currentGroup && (
-          <div className={s.chatting}>
-            <div className={s.chattingFunction}>
-              <PaperClipOutlined
-                className={s.emojiIcon}
-                onClick={() => {
-                  inputUploadRef.current?.click();
-                }}
+          )}
+          {file && (
+            <div className={s.imagePreview}>
+              <img className={s.image} src={URL.createObjectURL(file)} alt="" />
+              <CloseCircleFilled
+                className={s.iconRemoveImg}
+                onClick={() => setFile(null)}
                 rev={undefined}
               />
             </div>
-            <TextareaAutosize
-              className={s.inputChat}
-              value={message}
-              onChange={handleInputChange}
-              maxRows={4}
-              onKeyDown={(e: any) => {
-                if (e.code === 'Enter' && !e.shiftKey) {
-                  handleSendMess();
-                }
-              }}
-              placeholder="Type something..."
-            />
-            {openEmoji && (
-              <div className={s.emojiPicker}>
-                <Picker
-                  theme="dark"
-                  data={data}
-                  open={false}
-                  onEmojiSelect={handleEmojiSelect}
-                  emojiButtonSize={30}
-                  emojiSize={24}
-                  exceptEmojis={[]}
+          )}
+          {currentGroup && (
+            <div className={s.chatting}>
+              <div className={s.chattingFunction}>
+                <PaperClipOutlined
+                  className={s.emojiIcon}
+                  onClick={() => {
+                    inputUploadRef.current?.click();
+                  }}
+                  rev={undefined}
                 />
               </div>
-            )}
-            <SmileOutlined
-              className={s.emojiIcon}
-              onClick={() => setOpenEmoji((prev) => !prev)}
-              rev={undefined}
-            />
-            <button className={s.sendMsg} onClick={handleSendMess}>
-              {loading ? (
-                <LoadingOutlined className={s.iconSend} rev={undefined} />
-              ) : (
-                <SendOutlined className={s.iconSend} rev={undefined} />
+              <TextareaAutosize
+                className={s.inputChat}
+                value={message}
+                onChange={handleInputChange}
+                maxRows={4}
+                onKeyDown={(e: any) => {
+                  if (e.code === 'Enter' && !e.shiftKey) {
+                    handleSendMess();
+                  }
+                }}
+                placeholder="Type something..."
+              />
+              {openEmoji && (
+                <div className={s.emojiPicker}>
+                  <Picker
+                    theme="dark"
+                    data={data}
+                    open={false}
+                    onEmojiSelect={handleEmojiSelect}
+                    emojiButtonSize={30}
+                    emojiSize={24}
+                    exceptEmojis={[]}
+                  />
+                </div>
               )}
-            </button>
-          </div>
-        )}
-        <input
-          type="file"
-          className={s.inputUpload}
-          ref={inputUploadRef}
-          onChange={onUploadImage}
-        />
-        <SideChat
-          triggerSidechatRef={triggerSidechatRef}
-          detailGroup={detailGroup}
-          isOpen={openSideChat}
-          onClose={() => setOpenSideChat(false)}
-        />
-      </div>
+              <SmileOutlined
+                className={s.emojiIcon}
+                onClick={() => setOpenEmoji((prev) => !prev)}
+                rev={undefined}
+              />
+              <button className={s.sendMsg} onClick={handleSendMess}>
+                {loading ? (
+                  <LoadingOutlined className={s.iconSend} rev={undefined} />
+                ) : (
+                  <SendOutlined className={s.iconSend} rev={undefined} />
+                )}
+              </button>
+            </div>
+          )}
+          <input
+            type="file"
+            className={s.inputUpload}
+            ref={inputUploadRef}
+            onChange={onUploadImage}
+          />
+          <SideChat
+            triggerSidechatRef={triggerSidechatRef}
+            detailGroup={detailGroup}
+            isOpen={openSideChat}
+            onClose={() => setOpenSideChat(false)}
+          />
+        </div>
+      ) : (
+        <div
+          className={s.welcomeWrap}
+          style={{ backgroundImage: `url(${getPublicImageUrl('bgBoxChat.jpg')})` }}
+        >
+          <p className={s.textWelcome}>
+            Start a chat <br /> Enjoy your world!
+          </p>
+        </div>
+      )}
       <ModalCommon title="" open={!!queryUrlObj.video} hideFooter={true} onCancel={handleVideoCall}>
         <LiveKitWrap token={token} onDisconnect={handleVideoCall} />
       </ModalCommon>

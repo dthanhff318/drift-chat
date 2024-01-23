@@ -1,20 +1,11 @@
-import {
-  ControlBar,
-  GridLayout,
-  LiveKitRoom,
-  ParticipantTile,
-  RoomAudioRenderer,
-  useTracks,
-} from '@livekit/components-react';
-import authApi from 'app/axios/api/auth';
 import { auth } from 'app/firebase/configFirebase';
 import { geTUserFromLs } from 'app/helpers/localStorage';
 import authStore from 'app/storeZustand/authStore';
 import { signOut } from 'firebase/auth';
-import { Track } from 'livekit-client';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import '@livekit/components-styles';
+import s from './style.module.scss';
+import Button from 'app/components/Button/Button';
 
 const SettingsPage = () => {
   const { currenTUser, logout } = authStore.getState();
@@ -28,9 +19,6 @@ const SettingsPage = () => {
     });
   };
 
-  const [token, setToken] = useState<string>('');
-  const tokenLivekit = localStorage.getItem('tokenLivekit');
-
   useEffect(() => {
     // (async () => {
     //   try {
@@ -42,7 +30,15 @@ const SettingsPage = () => {
     // })();
   }, []);
 
-  return <div>{/* <button onClick={handleLogout}>Logout</button> */}</div>;
+  return (
+    <div className={s.wrapper}>
+      <h2 className={s.titlePage}>Settings</h2>
+      <div className={s.content}>hi</div>
+      <div className={s.bottom}>
+        <Button text="Logout" fill={true} onClick={handleLogout} />
+      </div>
+    </div>
+  );
 };
 
 export default SettingsPage;
