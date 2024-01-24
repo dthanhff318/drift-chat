@@ -1,5 +1,5 @@
 import { auth } from 'app/firebase/configFirebase';
-import { geTUserFromLs } from 'app/helpers/localStorage';
+import { geTUserFromLs, getRefreshTokenFromLocalStorage } from 'app/helpers/localStorage';
 import authStore from 'app/storeZustand/authStore';
 import { signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
@@ -14,7 +14,8 @@ const SettingsPage = () => {
   const infoUser = currenTUser ?? geTUserFromLs();
   const history = useHistory();
   const handleLogout = async () => {
-    await authApi.logout(infoUser.uid ?? '');
+    const refreshToken = getRefreshTokenFromLocalStorage();
+    await authApi.logout(refreshToken ?? '');
     await signOut(auth).then(() => {
       logout();
       history.push(pathLoginPage);

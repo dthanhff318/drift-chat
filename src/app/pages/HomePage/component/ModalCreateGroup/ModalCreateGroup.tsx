@@ -15,10 +15,10 @@ const ModalCreateGroup = ({ onClose }: Props) => {
   const {
     dataCommunicate: { listFriend },
   } = friendStore();
-
   const { getGroups } = groupStore();
 
   const [users, setUsers] = useState<TUser[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const inputNameRef = useRef<HTMLInputElement>(null);
 
   const handleSelectUser = (user: TUser) => {
@@ -32,14 +32,19 @@ const ModalCreateGroup = ({ onClose }: Props) => {
   };
 
   const handleCreateGroup = async () => {
-    const dataGroup = {
-      name: inputNameRef.current?.value,
-      membersId: users.map((e) => e.id),
-    };
-    const res = await groupApi.createGroup(dataGroup);
-    getGroups();
-    onClose();
-    console.log(res);
+    try {
+      setLoading(true);
+      const dataGroup = {
+        name: inputNameRef.current?.value,
+        membersId: users.map((e) => e.id),
+      };
+      const res = await groupApi.createGroup(dataGroup);
+      getGroups();
+      setLoading(false);
+      onClose();
+    } catch (e) {
+      setLoading(false);
+    }
   };
 
   return (
@@ -86,7 +91,7 @@ const ModalCreateGroup = ({ onClose }: Props) => {
       </div>
       <div className={s.footer}>
         <Button text="Cancel" />
-        <Button text="Create" onClick={() => handleCreateGroup()} />
+        <Button text="Create" loading={loading} onClick={() => handleCreateGroup()} />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-@import "../../../../scss/variables.scss";
+@import '../../../../scss/variables.scss';
 
 .wrapper {
   width: 100%;
@@ -54,6 +54,7 @@
         border-radius: 0.25rem;
         padding-left: 1rem;
         justify-content: space-between;
+        cursor: pointer;
         &:hover {
           background: rgb(234, 244, 245);
         }
