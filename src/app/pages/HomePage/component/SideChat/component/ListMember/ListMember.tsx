@@ -12,6 +12,7 @@ import authStore from 'app/storeZustand/authStore';
 import { getNameUser } from 'app/helpers/funcs';
 import groupStore from 'app/storeZustand/groupStore';
 import { notification } from 'antd';
+import { KeyRound, Pencil, Save } from 'lucide-react';
 type Props = {
   detailGroup: TGroupDetail;
 };
@@ -45,9 +46,10 @@ const ListMember = ({ detailGroup }: Props) => {
   const handleRemoveMemberGroup = async (member: string) => {
     try {
       const res = await groupApi.removeMember({
-        idGroup: detailGroup.id ?? '',
+        idGroup: id ?? '',
         member,
       });
+      getDetailGroup(id ?? '');
     } catch (err) {
       notification.error({
         message: `Error`,
@@ -84,7 +86,7 @@ const ListMember = ({ detailGroup }: Props) => {
                       setEdit('');
                     }}
                   >
-                    <CheckCircleOutlined rev={undefined} />
+                    <Save size={18} />
                   </div>
                 ) : (
                   <div
@@ -93,14 +95,18 @@ const ListMember = ({ detailGroup }: Props) => {
                       setEdit(e.id ?? '');
                     }}
                   >
-                    <TagOutlined rev={undefined} />
+                    <Pencil size={18} />
                   </div>
                 )}
-                {isAdminGroup && <span>( Admin )</span>}
+                {isAdminGroup && (
+                  <span>
+                    <KeyRound size={18} color="#504e0c" />
+                  </span>
+                )}
               </div>
               <span className={s.name}>{e.displayName}</span>
             </div>
-            {isCurrentUserIsAdmin && (
+            {isCurrentUserIsAdmin && e.id !== currenTUser.id && (
               <div className={s.icDelMember} onClick={() => handleRemoveMemberGroup(e.id ?? '')}>
                 <DeleteOutlined rev={undefined} />
               </div>

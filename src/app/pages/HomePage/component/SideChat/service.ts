@@ -62,6 +62,8 @@ export const useService = ({ triggerSidechatRef, onClose }: Props) => {
       const formUpload = new FormData();
       formUpload.append('image', files[0]);
       const res = await groupApi.changePhotoGroup(detailGroup.id ?? '', formUpload);
+      getGroups();
+      getDetailGroup(currentGroup);
       setLoading('');
     } catch (err) {
       setLoading('');

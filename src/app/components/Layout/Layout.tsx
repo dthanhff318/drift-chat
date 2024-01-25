@@ -3,6 +3,7 @@ import s from './style.module.scss';
 import Sidebar from './Sidebar';
 import socketStore from 'app/storeZustand/socketStore';
 import { notification } from 'antd';
+import { TUser } from 'types/common';
 
 type Props = {
   children: ReactNode;
@@ -10,14 +11,19 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   const { socket } = socketStore.getState();
-  useEffect(() => {
-    socket?.on('userLogin', (user) => {
-      notification.success({
-        message: `${user.displayName} is online`,
-        description: "Let's say something",
-        duration: 4,
-      });
+
+  const handleSocketUserlogin = (user: TUser) => {
+    notification.success({
+      message: `${user.displayName} is online`,
+      description: "Let's say something",
+      duration: 4,
     });
+  };
+  useEffect(() => {
+    socket?.on('userLogin', handleSocketUserlogin);
+    return () => {
+      socket?.off('userLogin', handleSocketUserlogin);
+    };
   }, []);
 
   return (

@@ -41,22 +41,30 @@ export const useService = () => {
   };
 
   // Listen event when other user send message
+
+  const sendMessSocket = (mess: TMessage) => {
+    const { group } = mess;
+    const selectGroup = groupStore.getState().currentGroup;
+    if (group === selectGroup) {
+      updateMessage(mess);
+    } else {
+      updateListChannelChat(mess);
+    }
+  };
+
+  const updateListMessSocket = (mess: TMessage) => {
+    updateListMessage(mess);
+  };
   useEffect(() => {
     // Send message
-    socket?.on('sendMessage', (mess) => {
-      const { group } = mess;
-      const selectGroup = groupStore.getState().currentGroup;
-      if (group === selectGroup) {
-        updateMessage(mess);
-      } else {
-        updateListChannelChat(mess);
-      }
-    });
-
+    socket?.on('sendMessage', sendMessSocket);
     // Delete message
-    socket?.on('deleteMessage', (mess) => {
-      updateListMessage(mess);
-    });
+    socket?.on('deleteMessage', updateListMessSocket);
+
+    return () => {
+      socket?.off('sendMessage', sendMessSocket);
+      socket?.off('deleteMessage', updateListMessSocket);
+    };
   }, []);
 
   useEffect(() => {

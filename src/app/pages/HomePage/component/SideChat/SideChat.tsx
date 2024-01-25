@@ -16,6 +16,7 @@ import { useService } from './service';
 import s from './style.module.scss';
 import AddMember from './component/AddMember/AddMember';
 import ChangeTheme from './component/ChangeTheme/ChangeTheme';
+import { LogOut, UserRoundPlus, UsersRound } from 'lucide-react';
 type Props = {
   detailGroup: TGroupDetail;
   isOpen: boolean;
@@ -47,13 +48,13 @@ const SideChat = ({ isOpen, triggerSidechatRef, detailGroup, onClose }: Props) =
     },
     {
       key: 'Members',
-      icon: <SolutionOutlined rev={undefined} />,
+      icon: <UsersRound size={20} color="#ffffff" />,
       className: detailGroup.isGroup ? '' : s.hidden,
       onClick: () => setModal('list-member'),
     },
     {
       key: 'Add more member',
-      icon: <SolutionOutlined rev={undefined} />,
+      icon: <UserRoundPlus size={20} color="#ffffff" />,
       className: detailGroup.isGroup ? '' : s.hidden,
       onClick: () => setModal('add-member'),
     },
@@ -64,6 +65,12 @@ const SideChat = ({ isOpen, triggerSidechatRef, detailGroup, onClose }: Props) =
       component: (
         <div style={{ backgroundColor: detailGroup.theme?.value }} className={s.previewTheme}></div>
       ),
+    },
+    {
+      key: 'Leave group',
+      className: '',
+      onClick: () => setModal('change-theme'),
+      icon: <LogOut size={18} color="#ffffff" />,
     },
   ];
 

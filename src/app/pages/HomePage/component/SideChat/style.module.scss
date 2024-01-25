@@ -72,6 +72,9 @@
         .icon {
           font-size: 1.3rem;
           cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
       }
       .previewTheme {
