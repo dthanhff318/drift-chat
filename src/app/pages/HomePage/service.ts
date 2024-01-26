@@ -1,14 +1,13 @@
-import { notification } from 'antd';
 import groupApi from 'app/axios/api/group';
+import { replacePathParams } from 'app/helpers/funcs';
+import { pathHomePage, pathHomePageChat } from 'app/routes/routesConfig';
 import groupStore from 'app/storeZustand/groupStore';
 import messageStore from 'app/storeZustand/messageStore';
 import socketStore from 'app/storeZustand/socketStore';
 import moment from 'moment';
 import { useEffect } from 'react';
-import { TGroup, TMessage } from 'types/common';
 import { useHistory, useParams } from 'react-router-dom';
-import { pathHomePage, pathHomePageChat } from 'app/routes/routesConfig';
-import { replacePathParams } from 'app/helpers/funcs';
+import { TGroup, TMessage } from 'types/common';
 
 export const DEFAULT_PAST_TIME = '1970-01-01T00:00:00.000Z';
 

@@ -1,16 +1,11 @@
-import {
-  MessageOutlined,
-  SettingOutlined,
-  SketchOutlined,
-  SmileOutlined,
-  UsergroupDeleteOutlined,
-} from '@ant-design/icons';
+import { SketchOutlined } from '@ant-design/icons';
 import {
   pathFriendPage,
   pathHomePage,
   pathProfile,
   pathSettingsPage,
 } from 'app/routes/routesConfig';
+import { Home, MessagesSquare, RadioTower, Settings } from 'lucide-react';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import s from './style.module.scss';
@@ -23,16 +18,16 @@ const Sidebar = () => {
       </div>
       <div className={s.navOptions}>
         <NavLink to={pathHomePage} className={s.btnNav} activeClassName={s.active}>
-          <MessageOutlined rev={undefined} />
+          <MessagesSquare color="#ffffff" size={24} />
         </NavLink>
         <NavLink exact to={pathFriendPage} className={s.btnNav} activeClassName={s.active}>
-          <UsergroupDeleteOutlined rev={undefined} />
+          <RadioTower color="#ffffff" size={24} />
         </NavLink>
         <NavLink exact to={pathProfile} className={s.btnNav} activeClassName={s.active}>
-          <SmileOutlined rev={undefined} />
+          <Home color="#ffffff" size={24} />
         </NavLink>
         <NavLink exact to={pathSettingsPage} className={s.btnNav} activeClassName={s.active}>
-          <SettingOutlined rev={undefined} />
+          <Settings color="#ffffff" size={24} />
         </NavLink>
       </div>
       <div className={s.user}></div>
