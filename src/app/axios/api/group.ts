@@ -38,6 +38,9 @@ const groupApi = {
     const { idGroup, members } = data;
     return axiosClient.post(`groups/add-member/${idGroup}`, { members });
   },
+  leaveGroup: (groupId: string) => {
+    return axiosClient.get(`/groups/leave/${groupId}`);
+  },
 };
 
 export default groupApi;

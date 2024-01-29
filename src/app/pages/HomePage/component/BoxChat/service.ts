@@ -13,6 +13,7 @@ import { notification } from 'antd';
 import qs from 'query-string';
 import { useHistory, useParams } from 'react-router-dom';
 import authApi from 'app/axios/api/auth';
+import settingStore from 'app/storeZustand/settingStore';
 
 export const DEFAULT_PAST_TIME = '1970-01-01T00:00:00.000Z';
 
@@ -22,6 +23,7 @@ export const useService = () => {
 
   const { groups, currentGroup, detailGroup, loadingDetailGroup, saveGroups } = groupStore();
   const { currenTUser } = authStore();
+  const { settings } = settingStore();
   const { socket } = socketStore();
   const {
     messages,
@@ -211,6 +213,7 @@ export const useService = () => {
     token,
     queryUrlObj,
     triggerSidechatRef,
+    settings,
     scrollMessageIntoView,
     isMessageLoaded,
     setOpenSideChat,

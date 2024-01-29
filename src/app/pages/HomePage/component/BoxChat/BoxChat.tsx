@@ -3,7 +3,6 @@ import {
   CloseCircleOutlined,
   DeleteOutlined,
   EnterOutlined,
-  LeftSquareOutlined,
   LoadingOutlined,
   MoreOutlined,
   PaperClipOutlined,
@@ -12,9 +11,11 @@ import {
 } from '@ant-design/icons';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
+import '@livekit/components-styles';
 import { Image, Popover } from 'antd';
 import Avatar from 'app/components/Avatar/Avatar';
 import Loading from 'app/components/Loading/Loading';
+import ModalCommon from 'app/components/Modal/Modal';
 import PopoverCustom from 'app/components/Popover/Popover';
 import {
   getNameAndAvatarChat,
@@ -22,27 +23,15 @@ import {
   getPublicImageUrl,
   getUserById,
 } from 'app/helpers/funcs';
-import authStore from 'app/storeZustand/authStore';
-import React, { useRef, useState } from 'react';
+import { AlignJustify, Video } from 'lucide-react';
+import React, { useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { TMessage, TUser } from 'types/common';
+import LiveKitWrap from '../LiveKitWrap/LiveKitWrap';
 import SideChat from '../SideChat/SideChat';
 import s from '../style.module.scss';
+import MessageCommon from './MessageCommon';
 import { useService } from './service';
-import { AlignJustify, Video } from 'lucide-react';
-import {
-  ControlBar,
-  GridLayout,
-  LiveKitRoom,
-  ParticipantTile,
-  RoomAudioRenderer,
-  useTracks,
-} from '@livekit/components-react';
-import { Track } from 'livekit-client';
-import '@livekit/components-styles';
-import ModalCommon from 'app/components/Modal/Modal';
-import LiveKitWrap from '../LiveKitWrap/LiveKitWrap';
-import useClickOutSide from 'app/hook/useClickOutSide';
 
 const BoxChat = () => {
   const [selectedEmoji, setSelectedEmoji] = useState(null);
@@ -64,6 +53,7 @@ const BoxChat = () => {
     token,
     queryUrlObj,
     triggerSidechatRef,
+    settings,
     scrollMessageIntoView,
     setOpenSideChat,
     setReply,
@@ -77,8 +67,8 @@ const BoxChat = () => {
     handleVideoCall,
   } = useService();
 
+  const { commonData } = settings;
   const renderDataPopover = (mess: TMessage) => {
-    const { currenTUser } = authStore.getState();
     return [
       {
         icon: <SendOutlined rev={undefined} />,
@@ -147,87 +137,106 @@ const BoxChat = () => {
               const nextMess = i < messages.length - 1 ? messages[i + 1] : messages[i];
 
               const isShowNickname =
-                (e.senderId === prevMess.senderId && nextMess.senderId !== e.senderId) ||
+                (e.senderId === prevMess.senderId &&
+                  (nextMess.senderId !== e.senderId ||
+                    nextMess.type !== commonData?.messageTypes.USER)) ||
                 i === messages.length - 1 ||
                 (e.senderId !== prevMess.senderId && e.senderId !== nextMess.senderId);
               const isShowAvatar =
                 (e.senderId !== prevMess.senderId && nextMess.senderId === e.senderId) ||
                 i === 0 ||
-                (e.senderId !== prevMess.senderId && e.senderId !== nextMess.senderId);
+                (e.senderId !== prevMess.senderId && e.senderId !== nextMess.senderId) ||
+                (e.senderId === prevMess.senderId &&
+                  prevMess.type !== commonData?.messageTypes.USER);
               const marginMess =
                 (e.senderId !== prevMess.senderId && nextMess.senderId === e.senderId && i !== 0) ||
                 (e.senderId === currenTUser.id &&
                   nextMess.senderId !== e.senderId &&
-                  e.senderId !== prevMess.senderId);
+                  e.senderId !== prevMess.senderId) ||
+                (e.senderId === prevMess.senderId &&
+                  prevMess.type !== commonData?.messageTypes.USER);
 
-              return (
-                <div
-                  key={i}
-                  className={`${s.messageWrap} ${otherMess ? s.left : s.right} ${
-                    marginMess ? s.mgBot : ''
-                  }`}
-                  id={`m${e.id}`}
-                >
-                  {isShowNickname && (
-                    <span className={s.nickname}>
-                      {getNameUser(findUserOwnMess, detailGroup.setting ?? [])}
-                    </span>
-                  )}
-                  <div className={`${s.message}`} ref={i === messages.length - 1 ? ref : undefined}>
-                    {otherMess && isShowAvatar && (
-                      <Avatar
-                        size="s"
-                        src={getUserById(e.senderId ?? '', groupDetail?.members ?? []).photoUrl}
-                      />
-                    )}
+              // RENDER MESSAGE
+              switch (e.type) {
+                case commonData?.messageTypes.COMMON:
+                  return (
+                    <div key={e.id} ref={i === messages.length - 1 ? ref : undefined}>
+                      <MessageCommon message={e} />
+                    </div>
+                  );
+                case commonData?.messageTypes.USER:
+                  return (
                     <div
-                      className={`${s.contentWrap} ${
-                        e.isDelete ? s.messageDeleted : ''
-                      } ${isShowAvatar ? '' : s.hideAvt} `}
+                      key={i}
+                      className={`${s.messageWrap} ${otherMess ? s.left : s.right} ${
+                        marginMess ? s.mgBot : ''
+                      }`}
+                      id={`m${e.id}`}
                     >
-                      {e.replyMessage && (
-                        <div
-                          className={s.replyMess}
-                          onClick={() => scrollMessageIntoView(e.replyMessage?.id ?? '')}
-                        >
-                          <div className={s.enterIcon}>
-                            <EnterOutlined rev={undefined} />
-                          </div>
-                          <p className={s.replyContent}>{e.replyMessage?.content}</p>
-                        </div>
-                      )}
-                      {e.image && !e.isDelete && (
-                        <Image.PreviewGroup>
-                          <Image className={s.contentImage} src={e.image} />
-                        </Image.PreviewGroup>
-                      )}
-                      {e.content && !e.isDelete && (
-                        <span
-                          className={`${s.contentMsg} ${e.image ? s.hasImage : ''}`}
-                          dangerouslySetInnerHTML={{
-                            __html: e.content?.replaceAll('\n', '<br />') || '',
-                          }}
-                        />
-                      )}
-                      {(e.content || e.image) && e.isDelete && (
-                        <span className={`${s.contentMsg} ${e.image ? s.hasImage : ''}`}>
-                          This message has been deleted
+                      {isShowNickname && (
+                        <span className={s.nickname}>
+                          {getNameUser(findUserOwnMess, detailGroup.setting ?? [])}
                         </span>
                       )}
-                      <Popover
-                        placement={otherMess ? 'right' : 'left'}
-                        content={<PopoverCustom data={renderDataPopover(e)} />}
+                      <div
+                        className={`${s.message}`}
+                        ref={i === messages.length - 1 ? ref : undefined}
                       >
-                        {!e.isDelete && (
-                          <div className={s.options}>
-                            <MoreOutlined rev={undefined} />
-                          </div>
+                        {otherMess && isShowAvatar && (
+                          <Avatar
+                            size="s"
+                            src={getUserById(e.senderId ?? '', groupDetail?.members ?? []).photoUrl}
+                          />
                         )}
-                      </Popover>
+                        <div
+                          className={`${s.contentWrap} ${
+                            e.isDelete ? s.messageDeleted : ''
+                          } ${isShowAvatar ? '' : s.hideAvt} `}
+                        >
+                          {e.replyMessage && (
+                            <div
+                              className={s.replyMess}
+                              onClick={() => scrollMessageIntoView(e.replyMessage?.id ?? '')}
+                            >
+                              <div className={s.enterIcon}>
+                                <EnterOutlined rev={undefined} />
+                              </div>
+                              <p className={s.replyContent}>{e.replyMessage?.content}</p>
+                            </div>
+                          )}
+                          {e.image && !e.isDelete && (
+                            <Image.PreviewGroup>
+                              <Image className={s.contentImage} src={e.image} />
+                            </Image.PreviewGroup>
+                          )}
+                          {e.content && !e.isDelete && (
+                            <span
+                              className={`${s.contentMsg} ${e.image ? s.hasImage : ''}`}
+                              dangerouslySetInnerHTML={{
+                                __html: e.content?.replaceAll('\n', '<br />') || '',
+                              }}
+                            />
+                          )}
+                          {(e.content || e.image) && e.isDelete && (
+                            <span className={`${s.contentMsg} ${e.image ? s.hasImage : ''}`}>
+                              This message has been deleted
+                            </span>
+                          )}
+                          <Popover
+                            placement={otherMess ? 'right' : 'left'}
+                            content={<PopoverCustom data={renderDataPopover(e)} />}
+                          >
+                            {!e.isDelete && (
+                              <div className={s.options}>
+                                <MoreOutlined rev={undefined} />
+                              </div>
+                            )}
+                          </Popover>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              );
+                  );
+              }
             })}
           </div>
 

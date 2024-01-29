@@ -7,11 +7,22 @@ type Props = {
   title: string;
   open: boolean;
   hideFooter?: boolean;
+  loading?: boolean;
+  onConfirm?: () => void;
   onOk?: () => void;
   onCancel: () => void;
 };
 
-const ModalCommon = ({ children, title, hideFooter, onCancel, onOk, open }: Props) => {
+const ModalCommon = ({
+  children,
+  title,
+  hideFooter,
+  loading,
+  onConfirm,
+  onCancel,
+  onOk,
+  open,
+}: Props) => {
   return (
     <Modal
       className={s.customModal}
@@ -28,7 +39,7 @@ const ModalCommon = ({ children, title, hideFooter, onCancel, onOk, open }: Prop
         {!hideFooter && (
           <div className={s.footer}>
             <Button loading={false} text="Cancel" />
-            <Button loading={false} text="OK" />
+            <Button loading={loading} text="OK" onClick={onConfirm} />
           </div>
         )}
       </div>

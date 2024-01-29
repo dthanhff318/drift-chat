@@ -43,9 +43,7 @@ const MessageChatItem = ({ group }: Props) => {
   };
 
   const newestMessNotMine = group.newestMess?.senderId !== currenTUser.id;
-
   const isUnread = group.unread !== 0 && newestMessNotMine;
-
   const { nameGroup, avatarGroup } = getNameAndAvatarChat(group, currenTUser.id ?? '');
 
   return (

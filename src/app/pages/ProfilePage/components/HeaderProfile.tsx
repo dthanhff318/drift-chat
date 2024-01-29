@@ -16,6 +16,7 @@ import UserInfoDetail from './UserInfoDetail/UserInfoDetail';
 import userApi from 'app/axios/api/user';
 import authStore from 'app/storeZustand/authStore';
 import Loading from 'app/components/Loading/Loading';
+import { SquarePen, ThumbsUp } from 'lucide-react';
 type Props = {
   user: TUser;
 };
@@ -73,9 +74,22 @@ const HeaderProfile = ({ user }: Props) => {
               </span>
             </p>
             <p className={s.introduction}>{user.introduction}</p>
-            <div className={s.coinWrap}>
-              <img src={getPublicImageUrl('coin-drift.png')} className={s.coinImg} alt="" />
-              <span>{user.coin}</span>
+            <div className={s.infoBottom}>
+              <div className={s.coinWrap}>
+                <img src={getPublicImageUrl('coin-drift.png')} className={s.coinImg} alt="" />
+                <span>{user.coin}</span>
+              </div>
+              <div className={s.likeGroup}>
+                <div
+                  className={s.likeIcon}
+                  onClick={() => {
+                    console.log(1);
+                  }}
+                >
+                  <ThumbsUp strokeWidth={2} color="#ffffff" />
+                </div>
+                <span className={s.quantityLike}>{user.likedProfile?.length ?? 0}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -98,7 +112,7 @@ const HeaderProfile = ({ user }: Props) => {
           </div>
         </div>
         <div className={s.iconGallery} onClick={() => setModal(true)}>
-          <HighlightOutlined rev={undefined} />
+          <SquarePen color="#ffffff" />
         </div>
       </div>
       <ModalCommon

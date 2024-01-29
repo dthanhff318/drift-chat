@@ -89,16 +89,33 @@
           font-size: 0.95rem;
         }
       }
-      .coinWrap {
+      .infoBottom {
         display: flex;
         align-items: center;
-        gap: 1rem;
-        .coinImg {
-          width: 2rem;
-          height: 2rem;
-          object-fit: cover;
+        justify-content: space-between;
+        .coinWrap {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          .coinImg {
+            width: 2rem;
+            height: 2rem;
+            object-fit: cover;
+          }
+        }
+        .likeGroup {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          .likeIcon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+          }
         }
       }
+
       .btnGroup {
         display: flex;
         gap: 0.5rem;

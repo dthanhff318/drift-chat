@@ -12,6 +12,9 @@ const userApi = {
       },
     });
   },
+  likeProfile: (user: string) => {
+    return axiosClient.post(`/user/likeProfile`, { user });
+  },
 };
 
 export default userApi;

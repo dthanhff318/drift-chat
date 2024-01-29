@@ -59,6 +59,9 @@
         &.hidden {
           display: none;
         }
+        &.alert {
+          color: #ff2929;
+        }
       }
       .editName {
         width: 100%;

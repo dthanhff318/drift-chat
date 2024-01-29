@@ -1,12 +1,20 @@
 import groupApi from 'app/axios/api/group';
 import useClickOutSide from 'app/hook/useClickOutSide';
+import { pathHomePage } from 'app/routes/routesConfig';
 import authStore from 'app/storeZustand/authStore';
 import groupStore from 'app/storeZustand/groupStore';
 import { useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { IndexedObject } from 'types/common';
 
-type TModalSideChat = '' | 'change-name-group' | 'change-theme' | 'list-member' | 'add-member';
-type TLoadingSideChat = '' | 'change-name-group' | 'photo';
+type TModalSideChat =
+  | ''
+  | 'change-name-group'
+  | 'confirm-leave'
+  | 'change-theme'
+  | 'list-member'
+  | 'add-member';
+type TLoadingSideChat = '' | 'change-name-group' | 'photo' | 'leave';
 
 type Props = {
   triggerSidechatRef: any;
@@ -14,8 +22,16 @@ type Props = {
 };
 
 export const useService = ({ triggerSidechatRef, onClose }: Props) => {
+  const history = useHistory();
   const { currenTUser } = authStore();
-  const { getGroups, getDetailGroup, currentGroup, detailGroup } = groupStore();
+  const {
+    getGroups,
+    getDetailGroup,
+    saveCurrentGroup,
+    saveDetailGroup,
+    currentGroup,
+    detailGroup,
+  } = groupStore();
   const [loading, setLoading] = useState<TLoadingSideChat>('');
   const [modal, setModal] = useState<TModalSideChat>('');
   const [preview, setPreview] = useState<boolean>(false);
@@ -70,6 +86,20 @@ export const useService = ({ triggerSidechatRef, onClose }: Props) => {
     }
   };
 
+  const handleLeaveGroup = async () => {
+    try {
+      setLoading('leave');
+      await groupApi.leaveGroup(currentGroup);
+      setLoading('');
+      saveDetailGroup({});
+      saveCurrentGroup('');
+      history.push(pathHomePage);
+      getGroups();
+    } catch (e) {
+      setLoading('');
+    }
+  };
+
   useClickOutSide({
     parentRef: sideChatRef,
     triggerRef: triggerSidechatRef,
@@ -84,6 +114,7 @@ export const useService = ({ triggerSidechatRef, onClose }: Props) => {
     currenTUser,
     preview,
     sideChatRef,
+    handleLeaveGroup,
     setPreview,
     handleUploadPhoto,
     setModal,

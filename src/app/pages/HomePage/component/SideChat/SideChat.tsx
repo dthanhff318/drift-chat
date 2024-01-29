@@ -1,22 +1,18 @@
-import {
-  EditOutlined,
-  RightSquareOutlined,
-  SettingOutlined,
-  SolutionOutlined,
-} from '@ant-design/icons';
-import { Popover, Image } from 'antd';
+import { EditOutlined, RightSquareOutlined } from '@ant-design/icons';
+import { Image, Popover } from 'antd';
 import Avatar from 'app/components/Avatar/Avatar';
 import ModalCommon from 'app/components/Modal/Modal';
 import ModalInput from 'app/components/Modal/ModalInput';
 import PopoverCustom from 'app/components/Popover/Popover';
+import { pathHomePage } from 'app/routes/routesConfig';
+import { LogOut, UserRoundPlus, UsersRound } from 'lucide-react';
 import React from 'react';
-import { TGroup, TGroupDetail } from 'types/common';
+import { TGroupDetail } from 'types/common';
+import AddMember from './component/AddMember/AddMember';
+import ChangeTheme from './component/ChangeTheme/ChangeTheme';
 import ListMember from './component/ListMember/ListMember';
 import { useService } from './service';
 import s from './style.module.scss';
-import AddMember from './component/AddMember/AddMember';
-import ChangeTheme from './component/ChangeTheme/ChangeTheme';
-import { LogOut, UserRoundPlus, UsersRound } from 'lucide-react';
 type Props = {
   detailGroup: TGroupDetail;
   isOpen: boolean;
@@ -33,12 +29,12 @@ const SideChat = ({ isOpen, triggerSidechatRef, detailGroup, onClose }: Props) =
     currenTUser,
     preview,
     sideChatRef,
+    handleLeaveGroup,
     setPreview,
     handleUploadPhoto,
     setModal,
     handleUpdateNameGroup,
   } = useService({ triggerSidechatRef, onClose });
-
   const arrSettings = [
     {
       key: 'Edit name group chat',
@@ -68,9 +64,11 @@ const SideChat = ({ isOpen, triggerSidechatRef, detailGroup, onClose }: Props) =
     },
     {
       key: 'Leave group',
-      className: '',
-      onClick: () => setModal('change-theme'),
-      icon: <LogOut size={18} color="#ffffff" />,
+      className: `${detailGroup.isGroup ? '' : s.hidden} ${s.alert}`,
+      onClick: () => {
+        setModal('confirm-leave');
+      },
+      icon: <LogOut size={18} color="#ff2929" />,
     },
   ];
 
@@ -133,6 +131,15 @@ const SideChat = ({ isOpen, triggerSidechatRef, detailGroup, onClose }: Props) =
         hideFooter
       >
         <ChangeTheme detailGroup={detailGroup} />
+      </ModalCommon>
+      <ModalCommon
+        title="Are you sure to leave this group ?"
+        open={modal === 'confirm-leave'}
+        loading={loading === 'leave'}
+        onCancel={() => setModal('')}
+        onConfirm={handleLeaveGroup}
+      >
+        <p>Every one can see that</p>
       </ModalCommon>
       <input
         type="file"

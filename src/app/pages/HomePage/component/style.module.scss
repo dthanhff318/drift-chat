@@ -144,6 +144,7 @@ $header-hight: 5rem;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+  position: relative;
   .msgItem {
     cursor: pointer;
     padding: 0 8% 0 5%;
@@ -394,6 +395,14 @@ $header-hight: 5rem;
         justify-content: center;
         cursor: pointer;
       }
+    }
+    .messageCommon {
+      font-weight: 500;
+      font-size: 0.8rem;
+      color: white;
+      text-align: center;
+      margin: 0rem 0 1.5rem;
+      font-style: italic;
     }
   }
 

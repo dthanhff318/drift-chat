@@ -5,3 +5,4 @@ export const pathHomePageChat = '/home/chat/:id';
 export const pathFriendPage = '/friend';
 export const pathSettingsPage = '/settings';
 export const pathProfile = '/profile';
+export const pathProfileFriend = '/profile/:userId';

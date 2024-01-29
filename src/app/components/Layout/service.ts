@@ -1,20 +1,27 @@
-import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import socketStore from 'app/storeZustand/socketStore';
 import { notification } from 'antd';
+import socketStore from 'app/storeZustand/socketStore';
+import { useEffect } from 'react';
+import { TUser } from 'types/common';
 
 const useServices = () => {
-  const history = useHistory();
-  const [openAddFr, setOpenAddFr] = useState<boolean>(false);
+  const { socket } = socketStore();
 
-  const handleShowAddFr = (isOpen: boolean) => {
-    setOpenAddFr(isOpen);
+  const handleSocketUserlogin = (user: TUser) => {
+    notification.success({
+      message: `${user.displayName} is online`,
+      description: "Let's say something",
+      duration: 4,
+    });
   };
 
-  return {
-    handleShowAddFr,
-    openAddFr,
-  };
+  useEffect(() => {
+    socket?.on('userLogin', handleSocketUserlogin);
+    return () => {
+      socket?.off('userLogin', handleSocketUserlogin);
+    };
+  }, [socket]);
+
+  return {};
 };
 
 export default useServices;

@@ -9,6 +9,8 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import './App.scss';
+import { notification } from 'antd';
+import { TUser } from 'types/common';
 
 const socketInstance = io('http://localhost:4000');
 
@@ -17,7 +19,7 @@ function App() {
 
   const { currenTUser, saveCurrenTUser } = authStore();
   const { getDataCommunicate } = friendStore();
-  const { setSocket } = socketStore();
+  const { setSocket, socket } = socketStore();
 
   const getCurrenTUser = async () => {
     try {
