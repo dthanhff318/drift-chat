@@ -5,7 +5,7 @@ import ModalCommon from 'app/components/Modal/Modal';
 import ModalInput from 'app/components/Modal/ModalInput';
 import PopoverCustom from 'app/components/Popover/Popover';
 import { pathHomePage } from 'app/routes/routesConfig';
-import { LogOut, UserRoundPlus, UsersRound } from 'lucide-react';
+import { HeartHandshake, LogOut, UserRoundPlus, UsersRound } from 'lucide-react';
 import React from 'react';
 import { TGroupDetail } from 'types/common';
 import AddMember from './component/AddMember/AddMember';
@@ -36,6 +36,12 @@ const SideChat = ({ isOpen, triggerSidechatRef, detailGroup, onClose }: Props) =
     handleUpdateNameGroup,
   } = useService({ triggerSidechatRef, onClose });
   const arrSettings = [
+    {
+      key: 'View profile',
+      icon: <HeartHandshake />,
+      className: detailGroup.isGroup ? s.hidden : '',
+      onClick: () => setModal('change-name-group'),
+    },
     {
       key: 'Edit name group chat',
       icon: <EditOutlined rev={undefined} />,

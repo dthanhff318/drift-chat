@@ -100,6 +100,8 @@ export const useService = ({ triggerSidechatRef, onClose }: Props) => {
     }
   };
 
+  const handle;
+
   useClickOutSide({
     parentRef: sideChatRef,
     triggerRef: triggerSidechatRef,
