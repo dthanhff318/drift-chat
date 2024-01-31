@@ -1,11 +1,12 @@
 import groupApi from 'app/axios/api/group';
 import useClickOutSide from 'app/hook/useClickOutSide';
-import { pathHomePage } from 'app/routes/routesConfig';
+import { pathHomePage, pathProfileFriend } from 'app/routes/routesConfig';
 import authStore from 'app/storeZustand/authStore';
 import groupStore from 'app/storeZustand/groupStore';
 import { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { IndexedObject } from 'types/common';
+import { replacePathParams } from 'app/helpers/funcs';
 
 type TModalSideChat =
   | ''
@@ -100,7 +101,15 @@ export const useService = ({ triggerSidechatRef, onClose }: Props) => {
     }
   };
 
-  const handle;
+  const handleViewProfile = () => {
+    if (detailGroup.isGroup) return;
+    const friend = detailGroup.members?.find((e) => e.id !== currenTUser.id);
+    history.push(
+      replacePathParams(pathProfileFriend, {
+        userId: friend?.id ?? '',
+      }),
+    );
+  };
 
   useClickOutSide({
     parentRef: sideChatRef,
@@ -117,6 +126,7 @@ export const useService = ({ triggerSidechatRef, onClose }: Props) => {
     preview,
     sideChatRef,
     handleLeaveGroup,
+    handleViewProfile,
     setPreview,
     handleUploadPhoto,
     setModal,

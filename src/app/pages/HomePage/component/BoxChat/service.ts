@@ -107,8 +107,19 @@ export const useService = () => {
   };
 
   const onUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const allowedTypes = ['image/webp', 'image/jpeg', 'image/png'];
     const { files } = e.target;
+
+    console.log(files);
+
     if (!files) return;
+    if (!allowedTypes.includes(files[0].type)) {
+      notification.error({
+        message: `File type invalid`,
+        description: 'Something error now, try again later',
+        duration: 4,
+      });
+    }
     setFile(files[0]);
   };
 
@@ -170,17 +181,6 @@ export const useService = () => {
     );
     history.push(url);
   };
-
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const res = await authApi.getTokenLivekit(detailGroup.id ?? '');
-  //       setToken(res.data);
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   })();
-  // }, [isVideo]);
 
   useEffect(() => {
     page > 1 && inView && hasMore && getMessages(currentGroup, page);

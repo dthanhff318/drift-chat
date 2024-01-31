@@ -29,6 +29,7 @@ const SideChat = ({ isOpen, triggerSidechatRef, detailGroup, onClose }: Props) =
     currenTUser,
     preview,
     sideChatRef,
+    handleViewProfile,
     handleLeaveGroup,
     setPreview,
     handleUploadPhoto,
@@ -40,7 +41,7 @@ const SideChat = ({ isOpen, triggerSidechatRef, detailGroup, onClose }: Props) =
       key: 'View profile',
       icon: <HeartHandshake />,
       className: detailGroup.isGroup ? s.hidden : '',
-      onClick: () => setModal('change-name-group'),
+      onClick: handleViewProfile,
     },
     {
       key: 'Edit name group chat',

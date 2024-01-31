@@ -15,6 +15,9 @@ const userApi = {
   likeProfile: (user: string) => {
     return axiosClient.post(`/user/likeProfile`, { user });
   },
+  getUserById: (id: string) => {
+    return axiosClient.get(`user/${id}`);
+  },
 };
 
 export default userApi;

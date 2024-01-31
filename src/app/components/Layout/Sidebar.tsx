@@ -23,7 +23,7 @@ const Sidebar = () => {
         <NavLink exact to={pathFriendPage} className={s.btnNav} activeClassName={s.active}>
           <RadioTower color="#ffffff" size={24} />
         </NavLink>
-        <NavLink exact to={pathProfile} className={s.btnNav} activeClassName={s.active}>
+        <NavLink to={pathProfile} className={s.btnNav} activeClassName={s.active}>
           <Home color="#ffffff" size={24} />
         </NavLink>
         <NavLink exact to={pathSettingsPage} className={s.btnNav} activeClassName={s.active}>
