@@ -23,7 +23,7 @@ import {
   getPublicImageUrl,
   getUserById,
 } from 'app/helpers/funcs';
-import { AlignJustify, Video } from 'lucide-react';
+import { AlignJustify, Video, Image as ImageLucid } from 'lucide-react';
 import React, { useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { TMessage, TUser } from 'types/common';
@@ -266,14 +266,13 @@ const BoxChat = () => {
           )}
           {currentGroup && (
             <div className={s.chatting}>
-              <div className={s.chattingFunction}>
-                <PaperClipOutlined
-                  className={s.emojiIcon}
-                  onClick={() => {
-                    inputUploadRef.current?.click();
-                  }}
-                  rev={undefined}
-                />
+              <div
+                className={`${s.chattingFunction}`}
+                onClick={() => {
+                  inputUploadRef.current?.click();
+                }}
+              >
+                <ImageLucid color="#ffffff" />
               </div>
               <TextareaAutosize
                 className={s.inputChat}

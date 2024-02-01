@@ -12,6 +12,13 @@ const userApi = {
       },
     });
   },
+  uploadThumbProfile: (data: FormData) => {
+    return axiosClient.post('/user/thumb', data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
   likeProfile: (user: string) => {
     return axiosClient.post(`/user/likeProfile`, { user });
   },

@@ -34,5 +34,5 @@ export const useService = () => {
     getDetailUserId();
   }, [userId]);
 
-  return { userDetail, loading };
+  return { userDetail, loading, userId };
 };
