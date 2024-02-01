@@ -12,6 +12,7 @@ export type TUser = {
   introduction?: string;
   inviteId?: string;
   likedProfile?: string[];
+  thumbProfile?: string;
 };
 
 export type TGroup = {

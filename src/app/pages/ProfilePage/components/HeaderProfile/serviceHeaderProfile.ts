@@ -42,8 +42,10 @@ export const useServiceHeaderProfile = () => {
       setLoading('avatar');
       const formUpload = new FormData();
       formUpload.append('image', files[0]);
-      const res = await userApi.uploadAvatar(formUpload);
-      saveCurrenTUser(res.data as TUser);
+      formUpload.append('type', 'photoUrl');
+      const res = await userApi.uploadUser(formUpload);
+      const userUpdate = res.data as TUser;
+      saveCurrenTUser({ ...currenTUser, photoUrl: userUpdate.photoUrl });
       setLoading('');
     } catch (err) {
       setLoading('');
@@ -51,33 +53,30 @@ export const useServiceHeaderProfile = () => {
   };
 
   const handleChangeThumbProfile = async (e) => {
-    try {
-      const { files } = e.target;
-      if (!files) {
-        return;
-      }
-      setThumb(files);
-      // const urlImage = URL.createObjectURL(files[0]);
+    const { files } = e.target;
+    if (!files) {
+      return;
+    }
+    setThumb(files[0]);
+  };
 
+  const handleUploadThumbProfile = async () => {
+    if (!thumb) return;
+    try {
+      setLoading('thumb');
+      const formUpload = new FormData();
+      formUpload.append('image', thumb);
+      formUpload.append('type', 'thumbProfile');
+      const res = await userApi.uploadUser(formUpload);
+      saveCurrenTUser(res.data as TUser);
       setLoading('');
     } catch (err) {
       setLoading('');
     }
   };
 
-  const handleUploadThumbProfile = async (e) => {
-    if (!thumb) return;
-    try {
-      setLoading('thumb');
-      const formUpload = new FormData();
-      formUpload.append('image', thumb);
-      const res = await userApi.uploadThumbProfile(formUpload);
-      saveCurrenTUser(res.data as TUser);
-
-      setLoading('');
-    } catch (err) {
-      setLoading('');
-    }
+  const clearPreviewThumb = () => {
+    setThumb(undefined);
   };
 
   return {
@@ -87,6 +86,8 @@ export const useServiceHeaderProfile = () => {
     loading,
     userId,
     thumb,
+    clearPreviewThumb,
+    handleChangeThumbProfile,
     handleUploadAvatar,
     handleUploadThumbProfile,
     handleLikedProfile,

@@ -26,6 +26,8 @@ const HeaderProfile = ({ user, friendId }: Props) => {
     inputUploadAvtRef,
     inputUploadThumbRef,
     thumb,
+    clearPreviewThumb,
+    handleChangeThumbProfile,
     handleLikedProfile,
     handleUploadThumbProfile,
     handleUploadAvatar,
@@ -38,7 +40,7 @@ const HeaderProfile = ({ user, friendId }: Props) => {
       <div
         className={s.headerProfile}
         style={{
-          backgroundImage: `url(${thumb ? thumb : getPublicImageUrl('thumbProfile.jpg')})`,
+          backgroundImage: `url(${user.thumbProfile ?? (thumb ? URL.createObjectURL(thumb) : getPublicImageUrl('thumbProfile.jpg'))})`,
         }}
       >
         <div className={s.userInfo}>
@@ -76,14 +78,17 @@ const HeaderProfile = ({ user, friendId }: Props) => {
             </div>
           </div>
         </div>
-        <div className={s.socialLink}>
-          <div className={s.socialItem}>
-            <Button text="Cancel" onClick={() => setPreview(true)} />
-            <Button text="Save" onClick={() => setPreview(true)} />
-          </div>
-          <div className={s.socialItem} onClick={() => inputUploadThumbRef.current?.click()}>
-            <Repeat2 color="#ffffff" strokeWidth={1.75} absoluteStrokeWidth />
-          </div>
+        <div className={s.changeThumbWrap}>
+          {thumb ? (
+            <div className={s.changeThumbBtn}>
+              <Button text="Cancel" fill={true} onClick={clearPreviewThumb} />
+              <Button text="Save" fill={true} onClick={handleUploadThumbProfile} />
+            </div>
+          ) : (
+            <div className={s.socialItem} onClick={() => inputUploadThumbRef.current?.click()}>
+              <Repeat2 color="#ffffff" strokeWidth={1.75} absoluteStrokeWidth />
+            </div>
+          )}
         </div>
         {!friendId && (
           <div className={s.iconGallery} onClick={() => setModal(true)}>
@@ -108,7 +113,7 @@ const HeaderProfile = ({ user, friendId }: Props) => {
         ref={inputUploadAvtRef}
       />
       <input
-        onChange={handleUploadThumbProfile}
+        onChange={handleChangeThumbProfile}
         type="file"
         className={s.inputUploadAvt}
         ref={inputUploadThumbRef}

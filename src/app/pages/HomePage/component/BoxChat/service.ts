@@ -113,13 +113,13 @@ export const useService = () => {
     console.log(files);
 
     if (!files) return;
-    if (!allowedTypes.includes(files[0].type)) {
-      notification.error({
-        message: `File type invalid`,
-        description: 'Something error now, try again later',
-        duration: 4,
-      });
-    }
+    // if (!allowedTypes.includes(files[0].type)) {
+    //   notification.error({
+    //     message: `File type invalid`,
+    //     description: 'Something error now, try again later',
+    //     duration: 4,
+    //   });
+    // }
     setFile(files[0]);
   };
 
