@@ -6,13 +6,13 @@ import authStore from 'app/storeZustand/authStore';
 import friendStore from 'app/storeZustand/friendStore';
 import socketStore from 'app/storeZustand/socketStore';
 import React, { useEffect } from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import './App.scss';
-import { notification } from 'antd';
-import { TUser } from 'types/common';
 
 const socketInstance = io('http://localhost:4000');
+const queryClient = new QueryClient();
 
 function App() {
   const accessToken = getTokenFromLocalStorage();
@@ -43,18 +43,18 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (accessToken || currenTUser) {
+    if (accessToken || currenTUser.id) {
       getDataCommunicate();
     }
   }, []);
 
   const checkAuthLocal = accessToken || currenTUser.id;
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <Router>
         <RenderRoutes routes={routes} checkAuthLocal={!!checkAuthLocal} currenTUser={{}} />
       </Router>
-    </>
+    </QueryClientProvider>
   );
 }
 
