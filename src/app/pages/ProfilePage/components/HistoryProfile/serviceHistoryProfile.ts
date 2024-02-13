@@ -8,7 +8,7 @@ import { TUser } from 'types/common';
 
 type TLoadingHeaderProfile = '' | 'avatar' | 'thumb';
 
-export const useServiceHeaderProfile = () => {
+export const useServiceHistoryProfile = () => {
   const { userId } = useParams<{ userId: string }>();
 
   const [loading, setLoading] = useState<TLoadingHeaderProfile>('');

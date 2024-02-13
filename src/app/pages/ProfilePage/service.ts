@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import userApi from 'app/axios/api/user';
 import { TUser } from 'types/common';
 import authStore from 'app/storeZustand/authStore';
+import profileStore from 'app/storeZustand/profileStore';
 
 export const DEFAULT_PAST_TIME = '1970-01-01T00:00:00.000Z';
 
@@ -12,13 +13,16 @@ export const useService = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { currenTUser } = authStore();
 
-  const [userDetail, setUserDetail] = useState<TUser>(currenTUser);
+  const { profileUser, saveProfileUser } = profileStore();
   const getDetailUserId = async () => {
-    if (!userId) return;
     try {
+      if (!userId) {
+        saveProfileUser(currenTUser);
+        return;
+      }
       setLoading(true);
       const res = await userApi.getUserById(userId);
-      setUserDetail(res.data);
+      saveProfileUser(res.data);
       setLoading(false);
     } catch (err) {
       notification.error({
@@ -34,5 +38,5 @@ export const useService = () => {
     getDetailUserId();
   }, [userId]);
 
-  return { userDetail, loading, userId };
+  return { profileUser, loading, userId };
 };

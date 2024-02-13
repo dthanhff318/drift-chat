@@ -171,3 +171,15 @@
 .inputUploadAvt {
   display: none;
 }
+
+// Content
+.content {
+  display: flex;
+  align-items: center;
+}
+
+// History
+.historyWrap {
+  display: flex;
+  flex-direction: column;
+}

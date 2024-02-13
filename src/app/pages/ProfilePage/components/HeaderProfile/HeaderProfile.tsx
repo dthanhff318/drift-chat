@@ -40,9 +40,10 @@ const HeaderProfile = ({ user, friendId }: Props) => {
       <div
         className={s.headerProfile}
         style={{
-          backgroundImage: `url(${user.thumbProfile ?? (thumb ? URL.createObjectURL(thumb) : getPublicImageUrl('thumbProfile.jpg'))})`,
+          backgroundImage: `url(${user.thumbProfile && !thumb ? user.thumbProfile : thumb ? URL.createObjectURL(thumb) : getPublicImageUrl('thumbProfile.jpg')})`,
         }}
       >
+        <Loading loading={loading === 'thumb'} />
         <div className={s.userInfo}>
           <div className={s.avtWrapper}>
             <img src={user.photoUrl} className={s.avatarProfile} alt="" />
