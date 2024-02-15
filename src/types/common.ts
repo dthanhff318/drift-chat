@@ -103,3 +103,12 @@ export type TMessageType = {
   USER: string;
   COMMON: string;
 };
+
+// History
+export type THistoryProfile = {
+  actionHistoryType: string;
+  createdAt: string;
+  historyOwner: TUser;
+  userTarget: TUser;
+  id: string;
+};

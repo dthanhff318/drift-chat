@@ -4,6 +4,8 @@ import s from '../../style.module.scss';
 import { useServiceHistoryProfile } from './serviceHistoryProfile';
 import Loading from 'app/components/Loading/Loading';
 import Avatar from 'app/components/Avatar/Avatar';
+import moment from 'moment';
+import { DEFAULT_FORMAT_TIME_DATE_MONTH_YEAR } from 'app/helpers/common';
 
 type Props = {
   user: TUser;
@@ -12,16 +14,21 @@ type Props = {
 const HistoryProfile = ({ user }: Props) => {
   const { data, isLoading } = useServiceHistoryProfile();
 
+  
   return (
     <>
       <div className={s.historyWrap}>
         <Loading loading={isLoading} />
-        <div className={s.item}>
-          <Avatar size="s" />
-          <span className={s.name}>Duy Thanh</span>
-          <span className={s.action}> liked your profile</span>
-          <span className={s.time}>14-23-2023</span>
-        </div>
+        {data?.data.map((e) => (
+          <div className={s.item} key={e.id}>
+            <Avatar size="s" />
+            <span className={s.name}>{e.userTarget.displayName}</span>
+            <span className={s.action}> liked your profile</span>
+            <span className={s.time}>
+              {moment(e.createdAt).format(DEFAULT_FORMAT_TIME_DATE_MONTH_YEAR)}
+            </span>
+          </div>
+        ))}
       </div>
     </>
   );
