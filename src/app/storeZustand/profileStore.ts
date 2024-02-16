@@ -1,4 +1,4 @@
-import { TSettings, TUser } from 'types/common';
+import { TUser } from 'types/common';
 import { create } from 'zustand';
 
 type TProfileStore = {

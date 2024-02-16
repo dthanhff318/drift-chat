@@ -79,31 +79,6 @@ export type TTheme = {
   value?: string;
 };
 
-export type TSettings = {
-  themes?: TTheme[];
-  commonData?: TCommonData;
-};
-
-export type TCommonData = {
-  actionGroupTypes: TActionGroupType;
-  messageTypes: TMessageType;
-};
-
-export type TActionGroupType = {
-  ADD: string;
-  REMOVE: string;
-  LEAVE: string;
-  CHANGE_NAME_GROUP: string;
-  CHANGE_NICKNAME: string;
-  CHANGE_PHOTO_GROUP: string;
-  NONE: string;
-};
-
-export type TMessageType = {
-  USER: string;
-  COMMON: string;
-};
-
 // History
 export type THistoryProfile = {
   actionHistoryType: string;

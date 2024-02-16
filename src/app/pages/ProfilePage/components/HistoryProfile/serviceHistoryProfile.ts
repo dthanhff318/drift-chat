@@ -1,30 +1,26 @@
-import { notification } from 'antd';
 import historyApi from 'app/axios/api/historyApi';
-import userApi from 'app/axios/api/user';
 import authStore from 'app/storeZustand/authStore';
-import profileStore from 'app/storeZustand/profileStore';
-import { useRef, useState } from 'react';
+import settingStore from 'app/storeZustand/settingStore';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
-import { TUser, THistoryProfile } from 'types/common';
-
-type TLoadingHeaderProfile = '' | 'avatar' | 'thumb';
+import { THistoryProfile } from 'types/common';
+import { useHistory } from 'react-router-dom';
+import { replacePathParams } from 'app/helpers/funcs';
+import { pathProfileFriend } from 'app/routes/routesConfig';
 
 export const useServiceHistoryProfile = () => {
-  const { userId } = useParams<{ userId: string }>();
-
-  const [loading, setLoading] = useState<TLoadingHeaderProfile>('');
-  const [thumb, setThumb] = useState<File>();
-
   const { currenTUser } = authStore();
-  const { profileUser, saveProfileUser } = profileStore();
+  const { settings } = settingStore();
+
+  const history = useHistory();
 
   const { data, isLoading } = useQuery<{ data: THistoryProfile[] }>({
     queryKey: ['historyProfile'],
     queryFn: () => historyApi.getHistoryProfileByUserId(currenTUser.id ?? ''),
   });
 
-  console.log(data);
+  const goToFriendProfile = (userId: string) => {
+    history.push(replacePathParams(pathProfileFriend, { userId }));
+  };
 
-  return { data, isLoading };
+  return { data, isLoading, settings, goToFriendProfile };
 };

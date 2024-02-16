@@ -1,5 +1,5 @@
 import { notification } from 'antd';
-import { TSettings } from 'types/common';
+import { TSettings } from 'types/setting.type';
 import { create } from 'zustand';
 import settingApi from './../axios/api/settingApi';
 
