@@ -28,12 +28,14 @@ const OnlineList = () => {
   return (
     <div className={s.onlineListWrap}>
       <div className={s.list}>
-        {listFriend?.map((e, i) => (
-          <div className={s.itemUser} key={i} onClick={() => handleSelectChat(e.id ?? '')}>
-            <Avatar src={e.photoUrl} />
-            <span className={s.userName}>{e.displayName}</span>
-          </div>
-        ))}
+        {listFriend
+          ?.filter((x) => x.isOnline)
+          .map((e, i) => (
+            <div className={s.itemUser} key={i} onClick={() => handleSelectChat(e.id ?? '')}>
+              <Avatar src={e.photoUrl} />
+              <span className={s.userName}>{e.displayName}</span>
+            </div>
+          ))}
       </div>
     </div>
   );

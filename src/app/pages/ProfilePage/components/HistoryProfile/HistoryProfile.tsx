@@ -32,32 +32,34 @@ const HistoryProfile = ({ user }: Props) => {
   const { data, isLoading, settings, goToFriendProfile } = useServiceHistoryProfile();
   return (
     <>
-      <div className={s.historyWrap}>
-        <Loading loading={isLoading} />
-        {data?.data.map((e) => {
-          const contentAction = getHistoryActionContent(
-            e.actionHistoryType,
-            settings.commonData?.historyActions ?? {},
-          );
-          return (
-            <div className={s.item} key={e.id}>
-              <Avatar size="s" src={e.userTarget.photoUrl} />
-              <span
-                className={s.name}
-                onClick={() => {
-                  e.userTarget.id && goToFriendProfile(e.userTarget.id);
-                }}
-              >
-                {e.userTarget.displayName}
-              </span>
-              <span className={s.action}>{contentAction}</span>
-              <span className={s.time}>
-                {moment(e.createdAt).format(DEFAULT_FORMAT_TIME_DATE_MONTH_YEAR)}
-              </span>
-            </div>
-          );
-        })}
-      </div>
+      {!!data?.data.length && (
+        <div className={s.historyWrap}>
+          <Loading loading={isLoading} />
+          {data?.data.reverse().map((e) => {
+            const contentAction = getHistoryActionContent(
+              e.actionHistoryType,
+              settings.commonData?.historyActions ?? {},
+            );
+            return (
+              <div className={s.item} key={e.id}>
+                <Avatar size="s" src={e.userTarget.photoUrl} />
+                <span
+                  className={s.name}
+                  onClick={() => {
+                    e.userTarget.id && goToFriendProfile(e.userTarget.id);
+                  }}
+                >
+                  {e.userTarget.displayName}
+                </span>
+                <span className={s.action}>{contentAction}</span>
+                <span className={s.time}>
+                  {moment(e.createdAt).format(DEFAULT_FORMAT_TIME_DATE_MONTH_YEAR)}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </>
   );
 };

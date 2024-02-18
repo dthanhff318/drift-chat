@@ -24,8 +24,8 @@ const LoginPage = () => {
             <p>Login Google</p>
           </button>
           <div className={s.qrLogin}>
-            <QRCode value="https://ant.design/" color={'#004c9d'} bordered />
-            <span className={s.text}>Login with QR, scan now !</span>
+            {/* <QRCode value="https://ant.design/" color={'#004c9d'} bordered />
+            <span className={s.text}>Login with QR, scan now !</span> */}
           </div>
         </div>
         <div className={s.bottom}></div>

@@ -5,7 +5,7 @@ import ModalCommon from 'app/components/Modal/Modal';
 import ModalInput from 'app/components/Modal/ModalInput';
 import PopoverCustom from 'app/components/Popover/Popover';
 import { pathHomePage } from 'app/routes/routesConfig';
-import { HeartHandshake, LogOut, UserRoundPlus, UsersRound } from 'lucide-react';
+import { HeartHandshake, LogOut, UserRoundPlus, UsersRound, XCircle } from 'lucide-react';
 import React from 'react';
 import { TGroupDetail } from 'types/common';
 import AddMember from './component/AddMember/AddMember';
@@ -13,6 +13,8 @@ import ChangeTheme from './component/ChangeTheme/ChangeTheme';
 import ListMember from './component/ListMember/ListMember';
 import { useService } from './service';
 import s from './style.module.scss';
+import { getPublicImageUrl } from 'app/helpers/funcs';
+
 type Props = {
   detailGroup: TGroupDetail;
   isOpen: boolean;
@@ -80,14 +82,15 @@ const SideChat = ({ isOpen, triggerSidechatRef, detailGroup, onClose }: Props) =
   ];
 
   const enemyChat = detailGroup.members?.find((e) => e.id !== currenTUser.id);
+  const defaultAvatar = getPublicImageUrl('avt.png');
 
-  const avatarChat = detailGroup.isGroup ? detailGroup.photo : enemyChat?.photoUrl;
+  const avatarChat = detailGroup.isGroup ? detailGroup.photo || defaultAvatar : enemyChat?.photoUrl;
   const nameChat = detailGroup.isGroup ? detailGroup.name : enemyChat?.displayName;
   return (
     <div ref={sideChatRef} className={`${s.sideChat} ${isOpen ? s.open : ''}`}>
       <div className={s.content}>
         <div className={s.iconCloseNav} onClick={onClose}>
-          <RightSquareOutlined rev={undefined} />
+          <XCircle size={28} />
         </div>
         <Popover placement={'right'} content={<PopoverCustom data={dataPopover} />}>
           <div className={s.options}>
@@ -128,7 +131,7 @@ const SideChat = ({ isOpen, triggerSidechatRef, detailGroup, onClose }: Props) =
         hideFooter={true}
         onCancel={() => setModal('')}
       >
-        <AddMember detailGroup={detailGroup} />
+        <AddMember detailGroup={detailGroup} onClose={() => setModal('')} />
       </ModalCommon>
 
       <ModalCommon

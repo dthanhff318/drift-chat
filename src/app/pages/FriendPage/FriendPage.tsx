@@ -66,7 +66,9 @@ const FriendPage = () => {
                         </div>
                       </td>
                       <td className={s.medium}>
-                        {convertDiffTime((user.lastActive ?? '').toString())}
+                        {user.isOnline
+                          ? 'Online'
+                          : convertDiffTime((user.lastActive ?? '').toString())}
                       </td>
                       <td className={s.small}>
                         {alreadyFriend ? (

@@ -1,5 +1,7 @@
 import moment from 'moment';
 
+export const DEFAULT_PAST_TIME = '1970-01-01T00:00:00.000Z';
+
 export const convertTimeFromNow = (lastTime: string) => {
   if (!lastTime) {
     return '';

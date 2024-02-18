@@ -1,15 +1,17 @@
 @import '../../scss/variables.scss';
+
+$header-height: 16rem;
 .profileWrap {
   background: linear-gradient(
     90deg,
     #171b1d 0%,
-    rgb(35, 57, 161) 21%,
+    rgb(123, 76, 173) 21%,
     rgb(34, 117, 143) 50%,
     rgb(24, 37, 78) 85%
   );
   width: 100%;
   height: 100vh;
-  padding: 3rem;
+  padding: 1.75rem;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -19,7 +21,7 @@
 
 .headerProfile {
   width: 100%;
-  height: 17rem;
+  height: $header-height;
   background-position: center;
   background-size: cover;
   border-radius: 2rem;
@@ -179,6 +181,7 @@
   align-items: center;
   width: 100%;
   margin-top: 1rem;
+  height: calc(100% - $header-height);
 }
 
 // History
@@ -187,15 +190,15 @@
   position: relative;
   flex-direction: column;
   width: 50%;
-  background-color: aquamarine;
-  height: 100%;
-  min-height: 100px;
+  background-color: rgba(128, 205, 179, 0.5);
   border-radius: 0.75rem;
   padding: 0.5rem;
   gap: 0.5rem;
+  overflow: auto;
+  max-height: 100%;
   .item {
     height: fit-content;
-    background-color: bisque;
+    background-color: rgba(234, 212, 185, 0.5);
     border-radius: 0.5rem;
     width: 100%;
     display: flex;
@@ -205,6 +208,7 @@
       font-weight: 550;
       margin-left: 0.5rem;
       font-size: 0.9rem;
+      color: rgb(36, 89, 168);
       cursor: pointer;
       &:hover {
         text-decoration: underline;
@@ -213,7 +217,7 @@
     .action {
       font-size: 0.9rem;
       margin-left: 0.5rem;
-      color: $text-color-dark;
+      color: black;
     }
     .time {
       font-size: 0.8rem;

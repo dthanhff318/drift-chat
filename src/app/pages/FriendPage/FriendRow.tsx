@@ -2,6 +2,7 @@ import Avatar from 'app/components/Avatar/Avatar';
 import React from 'react';
 import { TUser } from 'types/common';
 import s from './style.module.scss';
+import { convertDiffTime } from 'app/helpers/funcs';
 type Props = {
   data: TUser;
   textButton: string;
@@ -15,7 +16,9 @@ const FriendRow = ({ data, textButton, onClick }: Props) => {
         <Avatar src={data.photoUrl} />
         <span className={s.name}>{data.displayName}</span>
       </div>
-      <span className={s.timeActive}>14 years ago</span>
+      <span className={s.timeActive}>
+        {data.isOnline ? 'Online' : convertDiffTime((data.lastActive ?? '').toString())}
+      </span>
       <button className={s.actionBtn} onClick={onClick}>
         {textButton}
       </button>

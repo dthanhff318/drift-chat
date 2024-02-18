@@ -11,7 +11,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import './App.scss';
 
-const socketInstance = io('http://localhost:4000');
 const queryClient = new QueryClient();
 
 function App() {
@@ -20,6 +19,8 @@ function App() {
   const { currenTUser, saveCurrenTUser } = authStore();
   const { getDataCommunicate } = friendStore();
   const { setSocket, socket } = socketStore();
+
+  const socketInstance = io('http://localhost:4000');
 
   const getCurrenTUser = async () => {
     try {
@@ -46,6 +47,14 @@ function App() {
     if (accessToken || currenTUser.id) {
       getDataCommunicate();
     }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('beforeunload', () => {
+      if (socket) {
+        socket.emit('close-app', 'hi');
+      }
+    });
   }, []);
 
   const checkAuthLocal = accessToken || currenTUser.id;

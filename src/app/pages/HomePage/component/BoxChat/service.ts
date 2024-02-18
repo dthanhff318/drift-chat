@@ -1,21 +1,19 @@
+import { notification } from 'antd';
+import authApi from 'app/axios/api/auth';
 import messageApi from 'app/axios/api/messageApi';
+import { TSendMess } from 'app/axios/api/typeApi';
+import { DEFAULT_PAST_TIME } from 'app/helpers/time';
 import authStore from 'app/storeZustand/authStore';
 import groupStore from 'app/storeZustand/groupStore';
 import messageStore from 'app/storeZustand/messageStore';
+import settingStore from 'app/storeZustand/settingStore';
 import socketStore from 'app/storeZustand/socketStore';
 import moment from 'moment';
-import { useEffect, useRef, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
-import { IndexedObject, TGroup, TMessage } from 'types/common';
-import React from 'react';
-import { TSendMess } from 'app/axios/api/typeApi';
-import { notification } from 'antd';
 import qs from 'query-string';
+import React, { useEffect, useRef, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 import { useHistory, useParams } from 'react-router-dom';
-import authApi from 'app/axios/api/auth';
-import settingStore from 'app/storeZustand/settingStore';
-
-export const DEFAULT_PAST_TIME = '1970-01-01T00:00:00.000Z';
+import { TGroup, TMessage } from 'types/common';
 
 export const useService = () => {
   const history = useHistory();
@@ -110,13 +108,11 @@ export const useService = () => {
     const allowedTypes = ['image/webp', 'image/jpeg', 'image/png'];
     const { files } = e.target;
 
-    console.log(files);
-
     if (!files) return;
     if (!allowedTypes.includes(files[0].type)) {
       notification.error({
         message: `File type invalid`,
-        description: 'Something error now, try again later',
+        description: 'Only accept send image',
         duration: 4,
       });
       return;

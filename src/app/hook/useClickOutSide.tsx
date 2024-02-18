@@ -14,7 +14,9 @@ const useClickOutSide = ({ parentRef, triggerRef, callback }: Props) => {
       parentRef?.current.contains(targetElement) ||
       triggerRef?.current.contains(targetElement) ||
       targetElement.closest('.ant-modal-root') ||
-      targetElement.closest('.ant-popover')
+      targetElement.closest('.ant-popover') ||
+      targetElement.closest('.ant-image-preview-mask') ||
+      targetElement.closest('.ant-image-preview-wrap')
     ) {
       return;
     }

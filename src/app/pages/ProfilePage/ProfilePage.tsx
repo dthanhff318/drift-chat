@@ -11,9 +11,7 @@ const ProfilePage = () => {
     <>
       <div className={s.profileWrap}>
         <HeaderProfile friendId={userId} user={profileUser} />
-        <div className={s.content}>
-          <HistoryProfile user={profileUser} />
-        </div>
+        <div className={s.content}>{!userId && <HistoryProfile user={profileUser} />}</div>
       </div>
       <Loading loading={loading} />
     </>

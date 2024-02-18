@@ -10,9 +10,10 @@ import Button from 'app/components/Button/Button';
 import groupStore from 'app/storeZustand/groupStore';
 type Props = {
   detailGroup: TGroupDetail;
+  onClose: () => void;
 };
 
-const AddMember = ({ detailGroup }: Props) => {
+const AddMember = ({ detailGroup, onClose }: Props) => {
   const { members, id } = detailGroup;
   const [users, setUsers] = useState<TUser[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -21,7 +22,6 @@ const AddMember = ({ detailGroup }: Props) => {
     dataCommunicate: { listFriend },
   } = friendStore();
   const { getDetailGroup } = groupStore();
-  const { currenTUser } = authStore();
 
   const handleSelectUser = (user: TUser) => {
     const isUserHasSelect = users.find((e) => e.id === user.id);
@@ -45,6 +45,7 @@ const AddMember = ({ detailGroup }: Props) => {
         members: listMemberAdd,
       });
       getDetailGroup(id);
+      onClose();
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -92,7 +93,7 @@ const AddMember = ({ detailGroup }: Props) => {
         </div>
       </div>
       <div className={s.btnBottom}>
-        <Button text="Change" onClick={handleAddMemberToGroup} loading={loading} />
+        <Button text="Add" onClick={handleAddMemberToGroup} loading={loading} />
       </div>
     </div>
   );

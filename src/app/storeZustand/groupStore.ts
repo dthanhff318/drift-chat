@@ -3,6 +3,8 @@ import { notification } from 'antd';
 import groupApi from 'app/axios/api/group';
 import { saveGroupToLs } from 'app/helpers/localStorage';
 import { TGroup, TGroupDetail } from 'types/common';
+import moment from 'moment';
+import { DEFAULT_PAST_TIME } from 'app/helpers/time';
 
 type TGroupStore = {
   loadingDetailGroup: boolean;
@@ -26,7 +28,16 @@ const groupStore = create<TGroupStore>((set) => ({
     try {
       set({ loadingListGroup: true });
       const res = await groupApi.getAllGroup();
-      set({ groups: res.data, loadingListGroup: false });
+      const listGroupSort = (res.data as TGroup[]).sort((a, b) => {
+        if (!a.newestMess && b.newestMess) {
+          return -1;
+        } else if (a.newestMess && !b.newestMess) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+      set({ groups: listGroupSort, loadingListGroup: false });
     } catch (err) {
       notification.error({
         message: `Error`,

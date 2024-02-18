@@ -5,7 +5,6 @@ import {
   EnterOutlined,
   LoadingOutlined,
   MoreOutlined,
-  PaperClipOutlined,
   SendOutlined,
   SmileOutlined,
 } from '@ant-design/icons';
@@ -23,7 +22,7 @@ import {
   getPublicImageUrl,
   getUserById,
 } from 'app/helpers/funcs';
-import { AlignJustify, Video, Image as ImageLucid } from 'lucide-react';
+import { AlignJustify, Image as ImageLucid, Video } from 'lucide-react';
 import React, { useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { TMessage, TUser } from 'types/common';
