@@ -17,7 +17,7 @@ const authApi = {
       refreshToken,
     });
   },
-  getCurrenTUser: () => {
+  getCurrentUser: () => {
     return axiosClient.get('auth/current-user');
   },
   getTokenLivekit: (room: string) => {

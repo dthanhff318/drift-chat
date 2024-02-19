@@ -6,7 +6,7 @@ import servicesStore from 'app/storeZustand/servicesStore';
 import { useEffect, useState } from 'react';
 
 const useService = () => {
-  const { currenTUser } = authStore();
+  const { currentUser } = authStore();
   const { dataCommunicate, getDataCommunicate } = friendStore();
   const { loadingFriendPage, lisTUser, getListUser } = servicesStore();
 
@@ -42,7 +42,7 @@ const useService = () => {
   }, []);
 
   return {
-    currenTUser,
+    currentUser,
     dataCommunicate,
     lisTUser,
     searchValue,

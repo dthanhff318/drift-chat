@@ -28,7 +28,7 @@ const SideChat = ({ isOpen, triggerSidechatRef, detailGroup, onClose }: Props) =
     loading,
     dataPopover,
     inputUploadRef,
-    currenTUser,
+    currentUser,
     preview,
     sideChatRef,
     handleViewProfile,
@@ -81,7 +81,7 @@ const SideChat = ({ isOpen, triggerSidechatRef, detailGroup, onClose }: Props) =
     },
   ];
 
-  const enemyChat = detailGroup.members?.find((e) => e.id !== currenTUser.id);
+  const enemyChat = detailGroup.members?.find((e) => e.id !== currentUser.id);
   const defaultAvatar = getPublicImageUrl('avt.png');
 
   const avatarChat = detailGroup.isGroup ? detailGroup.photo || defaultAvatar : enemyChat?.photoUrl;

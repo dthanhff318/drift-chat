@@ -11,12 +11,12 @@ type Props = {
 };
 
 const UserInfoDetail = ({ callbackWhenUpdate }: Props) => {
-  const { currenTUser, saveCurrenTUser } = authStore();
+  const { currentUser, saveCurrentUser } = authStore();
   const handleUpdateUser = async (data: TUser) => {
     try {
       const res = await userApi.updateUser(data);
       if (res.data) {
-        saveCurrenTUser(res.data as TUser);
+        saveCurrentUser(res.data as TUser);
         callbackWhenUpdate();
       }
     } catch (err) {
@@ -32,7 +32,7 @@ const UserInfoDetail = ({ callbackWhenUpdate }: Props) => {
       <Form
         name="basic"
         style={{ maxWidth: 600 }}
-        initialValues={currenTUser}
+        initialValues={currentUser}
         onFinish={handleUpdateUser}
         autoComplete="off"
       >
