@@ -31,11 +31,11 @@ export type RoutesProps = {
 const RenderRoutes = ({
   routes,
   checkAuthLocal,
-  currenTUser,
+  currentUser,
 }: {
   routes: Array<RoutesProps>;
   checkAuthLocal: boolean;
-  currenTUser: any;
+  currentUser: any;
 }) => {
   return (
     <Suspense fallback={<Loading loading />}>
@@ -58,7 +58,7 @@ const RenderRoutes = ({
                       <RenderRoutes
                         routes={route.routes}
                         checkAuthLocal={checkAuthLocal}
-                        currenTUser={currenTUser}
+                        currentUser={currentUser}
                       />
                     ) : (
                       <Component {...props} />

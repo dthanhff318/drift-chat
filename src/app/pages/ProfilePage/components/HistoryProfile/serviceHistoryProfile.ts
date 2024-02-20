@@ -8,14 +8,14 @@ import { replacePathParams } from 'app/helpers/funcs';
 import { pathProfileFriend } from 'app/routes/routesConfig';
 
 export const useServiceHistoryProfile = () => {
-  const { currenTUser } = authStore();
+  const { currentUser } = authStore();
   const { settings } = settingStore();
 
   const history = useHistory();
 
   const { data, isLoading } = useQuery<{ data: THistoryProfile[] }>({
     queryKey: ['historyProfile'],
-    queryFn: () => historyApi.getHistoryProfileByUserId(currenTUser.id ?? ''),
+    queryFn: () => historyApi.getHistoryProfileByUserId(currentUser.id ?? ''),
   });
 
   const goToFriendProfile = (userId: string) => {

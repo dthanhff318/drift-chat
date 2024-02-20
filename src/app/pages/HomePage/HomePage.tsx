@@ -6,12 +6,12 @@ import authStore from 'app/storeZustand/authStore';
 import { useService } from './service';
 
 const HomePage = () => {
-  const { currenTUser } = authStore();
+  const { currentUser } = authStore();
   useService();
 
   return (
     <div className={s.wrapper}>
-      <ChannelChat infoUser={currenTUser} />
+      <ChannelChat infoUser={currentUser} />
       <BoxChat />
     </div>
   );

@@ -24,7 +24,7 @@ type Props = {
 
 export const useService = ({ triggerSidechatRef, onClose }: Props) => {
   const history = useHistory();
-  const { currenTUser } = authStore();
+  const { currentUser } = authStore();
   const {
     getGroups,
     getDetailGroup,
@@ -103,7 +103,7 @@ export const useService = ({ triggerSidechatRef, onClose }: Props) => {
 
   const handleViewProfile = () => {
     if (detailGroup.isGroup) return;
-    const friend = detailGroup.members?.find((e) => e.id !== currenTUser.id);
+    const friend = detailGroup.members?.find((e) => e.id !== currentUser.id);
     history.push(
       replacePathParams(pathProfileFriend, {
         userId: friend?.id ?? '',
@@ -122,7 +122,7 @@ export const useService = ({ triggerSidechatRef, onClose }: Props) => {
     loading,
     dataPopover,
     inputUploadRef,
-    currenTUser,
+    currentUser,
     preview,
     sideChatRef,
     handleLeaveGroup,

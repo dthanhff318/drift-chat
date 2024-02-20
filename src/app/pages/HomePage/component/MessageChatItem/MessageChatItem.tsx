@@ -19,7 +19,7 @@ type Props = {
 
 const MessageChatItem = ({ group }: Props) => {
   const history = useHistory();
-  const { currenTUser } = authStore();
+  const { currentUser } = authStore();
   const { clearStateMessages } = messageStore();
   const { socket } = socketStore();
   const { currentGroup, groups, saveCurrentGroup, saveGroups } = groupStore();
@@ -42,9 +42,9 @@ const MessageChatItem = ({ group }: Props) => {
     }
   };
 
-  const newestMessNotMine = group.newestMess?.senderId !== currenTUser.id;
+  const newestMessNotMine = group.newestMess?.senderId !== currentUser.id;
   const isUnread = group.unread !== 0 && newestMessNotMine;
-  const { nameGroup, avatarGroup, online } = getNameAndAvatarChat(group, currenTUser.id ?? '');
+  const { nameGroup, avatarGroup, online } = getNameAndAvatarChat(group, currentUser.id ?? '');
 
   return (
     <div

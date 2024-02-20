@@ -11,13 +11,13 @@ export const DEFAULT_PAST_TIME = '1970-01-01T00:00:00.000Z';
 export const useService = () => {
   const { userId } = useParams<{ userId: string }>();
   const [loading, setLoading] = useState<boolean>(false);
-  const { currenTUser } = authStore();
+  const { currentUser } = authStore();
 
   const { profileUser, saveProfileUser } = profileStore();
   const getDetailUserId = async () => {
     try {
       if (!userId) {
-        saveProfileUser(currenTUser);
+        saveProfileUser(currentUser);
         return;
       }
       setLoading(true);

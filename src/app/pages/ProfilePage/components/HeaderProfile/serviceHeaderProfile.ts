@@ -17,7 +17,7 @@ export const useServiceHeaderProfile = () => {
   const inputUploadAvtRef = useRef<HTMLInputElement>(null);
   const inputUploadThumbRef = useRef<HTMLInputElement>(null);
 
-  const { currenTUser } = authStore();
+  const { currentUser } = authStore();
   const { profileUser, saveProfileUser } = profileStore();
 
   const handleLikedProfile = async () => {
@@ -86,7 +86,7 @@ export const useServiceHeaderProfile = () => {
   return {
     inputUploadAvtRef,
     inputUploadThumbRef,
-    currenTUser,
+    currentUser,
     loading,
     userId,
     thumb,

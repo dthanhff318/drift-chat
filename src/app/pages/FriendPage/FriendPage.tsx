@@ -14,7 +14,7 @@ const FriendPage = () => {
     dataCommunicate,
     lisTUser,
     searchValue,
-    currenTUser,
+    currentUser,
     loadingFriendPage,
     setSearchValue,
     handleAddFriend,
@@ -54,7 +54,7 @@ const FriendPage = () => {
             </thead>
             <tbody className={s.tableBody}>
               {lisTUser
-                .filter((e) => e.id !== currenTUser.id)
+                .filter((e) => e.id !== currentUser.id)
                 .map((user: TUser) => {
                   const alreadyFriend = dataCommunicate.listFriend?.find((f) => f.id === user.id);
                   return (

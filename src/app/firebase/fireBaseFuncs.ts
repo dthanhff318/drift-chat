@@ -12,7 +12,7 @@ auth.onAuthStateChanged((user) => {
       uid: user.uid,
     };
 
-    authStore.getState().saveCurrenTUser(userInfo);
+    authStore.getState().saveCurrentUser(userInfo);
   }
 });
 

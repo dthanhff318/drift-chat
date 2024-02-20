@@ -21,7 +21,7 @@ const HeaderProfile = ({ user, friendId }: Props) => {
   const [preview, setPreview] = useState<boolean>(false);
 
   const {
-    currenTUser,
+    currentUser,
     loading,
     inputUploadAvtRef,
     inputUploadThumbRef,
@@ -33,7 +33,7 @@ const HeaderProfile = ({ user, friendId }: Props) => {
     handleUploadAvatar,
   } = useServiceHeaderProfile();
 
-  const hasLiked = user.likedProfile?.includes(currenTUser.id ?? '');
+  const hasLiked = user.likedProfile?.includes(currentUser.id ?? '');
 
   return (
     <>

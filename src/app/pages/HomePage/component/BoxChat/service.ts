@@ -20,7 +20,7 @@ export const useService = () => {
   const params = useParams();
 
   const { groups, currentGroup, detailGroup, loadingDetailGroup, saveGroups } = groupStore();
-  const { currenTUser } = authStore();
+  const { currentUser } = authStore();
   const { settings } = settingStore();
   const { socket } = socketStore();
   const {
@@ -53,7 +53,7 @@ export const useService = () => {
       if (file) {
         const formMessage = new FormData();
         formMessage.append('image', file);
-        formMessage.append('senderId', currenTUser.id ?? '');
+        formMessage.append('senderId', currentUser.id ?? '');
         formMessage.append('group', currentGroup);
         formMessage.append('content', message.trim());
         if (reply.id) {
@@ -68,7 +68,7 @@ export const useService = () => {
           return;
         }
         const messBody: TSendMess = {
-          senderId: currenTUser.id ?? '',
+          senderId: currentUser.id ?? '',
           group: currentGroup,
           content: message.trim(),
         };
@@ -197,7 +197,7 @@ export const useService = () => {
     messages,
     groups,
     currentGroup,
-    currenTUser,
+    currentUser,
     firstTimeLoading,
     loadingDetailGroup,
     openEmoji,

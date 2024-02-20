@@ -23,7 +23,7 @@ const ListMember = ({ detailGroup }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { getDetailGroup } = groupStore();
-  const { currenTUser } = authStore();
+  const { currentUser } = authStore();
 
   const handleEditNickname = async (idUser: string) => {
     try {
@@ -63,7 +63,7 @@ const ListMember = ({ detailGroup }: Props) => {
     <div className={s.wrapper}>
       {members?.map((e) => {
         const isAdminGroup = admins?.map((e) => e.id).includes(e.id ?? '');
-        const isCurrentUserIsAdmin = admins?.map((e) => e.id).includes(currenTUser.id);
+        const isCurrentUserIsAdmin = admins?.map((e) => e.id).includes(currentUser.id);
         return (
           <div className={s.member} key={e.id}>
             <div className={s.nameWrap}>
@@ -106,7 +106,7 @@ const ListMember = ({ detailGroup }: Props) => {
               </div>
               <span className={s.name}>{e.displayName}</span>
             </div>
-            {isCurrentUserIsAdmin && e.id !== currenTUser.id && (
+            {isCurrentUserIsAdmin && e.id !== currentUser.id && (
               <div className={s.icDelMember} onClick={() => handleRemoveMemberGroup(e.id ?? '')}>
                 <DeleteOutlined rev={undefined} />
               </div>

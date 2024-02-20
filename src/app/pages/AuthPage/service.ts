@@ -18,7 +18,7 @@ const provider = new GoogleAuthProvider();
 const useService = () => {
   const history = useHistory();
 
-  const { saveCurrenTUser } = authStore();
+  const { saveCurrentUser } = authStore();
   const { getSettings } = settingStore();
   const { getDataCommunicate } = friendStore();
   const { socket } = socketStore();
@@ -63,7 +63,8 @@ const useService = () => {
 
         saveToken(token.accessToken, 'accessToken');
         saveToken(token.refreshToken, 'refreshToken');
-        saveCurrenTUser(user);
+        sessionStorage.setItem('refresh', 'true');
+        saveCurrentUser(user);
         await getSettings();
         await getDataCommunicate();
         history.push(pathHomePage);

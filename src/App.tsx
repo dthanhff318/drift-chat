@@ -5,7 +5,7 @@ import { pathLoginPage } from 'app/routes/routesConfig';
 import authStore from 'app/storeZustand/authStore';
 import friendStore from 'app/storeZustand/friendStore';
 import socketStore from 'app/storeZustand/socketStore';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { io } from 'socket.io-client';
@@ -13,19 +13,28 @@ import './App.scss';
 
 const queryClient = new QueryClient();
 
+let socketInstance;
+
 function App() {
   const accessToken = getTokenFromLocalStorage();
 
-  const { currenTUser, saveCurrenTUser } = authStore();
+  const { currentUser, saveCurrentUser } = authStore();
   const { getDataCommunicate } = friendStore();
   const { setSocket, socket } = socketStore();
 
-  const socketInstance = io('http://localhost:4000');
+  useMemo(() => {
+    if (!currentUser.id) return;
+    socketInstance = io('http://localhost:4000', {
+      closeOnBeforeunload: false,
+      query: { id: currentUser.id },
+    });
+    setSocket(socketInstance);
+  }, [currentUser.id]);
 
-  const getCurrenTUser = async () => {
+  const getCurrentUser = async () => {
     try {
-      const res = await authApi.getCurrenTUser();
-      saveCurrenTUser(res.data);
+      const res = await authApi.getCurrentUser();
+      saveCurrentUser(res.data);
     } catch (err) {
       localStorage.clear();
       window.location.href = pathLoginPage;
@@ -34,34 +43,37 @@ function App() {
 
   useEffect(() => {
     if (accessToken) {
-      getCurrenTUser();
+      getCurrentUser();
     }
   }, []);
 
-  // Add socket to App
   useEffect(() => {
-    setSocket(socketInstance);
-  }, []);
-
-  useEffect(() => {
-    if (accessToken || currenTUser.id) {
+    if (accessToken || currentUser.id) {
       getDataCommunicate();
     }
   }, []);
 
   useEffect(() => {
-    document.addEventListener('beforeunload', () => {
-      if (socket) {
-        socket.emit('close-app', 'hi');
-      }
-    });
+    const handleBeforeUnload = () => {
+      const { socket } = socketStore.getState();
+      const { currentUser } = authStore.getState();
+      socket?.emit('closeApp', {
+        id: currentUser.id,
+        time: Date.now(),
+      });
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
   }, []);
 
-  const checkAuthLocal = accessToken || currenTUser.id;
+  const checkAuthLocal = accessToken || currentUser.id;
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
-        <RenderRoutes routes={routes} checkAuthLocal={!!checkAuthLocal} currenTUser={{}} />
+        <RenderRoutes routes={routes} checkAuthLocal={!!checkAuthLocal} currentUser={{}} />
       </Router>
     </QueryClientProvider>
   );
