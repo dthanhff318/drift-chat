@@ -50,12 +50,14 @@ export const getNameAndAvatarChat = (group: TGroup | TGroupDetail, currentUserId
     return {
       nameGroup: group.name,
       avatarGroup: group.photo,
+      online: false,
     };
   } else {
     const friend = group?.members?.find((e) => e.id !== currentUserId) ?? {};
     return {
       nameGroup: friend.displayName,
       avatarGroup: friend.photoUrl,
+      online: friend.isOnline,
     };
   }
 };

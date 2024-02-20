@@ -1,6 +1,6 @@
 @import '../../scss/variables.scss';
 
-$header-height: 16rem;
+$header-height: 14rem;
 .profileWrap {
   background: linear-gradient(
     90deg,
@@ -15,6 +15,7 @@ $header-height: 16rem;
   display: flex;
   align-items: center;
   flex-direction: column;
+  overflow: hidden;
 }
 
 // Header
@@ -178,10 +179,12 @@ $header-height: 16rem;
 // Content
 .content {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: center;
   width: 100%;
   margin-top: 1rem;
   height: calc(100% - $header-height);
+  overflow: hidden;
 }
 
 // History

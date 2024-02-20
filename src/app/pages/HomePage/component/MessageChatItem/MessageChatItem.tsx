@@ -44,7 +44,7 @@ const MessageChatItem = ({ group }: Props) => {
 
   const newestMessNotMine = group.newestMess?.senderId !== currenTUser.id;
   const isUnread = group.unread !== 0 && newestMessNotMine;
-  const { nameGroup, avatarGroup } = getNameAndAvatarChat(group, currenTUser.id ?? '');
+  const { nameGroup, avatarGroup, online } = getNameAndAvatarChat(group, currenTUser.id ?? '');
 
   return (
     <div
@@ -56,7 +56,7 @@ const MessageChatItem = ({ group }: Props) => {
         await handleSaveCurrentGroup();
       }}
     >
-      <Avatar online={false} src={avatarGroup} />
+      <Avatar online={online} src={avatarGroup} />
       <div className={s.msgInfo}>
         <div className={s.firstLine}>
           <p className={s.name}>{nameGroup}</p>

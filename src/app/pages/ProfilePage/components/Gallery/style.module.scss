@@ -1,0 +1,18 @@
+.galleryWrap {
+  display: grid;
+  grid-template-rows: repeat(1, 14rem);
+  grid-template-columns: repeat(4, 14rem);
+  grid-auto-rows: 14rem;
+  grid-gap: 0.5rem;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  justify-content: center;
+  @media (min-width: 1560px) {
+    grid-template-columns: repeat(5, 14rem);
+  }
+  .galleryItemWrap {
+    background-color: rgb(179, 184, 152);
+    border-radius: 0.5rem;
+  }
+}

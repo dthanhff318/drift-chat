@@ -32,7 +32,7 @@ const OnlineList = () => {
           ?.filter((x) => x.isOnline)
           .map((e, i) => (
             <div className={s.itemUser} key={i} onClick={() => handleSelectChat(e.id ?? '')}>
-              <Avatar src={e.photoUrl} />
+              <Avatar src={e.photoUrl} online={e.isOnline} />
               <span className={s.userName}>{e.displayName}</span>
             </div>
           ))}
