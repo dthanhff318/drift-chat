@@ -14,7 +14,14 @@ const GalleryDetail = () => {
         <div className={s.galleryDetail}>
           <div className={s.galleryOverlay}></div>
           <div className={s.galleryContent}>
-            <div className={s.galleryImage}></div>
+            <div className={s.galleryImage}>
+              <img
+                src="https://st2.depositphotos.com/2001755/5408/i/450/depositphotos_54081723-stock-photo-beautiful-nature-landscape.jpg"
+                alt=""
+                className={s.image}
+              />
+            </div>
+            {/* <div className={s.galleryInfo}></div> */}
           </div>
         </div>
       </>,

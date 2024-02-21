@@ -18,7 +18,7 @@ const Gallery = () => {
             </div>
           ))}
       </div>
-      <GalleryDetail />
+      {/* <GalleryDetail /> */}
     </>
   );
 };
