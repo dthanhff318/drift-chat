@@ -20,16 +20,16 @@ function App() {
 
   const { currentUser, saveCurrentUser } = authStore();
   const { getDataCommunicate } = friendStore();
-  const { setSocket, socket } = socketStore();
+  const { setSocket } = socketStore();
 
-  useMemo(() => {
-    if (!currentUser.id) return;
-    socketInstance = io('http://localhost:4000', {
-      closeOnBeforeunload: false,
-      query: { id: currentUser.id },
-    });
-    setSocket(socketInstance);
-  }, [currentUser.id]);
+  // useMemo(() => {
+  //   if (!currentUser.id) return;
+  //   socketInstance = io('http://localhost:4000', {
+  //     closeOnBeforeunload: false,
+  //     query: { id: currentUser.id },
+  //   });
+  //   setSocket(socketInstance);
+  // }, [currentUser.id]);
 
   const getCurrentUser = async () => {
     try {
@@ -40,6 +40,15 @@ function App() {
       window.location.href = pathLoginPage;
     }
   };
+
+  useEffect(() => {
+    if (!currentUser.id) return;
+    socketInstance = io('http://localhost:4000', {
+      closeOnBeforeunload: false,
+      query: { id: currentUser.id },
+    });
+    setSocket(socketInstance);
+  }, [currentUser.id]);
 
   useEffect(() => {
     if (accessToken) {
