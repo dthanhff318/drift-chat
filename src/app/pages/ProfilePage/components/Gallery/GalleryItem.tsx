@@ -1,3 +1,4 @@
+import { Copy } from 'lucide-react';
 import React from 'react';
 import s from './style.module.scss';
 
@@ -7,9 +8,13 @@ const GalleryItem = () => {
       <div
         className={s.galleryItem}
         style={{
-          background: `url()`,
+          backgroundImage: `url("https://i.ytimg.com/vi/13In9JpvJi8/sddefault.jpg")`,
         }}
-      ></div>
+      >
+        <div className={s.iconMulti}>
+          <Copy size={26} color="#ffffff" />
+        </div>
+      </div>
     </>
   );
 };

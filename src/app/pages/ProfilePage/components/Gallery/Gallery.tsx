@@ -2,6 +2,7 @@ import React from 'react';
 import { TUser } from 'types/common';
 import s from './style.module.scss';
 import GalleryItem from './GalleryItem';
+import GalleryDetail from '../GalleryDetail/GalleryDetail';
 
 const Gallery = () => {
   // const {} = useServiceGallery();
@@ -17,6 +18,7 @@ const Gallery = () => {
             </div>
           ))}
       </div>
+      <GalleryDetail />
     </>
   );
 };
