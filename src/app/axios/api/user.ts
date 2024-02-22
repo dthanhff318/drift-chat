@@ -1,5 +1,6 @@
 import { TUser } from 'types/common';
 import { axiosClient } from '../axiosClient';
+import qs from 'query-string';
 
 const userApi = {
   updateUser: (data: TUser) => {
@@ -17,6 +18,10 @@ const userApi = {
   },
   getUserById: (id: string) => {
     return axiosClient.get(`user/${id}`);
+  },
+  getSignedUrl: (data: { fileName: string; fileType: string }) => {
+    const query = qs.stringify(data);
+    return axiosClient.get(`user/signed-url?${query}`);
   },
 };
 

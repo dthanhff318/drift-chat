@@ -1,7 +1,9 @@
 import { notification } from 'antd';
 import userApi from 'app/axios/api/user';
+import { axiosClient } from 'app/axios/axiosClient';
 import authStore from 'app/storeZustand/authStore';
 import profileStore from 'app/storeZustand/profileStore';
+import axios from 'axios';
 import { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TUser } from 'types/common';
@@ -60,6 +62,7 @@ export const useServiceHeaderProfile = () => {
       return;
     }
     setThumb(files[0]);
+    console.log(files[0]);
   };
 
   const handleUploadThumbProfile = async () => {
@@ -70,11 +73,18 @@ export const useServiceHeaderProfile = () => {
       formUpload.append('image', thumb);
       formUpload.append('type', 'thumbProfile');
       const res = await userApi.uploadUser(formUpload);
+      const signedUrl = await userApi.getSignedUrl({
+        fileName: thumb.name,
+        fileType: thumb.type.split('/')[1] ?? '',
+      });
+      await axios.put(signedUrl.data, thumb);
       const userUpdate = res.data as TUser;
       saveProfileUser({ ...profileUser, thumbProfile: userUpdate.thumbProfile });
       setThumb(undefined);
       setLoading('');
     } catch (err) {
+      console.log(err);
+
       setLoading('');
     }
   };

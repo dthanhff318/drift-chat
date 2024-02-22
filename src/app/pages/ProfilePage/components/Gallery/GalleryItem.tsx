@@ -8,7 +8,7 @@ const GalleryItem = () => {
       <div
         className={s.galleryItem}
         style={{
-          backgroundImage: `url("https://thanh-linh.s3.ap-southeast-1.amazonaws.com/siuu.jpg")`,
+          backgroundImage: `url("https://thanh-linh.s3.ap-southeast-1.amazonaws.com/p2.jpg")`,
         }}
       >
         <div className={s.iconMulti}>
