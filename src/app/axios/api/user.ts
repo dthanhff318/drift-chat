@@ -6,12 +6,8 @@ const userApi = {
   updateUser: (data: TUser) => {
     return axiosClient.patch('/user', data);
   },
-  uploadUser: (data: FormData) => {
-    return axiosClient.post('/user/upload', data, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+  uploadUser: (type: keyof Pick<TUser, 'photoUrl' | 'thumbProfile'>, fileName: string) => {
+    return axiosClient.post('/user/upload', { type, fileName });
   },
   likeProfile: (user: string) => {
     return axiosClient.post(`/user/likeProfile`, { user });

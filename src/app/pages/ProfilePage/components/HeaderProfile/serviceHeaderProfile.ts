@@ -43,11 +43,14 @@ export const useServiceHeaderProfile = () => {
       if (!files) {
         return;
       }
+      const avatarFile = files[0];
       setLoading('avatar');
-      const formUpload = new FormData();
-      formUpload.append('image', files[0]);
-      formUpload.append('type', 'photoUrl');
-      const res = await userApi.uploadUser(formUpload);
+      const signedUrl = await userApi.getSignedUrl({
+        fileName: avatarFile.name,
+        fileType: avatarFile.type.split('/')[1] ?? '',
+      });
+      await axios.put(signedUrl.data, avatarFile);
+      const res = await userApi.uploadUser('photoUrl', files[0].name);
       const userUpdate = res.data as TUser;
       saveProfileUser({ ...profileUser, photoUrl: userUpdate.photoUrl });
       setLoading('');
@@ -62,22 +65,18 @@ export const useServiceHeaderProfile = () => {
       return;
     }
     setThumb(files[0]);
-    console.log(files[0]);
   };
 
   const handleUploadThumbProfile = async () => {
     if (!thumb) return;
     try {
       setLoading('thumb');
-      const formUpload = new FormData();
-      formUpload.append('image', thumb);
-      formUpload.append('type', 'thumbProfile');
-      const res = await userApi.uploadUser(formUpload);
       const signedUrl = await userApi.getSignedUrl({
         fileName: thumb.name,
         fileType: thumb.type.split('/')[1] ?? '',
       });
       await axios.put(signedUrl.data, thumb);
+      const res = await userApi.uploadUser('thumbProfile', thumb.name);
       const userUpdate = res.data as TUser;
       saveProfileUser({ ...profileUser, thumbProfile: userUpdate.thumbProfile });
       setThumb(undefined);
