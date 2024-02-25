@@ -1,7 +1,7 @@
 import React from 'react';
-import { TUser } from 'types/common';
-import s from './style.module.scss';
 import GalleryItem from './GalleryItem';
+import s from './style.module.scss';
+import { BadgePlus, PlusSquare } from 'lucide-react';
 import GalleryDetail from '../GalleryDetail/GalleryDetail';
 
 const Gallery = () => {
@@ -17,8 +17,11 @@ const Gallery = () => {
               <GalleryItem />
             </div>
           ))}
+        <div className={s.postControl}>
+          <PlusSquare size={34} />
+        </div>
       </div>
-      {/* <GalleryDetail /> */}
+      <GalleryDetail />
     </>
   );
 };

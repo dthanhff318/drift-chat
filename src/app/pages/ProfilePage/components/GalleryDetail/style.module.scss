@@ -19,6 +19,7 @@
     z-index: 101;
     border-radius: 1rem;
     overflow: hidden;
+    display: flex;
     .galleryImage {
       width: 50%;
       height: 100%;
@@ -31,6 +32,42 @@
       }
     }
     .galleryInfo {
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+      width: 50%;
+      padding: 1rem;
+      .owner {
+        .info {
+          display: flex;
+          align-items: center;
+          .name {
+            font-size: 0.9rem;
+            font-weight: 550;
+            margin-left: 1rem;
+          }
+        }
+        .caption {
+          margin-top: 0.5rem;
+          font-size: 0.85rem;
+          word-wrap: break-word;
+          width: 100%;
+          word-break: break-word;
+        }
+      }
+      .interactive {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+        .starPost {
+          display: flex;
+          align-items: center;
+        }
+        .quantityStar {
+          font-size: 0.85rem;
+        }
+      }
     }
   }
 }

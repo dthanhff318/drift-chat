@@ -6,11 +6,5 @@ import { useParams } from 'react-router-dom';
 type TLoadingHeaderProfile = '' | 'avatar' | 'thumb';
 
 export const useServiceGallery = () => {
-  const { userId } = useParams<{ userId: string }>();
-
-  const [loading, setLoading] = useState<TLoadingHeaderProfile>('');
-
-  const { profileUser, saveProfileUser } = profileStore();
-
   return {};
 };

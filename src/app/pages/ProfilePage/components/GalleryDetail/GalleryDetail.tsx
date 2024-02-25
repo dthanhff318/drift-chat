@@ -1,11 +1,13 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import s from './style.module.scss';
+import Avatar from 'app/components/Avatar/Avatar';
+import { Star } from 'lucide-react';
 
 const GalleryDetail = () => {
   const rootElement = document.getElementById('root');
-  console.log(rootElement);
 
+  const commentArr = [];
   if (!rootElement) return null;
   return (
     document.getElementById('root') &&
@@ -21,7 +23,26 @@ const GalleryDetail = () => {
                 className={s.image}
               />
             </div>
-            {/* <div className={s.galleryInfo}></div> */}
+            <div className={s.galleryInfo}>
+              <div className={s.owner}>
+                <div className={s.info}>
+                  <Avatar />
+                  <p className={s.name}>dthanahfx</p>
+                </div>
+                <div className={s.caption}>
+                  ssssssssssssssssaaaaaaaaaaaaaaaaaasdadasdasdadsadasd
+                </div>
+              </div>
+              <div className={s.interactive}>
+                <div className={s.starPost}>
+                  <Star size={24} fill="orange" />
+                </div>
+                <div className={s.quantityStar}>120231 people liked</div>
+              </div>
+              <div className={s.postComment}>
+                <div className={s.listComment}></div>
+              </div>
+            </div>
           </div>
         </div>
       </>,
