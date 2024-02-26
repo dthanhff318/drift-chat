@@ -7,7 +7,29 @@ import { Star } from 'lucide-react';
 const GalleryDetail = () => {
   const rootElement = document.getElementById('root');
 
-  const commentArr = [];
+  const commentArr = [
+    {
+      user: {
+        name: 'dthanhdff',
+        photoUrl: '',
+      },
+      comment: ' this is beautiful post',
+    },
+    {
+      user: {
+        name: 'dthanhdff',
+        photoUrl: '',
+      },
+      comment: ' this is beautiful post',
+    },
+    {
+      user: {
+        name: 'dthanhdff',
+        photoUrl: '',
+      },
+      comment: ' this is beautiful post',
+    },
+  ];
   if (!rootElement) return null;
   return (
     document.getElementById('root') &&
@@ -40,7 +62,15 @@ const GalleryDetail = () => {
                 <div className={s.quantityStar}>120231 people liked</div>
               </div>
               <div className={s.postComment}>
-                <div className={s.listComment}></div>
+                <div className={s.listComment}>
+                  {commentArr.map((e, i) => (
+                    <div className={s.commentItem} key={i}>
+                      <Avatar src={e.user.photoUrl} />
+                      <p className={s.name}>{e.user.name}</p>
+                      <p className={s.commentContent}>{e.comment}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

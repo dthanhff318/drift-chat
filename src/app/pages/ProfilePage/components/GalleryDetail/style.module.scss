@@ -68,6 +68,10 @@
           font-size: 0.85rem;
         }
       }
+      .listComment {
+        display: flex;
+        flex-direction: column;
+      }
     }
   }
 }
