@@ -57,25 +57,42 @@
     inset: 0;
   }
   .main {
-    width: 55%;
-    height: 80%;
+    width: 30rem;
+    height: fit-content;
     background-color: white;
     z-index: 101;
     border-radius: 1rem;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    height: 31rem;
+    justify-content: space-between;
     .uploadWrap {
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 1rem;
-      width: 50%;
+      width: 100%;
+      height: 28rem;
+      overflow: hidden;
       .imagePost {
-        width: 90%;
-        height: 60%;
+        width: 100%;
+        height: 26rem;
       }
+    }
+    .inputCaption {
+      padding: 1rem;
+      width: 100%;
+      height: 28rem;
+      overflow: hidden;
+      .input {
+      }
+    }
+    .control {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1rem 1rem;
     }
   }
 }

@@ -29,6 +29,28 @@ const GalleryDetail = () => {
       },
       comment: ' this is beautiful post',
     },
+    {
+      user: {
+        name: 'dthanhdff',
+        photoUrl: '',
+      },
+      comment: ' this is beautiful post',
+    },
+    {
+      user: {
+        name: 'dthanhdff',
+        photoUrl: '',
+      },
+      comment:
+        ' this is beautiful postthis is beautiful postthis is beautiful postthis is beautiful postthis is beautiful postthis is beautiful post',
+    },
+    {
+      user: {
+        name: 'dthanhdff',
+        photoUrl: '',
+      },
+      comment: ' this is beautiful post',
+    },
   ];
   if (!rootElement) return null;
   return (
@@ -65,11 +87,16 @@ const GalleryDetail = () => {
                 <div className={s.listComment}>
                   {commentArr.map((e, i) => (
                     <div className={s.commentItem} key={i}>
-                      <Avatar src={e.user.photoUrl} />
-                      <p className={s.name}>{e.user.name}</p>
+                      <div className={s.user}>
+                        <Avatar src={e.user.photoUrl} size="s" />
+                        <p className={s.name}>{e.user.name}</p>
+                      </div>
                       <p className={s.commentContent}>{e.comment}</p>
                     </div>
                   ))}
+                </div>
+                <div className={s.enterComment}>
+                  <input className={s.inputComment} type="text" placeholder="What do you think !" />
                 </div>
               </div>
             </div>
