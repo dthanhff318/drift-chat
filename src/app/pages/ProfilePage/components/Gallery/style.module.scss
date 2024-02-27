@@ -41,3 +41,41 @@
     justify-content: center;
   }
 }
+
+.formCreatePost {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  .formOverlay {
+    background-color: rgba(24, 24, 24, 0.5);
+    position: absolute;
+    inset: 0;
+  }
+  .main {
+    width: 55%;
+    height: 80%;
+    background-color: white;
+    z-index: 101;
+    border-radius: 1rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    .uploadWrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+      width: 50%;
+      .imagePost {
+        width: 90%;
+        height: 60%;
+      }
+    }
+  }
+}

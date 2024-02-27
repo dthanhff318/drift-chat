@@ -3,6 +3,7 @@ import GalleryItem from './GalleryItem';
 import s from './style.module.scss';
 import { BadgePlus, PlusSquare } from 'lucide-react';
 import GalleryDetail from '../GalleryDetail/GalleryDetail';
+import FormCreatePost from './FormCreatePost';
 
 const Gallery = () => {
   // const {} = useServiceGallery();
@@ -21,7 +22,8 @@ const Gallery = () => {
           <PlusSquare size={34} />
         </div>
       </div>
-      <GalleryDetail />
+      <FormCreatePost />
+      {/* <GalleryDetail /> */}
     </>
   );
 };
