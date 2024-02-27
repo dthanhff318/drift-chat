@@ -22,15 +22,6 @@ function App() {
   const { getDataCommunicate } = friendStore();
   const { setSocket } = socketStore();
 
-  // useMemo(() => {
-  //   if (!currentUser.id) return;
-  //   socketInstance = io('http://localhost:4000', {
-  //     closeOnBeforeunload: false,
-  //     query: { id: currentUser.id },
-  //   });
-  //   setSocket(socketInstance);
-  // }, [currentUser.id]);
-
   const getCurrentUser = async () => {
     try {
       const res = await authApi.getCurrentUser();
@@ -43,7 +34,7 @@ function App() {
 
   useEffect(() => {
     if (!currentUser.id) return;
-    socketInstance = io('http://localhost:4000', {
+    socketInstance = io(process.env.REACT_APP_SOCKET_URL ?? 'http://localhost:4000', {
       closeOnBeforeunload: false,
       query: { id: currentUser.id },
     });
