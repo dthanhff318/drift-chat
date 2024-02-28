@@ -10,19 +10,20 @@ export enum EFriendLoading {
 
 type TServicesStore = {
   loadingFriendPage: EFriendLoading;
-  lisTUser: TUser[];
+  listUser: TUser[];
   getListUser: (query: TQuery) => void;
+  saveListUser: (users: TUser[]) => void;
 };
 
 const servicesStore = create<TServicesStore>((set) => ({
   loadingFriendPage: EFriendLoading.NONE,
-  lisTUser: [],
+  listUser: [],
   getListUser: async (query: TQuery) => {
     try {
       set({ loadingFriendPage: EFriendLoading.LIST });
       const res = await servicesApi.getUsers(query);
       return set({
-        lisTUser: res.data,
+        listUser: res.data,
         loadingFriendPage: EFriendLoading.NONE,
       });
     } catch (err) {
@@ -32,6 +33,11 @@ const servicesStore = create<TServicesStore>((set) => ({
         duration: 4,
       });
     }
+  },
+  saveListUser: (users: TUser[]) => {
+    return {
+      listUser: users,
+    };
   },
 }));
 

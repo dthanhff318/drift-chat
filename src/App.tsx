@@ -33,13 +33,13 @@ function App() {
   };
 
   useEffect(() => {
-    if (!currentUser.id) return;
+    if (!currentUser?.id) return;
     socketInstance = io(process.env.REACT_APP_SOCKET_URL ?? 'http://localhost:4000', {
       closeOnBeforeunload: false,
-      query: { id: currentUser.id },
+      query: { id: currentUser?.id },
     });
     setSocket(socketInstance);
-  }, [currentUser.id]);
+  }, [currentUser?.id]);
 
   useEffect(() => {
     if (accessToken) {

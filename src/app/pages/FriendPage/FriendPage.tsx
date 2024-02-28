@@ -8,17 +8,21 @@ import useService from './service';
 import s from './style.module.scss';
 import Loading from 'app/components/Loading/Loading';
 import { EFriendLoading } from 'app/storeZustand/servicesStore';
+import Button from 'app/components/Button/Button';
+import { EFriendStatus } from 'enums';
 
 const FriendPage = () => {
   const {
     dataCommunicate,
-    lisTUser,
+    listUser,
     searchValue,
     currentUser,
     loadingFriendPage,
+    usersLoading,
     setSearchValue,
-    handleAddFriend,
+    handleFriendRequest,
     handleSearchUser,
+    checkStatusFriend,
   } = useService();
 
   return (
@@ -53,10 +57,10 @@ const FriendPage = () => {
               <th>Action</th>
             </thead>
             <tbody className={s.tableBody}>
-              {lisTUser
+              {listUser
                 .filter((e) => e.id !== currentUser.id)
                 .map((user: TUser) => {
-                  const alreadyFriend = dataCommunicate.listFriend?.find((f) => f.id === user.id);
+                  const statusFriend = checkStatusFriend(dataCommunicate, user);
                   return (
                     <tr key={user.id} className={s.row}>
                       <td className={s.large}>
@@ -71,15 +75,12 @@ const FriendPage = () => {
                           : convertDiffTime((user.lastActive ?? '').toString())}
                       </td>
                       <td className={s.small}>
-                        {alreadyFriend ? (
-                          <></>
-                        ) : (
-                          <button
-                            onClick={() => handleAddFriend(user.id ?? '')}
-                            className={s.buttonAccept}
-                          >
-                            Add
-                          </button>
+                        {statusFriend !== EFriendStatus.Friend && (
+                          <Button
+                            text={statusFriend}
+                            loading={usersLoading.includes(user.id ?? '')}
+                            onClick={() => handleFriendRequest(user.id ?? '', statusFriend)}
+                          />
                         )}
                       </td>
                     </tr>

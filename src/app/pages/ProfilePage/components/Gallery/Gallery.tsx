@@ -22,7 +22,7 @@ const Gallery = () => {
           <PlusSquare size={34} />
         </div>
       </div>
-      <FormCreatePost />
+      {/* <FormCreatePost /> */}
       {/* <GalleryDetail /> */}
     </>
   );
