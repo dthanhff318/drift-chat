@@ -129,12 +129,6 @@ export const routes = [
       },
       {
         exact: true,
-        path: pathIntroPage,
-        component: lazy(() => import('app/pages/HomePage/HomePage')),
-        auth: true,
-      },
-      {
-        exact: true,
         path: '*',
         component: () => <Redirect to={pathNotFoundPage} />,
       },

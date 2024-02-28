@@ -12,7 +12,7 @@ const OnlineList = () => {
   const history = useHistory();
   const { id } = useParams<{ id: string }>();
   const {
-    dataCommunicate: { listFriend },
+    dataCommunicate: { listFriend = [] },
   } = friendStore();
   const { groups } = groupStore();
   const { clearStateMessages } = messageStore();

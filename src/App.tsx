@@ -48,7 +48,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (accessToken || currentUser.id) {
+    if (accessToken || currentUser?.id) {
       getDataCommunicate();
     }
   }, []);
@@ -58,7 +58,7 @@ function App() {
       const { socket } = socketStore.getState();
       const { currentUser } = authStore.getState();
       socket?.emit('closeApp', {
-        id: currentUser.id,
+        id: currentUser?.id,
         time: Date.now(),
       });
     };
