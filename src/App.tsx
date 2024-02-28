@@ -57,6 +57,7 @@ function App() {
     const handleBeforeUnload = () => {
       const { socket } = socketStore.getState();
       const { currentUser } = authStore.getState();
+      if (!currentUser?.id) return;
       socket?.emit('closeApp', {
         id: currentUser?.id,
         time: Date.now(),
