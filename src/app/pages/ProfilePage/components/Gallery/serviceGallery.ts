@@ -1,10 +1,13 @@
-import authStore from 'app/storeZustand/authStore';
-import profileStore from 'app/storeZustand/profileStore';
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import postStore from 'app/storeZustand/postStore';
+import { useState, useEffect } from 'react';
 
-type TLoadingHeaderProfile = '' | 'avatar' | 'thumb';
+type TModalGallery = '' | 'create' | 'detail';
 
 export const useServiceGallery = () => {
-  return {};
+  const [modal, setModal] = useState<TModalGallery>('');
+  const { getPosts, loadingPost, posts } = postStore();
+  useEffect(() => {
+    getPosts();
+  }, []);
+  return { modal, loadingPost, posts, setModal };
 };

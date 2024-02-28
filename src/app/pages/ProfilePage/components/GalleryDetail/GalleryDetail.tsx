@@ -2,9 +2,13 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import s from './style.module.scss';
 import Avatar from 'app/components/Avatar/Avatar';
-import { Star } from 'lucide-react';
+import { Star, XCircle } from 'lucide-react';
 
-const GalleryDetail = () => {
+type Props = {
+  handleCloseModal: () => void;
+};
+
+const GalleryDetail = ({ handleCloseModal }: Props) => {
   const rootElement = document.getElementById('root');
 
   const commentArr = [
@@ -41,6 +45,35 @@ const GalleryDetail = () => {
         name: 'dthanhdff',
         photoUrl: '',
       },
+      comment: ' this is beautiful post',
+    },
+    {
+      user: {
+        name: 'dthanhdff',
+        photoUrl: '',
+      },
+      comment: ' this is beautiful post',
+    },
+    {
+      user: {
+        name: 'dthanhdff',
+        photoUrl: '',
+      },
+      comment: ' this is beautiful post',
+    },
+    {
+      user: {
+        name: 'dthanhdff',
+        photoUrl: '',
+      },
+      comment: ' this is beautiful post',
+    },
+
+    {
+      user: {
+        name: 'dthanhdff',
+        photoUrl: '',
+      },
       comment:
         ' this is beautiful postthis is beautiful postthis is beautiful postthis is beautiful postthis is beautiful postthis is beautiful post',
     },
@@ -58,7 +91,9 @@ const GalleryDetail = () => {
     createPortal(
       <>
         <div className={s.galleryDetail}>
-          <div className={s.galleryOverlay}></div>
+          <div className={s.galleryOverlay}>
+            <XCircle size={39} className={s.closeIcon} color="#fff" onClick={handleCloseModal} />
+          </div>
           <div className={s.galleryContent}>
             <div className={s.galleryImage}>
               <img

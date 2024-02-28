@@ -1,11 +1,14 @@
 import Button from 'app/components/Button/Button';
+import { XCircle } from 'lucide-react';
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import s from './style.module.scss';
 
-const FormCreatePost = () => {
+type Props = {
+  handleCloseModal: () => void;
+};
+const FormCreatePost = ({ handleCloseModal }: Props) => {
   const [step, setStep] = useState(1);
-
   const handleNextStep = () => setStep((prev) => prev + 1);
   const handleBackStep = () => setStep((prev) => prev - 1);
   const rootElement = document.getElementById('root');
@@ -14,7 +17,9 @@ const FormCreatePost = () => {
     document.getElementById('root') &&
     createPortal(
       <div className={s.formCreatePost}>
-        <div className={s.formOverlay}></div>
+        <div className={s.formOverlay}>
+          <XCircle size={39} className={s.closeIcon} color="#fff" onClick={handleCloseModal} />
+        </div>
         <div className={s.main}>
           {step === 1 && (
             <div className={s.uploadWrap}>
