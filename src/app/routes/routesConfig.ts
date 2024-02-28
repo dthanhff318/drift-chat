@@ -1,4 +1,5 @@
 export const pathNotFoundPage = '/notfound';
+export const pathIntroPage = '/';
 export const pathLoginPage = '/login';
 export const pathHomePage = '/home';
 export const pathHomePageChat = '/home/chat/:id';

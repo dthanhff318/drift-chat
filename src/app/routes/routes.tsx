@@ -4,6 +4,7 @@ import {
   pathFriendPage,
   pathHomePage,
   pathHomePageChat,
+  pathIntroPage,
   pathLoginPage,
   pathNotFoundPage,
   pathProfile,
@@ -123,6 +124,12 @@ export const routes = [
       {
         exact: true,
         path: pathHomePage,
+        component: lazy(() => import('app/pages/HomePage/HomePage')),
+        auth: true,
+      },
+      {
+        exact: true,
+        path: pathIntroPage,
         component: lazy(() => import('app/pages/HomePage/HomePage')),
         auth: true,
       },
