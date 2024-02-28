@@ -7,7 +7,7 @@ import authStore from 'app/storeZustand/authStore';
 import friendStore from 'app/storeZustand/friendStore';
 import socketStore from 'app/storeZustand/socketStore';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { TUser } from 'types/common';
 import settingStore from './../../storeZustand/settingStore';
@@ -22,6 +22,7 @@ const useService = () => {
   const { getSettings } = settingStore();
   const { getDataCommunicate } = friendStore();
   const { socket } = socketStore();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const imageRef = useRef<HTMLImageElement>(null);
 
@@ -57,16 +58,16 @@ const useService = () => {
           photoURL,
           uid,
         };
+        setLoading(true);
         const res = await authApi.login(userInfo);
         const { token, user }: { token: any; user: TUser } = res.data;
-        console.log(token);
-
         saveToken(token.accessToken, 'accessToken');
         saveToken(token.refreshToken, 'refreshToken');
         sessionStorage.setItem('refresh', 'true');
         saveCurrentUser(user);
         await getSettings();
         await getDataCommunicate();
+        setLoading(false);
         history.push(pathHomePage);
         notification.success({
           message: `Welcome sir, ${user.displayName}`,
@@ -78,6 +79,7 @@ const useService = () => {
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
         notification.error({
           message: `Login error! Try again`,
           description: 'Something error now, try again later',
@@ -87,6 +89,7 @@ const useService = () => {
   };
   return {
     imageRef,
+    loading,
     handleMouseOver,
     handleLoginFirebase,
   };

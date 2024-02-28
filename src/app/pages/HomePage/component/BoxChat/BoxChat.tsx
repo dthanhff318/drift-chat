@@ -80,7 +80,7 @@ const BoxChat = () => {
       {
         icon: <DeleteOutlined rev={undefined} />,
         text: 'Delete',
-        hidden: currentUser.id !== mess.senderId,
+        hidden: currentUser?.id !== mess.senderId,
         onClick: () => {
           deleteMessage(mess);
         },
@@ -91,7 +91,7 @@ const BoxChat = () => {
   let friend: TUser = {};
   const groupDetail = groups.find((e) => e.id === currentGroup);
   if (!groupDetail?.isGroup) {
-    friend = groupDetail?.members?.find((e) => e.id !== currentUser.id) ?? {};
+    friend = groupDetail?.members?.find((e) => e.id !== currentUser?.id) ?? {};
   }
   const handleInputChange = (e) => {
     setOpenEmoji(false);
@@ -102,7 +102,7 @@ const BoxChat = () => {
     setMessage(message + emojiObject.native);
   };
 
-  const { nameGroup, avatarGroup } = getNameAndAvatarChat(detailGroup, currentUser.id ?? '');
+  const { nameGroup, avatarGroup } = getNameAndAvatarChat(detailGroup, currentUser?.id ?? '');
 
   return (
     <>
@@ -130,7 +130,7 @@ const BoxChat = () => {
 
           <div className={s.content} style={{ background: detailGroup.theme?.value }}>
             {messages.map((e, i) => {
-              const otherMess = e.senderId !== currentUser.id;
+              const otherMess = e.senderId !== currentUser?.id;
               const findUserOwnMess = detailGroup.members?.find((m) => m.id === e.senderId) ?? {};
               const prevMess = i ? messages[i - 1] : messages[i];
               const nextMess = i < messages.length - 1 ? messages[i + 1] : messages[i];
@@ -149,7 +149,7 @@ const BoxChat = () => {
                   prevMess.type !== commonData?.messageTypes.USER);
               const marginMess =
                 (e.senderId !== prevMess.senderId && nextMess.senderId === e.senderId && i !== 0) ||
-                (e.senderId === currentUser.id &&
+                (e.senderId === currentUser?.id &&
                   nextMess.senderId !== e.senderId &&
                   e.senderId !== prevMess.senderId) ||
                 (e.senderId === prevMess.senderId &&
