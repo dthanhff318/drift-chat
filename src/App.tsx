@@ -39,7 +39,7 @@ function App() {
       query: { id: currentUser?.id },
     });
     setSocket(socketInstance);
-  }, [currentUser?.id]);
+  }, []);
 
   useEffect(() => {
     if (accessToken) {
