@@ -15,6 +15,10 @@ import React, { useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import TextareaAutosize from 'react-textarea-autosize';
 import s from './style.module.scss';
+import { IndexedObject } from 'types/common';
+import postApi from 'app/axios/api/postApi';
+import postStore from 'app/storeZustand/postStore';
+import axios from 'axios';
 
 type Props = {
   handleCloseModal: () => void;
@@ -24,9 +28,13 @@ const FormCreatePost = ({ handleCloseModal }: Props) => {
   const [filesList, setFilesList] = useState<File[]>([]);
   const [preview, setPreview] = useState<number>(0);
   const [caption, setCaption] = useState<string>('');
+  const [showEmoji, setShowEmoji] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const rootElement = document.getElementById('root');
+  const [loading, setLoading] = useState<boolean>(false);
 
+  const { getPosts } = postStore();
+
+  const rootElement = document.getElementById('root');
   const handleNextStep = () => setStep((prev) => prev + 1);
   const handleBackStep = () => setStep((prev) => prev - 1);
   const handleTriggerUpload = () => inputRef.current?.click();
@@ -56,10 +64,40 @@ const FormCreatePost = ({ handleCloseModal }: Props) => {
     });
     setPreview((e) => (e > 0 ? e - 1 : 0));
   };
-  const handleEmojiSelect = (emojiObject) => setCaption(caption + emojiObject.navite);
-
+  const handleEmojiSelect = (emojiObject: IndexedObject) =>
+    setCaption(caption + emojiObject.native);
   const hasUpload = filesList.length > 0;
   const urlPreview = hasUpload && URL.createObjectURL(filesList[preview]);
+
+  const handleUpPost = async () => {
+    try {
+      if (!filesList.length) return;
+      const mappingFile = filesList.map((e) => ({
+        fileName: e.name,
+        fileType: e.type,
+      }));
+      const mappingFileName = filesList.map((e) => e.name);
+      setLoading(true);
+      const res = await postApi.signedImagePost(mappingFile);
+      const signedUrl = res.data as unknown as string[];
+      const promiseImage: Promise<any>[] = [];
+      for (let i = 0; i < signedUrl.length - 1; i++) {
+        console.log(signedUrl[i], filesList[i]);
+
+        promiseImage.push(axios.put(signedUrl[i], filesList[i]));
+      }
+      Promise.all(promiseImage).then(async () => {
+        await postApi.createPost({
+          caption,
+          fileNameList: mappingFileName,
+        });
+        getPosts();
+      });
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    }
+  };
 
   if (!rootElement) return null;
   return (
@@ -116,22 +154,25 @@ const FormCreatePost = ({ handleCloseModal }: Props) => {
                 maxRows={14}
                 onChange={(e) => setCaption(e.target.value)}
                 minRows={5}
+                value={caption}
               />
               <div className={s.options}>
-                <Smile size={28} className={s.btnEmoji} />
-                <div className={s.emojiWrap}>
-                  <Picker
-                    theme="dark"
-                    data={data}
-                    open={false}
-                    onEmojiSelect={handleEmojiSelect}
-                    emojiButtonSize={30}
-                    emojiSize={24}
-                    perLine={14}
-                    previewPosition="none"
-                    searchPosition="none"
-                  />
-                </div>
+                <Smile size={28} className={s.btnEmoji} onClick={() => setShowEmoji(!showEmoji)} />
+                {showEmoji && (
+                  <div className={s.emojiWrap}>
+                    <Picker
+                      theme="dark"
+                      data={data}
+                      open={false}
+                      onEmojiSelect={handleEmojiSelect}
+                      emojiButtonSize={30}
+                      emojiSize={24}
+                      perLine={14}
+                      previewPosition="none"
+                      searchPosition="none"
+                    />
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -141,7 +182,10 @@ const FormCreatePost = ({ handleCloseModal }: Props) => {
             ) : (
               <Button text="Back" onClick={handleBackStep} />
             )}
-            <Button text="Next" fill onClick={handleNextStep} disabled={!filesList.length} />
+            {step === 1 && (
+              <Button text="Next" fill onClick={handleNextStep} disabled={!filesList.length} />
+            )}
+            {step === 2 && <Button text="Post" fill onClick={handleUpPost} loading={loading} />}
           </div>
         </div>
         <input

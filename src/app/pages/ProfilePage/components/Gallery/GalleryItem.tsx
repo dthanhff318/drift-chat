@@ -1,14 +1,18 @@
 import { Copy } from 'lucide-react';
 import React from 'react';
 import s from './style.module.scss';
+import { TPost } from 'types/post.type';
 
-const GalleryItem = () => {
+type Props = {
+  post: TPost;
+};
+const GalleryItem = ({ post }: Props) => {
   return (
     <>
       <div
         className={s.galleryItem}
         style={{
-          backgroundImage: `url("https://thanh-linh.s3.ap-southeast-1.amazonaws.com/p2.jpg")`,
+          backgroundImage: `url(${post.images && post.images[0]})`,
         }}
       >
         <div className={s.iconMulti}>
