@@ -1,6 +1,5 @@
 import { notification } from 'antd';
 import userApi from 'app/axios/api/user';
-import { axiosClient } from 'app/axios/axiosClient';
 import authStore from 'app/storeZustand/authStore';
 import profileStore from 'app/storeZustand/profileStore';
 import axios from 'axios';

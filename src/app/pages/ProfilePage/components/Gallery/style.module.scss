@@ -84,9 +84,43 @@
       width: 100%;
       height: 28rem;
       overflow: hidden;
+      position: relative;
       .imagePost {
         width: 100%;
         height: 26rem;
+        object-fit: contain;
+      }
+      .thumbUpload {
+        width: 100%;
+        height: 26rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .navBtn {
+        position: absolute;
+        cursor: pointer;
+        top: 50%;
+        &.left {
+          left: 1rem;
+        }
+        &.right {
+          right: 1rem;
+        }
+      }
+      .previewIndex {
+        position: absolute;
+        top: 1.25rem;
+        right: 1.25rem;
+        background-color: rgb(156, 156, 156);
+        padding: 0.5rem;
+        border-radius: 0.75rem;
+      }
+      .btnRemoveImage {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.25rem;
+        cursor: pointer;
       }
     }
     .inputCaption {
@@ -95,6 +129,30 @@
       height: 28rem;
       overflow: hidden;
       .input {
+        width: 90%;
+        color: black;
+        outline: none;
+        padding: 0.5rem 1rem;
+        resize: none;
+        border-radius: 15px;
+        &:placeholder-shown {
+          font-style: italic;
+        }
+      }
+      .options {
+        .btnEmoji {
+          cursor: pointer;
+        }
+        .emojiWrap {
+          em-emoji-picker {
+            height: 100px !important;
+            section {
+              #preview {
+                display: none !important;
+              }
+            }
+          }
+        }
       }
     }
     .control {
@@ -103,5 +161,8 @@
       align-items: center;
       padding: 0 1rem 1rem;
     }
+  }
+  .inputUploadFile {
+    display: none;
   }
 }

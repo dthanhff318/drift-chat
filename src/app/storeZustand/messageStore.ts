@@ -1,9 +1,7 @@
 import { notification } from 'antd';
-import groupApi from 'app/axios/api/group';
 import messageApi from 'app/axios/api/messageApi';
 import { LIMIT_DATA_PER_PAGE } from 'app/helpers/common';
-import { saveGroupToLs } from 'app/helpers/localStorage';
-import { TGroup, TMessage } from 'types/common';
+import { TMessage } from 'types/common';
 import { create } from 'zustand';
 
 type TMessageStore = {
@@ -34,7 +32,7 @@ const messageStore = create<TMessageStore>((set) => ({
         groupId,
       };
       const res = await messageApi.getMessages(data);
-      const { results, page, totalPages, totalResults } = res.data;
+      const { results, totalPages } = res.data;
 
       set((state) => {
         let newListMessage: TMessage[] = [];

@@ -4,7 +4,6 @@ import {
   pathFriendPage,
   pathHomePage,
   pathHomePageChat,
-  pathIntroPage,
   pathLoginPage,
   pathNotFoundPage,
   pathProfile,
@@ -13,7 +12,7 @@ import {
 } from './routesConfig';
 // import SuspenseFallback from "../components/Common/SuspenseFallback/SuspenseFallback";
 import Layout from 'app/components/Layout/Layout';
-import { IndexedObject } from 'types/common';
+import { IndexedObject, TUser } from 'types/common';
 import Loading from 'app/components/Loading/Loading';
 
 export type RoutesProps = {
@@ -36,7 +35,7 @@ const RenderRoutes = ({
 }: {
   routes: Array<RoutesProps>;
   checkAuthLocal: boolean;
-  currentUser: any;
+  currentUser: TUser;
 }) => {
   return (
     <Suspense fallback={<Loading loading />}>

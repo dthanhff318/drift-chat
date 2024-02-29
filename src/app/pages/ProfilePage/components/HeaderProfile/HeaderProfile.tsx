@@ -1,11 +1,11 @@
-import { CopyOutlined, SkypeFilled } from '@ant-design/icons';
+import { CopyOutlined } from '@ant-design/icons';
 import { Image } from 'antd';
 import Button from 'app/components/Button/Button';
 import Loading from 'app/components/Loading/Loading';
 import ModalCommon from 'app/components/Modal/Modal';
 import { getPublicImageUrl } from 'app/helpers/funcs';
 import { Heart, Repeat2, SquarePen } from 'lucide-react';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { TUser } from 'types/common';
 import s from '../../style.module.scss';
 import UserInfoDetail from '../UserInfoDetail/UserInfoDetail';

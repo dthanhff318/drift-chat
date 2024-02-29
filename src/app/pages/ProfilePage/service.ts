@@ -1,10 +1,9 @@
 import { notification } from 'antd';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import userApi from 'app/axios/api/user';
-import { TUser } from 'types/common';
 import authStore from 'app/storeZustand/authStore';
 import profileStore from 'app/storeZustand/profileStore';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 export const DEFAULT_PAST_TIME = '1970-01-01T00:00:00.000Z';
 

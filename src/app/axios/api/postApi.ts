@@ -5,11 +5,16 @@ export type TDataCreatePost = {
   fileNameList: string[];
 };
 
+export type TSignedUrlPost = {
+  fileName: string;
+  fileType: string;
+};
+
 const postApi = {
   getPosts: () => {
     return axiosClient.get('/post');
   },
-  signedImagePost: (imageList: { fileName: string; fileType: string }[]) => {
+  signedImagePost: (imageList: TSignedUrlPost[]) => {
     return axiosClient.post('/post/signed-image-post', {
       imageList,
     });

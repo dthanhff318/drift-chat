@@ -2,6 +2,7 @@ import { notification } from 'antd';
 import authApi from 'app/axios/api/auth';
 import messageApi from 'app/axios/api/messageApi';
 import { TSendMess } from 'app/axios/api/typeApi';
+import { listAllowImageType } from 'app/helpers/common';
 import { DEFAULT_PAST_TIME } from 'app/helpers/time';
 import authStore from 'app/storeZustand/authStore';
 import groupStore from 'app/storeZustand/groupStore';
@@ -105,11 +106,10 @@ export const useService = () => {
   };
 
   const onUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const allowedTypes = ['image/webp', 'image/jpeg', 'image/png'];
     const { files } = e.target;
 
     if (!files) return;
-    if (!allowedTypes.includes(files[0].type)) {
+    if (!listAllowImageType.includes(files[0].type)) {
       notification.error({
         message: `File type invalid`,
         description: 'Only accept send image',

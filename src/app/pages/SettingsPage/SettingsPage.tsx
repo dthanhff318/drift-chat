@@ -1,17 +1,16 @@
+import authApi from 'app/axios/api/auth';
+import Button from 'app/components/Button/Button';
 import { auth } from 'app/firebase/configFirebase';
-import { geTUserFromLs, getRefreshTokenFromLocalStorage } from 'app/helpers/localStorage';
+import { getRefreshTokenFromLocalStorage } from 'app/helpers/localStorage';
+import { pathLoginPage } from 'app/routes/routesConfig';
 import authStore from 'app/storeZustand/authStore';
 import { signOut } from 'firebase/auth';
-import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import s from './style.module.scss';
-import Button from 'app/components/Button/Button';
-import authApi from 'app/axios/api/auth';
-import { pathLoginPage } from 'app/routes/routesConfig';
 
 const SettingsPage = () => {
-  const { currentUser, logout } = authStore();
-  const infoUser = currentUser ?? geTUserFromLs();
+  const { logout } = authStore();
   const history = useHistory();
   const handleLogout = async () => {
     const refreshToken = getRefreshTokenFromLocalStorage();

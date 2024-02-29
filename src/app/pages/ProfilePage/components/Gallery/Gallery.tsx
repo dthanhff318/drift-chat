@@ -14,7 +14,7 @@ const Gallery = () => {
     <>
       <div className={s.galleryWrap}>
         <Loading loading={loadingPost === 'getPosts'} />
-        {posts.map((post, i) => (
+        {posts.map((post) => (
           <div key={post.id} className={s.galleryItemWrap} onClick={() => setModal('detail')}>
             <GalleryItem />
           </div>
