@@ -5,9 +5,9 @@ type TModalGallery = '' | 'create' | 'detail';
 
 export const useServiceGallery = () => {
   const [modal, setModal] = useState<TModalGallery>('');
-  const { getPosts, loadingPost, posts } = postStore();
+  const { getPosts, savePostDetail, loadingPost, posts } = postStore();
   useEffect(() => {
     getPosts();
   }, []);
-  return { modal, loadingPost, posts, setModal };
+  return { modal, loadingPost, posts, setModal, savePostDetail };
 };

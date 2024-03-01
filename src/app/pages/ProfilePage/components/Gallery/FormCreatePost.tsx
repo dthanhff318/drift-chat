@@ -80,20 +80,16 @@ const FormCreatePost = ({ handleCloseModal }: Props) => {
       setLoading(true);
       const res = await postApi.signedImagePost(mappingFile);
       const signedUrl = res.data as unknown as string[];
-      const promiseImage: Promise<any>[] = [];
-      for (let i = 0; i < signedUrl.length - 1; i++) {
-        console.log(signedUrl[i], filesList[i]);
-
-        promiseImage.push(axios.put(signedUrl[i], filesList[i]));
+      for (let i = 0; i < signedUrl.length; i++) {
+        await axios.put(signedUrl[i], filesList[i]);
       }
-      Promise.all(promiseImage).then(async () => {
-        await postApi.createPost({
-          caption,
-          fileNameList: mappingFileName,
-        });
-        getPosts();
+      await postApi.createPost({
+        caption,
+        fileNameList: mappingFileName,
       });
+      getPosts();
       setLoading(false);
+      handleCloseModal();
     } catch (err) {
       setLoading(false);
     }

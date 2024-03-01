@@ -6,12 +6,15 @@ import { create } from 'zustand';
 type TPostStore = {
   loadingPost: TLoadingPost;
   posts: TPost[];
+  postDetail: TPost;
   getPosts: () => void;
+  savePostDetail: (post: TPost) => void;
 };
 
 const postStore = create<TPostStore>((set) => ({
   loadingPost: '',
   posts: [],
+  postDetail: {},
   getPosts: async () => {
     try {
       set({ loadingPost: 'getPosts' });
@@ -28,6 +31,9 @@ const postStore = create<TPostStore>((set) => ({
         duration: 3,
       });
     }
+  },
+  savePostDetail: (post: TPost) => {
+    set({ postDetail: post });
   },
 }));
 
