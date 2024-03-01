@@ -14,7 +14,6 @@ const withLoading = (CompWithLoading: React.FC) => {
     );
   };
 
-  // Đặt tên hiển thị cho component WithLoadingComponent
   WithLoadingComponent.displayName = 'WithLoading';
 
   return WithLoadingComponent;

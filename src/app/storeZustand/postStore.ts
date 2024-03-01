@@ -1,20 +1,33 @@
 import { notification } from 'antd';
 import postApi from 'app/axios/api/postApi';
-import { TLoadingPost, TPost } from 'types/post.type';
+import { TComment, TLoadingPost, TPost } from 'types/post.type';
 import { create } from 'zustand';
 
 type TPostStore = {
   loadingPost: TLoadingPost;
   posts: TPost[];
   postDetail: TPost;
+  comments: TComment[];
   getPosts: () => void;
   savePostDetail: (post: TPost) => void;
+  getCommentByPost: (postId: string) => void;
 };
 
 const postStore = create<TPostStore>((set) => ({
   loadingPost: '',
+  comments: [],
   posts: [],
   postDetail: {},
+  getCommentByPost: async (postId: string) => {
+    try {
+      const res = await postApi.getCommentByPost(postId);
+      set({
+        comments: res.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
   getPosts: async () => {
     try {
       set({ loadingPost: 'getPosts' });

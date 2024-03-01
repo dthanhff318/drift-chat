@@ -2,15 +2,20 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import s from './style.module.scss';
 import Avatar from 'app/components/Avatar/Avatar';
-import { Star, XCircle } from 'lucide-react';
+import { ArrowLeftCircle, ArrowRightCircle, SendHorizontal, Star, XCircle } from 'lucide-react';
+import { useServiceGalleryDetail } from './serviceGalleryDetail';
+import TextareaAutosize from 'react-textarea-autosize';
 
 type Props = {
   handleCloseModal: () => void;
 };
 
 const GalleryDetail = ({ handleCloseModal }: Props) => {
-  const rootElement = document.getElementById('root');
+  const { postDetail, indexView, comment, comments, setComment, setIndexView, handleSendComment } =
+    useServiceGalleryDetail();
 
+  const rootElement = document.getElementById('root');
+  const imagesCount = postDetail?.images?.length ?? 0;
   const commentArr = [
     {
       user: {
@@ -85,6 +90,9 @@ const GalleryDetail = ({ handleCloseModal }: Props) => {
       comment: ' this is beautiful post',
     },
   ];
+
+  const handleNextImage = () => setIndexView((prev) => prev + 1);
+  const handlePrevImage = () => setIndexView((prev) => prev - 1);
   if (!rootElement) return null;
   return (
     document.getElementById('root') &&
@@ -96,8 +104,28 @@ const GalleryDetail = ({ handleCloseModal }: Props) => {
           </div>
           <div className={s.galleryContent}>
             <div className={s.galleryImage}>
+              {imagesCount > 1 && indexView !== 0 && (
+                <ArrowLeftCircle
+                  size={34}
+                  fill="#fff"
+                  className={`${s.navBtn} ${s.left}`}
+                  onClick={handlePrevImage}
+                />
+              )}
+              {imagesCount > 1 && indexView !== imagesCount - 1 && (
+                <ArrowRightCircle
+                  size={34}
+                  fill="#fff"
+                  className={`${s.navBtn} ${s.right}`}
+                  onClick={handleNextImage}
+                />
+              )}
+              {imagesCount > 1 && (
+                <div className={s.previewIndex}>{`${indexView + 1}/${imagesCount}`}</div>
+              )}
+
               <img
-                src="https://st2.depositphotos.com/2001755/5408/i/450/depositphotos_54081723-stock-photo-beautiful-nature-landscape.jpg"
+                src={postDetail.images ? postDetail.images[indexView] : ''}
                 alt=""
                 className={s.image}
               />
@@ -105,33 +133,43 @@ const GalleryDetail = ({ handleCloseModal }: Props) => {
             <div className={s.galleryInfo}>
               <div className={s.owner}>
                 <div className={s.info}>
-                  <Avatar />
-                  <p className={s.name}>dthanahfx</p>
+                  <Avatar src={postDetail.user?.photoUrl ?? ''} />
+                  <p className={s.name}>{postDetail?.user?.displayName}</p>
                 </div>
-                <div className={s.caption}>
-                  ssssssssssssssssaaaaaaaaaaaaaaaaaasdadasdasdadsadasd
-                </div>
+                <div className={s.caption}>{postDetail?.caption}</div>
               </div>
               <div className={s.interactive}>
                 <div className={s.starPost}>
                   <Star size={24} fill="orange" />
                 </div>
-                <div className={s.quantityStar}>120231 people liked</div>
+                <div className={s.quantityStar}>{`${postDetail.stars?.length} people liked`}</div>
               </div>
               <div className={s.postComment}>
                 <div className={s.listComment}>
-                  {commentArr.map((e, i) => (
+                  {comments.map((e, i) => (
                     <div className={s.commentItem} key={i}>
                       <div className={s.user}>
-                        <Avatar src={e.user.photoUrl} size="s" />
-                        <p className={s.name}>{e.user.name}</p>
+                        <Avatar src={e.user?.photoUrl} size="s" />
+                        <p className={s.name}>{e.user?.displayName}</p>
                       </div>
-                      <p className={s.commentContent}>{e.comment}</p>
+                      <p className={s.commentContent}>{e.content}</p>
                     </div>
                   ))}
                 </div>
                 <div className={s.enterComment}>
-                  <input className={s.inputComment} type="text" placeholder="What do you think !" />
+                  <TextareaAutosize
+                    className={s.inputComment}
+                    placeholder="What do you think ?"
+                    maxRows={14}
+                    onChange={(e) => setComment(e.target.value)}
+                    minRows={1}
+                    value={comment}
+                  />
+                  <SendHorizontal
+                    size={28}
+                    className={s.btnSendComment}
+                    onClick={handleSendComment}
+                  />
                 </div>
               </div>
             </div>
