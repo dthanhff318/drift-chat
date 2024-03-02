@@ -8,7 +8,7 @@ type TPostStore = {
   posts: TPost[];
   postDetail: TPost;
   comments: TComment[];
-  getPosts: () => void;
+  getPosts: (id?: string) => void;
   savePostDetail: (post: TPost) => void;
   getCommentByPost: (postId: string) => void;
 };
@@ -28,10 +28,10 @@ const postStore = create<TPostStore>((set) => ({
       console.log(err);
     }
   },
-  getPosts: async () => {
+  getPosts: async (id?: string) => {
     try {
       set({ loadingPost: 'getPosts' });
-      const res = await postApi.getPosts();
+      const res = await postApi.getPosts(id);
       set({
         posts: res.data,
       });

@@ -3,6 +3,9 @@ import s from '../style.module.scss';
 import { useService } from './service';
 import MessageChatItem from '../MessageChatItem/MessageChatItem';
 import Loading from 'app/components/Loading/Loading';
+import Button from 'app/components/Button/Button';
+import { Link } from 'react-router-dom';
+import { pathFriendPage } from 'app/routes/routesConfig';
 
 const MessageChatList = () => {
   const { groups, loadingListGroup } = useService();
@@ -10,11 +13,21 @@ const MessageChatList = () => {
   return (
     <div className={s.msgList}>
       <Loading loading={loadingListGroup} />
-      {groups.map((group) => (
-        <div key={group.id}>
-          <MessageChatItem group={group} />
+      {groups.length === 0 ? (
+        groups.map((group) => (
+          <div key={group.id}>
+            <MessageChatItem group={group} />
+          </div>
+        ))
+      ) : (
+        <div className={s.noGroup}>
+          <p>Seem you not have any friend</p>
+          <p>{`Let's find someone to chat`}</p>
+          <Link to={pathFriendPage}>
+            <Button text="Find friend" />
+          </Link>
         </div>
-      ))}
+      )}
     </div>
   );
 };

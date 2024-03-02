@@ -205,6 +205,15 @@ $header-hight: 5rem;
       background-color: #80808054;
     }
   }
+  .noGroup {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    text-align: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
 }
 
 // BoxChat

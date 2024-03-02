@@ -2,7 +2,14 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import s from './style.module.scss';
 import Avatar from 'app/components/Avatar/Avatar';
-import { ArrowLeftCircle, ArrowRightCircle, SendHorizontal, Star, XCircle } from 'lucide-react';
+import {
+  ArrowLeftCircle,
+  ArrowRightCircle,
+  Loader2,
+  SendHorizontal,
+  Star,
+  XCircle,
+} from 'lucide-react';
 import { useServiceGalleryDetail } from './serviceGalleryDetail';
 import TextareaAutosize from 'react-textarea-autosize';
 
@@ -11,88 +18,26 @@ type Props = {
 };
 
 const GalleryDetail = ({ handleCloseModal }: Props) => {
-  const { postDetail, indexView, comment, comments, setComment, setIndexView, handleSendComment } =
-    useServiceGalleryDetail();
+  const {
+    postDetail,
+    indexView,
+    comment,
+    comments,
+    loading,
+    currentUser,
+    setComment,
+    setIndexView,
+    handleSendComment,
+    handleLikedPost,
+  } = useServiceGalleryDetail();
 
   const rootElement = document.getElementById('root');
   const imagesCount = postDetail?.images?.length ?? 0;
-  const commentArr = [
-    {
-      user: {
-        name: 'dthanhdff',
-        photoUrl: '',
-      },
-      comment: ' this is beautiful post',
-    },
-    {
-      user: {
-        name: 'dthanhdff',
-        photoUrl: '',
-      },
-      comment: ' this is beautiful post',
-    },
-    {
-      user: {
-        name: 'dthanhdff',
-        photoUrl: '',
-      },
-      comment: ' this is beautiful post',
-    },
-    {
-      user: {
-        name: 'dthanhdff',
-        photoUrl: '',
-      },
-      comment: ' this is beautiful post',
-    },
-    {
-      user: {
-        name: 'dthanhdff',
-        photoUrl: '',
-      },
-      comment: ' this is beautiful post',
-    },
-    {
-      user: {
-        name: 'dthanhdff',
-        photoUrl: '',
-      },
-      comment: ' this is beautiful post',
-    },
-    {
-      user: {
-        name: 'dthanhdff',
-        photoUrl: '',
-      },
-      comment: ' this is beautiful post',
-    },
-    {
-      user: {
-        name: 'dthanhdff',
-        photoUrl: '',
-      },
-      comment: ' this is beautiful post',
-    },
-
-    {
-      user: {
-        name: 'dthanhdff',
-        photoUrl: '',
-      },
-      comment:
-        ' this is beautiful postthis is beautiful postthis is beautiful postthis is beautiful postthis is beautiful postthis is beautiful post',
-    },
-    {
-      user: {
-        name: 'dthanhdff',
-        photoUrl: '',
-      },
-      comment: ' this is beautiful post',
-    },
-  ];
 
   const handleNextImage = () => setIndexView((prev) => prev + 1);
   const handlePrevImage = () => setIndexView((prev) => prev - 1);
+
+  const isLiked = postDetail.stars?.includes(currentUser.id ?? '');
   if (!rootElement) return null;
   return (
     document.getElementById('root') &&
@@ -136,11 +81,16 @@ const GalleryDetail = ({ handleCloseModal }: Props) => {
                   <Avatar src={postDetail.user?.photoUrl ?? ''} />
                   <p className={s.name}>{postDetail?.user?.displayName}</p>
                 </div>
-                <div className={s.caption}>{postDetail?.caption}</div>
+                <div
+                  className={s.caption}
+                  dangerouslySetInnerHTML={{
+                    __html: postDetail?.caption?.replaceAll('\n', '<br />') || '',
+                  }}
+                />
               </div>
               <div className={s.interactive}>
-                <div className={s.starPost}>
-                  <Star size={24} fill="orange" />
+                <div className={s.starPost} onClick={handleLikedPost}>
+                  <Star size={24} fill={isLiked ? 'yellow' : 'white'} />
                 </div>
                 <div className={s.quantityStar}>{`${postDetail.stars?.length} people liked`}</div>
               </div>
@@ -152,25 +102,34 @@ const GalleryDetail = ({ handleCloseModal }: Props) => {
                         <Avatar src={e.user?.photoUrl} size="s" />
                         <p className={s.name}>{e.user?.displayName}</p>
                       </div>
-                      <p className={s.commentContent}>{e.content}</p>
+                      <p
+                        className={s.commentContent}
+                        dangerouslySetInnerHTML={{
+                          __html: e?.content?.replaceAll('\n', '<br />') || '',
+                        }}
+                      />
                     </div>
                   ))}
                 </div>
-                <div className={s.enterComment}>
-                  <TextareaAutosize
-                    className={s.inputComment}
-                    placeholder="What do you think ?"
-                    maxRows={14}
-                    onChange={(e) => setComment(e.target.value)}
-                    minRows={1}
-                    value={comment}
-                  />
+              </div>
+              <div className={s.enterComment}>
+                <TextareaAutosize
+                  className={s.inputComment}
+                  placeholder="What do you think ?"
+                  maxRows={14}
+                  onChange={(e) => setComment(e.target.value)}
+                  minRows={1}
+                  value={comment}
+                />
+                {loading === 'comment' ? (
+                  <Loader2 size={28} className={s.loading} />
+                ) : (
                   <SendHorizontal
                     size={28}
                     className={s.btnSendComment}
                     onClick={handleSendComment}
                   />
-                </div>
+                )}
               </div>
             </div>
           </div>

@@ -63,6 +63,8 @@
       flex-direction: column;
       width: 50%;
       padding: 1rem;
+      height: 100%;
+      gap: 0.75rem; // background-color: red;
       .owner {
         .info {
           display: flex;
@@ -85,7 +87,6 @@
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        margin-top: 0.75rem;
         .starPost {
           display: flex;
           align-items: center;
@@ -99,15 +100,15 @@
         align-items: flex-start;
         flex-direction: column;
         gap: 0.75rem;
-        height: 85%;
         width: 100%;
+        flex: 1;
+        overflow: auto;
         .listComment {
           display: flex;
           flex-direction: column;
           gap: 0.5rem;
-          margin-top: 1rem;
           overflow: auto;
-          flex: 1;
+          width: 100%;
           .commentItem {
             display: flex;
             align-items: flex-start;
@@ -128,26 +129,39 @@
             }
           }
         }
-        .enterComment {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          .inputComment {
-            outline: none;
-            border: 1px solid rgb(190, 190, 190);
-            font-size: 0.9rem;
-            font-style: italic;
-            width: calc(100% - 1rem);
-            resize: none;
-            border-radius: 0.5rem;
-            padding: 0.5rem;
-          }
-          .btnSendComment {
-            cursor: pointer;
-          }
+      }
+      .enterComment {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        height: 2rem;
+        .inputComment {
+          outline: none;
+          border: 1px solid rgb(190, 190, 190);
+          font-size: 0.9rem;
+          font-style: italic;
+          width: calc(100% - 1rem);
+          resize: none;
+          border-radius: 0.5rem;
+          padding: 0.5rem;
+        }
+        .btnSendComment {
+          cursor: pointer;
+        }
+        .loading {
+          animation: spinner 3s infinite forwards;
         }
       }
     }
+  }
+}
+
+@keyframes spinner {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }

@@ -8,6 +8,7 @@
   height: 100%;
   overflow: auto;
   justify-content: center;
+  position: relative;
   @media (min-width: 1560px) {
     grid-template-columns: repeat(5, 14rem);
   }

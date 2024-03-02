@@ -15,8 +15,8 @@ export type TCommentPost = {
 };
 
 const postApi = {
-  getPosts: () => {
-    return axiosClient.get('/post');
+  getPosts: (id?: string) => {
+    return axiosClient.get(id ? `/post?userId=${id}` : '/post');
   },
   signedImagePost: (imageList: TSignedUrlPost[]) => {
     return axiosClient.post('/post/signed-image-post', {
@@ -31,6 +31,9 @@ const postApi = {
   },
   getCommentByPost: (postId: string) => {
     return axiosClient.get(`/post/comment/${postId}`);
+  },
+  likePost: (postId: string) => {
+    return axiosClient.post('/post/like', { postId });
   },
 };
 
