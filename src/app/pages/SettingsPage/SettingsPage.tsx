@@ -25,9 +25,8 @@ const SettingsPage = () => {
   return (
     <div className={s.wrapper}>
       <h2 className={s.titlePage}>Settings</h2>
-      <div className={s.content}>hi</div>
+      <div className={s.content}></div>
       <div className={s.bottom}>
-        <a href="https://www.w3schools.com/jsref/event_onbeforeunload.asp">ssssssssssssssssss</a>
         <Button text="Logout" fill={true} onClick={handleLogout} />
       </div>
     </div>

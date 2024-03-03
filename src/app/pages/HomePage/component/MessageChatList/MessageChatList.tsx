@@ -13,7 +13,7 @@ const MessageChatList = () => {
   return (
     <div className={s.msgList}>
       <Loading loading={loadingListGroup} />
-      {groups.length === 0 ? (
+      {groups.length > 0 ? (
         groups.map((group) => (
           <div key={group.id}>
             <MessageChatItem group={group} />
@@ -21,8 +21,10 @@ const MessageChatList = () => {
         ))
       ) : (
         <div className={s.noGroup}>
-          <p>Seem you not have any friend</p>
-          <p>{`Let's find someone to chat`}</p>
+          <div className={s.textNoti}>
+            <p>Seem you not have any friend</p>
+            <p>{`Let's find someone to chat`}</p>
+          </div>
           <Link to={pathFriendPage}>
             <Button text="Find friend" />
           </Link>

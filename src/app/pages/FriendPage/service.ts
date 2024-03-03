@@ -3,6 +3,8 @@ import friendsApi from 'app/axios/api/friends';
 import authStore from 'app/storeZustand/authStore';
 import friendStore from 'app/storeZustand/friendStore';
 import servicesStore from 'app/storeZustand/servicesStore';
+import socketStore from 'app/storeZustand/socketStore';
+import { socketEmit } from 'const/socket';
 import { EFriendStatus } from 'enums';
 import { useEffect, useState } from 'react';
 import { TDataCommunicate, TUser } from 'types/common';
@@ -10,6 +12,7 @@ import { TDataCommunicate, TUser } from 'types/common';
 const useService = () => {
   const { currentUser } = authStore();
   const { dataCommunicate, getDataCommunicate } = friendStore();
+  const { socket } = socketStore();
   const { loadingFriendPage, listUser, getListUser } = servicesStore();
   const [usersLoading, setUserLoading] = useState<string[]>([]);
 
@@ -21,6 +24,7 @@ const useService = () => {
         case EFriendStatus.Add:
           setUserLoading((prev) => [...prev, friendId]);
           await friendsApi.addFriend(friendId);
+          socket?.emit(socketEmit.ADD_FRIEND, currentUser.id);
           getDataCommunicate();
           setUserLoading((prev) => prev.filter((e) => e !== friendId));
           break;

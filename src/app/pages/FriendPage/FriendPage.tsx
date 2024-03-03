@@ -10,6 +10,7 @@ import Loading from 'app/components/Loading/Loading';
 import { EFriendLoading } from 'app/storeZustand/servicesStore';
 import Button from 'app/components/Button/Button';
 import { EFriendStatus } from 'enums';
+import { Search } from 'lucide-react';
 
 const FriendPage = () => {
   const {
@@ -39,7 +40,7 @@ const FriendPage = () => {
               onKeyDown={(e) => e.key === 'Enter' && handleSearchUser()}
             />
             <div className={s.btnSearch} onClick={handleSearchUser}>
-              <SearchOutlined rev={undefined} />
+              <Search size={24} />
             </div>
           </div>
         </div>
