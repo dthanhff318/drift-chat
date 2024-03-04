@@ -26,15 +26,17 @@ const HeaderProfile = ({ user, friendId }: Props) => {
     inputUploadAvtRef,
     inputUploadThumbRef,
     thumb,
+    handleFriendRequest,
     clearPreviewThumb,
     handleChangeThumbProfile,
     handleLikedProfile,
     handleUploadThumbProfile,
     handleUploadAvatar,
+    checkFriendStatus,
   } = useServiceHeaderProfile();
 
   const hasLiked = user.likedProfile?.includes(currentUser.id ?? '');
-
+  const statusFriend = checkFriendStatus();
   return (
     <>
       <div
@@ -79,18 +81,27 @@ const HeaderProfile = ({ user, friendId }: Props) => {
             </div>
           </div>
         </div>
-        <div className={s.changeThumbWrap}>
-          {thumb ? (
-            <div className={s.changeThumbBtn}>
-              <Button text="Cancel" fill={true} onClick={clearPreviewThumb} />
-              <Button text="Save" fill={true} onClick={handleUploadThumbProfile} />
-            </div>
-          ) : (
-            <div className={s.socialItem} onClick={() => inputUploadThumbRef.current?.click()}>
-              <Repeat2 color="#ffffff" strokeWidth={1.75} absoluteStrokeWidth />
-            </div>
-          )}
-        </div>
+        {!friendId ? (
+          <div className={s.changeThumbWrap}>
+            {thumb ? (
+              <div className={s.changeThumbBtn}>
+                <Button text="Cancel" fill={true} onClick={clearPreviewThumb} />
+                <Button text="Save" fill={true} onClick={handleUploadThumbProfile} />
+              </div>
+            ) : (
+              <div className={s.socialItem} onClick={() => inputUploadThumbRef.current?.click()}>
+                <Repeat2 color="#ffffff" strokeWidth={1.75} absoluteStrokeWidth />
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className={s.friendBtn}>
+            <Button
+              text={statusFriend}
+              onClick={() => handleFriendRequest(friendId, statusFriend)}
+            />
+          </div>
+        )}
         {!friendId && (
           <div className={s.iconGallery} onClick={() => setModal(true)}>
             <SquarePen color="#ffffff" />

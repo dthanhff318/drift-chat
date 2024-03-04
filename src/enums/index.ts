@@ -7,6 +7,7 @@ export enum ENav {
 export enum EFriendStatus {
   Waiting = 'Waiting',
   Accept = 'Accept',
-  Add = 'Add',
+  Add = 'Add friend',
   Friend = 'Friend',
+  Unfriend = 'Unfriend',
 }

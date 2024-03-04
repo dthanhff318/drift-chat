@@ -6,6 +6,9 @@ import axios from 'axios';
 import { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TUser } from 'types/common';
+import friendsApi from 'app/axios/api/friends';
+import friendStore from 'app/storeZustand/friendStore';
+import { EFriendStatus } from 'enums';
 
 type TLoadingHeaderProfile = '' | 'avatar' | 'thumb';
 
@@ -20,6 +23,7 @@ export const useServiceHeaderProfile = () => {
 
   const { currentUser } = authStore();
   const { profileUser, saveProfileUser } = profileStore();
+  const { dataCommunicate, getDataCommunicate } = friendStore();
 
   const handleLikedProfile = async () => {
     if (!userId) return;
@@ -91,6 +95,38 @@ export const useServiceHeaderProfile = () => {
     setThumb(undefined);
   };
 
+  const handleFriendRequest = async (friendId: string, status: EFriendStatus) => {
+    switch (status) {
+      case EFriendStatus.Unfriend:
+        await friendsApi.unfriend(friendId);
+        getDataCommunicate();
+        break;
+      case EFriendStatus.Add:
+        await friendsApi.addFriend(friendId);
+        getDataCommunicate();
+        break;
+      case EFriendStatus.Accept:
+        await friendsApi.acceptFrRequest(friendId);
+        getDataCommunicate();
+        break;
+      default:
+    }
+  };
+
+  const checkFriendStatus = () => {
+    const { listFriend, listAccept, listRequest } = dataCommunicate;
+    if (listFriend?.find((e) => e.id === userId)) {
+      return EFriendStatus.Unfriend;
+    }
+    if (listAccept?.find((e) => e.id === userId)) {
+      return EFriendStatus.Accept;
+    }
+    if (listRequest?.find((e) => e.id === userId)) {
+      return EFriendStatus.Waiting;
+    }
+    return EFriendStatus.Add;
+  };
+
   return {
     inputUploadAvtRef,
     inputUploadThumbRef,
@@ -98,10 +134,12 @@ export const useServiceHeaderProfile = () => {
     loading,
     userId,
     thumb,
+    handleFriendRequest,
     clearPreviewThumb,
     handleChangeThumbProfile,
     handleUploadAvatar,
     handleUploadThumbProfile,
     handleLikedProfile,
+    checkFriendStatus,
   };
 };

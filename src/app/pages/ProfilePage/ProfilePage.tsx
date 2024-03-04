@@ -1,5 +1,4 @@
 import Loading from 'app/components/Loading/Loading';
-import WithLoading from 'app/hoc/withLoading';
 import React from 'react';
 import Gallery from './components/Gallery/Gallery';
 import HeaderProfile from './components/HeaderProfile/HeaderProfile';

@@ -73,9 +73,21 @@ const useService = () => {
     }
   };
 
+  const handleListenEventAddFriend = (friendId: string) => {
+    getDataCommunicate();
+  };
+
   // Get data
   useEffect(() => {
     getListUser({ q: searchValue });
+  }, []);
+
+  // Socket
+  useEffect(() => {
+    socket?.emit(socketEmit.ADD_FRIEND, handleListenEventAddFriend);
+    return () => {
+      socket?.off(socketEmit.ADD_FRIEND, handleListenEventAddFriend);
+    };
   }, []);
 
   return {

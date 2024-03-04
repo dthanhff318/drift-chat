@@ -10,6 +10,9 @@ const friendsApi = {
   acceptFrRequest: (friendId: string) => {
     return axiosClient.post('/friends/accept', { friendId });
   },
+  unfriend: (friendId: string) => {
+    return axiosClient.post('/friends/unfriend', { friendId });
+  },
 };
 
 export default friendsApi;
