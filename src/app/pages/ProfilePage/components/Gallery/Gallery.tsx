@@ -9,7 +9,7 @@ import { useServiceGallery } from './serviceGallery';
 import s from './style.module.scss';
 
 const Gallery = () => {
-  const { modal, loadingPost, posts, setModal, savePostDetail } = useServiceGallery();
+  const { modal, loadingPost, posts, userId, setModal, savePostDetail } = useServiceGallery();
   const handleCloseModal = () => setModal('');
   const handleClickGallery = (post: TPost) => {
     savePostDetail(post);
@@ -25,9 +25,11 @@ const Gallery = () => {
             <GalleryItem post={post} />
           </div>
         ))}
-        <div className={s.postControl}>
-          <PlusSquare className={s.btnAddPost} size={34} onClick={() => setModal('create')} />
-        </div>
+        {!userId && (
+          <div className={s.postControl}>
+            <PlusSquare className={s.btnAddPost} size={34} onClick={() => setModal('create')} />
+          </div>
+        )}
       </div>
       {modal === 'create' && <FormCreatePost handleCloseModal={handleCloseModal} />}
       {modal === 'detail' && <GalleryDetail handleCloseModal={handleCloseModal} />}

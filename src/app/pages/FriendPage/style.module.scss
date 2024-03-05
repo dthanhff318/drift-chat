@@ -1,4 +1,4 @@
-@import "../../scss/variables.scss";
+@import '../../scss/variables.scss';
 .frWrapper {
   display: flex;
   width: 100%;
@@ -78,7 +78,8 @@
         max-height: 60vh;
         overflow-y: scroll;
         border-radius: 8px;
-        box-shadow: 14px 5px 22px 0px rgba(0, 0, 0, 0.1),
+        box-shadow:
+          14px 5px 22px 0px rgba(0, 0, 0, 0.1),
           -13px 14px 14px -6px rgba(0, 0, 0, 0.1);
       }
     }
@@ -109,7 +110,7 @@
           &:not(:first-child) {
             &::after {
               position: absolute;
-              content: "";
+              content: '';
               top: 50%;
               transform: translateY(-50%);
               left: 0;
@@ -169,6 +170,12 @@
               display: flex;
               gap: 0 1rem;
               align-items: center;
+              cursor: pointer;
+              &:hover {
+                span {
+                  text-decoration: underline;
+                }
+              }
             }
           }
         }

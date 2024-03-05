@@ -24,6 +24,7 @@ const FriendPage = () => {
     handleFriendRequest,
     handleSearchUser,
     checkStatusFriend,
+    handleGoToProfileFriend,
   } = useService();
 
   return (
@@ -65,7 +66,10 @@ const FriendPage = () => {
                   return (
                     <tr key={user.id} className={s.row}>
                       <td className={s.large}>
-                        <div className={s.memberItem}>
+                        <div
+                          className={s.memberItem}
+                          onClick={() => handleGoToProfileFriend(user.id ?? '')}
+                        >
                           <Avatar src={user.photoUrl} />
                           <span>{user.displayName}</span>
                         </div>

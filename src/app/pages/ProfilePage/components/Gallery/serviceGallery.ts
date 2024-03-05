@@ -11,5 +11,5 @@ export const useServiceGallery = () => {
   useEffect(() => {
     getPosts(userId);
   }, [userId]);
-  return { modal, loadingPost, posts, setModal, savePostDetail };
+  return { modal, loadingPost, posts, userId, setModal, savePostDetail };
 };

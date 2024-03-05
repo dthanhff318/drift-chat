@@ -1,5 +1,7 @@
 import { notification } from 'antd';
 import friendsApi from 'app/axios/api/friends';
+import { replacePathParams } from 'app/helpers/funcs';
+import { pathProfileFriend } from 'app/routes/routesConfig';
 import authStore from 'app/storeZustand/authStore';
 import friendStore from 'app/storeZustand/friendStore';
 import servicesStore from 'app/storeZustand/servicesStore';
@@ -7,9 +9,11 @@ import socketStore from 'app/storeZustand/socketStore';
 import { socketEmit } from 'const/socket';
 import { EFriendStatus } from 'enums';
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { TDataCommunicate, TUser } from 'types/common';
 
 const useService = () => {
+  const history = useHistory();
   const { currentUser } = authStore();
   const { dataCommunicate, getDataCommunicate } = friendStore();
   const { socket } = socketStore();
@@ -77,6 +81,10 @@ const useService = () => {
     getDataCommunicate();
   };
 
+  const handleGoToProfileFriend = (id: string) => {
+    history.push(replacePathParams(pathProfileFriend, { userId: id }));
+  };
+
   // Get data
   useEffect(() => {
     getListUser({ q: searchValue });
@@ -102,6 +110,7 @@ const useService = () => {
     handleSearchUser,
     getDataCommunicate,
     checkStatusFriend,
+    handleGoToProfileFriend,
   };
 };
 
