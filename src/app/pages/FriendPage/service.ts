@@ -22,26 +22,28 @@ const useService = () => {
 
   const [searchValue, setSearchValue] = useState<string>('');
 
-  const handleFriendRequest = async (friendId: string, status: EFriendStatus) => {
+  const handleFriendRequest = async (friend: TUser, status: EFriendStatus) => {
+    const { id = '', displayName } = friend;
     try {
       switch (status) {
         case EFriendStatus.Add:
-          setUserLoading((prev) => [...prev, friendId]);
-          await friendsApi.addFriend(friendId);
+          setUserLoading((prev) => [...prev, id]);
+          await friendsApi.addFriend(id);
           socket?.emit(socketEmit.ADD_FRIEND, currentUser.id);
           getDataCommunicate();
-          setUserLoading((prev) => prev.filter((e) => e !== friendId));
+          setUserLoading((prev) => prev.filter((e) => e !== id));
           break;
         case EFriendStatus.Accept:
-          setUserLoading((prev) => [...prev, friendId]);
-          await friendsApi.acceptFrRequest(friendId);
+          setUserLoading((prev) => [...prev, id]);
+          await friendsApi.acceptFrRequest(id);
+          socket?.emit(socketEmit.ACCEPT_REQUEST, displayName);
           getDataCommunicate();
-          setUserLoading((prev) => prev.filter((e) => e !== friendId));
+          setUserLoading((prev) => prev.filter((e) => e !== id));
           break;
         default:
       }
     } catch (err) {
-      setUserLoading((prev) => prev.filter((e) => e !== friendId));
+      setUserLoading((prev) => prev.filter((e) => e !== id));
       notification.error({
         message: `Error`,
         description: 'Try again',
@@ -80,6 +82,14 @@ const useService = () => {
   const handleListenEventAddFriend = (friendId: string) => {
     getDataCommunicate();
   };
+  const handleListenEventAcceptRequest = (friendName: string) => {
+    getDataCommunicate();
+    notification.success({
+      message: `${friendName} accepted your friend request`,
+      description: "Let's talk",
+      duration: 4,
+    });
+  };
 
   const handleGoToProfileFriend = (id: string) => {
     history.push(replacePathParams(pathProfileFriend, { userId: id }));
@@ -92,9 +102,11 @@ const useService = () => {
 
   // Socket
   useEffect(() => {
-    socket?.emit(socketEmit.ADD_FRIEND, handleListenEventAddFriend);
+    socket?.on(socketEmit.ADD_FRIEND, handleListenEventAddFriend);
+    socket?.on(socketEmit.ACCEPT_REQUEST, handleListenEventAcceptRequest);
     return () => {
       socket?.off(socketEmit.ADD_FRIEND, handleListenEventAddFriend);
+      socket?.off(socketEmit.ACCEPT_REQUEST, handleListenEventAcceptRequest);
     };
   }, []);
 

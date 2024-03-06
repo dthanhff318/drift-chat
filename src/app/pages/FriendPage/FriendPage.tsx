@@ -84,7 +84,7 @@ const FriendPage = () => {
                           <Button
                             text={statusFriend}
                             loading={usersLoading.includes(user.id ?? '')}
-                            onClick={() => handleFriendRequest(user.id ?? '', statusFriend)}
+                            onClick={() => handleFriendRequest(user, statusFriend)}
                           />
                         )}
                       </td>
