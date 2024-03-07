@@ -16,9 +16,7 @@ const FriendRow = ({ data, textButton, onClick }: Props) => {
         <Avatar src={data.photoUrl} />
         <span className={s.name}>{data.displayName}</span>
       </div>
-      <span className={s.timeActive}>
-        {data.isOnline ? 'Online' : convertDiffTime((data.lastActive ?? '').toString())}
-      </span>
+
       <button className={s.actionBtn} onClick={onClick}>
         {textButton}
       </button>

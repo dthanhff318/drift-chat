@@ -38,7 +38,7 @@ const ModalCommon = ({
         <div className={s.content}>{children}</div>
         {!hideFooter && (
           <div className={s.footer}>
-            <Button loading={false} text="Cancel" />
+            <Button loading={false} text="Cancel" onClick={onCancel} />
             <Button loading={loading} text="OK" onClick={onConfirm} />
           </div>
         )}

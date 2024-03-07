@@ -2,15 +2,41 @@ import { SketchOutlined } from '@ant-design/icons';
 import {
   pathFriendPage,
   pathHomePage,
+  pathLoginPage,
   pathProfile,
   pathSettingsPage,
 } from 'app/routes/routesConfig';
-import { Home, MessagesSquare, RadioTower, Settings } from 'lucide-react';
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Blocks, Home, MessagesSquare, PowerCircle, RadioTower, Settings } from 'lucide-react';
+import React, { useState } from 'react';
+import { NavLink, useHistory } from 'react-router-dom';
 import s from './style.module.scss';
+import ModalCommon from '../Modal/Modal';
+import authStore from 'app/storeZustand/authStore';
+import { getRefreshTokenFromLocalStorage } from 'app/helpers/localStorage';
+import authApi from 'app/axios/api/auth';
+import { signOut } from 'firebase/auth';
+import { auth } from 'app/firebase/configFirebase';
 
 const Sidebar = () => {
+  const [modal, setModal] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const { logout } = authStore();
+  const history = useHistory();
+  const handleLogout = async () => {
+    try {
+      setLoading(true);
+      const refreshToken = getRefreshTokenFromLocalStorage();
+      await authApi.logout(refreshToken ?? '');
+      await signOut(auth).then(() => {
+        logout();
+        history.push(pathLoginPage);
+      });
+      localStorage.clear();
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    }
+  };
   return (
     <aside className={s.sideBarWrap}>
       <div className={s.logo}>
@@ -27,10 +53,22 @@ const Sidebar = () => {
           <Home color="#ffffff" size={24} />
         </NavLink>
         <NavLink exact to={pathSettingsPage} className={s.btnNav} activeClassName={s.active}>
-          <Settings color="#ffffff" size={24} />
+          <Blocks color="#ffffff" size={24} />
         </NavLink>
+        <div className={s.btnNav} onClick={() => setModal(true)}>
+          <PowerCircle />
+        </div>
       </div>
       <div className={s.user}></div>
+      <ModalCommon
+        open={modal}
+        title="Logout"
+        onCancel={() => setModal(false)}
+        onConfirm={handleLogout}
+        loading={loading}
+      >
+        <p>Are you want to exit?</p>
+      </ModalCommon>
     </aside>
   );
 };

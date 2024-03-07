@@ -80,13 +80,15 @@ const FriendPage = () => {
                           : convertDiffTime((user.lastActive ?? '').toString())}
                       </td>
                       <td className={s.small}>
-                        {statusFriend !== EFriendStatus.Friend && (
-                          <Button
-                            text={statusFriend}
-                            loading={usersLoading.includes(user.id ?? '')}
-                            onClick={() => handleFriendRequest(user, statusFriend)}
-                          />
-                        )}
+                        <div className={s.btnWrap}>
+                          {statusFriend !== EFriendStatus.Friend && (
+                            <Button
+                              text={statusFriend}
+                              loading={usersLoading.includes(user.id ?? '')}
+                              onClick={() => handleFriendRequest(user, statusFriend)}
+                            />
+                          )}
+                        </div>
                       </td>
                     </tr>
                   );
@@ -95,7 +97,7 @@ const FriendPage = () => {
           </table>
         </div>
       </div>
-      <MyFriendControl />
+      {/* <MyFriendControl /> */}
     </div>
   );
 };

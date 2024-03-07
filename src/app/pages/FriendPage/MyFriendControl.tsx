@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom';
 import { replacePathParams } from 'app/helpers/funcs';
 import { pathHomePageChat } from 'app/routes/routesConfig';
 import messageStore from 'app/storeZustand/messageStore';
-type TControl = 'friend' | 'approve' | 'blocked';
+type TControl = 'friend' | 'approve';
 
 const MyFriendControl = () => {
   const history = useHistory();
@@ -35,37 +35,24 @@ const MyFriendControl = () => {
     <div className={s.friendControlWrap}>
       <div className={s.controlHeader}>
         <div
-          className={`${s.item} ${control === 'friend' ? s.active : ''}`}
-          onClick={() => setControl('friend')}
-        >
-          My Friend
-        </div>
-        <div
           className={`${s.item} ${control === 'approve' ? s.active : ''}`}
-          onClick={() => setControl('approve')}
+          // onClick={() => setControl('approve')}
         >
-          Approve
-        </div>
-        <div
-          className={`${s.item} ${control === 'blocked' ? s.active : ''}`}
-          onClick={() => setControl('blocked')}
-        >
-          Blocked
+          Request friend list
         </div>
       </div>
       <div className={s.controlContent}>
-        {control === 'friend' &&
-          dataCommunicate.listFriend?.map((t: TUser) => (
-            <div key={t.id}>
-              <FriendRow
-                data={t}
-                textButton="Message"
-                onClick={() => {
-                  handleGoToChat(t.id ?? '');
-                }}
-              />
-            </div>
-          ))}
+        {dataCommunicate.listAccept?.map((t: TUser) => (
+          <div key={t.id}>
+            <FriendRow
+              data={t}
+              textButton="Message"
+              onClick={() => {
+                handleGoToChat(t.id ?? '');
+              }}
+            />
+          </div>
+        ))}
         {control === 'approve' &&
           dataCommunicate.listAccept?.map((t: TUser) => (
             <div key={t.id}>

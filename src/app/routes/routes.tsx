@@ -10,7 +10,6 @@ import {
   pathProfileFriend,
   pathSettingsPage,
 } from './routesConfig';
-// import SuspenseFallback from "../components/Common/SuspenseFallback/SuspenseFallback";
 import Layout from 'app/components/Layout/Layout';
 import { IndexedObject, TUser } from 'types/common';
 import Loading from 'app/components/Loading/Loading';
@@ -99,7 +98,7 @@ export const routes = [
       {
         exact: true,
         path: pathSettingsPage,
-        component: lazy(() => import('app/pages/SettingsPage/SettingsPage')),
+        component: lazy(() => import('app/pages/ExtendPage/ExtendPage')),
         auth: true,
       },
       {

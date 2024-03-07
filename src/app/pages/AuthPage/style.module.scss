@@ -7,6 +7,17 @@
   align-items: center;
   position: relative;
   overflow: hidden;
+  .vesion {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 1rem;
+    font-weight: 550;
+    color: white;
+    background-color: rgba(68, 68, 68, 0.7);
+    padding: 1rem;
+    border-radius: 1rem;
+  }
   .bgImage {
     transition: all linear 2s;
     position: absolute;
@@ -18,6 +29,7 @@
     background-color: hsl(71, 41%, 95%, 0.8);
     border-radius: 5px;
     width: 30%;
+    min-width: 25rem;
     height: 70%;
     padding: 2.5rem 1rem;
     display: flex;
@@ -40,6 +52,10 @@
         &:hover {
           filter: drop-shadow(5px 5px 10px #fff700);
         }
+        @media (max-height: 420px) {
+          width: 6rem;
+          height: 6rem;
+        }
       }
       .titleLogin {
         font-size: 30px;
@@ -51,7 +67,7 @@
         font-size: 18px;
         padding: 10px 15px;
         border-radius: 4px;
-        width: 60%;
+        width: 70%;
         background-color: hsla(217, 70%, 48%, 0.874);
         display: flex;
         align-items: center;
@@ -59,6 +75,8 @@
         cursor: pointer;
         color: white;
         &:hover {
+        }
+        .loginText {
         }
       }
       .qrLogin {

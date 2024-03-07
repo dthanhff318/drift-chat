@@ -12,8 +12,8 @@ import { useHistory } from 'react-router-dom';
 import { TUser } from 'types/common';
 import settingStore from './../../storeZustand/settingStore';
 
+const ACTION_CLOSED_POPUP = 'auth/popup-closed-by-user';
 const provider = new GoogleAuthProvider();
-// const provider = new FacebookAuthProvider();
 
 const useService = () => {
   const history = useHistory();
@@ -78,13 +78,21 @@ const useService = () => {
         socket?.emit('userLogin', user);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(Object.entries(err));
         setLoading(false);
-        notification.error({
-          message: `Login error! Try again`,
-          description: 'Something error now, try again later',
-          duration: 4,
-        });
+        if (err.code === ACTION_CLOSED_POPUP) {
+          notification.warning({
+            message: `You just closed login popup`,
+            description: 'Open popup and login again',
+            duration: 3,
+          });
+        } else {
+          notification.error({
+            message: `Login error! Try again`,
+            description: 'Something error now, try again later',
+            duration: 3,
+          });
+        }
       });
   };
   return {

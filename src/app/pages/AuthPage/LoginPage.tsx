@@ -23,11 +23,12 @@ const LoginPage = () => {
           <img className={s.logoApp} src={getPublicImageUrl('icLogo.png')} alt="" />
           <button onClick={handleLoginFirebase} className={s.google}>
             <GoogleIcon />
-            <p>Login Google</p>
+            <p className={s.loginText}>Login with Google</p>
           </button>
         </div>
         <div className={s.bottom}></div>
       </div>
+      <p className={s.vesion}>Version: 1.0.0</p>
     </div>
   );
 };
