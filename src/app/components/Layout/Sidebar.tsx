@@ -4,7 +4,7 @@ import {
   pathHomePage,
   pathLoginPage,
   pathProfile,
-  pathSettingsPage,
+  pathExtendPage,
 } from 'app/routes/routesConfig';
 import { Blocks, Home, MessagesSquare, PowerCircle, RadioTower, Settings } from 'lucide-react';
 import React, { useState } from 'react';
@@ -52,7 +52,7 @@ const Sidebar = () => {
         <NavLink to={pathProfile} className={s.btnNav} activeClassName={s.active}>
           <Home color="#ffffff" size={24} />
         </NavLink>
-        <NavLink exact to={pathSettingsPage} className={s.btnNav} activeClassName={s.active}>
+        <NavLink exact to={pathExtendPage} className={s.btnNav} activeClassName={s.active}>
           <Blocks color="#ffffff" size={24} />
         </NavLink>
         <div className={s.btnNav} onClick={() => setModal(true)}>

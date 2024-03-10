@@ -8,7 +8,7 @@ import {
   pathNotFoundPage,
   pathProfile,
   pathProfileFriend,
-  pathSettingsPage,
+  pathExtendPage,
 } from './routesConfig';
 import Layout from 'app/components/Layout/Layout';
 import { IndexedObject, TUser } from 'types/common';
@@ -97,7 +97,7 @@ export const routes = [
       },
       {
         exact: true,
-        path: pathSettingsPage,
+        path: pathExtendPage,
         component: lazy(() => import('app/pages/ExtendPage/ExtendPage')),
         auth: true,
       },

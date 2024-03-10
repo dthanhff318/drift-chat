@@ -23,10 +23,39 @@
   .memberSearch {
     display: flex;
     align-items: center;
-    gap: 0 1rem;
+    gap: 0 2rem;
     width: max-content;
     margin-bottom: 2rem;
     width: 100%;
+    .notiApprove {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: pointer;
+      .count {
+        position: absolute;
+        top: -1rem;
+        right: -1.25rem;
+        background-color: white;
+        color: rgb(247, 41, 41);
+        width: 1.75rem;
+        height: 1.75rem;
+        font-size: 0.8rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    .friendRequestTitle {
+      height: 40px;
+      font-size: 1rem;
+      color: white;
+      font-weight: 550;
+      display: flex;
+      align-items: center;
+    }
     .searchForm {
       display: flex;
       align-items: center;

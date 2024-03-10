@@ -10,7 +10,7 @@ import Loading from 'app/components/Loading/Loading';
 import { EFriendLoading } from 'app/storeZustand/servicesStore';
 import Button from 'app/components/Button/Button';
 import { EFriendStatus } from 'enums';
-import { Search } from 'lucide-react';
+import { Search, Vibrate, LucideArrowLeft } from 'lucide-react';
 
 const FriendPage = () => {
   const {
@@ -20,6 +20,8 @@ const FriendPage = () => {
     currentUser,
     loadingFriendPage,
     usersLoading,
+    showApprove,
+    setShowApprove,
     setSearchValue,
     handleFriendRequest,
     handleSearchUser,
@@ -27,23 +29,39 @@ const FriendPage = () => {
     handleGoToProfileFriend,
   } = useService();
 
+  const listAcceptLength = dataCommunicate.listAccept?.length ?? 0;
+
   return (
     <div className={s.frWrapper}>
       <div className={s.memberGroupWrapper}>
         <div className={s.memberSearch}>
-          <div className={s.searchForm}>
-            <input
-              type="text"
-              className={s.searchInput}
-              placeholder="Enter name of user"
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSearchUser()}
-            />
-            <div className={s.btnSearch} onClick={handleSearchUser}>
-              <Search size={24} />
+          {showApprove ? (
+            <LucideArrowLeft size={26} color="#fff" onClick={() => setShowApprove(false)} />
+          ) : (
+            <div className={s.notiApprove} onClick={() => setShowApprove(true)}>
+              <Vibrate size={26} color="#fff" />
+              {listAcceptLength > 0 ?? (
+                <span className={s.count}>{listAcceptLength > 99 ? `99+` : listAcceptLength}</span>
+              )}
             </div>
-          </div>
+          )}
+          {showApprove ? (
+            <p className={s.friendRequestTitle}>Friend request </p>
+          ) : (
+            <div className={s.searchForm}>
+              <input
+                type="text"
+                className={s.searchInput}
+                placeholder="Enter name of user"
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearchUser()}
+              />
+              <div className={s.btnSearch} onClick={handleSearchUser}>
+                <Search size={24} />
+              </div>
+            </div>
+          )}
         </div>
         <div className={s.memberList}>
           <Loading loading={loadingFriendPage === EFriendLoading.LIST} fullScreen={false} />
@@ -97,7 +115,6 @@ const FriendPage = () => {
           </table>
         </div>
       </div>
-      {/* <MyFriendControl /> */}
     </div>
   );
 };

@@ -21,6 +21,7 @@ const useService = () => {
   const [usersLoading, setUserLoading] = useState<string[]>([]);
 
   const [searchValue, setSearchValue] = useState<string>('');
+  const [showApprove, setShowApprove] = useState<boolean>(false);
 
   const handleFriendRequest = async (friend: TUser, status: EFriendStatus) => {
     const { id = '', displayName } = friend;
@@ -117,6 +118,8 @@ const useService = () => {
     searchValue,
     loadingFriendPage,
     usersLoading,
+    showApprove,
+    setShowApprove,
     setSearchValue,
     handleFriendRequest,
     handleSearchUser,
