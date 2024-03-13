@@ -7,3 +7,7 @@ export const pathFriendPage = '/friend';
 export const pathExtendPage = '/extend';
 export const pathProfile = '/profile';
 export const pathProfileFriend = '/profile/:userId';
+
+export const pathObj = {
+  welcomePage: '/',
+};

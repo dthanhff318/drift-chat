@@ -46,7 +46,7 @@ const FriendPage = () => {
             </div>
           )}
           {showApprove ? (
-            <p className={s.friendRequestTitle}>Friend request </p>
+            <p className={s.friendRequestTitle}>Friend request</p>
           ) : (
             <div className={s.searchForm}>
               <input
@@ -77,7 +77,7 @@ const FriendPage = () => {
               <th>Action</th>
             </thead>
             <tbody className={s.tableBody}>
-              {listUser
+              {(showApprove ? dataCommunicate.listAccept ?? [] : listUser)
                 .filter((e) => e.id !== currentUser.id)
                 .map((user: TUser) => {
                   const statusFriend = checkStatusFriend(dataCommunicate, user);

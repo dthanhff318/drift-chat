@@ -9,6 +9,7 @@ import {
   pathProfile,
   pathProfileFriend,
   pathExtendPage,
+  pathObj,
 } from './routesConfig';
 import Layout from 'app/components/Layout/Layout';
 import { IndexedObject, TUser } from 'types/common';
@@ -74,6 +75,11 @@ const RenderRoutes = ({
 };
 
 export const routes = [
+  {
+    exact: true,
+    path: pathObj.welcomePage,
+    component: lazy(() => import('app/pages/WelcomePage/WelcomePage')),
+  },
   {
     exact: true,
     path: pathNotFoundPage,
