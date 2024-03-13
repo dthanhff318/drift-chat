@@ -9,7 +9,8 @@ import { useServiceGallery } from './serviceGallery';
 import s from './style.module.scss';
 
 const Gallery = () => {
-  const { modal, loadingPost, posts, userId, setModal, savePostDetail } = useServiceGallery();
+  const { data, isLoading, modal, loadingPost, posts, userId, setModal, savePostDetail } =
+    useServiceGallery();
   const handleCloseModal = () => setModal('');
   const handleClickGallery = (post: TPost) => {
     savePostDetail(post);
@@ -19,8 +20,8 @@ const Gallery = () => {
   return (
     <>
       <div className={s.galleryWrap}>
-        <Loading loading={loadingPost === 'getPosts'} />
-        {posts.map((post) => (
+        <Loading loading={isLoading} />
+        {data?.data.map((post) => (
           <div key={post.id} className={s.galleryItemWrap} onClick={() => handleClickGallery(post)}>
             <GalleryItem post={post} />
           </div>
