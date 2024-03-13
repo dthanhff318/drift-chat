@@ -32,6 +32,7 @@ const ModalCommon = ({
       onOk={onOk}
       footer={null}
       zIndex={10000}
+      modalRender={() => <p>sadsadasdsad</p>}
     >
       <div className={s.wrapper}>
         <h3 className={s.title}>{title}</h3>
@@ -39,7 +40,7 @@ const ModalCommon = ({
         {!hideFooter && (
           <div className={s.footer}>
             <Button loading={false} text="Cancel" onClick={onCancel} />
-            <Button loading={loading} text="OK" onClick={onConfirm} />
+            <Button fill={true} loading={loading} text="OK" onClick={onConfirm} />
           </div>
         )}
       </div>

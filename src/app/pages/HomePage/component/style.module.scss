@@ -2,7 +2,7 @@
 $header-hight: 5rem;
 .channelWrap {
   background-color: $background-dark;
-  min-width: 20rem;
+  width: 20rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem 0;
@@ -168,8 +168,17 @@ $header-hight: 5rem;
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
+        max-width: 100%;
         .name {
           font-size: 0.9rem;
+          width: 75%;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          white-space: normal;
+          word-break: break-word;
         }
         .time {
           font-size: 0.8rem;
@@ -305,6 +314,7 @@ $header-hight: 5rem;
             background-color: transparent;
             border: 1px solid $text-color-dark;
             color: $white;
+            font-style: italic;
             .contentMsg {
               color: $white;
             }
@@ -328,6 +338,7 @@ $header-hight: 5rem;
           &.messageDeleted {
             background-color: transparent;
             border: 1px solid $text-color-dark;
+            font-style: italic;
             color: $white;
             .contentMsg {
               color: $white;
