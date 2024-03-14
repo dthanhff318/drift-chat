@@ -32,7 +32,6 @@ const ModalCommon = ({
       onOk={onOk}
       footer={null}
       zIndex={10000}
-      modalRender={() => <p>sadsadasdsad</p>}
     >
       <div className={s.wrapper}>
         <h3 className={s.title}>{title}</h3>
