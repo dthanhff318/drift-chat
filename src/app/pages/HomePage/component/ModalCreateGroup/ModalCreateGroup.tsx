@@ -48,7 +48,7 @@ const ModalCreateGroup = ({ onClose }: Props) => {
   };
 
   return (
-    <div className={s.wrapper}>
+    <div className={s.wrapperModalCreateGroup}>
       <input ref={inputNameRef} type="text" className={s.inputName} placeholder="Group name ..." />
       <div className={s.usersSelectWrap}>
         <div className={s.icAdd}>

@@ -1,45 +1,37 @@
 @import '../../scss/variables.scss';
-.customModal {
-  min-width: 40vw;
-  width: fit-content !important;
-}
+
 .wrapper {
-  padding: 0.5rem;
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  .title {
-    margin-top: 1rem;
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: $black;
+  border-radius: 1rem;
+  border: 0.1rem solid #333335;
+  overflow: hidden;
+  width: fit-content;
+  min-width: 40rem;
+  z-index: 100000000;
+  position: absolute;
+  .header {
+    background-color: #262629;
+    padding: 1rem;
+    .title {
+      color: $white;
+      font-size: 1rem;
+      font-weight: 550;
+    }
   }
-  .desc {
-    margin-top: 1rem;
-    font-size: 1rem;
-    font-weight: 500;
-    color: $background-dark-light;
-  }
-  .inputChange {
-    margin: 1rem 0;
-    outline: 1px solid $black;
-    font-size: 1.2rem;
-    border-radius: 0.5rem;
-    padding: 0.5rem 1.25rem;
-  }
-  .btnFooter {
-    margin-top: 1rem;
-    align-self: flex-end;
-  }
-  .content {
-    margin: 1rem 0;
-    width: 100%;
+  .body {
+    padding: 1rem;
+    background-color: #1e1e21;
+    border-top: 0.1rem solid #333335;
+    .desc {
+      color: $white;
+      font-size: 0.9rem;
+    }
   }
   .footer {
-    display: flex;
-    gap: 2rem;
+    background-color: #1e1e21;
     width: 100%;
-    justify-content: end;
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    justify-content: flex-end;
   }
 }
