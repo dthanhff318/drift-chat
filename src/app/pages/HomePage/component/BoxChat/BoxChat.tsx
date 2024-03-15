@@ -106,7 +106,7 @@ const BoxChat = () => {
 
   return (
     <>
-      {detailGroup.id ? (
+      {detailGroup?.id ? (
         <div className={s.boxChatWrap}>
           <Loading loading={firstTimeLoading || loadingDetailGroup} />
           <div className={s.headerBox}>

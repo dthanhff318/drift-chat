@@ -46,7 +46,7 @@ export const getNameUser = (user: TUser, setting: TSettingUserGroup[]) => {
 };
 
 export const getNameAndAvatarChat = (group: TGroup | TGroupDetail, currentUserId: string) => {
-  if (group.isGroup) {
+  if (group?.isGroup) {
     return {
       nameGroup: group.name,
       avatarGroup: group.photo,

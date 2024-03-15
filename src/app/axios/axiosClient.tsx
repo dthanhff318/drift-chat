@@ -4,7 +4,6 @@ import {
   removeUserLs,
   saveToken,
 } from 'app/helpers/localStorage';
-import { pathLoginPage } from 'app/routes/routesConfig';
 // import { TRefreshTokenRequest } from "app/pages/AuthPage/slice/authTypes";
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 

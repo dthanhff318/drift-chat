@@ -1,19 +1,18 @@
-import React, { Suspense, Fragment, lazy } from 'react';
-import { Switch, Redirect, Route } from 'react-router-dom';
+import Layout from 'app/components/Layout/Layout';
+import Loading from 'app/components/Loading/Loading';
+import React, { Fragment, lazy, Suspense } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import { IndexedObject, TUser } from 'types/common';
 import {
+  pathExtendPage,
   pathFriendPage,
   pathHomePage,
   pathHomePageChat,
-  pathLoginPage,
   pathNotFoundPage,
+  pathObj,
   pathProfile,
   pathProfileFriend,
-  pathExtendPage,
-  pathObj,
 } from './routesConfig';
-import Layout from 'app/components/Layout/Layout';
-import { IndexedObject, TUser } from 'types/common';
-import Loading from 'app/components/Loading/Loading';
 
 export type RoutesProps = {
   exact?: boolean;
@@ -44,7 +43,7 @@ const RenderRoutes = ({
           const Layout = route.layout || Fragment;
           const Component = route.component || <div />;
           if (route.auth && !checkAuthLocal) {
-            return <Redirect key={i} to={pathLoginPage} />;
+            return <Redirect key={i} to={pathObj.loginPage} />;
           }
           return (
             <Route
@@ -87,7 +86,7 @@ export const routes = [
   },
   {
     exact: true,
-    path: pathLoginPage,
+    path: pathObj.loginPage,
     component: lazy(() => import('app/pages/AuthPage/LoginPage')),
   },
   {

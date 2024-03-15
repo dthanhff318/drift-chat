@@ -1,34 +1,41 @@
-import { notification } from 'antd';
-import authApi from 'app/axios/api/auth';
-import { auth } from 'app/firebase/configFirebase';
-import { saveToken } from 'app/helpers/localStorage';
-import { pathHomePage } from 'app/routes/routesConfig';
 import authStore from 'app/storeZustand/authStore';
 import friendStore from 'app/storeZustand/friendStore';
-import socketStore from 'app/storeZustand/socketStore';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { TUser } from 'types/common';
-import settingStore from './../../storeZustand/settingStore';
+import { replacePathParams } from 'app/helpers/funcs';
+import { pathHomePageChat } from 'app/routes/routesConfig';
+import groupStore from 'app/storeZustand/groupStore';
 
-const ACTION_CLOSED_POPUP = 'auth/popup-closed-by-user';
-const provider = new GoogleAuthProvider();
+export enum ETypeNavExtendPage {
+  Friend = 'Friend',
+  Blocked = 'Blocked',
+  Mission = 'Mission',
+}
 
 const useService = () => {
   const history = useHistory();
 
-  const { saveCurrentUser } = authStore();
-  const { getSettings } = settingStore();
-  const { getDataCommunicate } = friendStore();
-  const { socket } = socketStore();
+  const { groups } = groupStore();
+  const { getDataCommunicate, dataCommunicate } = friendStore();
   const [loading, setLoading] = useState<boolean>(false);
+  const [tab, setTab] = useState<ETypeNavExtendPage>(ETypeNavExtendPage.Friend);
 
-  const imageRef = useRef<HTMLImageElement>(null);
-
+  const goToDirectChat = (id: string) => {
+    const findGroup = groups.find(
+      (g) => g.members?.length === 2 && !!g.members.find((e) => e.id === id && !g.isGroup),
+    );
+    history.replace(
+      replacePathParams(pathHomePageChat, {
+        id: findGroup?.id ?? '',
+      }),
+    );
+  };
   return {
-    imageRef,
     loading,
+    dataCommunicate,
+    tab,
+    setTab,
+    goToDirectChat,
   };
 };
 

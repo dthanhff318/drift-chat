@@ -68,7 +68,7 @@ const useService = () => {
         await getSettings();
         await getDataCommunicate();
         setLoading(false);
-        history.push(pathHomePage);
+        history.replace(pathHomePage);
         notification.success({
           message: `Welcome sir, ${user.displayName}`,
           description: "Let's experience this special social network",
@@ -78,7 +78,6 @@ const useService = () => {
         socket?.emit('userLogin', user);
       })
       .catch((err) => {
-        console.log(Object.entries(err));
         setLoading(false);
         if (err.code === ACTION_CLOSED_POPUP) {
           notification.warning({

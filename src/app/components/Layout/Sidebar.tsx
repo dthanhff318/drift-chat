@@ -1,21 +1,21 @@
 import { SketchOutlined } from '@ant-design/icons';
+import authApi from 'app/axios/api/auth';
+import { auth } from 'app/firebase/configFirebase';
+import { getRefreshTokenFromLocalStorage } from 'app/helpers/localStorage';
 import {
+  pathExtendPage,
   pathFriendPage,
   pathHomePage,
-  pathLoginPage,
+  pathObj,
   pathProfile,
-  pathExtendPage,
 } from 'app/routes/routesConfig';
-import { Blocks, Home, MessagesSquare, PowerCircle, RadioTower, Settings } from 'lucide-react';
+import authStore from 'app/storeZustand/authStore';
+import { signOut } from 'firebase/auth';
+import { Blocks, Home, MessagesSquare, PowerCircle, RadioTower } from 'lucide-react';
 import React, { useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
-import s from './style.module.scss';
 import ModalCommon from '../Modal/Modal';
-import authStore from 'app/storeZustand/authStore';
-import { getRefreshTokenFromLocalStorage } from 'app/helpers/localStorage';
-import authApi from 'app/axios/api/auth';
-import { signOut } from 'firebase/auth';
-import { auth } from 'app/firebase/configFirebase';
+import s from './style.module.scss';
 
 const Sidebar = () => {
   const [modal, setModal] = useState<boolean>(false);
@@ -29,7 +29,7 @@ const Sidebar = () => {
       await authApi.logout(refreshToken ?? '');
       await signOut(auth).then(() => {
         logout();
-        history.push(pathLoginPage);
+        history.push(pathObj.loginPage);
       });
       localStorage.clear();
       setLoading(false);

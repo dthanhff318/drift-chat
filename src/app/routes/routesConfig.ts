@@ -1,6 +1,5 @@
 export const pathNotFoundPage = '/notfound';
 export const pathIntroPage = '/';
-export const pathLoginPage = '/login';
 export const pathHomePage = '/home';
 export const pathHomePageChat = '/home/chat/:id';
 export const pathFriendPage = '/friend';
@@ -10,4 +9,6 @@ export const pathProfileFriend = '/profile/:userId';
 
 export const pathObj = {
   welcomePage: '/',
+  homePage: '/home',
+  loginPage: '/login',
 };

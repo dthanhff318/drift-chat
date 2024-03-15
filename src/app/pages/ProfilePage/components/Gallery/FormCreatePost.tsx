@@ -16,9 +16,10 @@ import { createPortal } from 'react-dom';
 import TextareaAutosize from 'react-textarea-autosize';
 import s from './style.module.scss';
 import { IndexedObject } from 'types/common';
-import postApi from 'app/axios/api/postApi';
+import postApi, { TDataCreatePost } from 'app/axios/api/postApi';
 import postStore from 'app/storeZustand/postStore';
 import axios from 'axios';
+import { useMutation } from 'react-query';
 
 type Props = {
   handleCloseModal: () => void;
@@ -69,6 +70,14 @@ const FormCreatePost = ({ handleCloseModal }: Props) => {
   const hasUpload = filesList.length > 0;
   const urlPreview = hasUpload && URL.createObjectURL(filesList[preview]);
 
+  const createPostMutation = useMutation({
+    mutationFn: (data: TDataCreatePost) => {
+      console.log('df');
+
+      return postApi.createPost(data);
+    },
+  });
+
   const handleUpPost = async () => {
     try {
       if (!filesList.length) return;
@@ -83,11 +92,24 @@ const FormCreatePost = ({ handleCloseModal }: Props) => {
       for (let i = 0; i < signedUrl.length; i++) {
         await axios.put(signedUrl[i], filesList[i]);
       }
-      await postApi.createPost({
-        caption,
-        fileNameList: mappingFileName,
-      });
-      getPosts();
+      // await postApi.createPost({
+      //   caption,
+      //   fileNameList: mappingFileName,
+      // });
+      createPostMutation.mutate(
+        {
+          caption,
+          fileNameList: mappingFileName,
+        },
+        {
+          onSuccess: (data) => {
+            console.log(data);
+          },
+          onError: (e) => {
+            console.log(e);
+          },
+        },
+      );
       setLoading(false);
       handleCloseModal();
     } catch (err) {

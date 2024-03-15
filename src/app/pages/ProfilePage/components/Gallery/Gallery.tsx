@@ -9,8 +9,7 @@ import { useServiceGallery } from './serviceGallery';
 import s from './style.module.scss';
 
 const Gallery = () => {
-  const { data, isLoading, modal, loadingPost, posts, userId, setModal, savePostDetail } =
-    useServiceGallery();
+  const { data, isLoading, modal, userId, setModal, savePostDetail } = useServiceGallery();
   const handleCloseModal = () => setModal('');
   const handleClickGallery = (post: TPost) => {
     savePostDetail(post);

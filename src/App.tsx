@@ -1,11 +1,11 @@
 import authApi from 'app/axios/api/auth';
 import { getTokenFromLocalStorage } from 'app/helpers/localStorage';
 import RenderRoutes, { routes } from 'app/routes/routes';
-import { pathLoginPage } from 'app/routes/routesConfig';
+import { pathObj } from 'app/routes/routesConfig';
 import authStore from 'app/storeZustand/authStore';
 import friendStore from 'app/storeZustand/friendStore';
 import socketStore from 'app/storeZustand/socketStore';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { io } from 'socket.io-client';
@@ -28,7 +28,7 @@ function App() {
       saveCurrentUser(res.data);
     } catch (err) {
       localStorage.clear();
-      window.location.href = pathLoginPage;
+      window.location.href = pathObj.loginPage;
     }
   };
 
