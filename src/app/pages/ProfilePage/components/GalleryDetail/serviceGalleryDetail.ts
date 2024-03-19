@@ -2,12 +2,13 @@ import postStore from 'app/storeZustand/postStore';
 import { useState, useEffect } from 'react';
 import postApi from 'app/axios/api/postApi';
 import authStore from 'app/storeZustand/authStore';
-import { TPost } from 'types/post.type';
+import { TPost, TComment } from 'types/post.type';
+import { useQuery } from 'react-query';
 
 type TGalleryLoading = '' | 'comment';
 
 export const useServiceGalleryDetail = () => {
-  const { comments, postDetail, getCommentByPost, savePostDetail } = postStore();
+  const { postDetail, getCommentByPost, savePostDetail } = postStore();
   const { currentUser } = authStore();
   const [indexView, setIndexView] = useState<number>(0);
   const [comment, setComment] = useState<string>('');
@@ -36,15 +37,21 @@ export const useServiceGalleryDetail = () => {
     savePostDetail({ ...postDetail, stars: updatePost.stars });
   };
 
-  useEffect(() => {
-    if (!postDetail.id) return;
-    getCommentByPost(postDetail.id);
-  }, [postDetail.id]);
+  // useEffect(() => {
+  //   if (!postDetail.id) return;
+  //   getCommentByPost(postDetail.id);
+  // }, [postDetail.id]);
+
+  const { data: comments, isLoading: loadingComment } = useQuery<{ data: TComment[] }>({
+    queryKey: ['getPostComment', postDetail.id],
+    queryFn: () => postApi.getCommentByPost(postDetail.id ?? ''),
+  });
+
   return {
     postDetail,
     indexView,
     comment,
-    loading,
+    loadingComment,
     comments,
     currentUser,
     setComment,

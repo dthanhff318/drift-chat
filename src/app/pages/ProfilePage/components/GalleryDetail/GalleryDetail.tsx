@@ -23,7 +23,7 @@ const GalleryDetail = ({ handleCloseModal }: Props) => {
     indexView,
     comment,
     comments,
-    loading,
+    loadingComment,
     currentUser,
     setComment,
     setIndexView,
@@ -96,7 +96,7 @@ const GalleryDetail = ({ handleCloseModal }: Props) => {
               </div>
               <div className={s.postComment}>
                 <div className={s.listComment}>
-                  {comments.map((e, i) => (
+                  {comments?.data.map((e, i) => (
                     <div className={s.commentItem} key={i}>
                       <div className={s.user}>
                         <Avatar src={e.user?.photoUrl} size="s" />
@@ -121,7 +121,7 @@ const GalleryDetail = ({ handleCloseModal }: Props) => {
                   minRows={1}
                   value={comment}
                 />
-                {loading === 'comment' ? (
+                {loadingComment ? (
                   <Loader2 size={28} className={s.loading} />
                 ) : (
                   <SendHorizontal
