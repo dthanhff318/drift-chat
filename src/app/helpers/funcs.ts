@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { IndexedObject, TGroup, TGroupDetail, TSettingUserGroup, TUser } from 'types/common';
 import { geTUserFromLs } from './localStorage';
+import { regexForValidLink } from './common';
 
 export const getPublicImageUrl = (name: string) => `${process.env.PUBLIC_URL}/images/${name}`;
 
@@ -60,4 +61,10 @@ export const getNameAndAvatarChat = (group: TGroup | TGroupDetail, currentUserId
       online: friend.isOnline,
     };
   }
+};
+
+export const urlify = (text: string) => {
+  return text.replace(regexForValidLink, (url: string) => {
+    return `<a href='${url}' target='_blank'>${url}</a>`;
+  });
 };

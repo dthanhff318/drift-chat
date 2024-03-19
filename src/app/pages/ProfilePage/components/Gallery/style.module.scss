@@ -12,6 +12,9 @@
   @media (min-width: 1560px) {
     grid-template-columns: repeat(5, 14rem);
   }
+  @media (max-width: 1060px) {
+    grid-template-columns: repeat(3, 14rem);
+  }
   .galleryItemWrap {
     border-radius: 0.5rem;
     position: relative;
@@ -39,10 +42,9 @@
     }
   }
   .postControl {
-    position: absolute;
+    position: fixed;
     bottom: 3rem;
-    right: 50%;
-    transform: translateX(50%);
+    right: calc(50% - 5rem);
     width: 6rem;
     height: 3rem;
     border-radius: 999px;
@@ -50,6 +52,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 2px solid rgb(186, 186, 186);
     .btnAddPost {
       cursor: pointer;
     }

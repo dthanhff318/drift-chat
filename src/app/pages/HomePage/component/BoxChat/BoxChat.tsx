@@ -21,6 +21,7 @@ import {
   getNameUser,
   getPublicImageUrl,
   getUserById,
+  urlify,
 } from 'app/helpers/funcs';
 import { AlignJustify, Image as ImageLucid, Video } from 'lucide-react';
 import React, { useState } from 'react';
@@ -212,7 +213,7 @@ const BoxChat = () => {
                             <span
                               className={`${s.contentMsg} ${e.image ? s.hasImage : ''}`}
                               dangerouslySetInnerHTML={{
-                                __html: e.content?.replaceAll('\n', '<br />') || '',
+                                __html: urlify(e.content?.replaceAll('\n', '<br />') || ''),
                               }}
                             />
                           )}
