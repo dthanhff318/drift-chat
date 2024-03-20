@@ -26,6 +26,23 @@
     border-radius: 1rem;
     overflow: hidden;
     display: flex;
+    position: relative;
+    .optionPost {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: 0.2s linear all;
+      cursor: pointer;
+      &:hover {
+        background-color: rgb(238, 238, 238);
+      }
+    }
     .galleryImage {
       width: 50%;
       height: 100%;

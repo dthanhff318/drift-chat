@@ -34,7 +34,6 @@ import MessageCommon from './MessageCommon';
 import { useService } from './service';
 
 const BoxChat = () => {
-  const [selectedEmoji, setSelectedEmoji] = useState(null);
   const {
     groups,
     currentGroup,
@@ -99,7 +98,6 @@ const BoxChat = () => {
     setMessage(e.target.value);
   };
   const handleEmojiSelect = (emojiObject) => {
-    setSelectedEmoji(emojiObject);
     setMessage(message + emojiObject.native);
   };
 

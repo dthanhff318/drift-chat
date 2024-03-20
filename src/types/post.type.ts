@@ -6,6 +6,7 @@ export type TPost = {
   caption?: string;
   images?: string[];
   stars?: string[];
+  pin?: boolean;
 };
 
 export type TComment = {

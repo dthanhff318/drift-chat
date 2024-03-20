@@ -5,6 +5,7 @@ import Avatar from 'app/components/Avatar/Avatar';
 import {
   ArrowLeftCircle,
   ArrowRightCircle,
+  EllipsisVertical,
   Loader2,
   SendHorizontal,
   Star,
@@ -12,6 +13,9 @@ import {
 } from 'lucide-react';
 import { useServiceGalleryDetail } from './serviceGalleryDetail';
 import TextareaAutosize from 'react-textarea-autosize';
+import { Popover } from 'antd';
+import PopoverCustom from 'app/components/Popover/Popover';
+import ModalCommon from 'app/components/Modal/Modal';
 
 type Props = {
   handleCloseModal: () => void;
@@ -25,11 +29,16 @@ const GalleryDetail = ({ handleCloseModal }: Props) => {
     comments,
     loadingComment,
     currentUser,
+    arrPopover,
+    modal,
+    delPostMutation,
+    setModal,
     setComment,
     setIndexView,
     handleSendComment,
     handleLikedPost,
-  } = useServiceGalleryDetail();
+    handleDeletePost,
+  } = useServiceGalleryDetail({ handleCloseModal });
 
   const rootElement = document.getElementById('root');
   const imagesCount = postDetail?.images?.length ?? 0;
@@ -38,6 +47,7 @@ const GalleryDetail = ({ handleCloseModal }: Props) => {
   const handlePrevImage = () => setIndexView((prev) => prev - 1);
 
   const isLiked = postDetail.stars?.includes(currentUser.id ?? '');
+
   if (!rootElement) return null;
   return (
     document.getElementById('root') &&
@@ -48,6 +58,15 @@ const GalleryDetail = ({ handleCloseModal }: Props) => {
             <XCircle size={39} className={s.closeIcon} color="#fff" onClick={handleCloseModal} />
           </div>
           <div className={s.galleryContent}>
+            <Popover
+              trigger={'click'}
+              placement={'left'}
+              content={<PopoverCustom data={arrPopover} />}
+            >
+              <div className={s.optionPost}>
+                <EllipsisVertical size={28} />
+              </div>
+            </Popover>
             <div className={s.galleryImage}>
               {imagesCount > 1 && indexView !== 0 && (
                 <ArrowLeftCircle
@@ -134,6 +153,14 @@ const GalleryDetail = ({ handleCloseModal }: Props) => {
             </div>
           </div>
         </div>
+        <ModalCommon
+          open={modal === 'confirm-delete'}
+          title="Are you sure to delete this post"
+          desc="Once deleted, it cannot be restored"
+          onCancel={() => setModal('')}
+          onConfirm={handleDeletePost}
+          loading={delPostMutation.isLoading}
+        />
       </>,
       rootElement,
     )

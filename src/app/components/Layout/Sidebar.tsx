@@ -66,9 +66,8 @@ const Sidebar = () => {
         onCancel={() => setModal(false)}
         onConfirm={handleLogout}
         loading={loading}
-      >
-        <p>Are you want to exit?</p>
-      </ModalCommon>
+        desc="Are you want to exit ?"
+      />
     </aside>
   );
 };

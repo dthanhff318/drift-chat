@@ -1,8 +1,11 @@
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { notification } from 'antd';
+import postApi, { TDataCreatePost } from 'app/axios/api/postApi';
 import Button from 'app/components/Button/Button';
 import { listAllowImageType } from 'app/helpers/common';
+import { errorNoti } from 'app/helpers/notification';
+import axios from 'axios';
 import {
   ArrowLeftCircle,
   ArrowRightCircle,
@@ -13,13 +16,11 @@ import {
 } from 'lucide-react';
 import React, { useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useMutation, useQueryClient } from 'react-query';
 import TextareaAutosize from 'react-textarea-autosize';
-import s from './style.module.scss';
 import { IndexedObject } from 'types/common';
-import postApi, { TDataCreatePost } from 'app/axios/api/postApi';
-import postStore from 'app/storeZustand/postStore';
-import axios from 'axios';
-import { useMutation } from 'react-query';
+import { TPost } from 'types/post.type';
+import s from './style.module.scss';
 
 type Props = {
   handleCloseModal: () => void;
@@ -31,9 +32,8 @@ const FormCreatePost = ({ handleCloseModal }: Props) => {
   const [caption, setCaption] = useState<string>('');
   const [showEmoji, setShowEmoji] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [loading, setLoading] = useState<boolean>(false);
 
-  const { getPosts } = postStore();
+  const queryClient = useQueryClient();
 
   const rootElement = document.getElementById('root');
   const handleNextStep = () => setStep((prev) => prev + 1);
@@ -67,14 +67,18 @@ const FormCreatePost = ({ handleCloseModal }: Props) => {
   };
   const handleEmojiSelect = (emojiObject: IndexedObject) =>
     setCaption(caption + emojiObject.native);
+
   const hasUpload = filesList.length > 0;
   const urlPreview = hasUpload && URL.createObjectURL(filesList[preview]);
 
   const createPostMutation = useMutation({
-    mutationFn: (data: TDataCreatePost) => {
-      console.log('df');
-
-      return postApi.createPost(data);
+    mutationFn: (formCreatePost: TDataCreatePost) => postApi.createPost(formCreatePost),
+    onSuccess: (res) => {
+      const newPost = res.data as TPost;
+      queryClient.setQueryData<{ data: TPost[] }>('getPosts', (queryData) => {
+        const oldDataPosts = queryData?.data ?? [];
+        return { ...queryData, data: [...oldDataPosts, newPost] };
+      });
     },
   });
 
@@ -86,34 +90,18 @@ const FormCreatePost = ({ handleCloseModal }: Props) => {
         fileType: e.type,
       }));
       const mappingFileName = filesList.map((e) => e.name);
-      setLoading(true);
       const res = await postApi.signedImagePost(mappingFile);
       const signedUrl = res.data as unknown as string[];
       for (let i = 0; i < signedUrl.length; i++) {
         await axios.put(signedUrl[i], filesList[i]);
       }
-      // await postApi.createPost({
-      //   caption,
-      //   fileNameList: mappingFileName,
-      // });
-      createPostMutation.mutate(
-        {
-          caption,
-          fileNameList: mappingFileName,
-        },
-        {
-          onSuccess: (data) => {
-            console.log(data);
-          },
-          onError: (e) => {
-            console.log(e);
-          },
-        },
-      );
-      setLoading(false);
+      createPostMutation.mutate({
+        caption,
+        fileNameList: mappingFileName,
+      });
       handleCloseModal();
     } catch (err) {
-      setLoading(false);
+      errorNoti();
     }
   };
 
@@ -203,7 +191,14 @@ const FormCreatePost = ({ handleCloseModal }: Props) => {
             {step === 1 && (
               <Button text="Next" fill onClick={handleNextStep} disabled={!filesList.length} />
             )}
-            {step === 2 && <Button text="Post" fill onClick={handleUpPost} loading={loading} />}
+            {step === 2 && (
+              <Button
+                text="Post"
+                fill
+                onClick={handleUpPost}
+                loading={createPostMutation.isLoading}
+              />
+            )}
           </div>
         </div>
         <input

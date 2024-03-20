@@ -1,7 +1,7 @@
-import { Copy } from 'lucide-react';
+import { Copy, Pin } from 'lucide-react';
 import React from 'react';
-import s from './style.module.scss';
 import { TPost } from 'types/post.type';
+import s from './style.module.scss';
 
 type Props = {
   post: TPost;
@@ -14,6 +14,11 @@ const GalleryItem = ({ post }: Props) => {
         {post.images && post.images?.length > 1 && (
           <div className={s.iconMulti}>
             <Copy size={26} color="#ffffff" />
+          </div>
+        )}
+        {post.pin && (
+          <div className={s.iconPin}>
+            <Pin size={26} color="#f5e400" fill="#f5e400" />
           </div>
         )}
       </div>

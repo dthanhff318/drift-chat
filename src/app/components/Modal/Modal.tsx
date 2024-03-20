@@ -2,9 +2,11 @@ import { Modal } from 'antd';
 import React, { ReactNode } from 'react';
 import Button from '../Button/Button';
 import s from './style.module.scss';
+
 type Props = {
-  children: ReactNode;
+  children?: ReactNode;
   title: string;
+  desc?: string;
   open: boolean;
   hideFooter?: boolean;
   loading?: boolean;
@@ -14,14 +16,15 @@ type Props = {
 };
 
 const ModalCommon = ({
+  open,
   children,
   title,
+  desc,
   hideFooter,
   loading,
   onConfirm,
   onCancel,
   onOk,
-  open,
 }: Props) => {
   return (
     <Modal
@@ -35,6 +38,7 @@ const ModalCommon = ({
     >
       <div className={s.wrapper}>
         <h3 className={s.title}>{title}</h3>
+        <p className={s.desc}>{desc}</p>
         <div className={s.content}>{children}</div>
         {!hideFooter && (
           <div className={s.footer}>

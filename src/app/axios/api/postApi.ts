@@ -1,4 +1,5 @@
 import { axiosClient } from '../axiosClient';
+import { TPost } from 'types/post.type';
 
 export type TDataCreatePost = {
   caption: string;
@@ -35,6 +36,9 @@ const postApi = {
   likePost: (postId: string) => {
     return axiosClient.post('/post/like', { postId });
   },
+  updatePost: (postData: TPost, postId: string) =>
+    axiosClient.patch(`/post/${postId}`, { postData }),
+  deletePost: (postId: string) => axiosClient.delete(`/post/${postId}`),
 };
 
 export default postApi;

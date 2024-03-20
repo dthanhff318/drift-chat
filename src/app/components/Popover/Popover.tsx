@@ -2,9 +2,9 @@ import React, { ReactNode } from 'react';
 import s from './style.module.scss';
 
 type TDataPopover = {
-  icon: ReactNode;
+  icon?: ReactNode;
   text: string;
-  hidden: boolean;
+  hidden?: boolean;
   onClick: () => void;
 };
 

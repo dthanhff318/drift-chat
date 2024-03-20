@@ -15,7 +15,6 @@ const Gallery = () => {
     savePostDetail(post);
     setModal('detail');
   };
-
   return (
     <>
       <div className={s.galleryWrap}>
