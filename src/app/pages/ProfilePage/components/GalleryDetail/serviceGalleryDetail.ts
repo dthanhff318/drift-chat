@@ -94,6 +94,13 @@ export const useServiceGalleryDetail = ({ handleCloseModal }: Props) => {
             );
             return { ...queryData, data: updateListPost };
           });
+          queryClient.setQueryData<{ data: TPost }>(
+            ['getPostDetail', queryUrlObj.post],
+            (queryData) => {
+              const oldPost = queryData?.data;
+              return { ...queryData, data: { ...oldPost, ...updatePost } };
+            },
+          );
         },
       },
     );
