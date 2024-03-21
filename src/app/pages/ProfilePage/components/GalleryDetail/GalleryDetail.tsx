@@ -1,7 +1,7 @@
-import React from 'react';
-import { createPortal } from 'react-dom';
-import s from './style.module.scss';
+import { Popover } from 'antd';
 import Avatar from 'app/components/Avatar/Avatar';
+import ModalCommon from 'app/components/Modal/Modal';
+import PopoverCustom from 'app/components/Popover/Popover';
 import {
   ArrowLeftCircle,
   ArrowRightCircle,
@@ -11,11 +11,11 @@ import {
   Star,
   XCircle,
 } from 'lucide-react';
-import { useServiceGalleryDetail } from './serviceGalleryDetail';
+import React from 'react';
+import { createPortal } from 'react-dom';
 import TextareaAutosize from 'react-textarea-autosize';
-import { Popover } from 'antd';
-import PopoverCustom from 'app/components/Popover/Popover';
-import ModalCommon from 'app/components/Modal/Modal';
+import { useServiceGalleryDetail } from './serviceGalleryDetail';
+import s from './style.module.scss';
 
 type Props = {
   handleCloseModal: () => void;
@@ -23,7 +23,7 @@ type Props = {
 
 const GalleryDetail = ({ handleCloseModal }: Props) => {
   const {
-    postDetail,
+    postDetailData,
     indexView,
     comment,
     comments,
@@ -41,12 +41,12 @@ const GalleryDetail = ({ handleCloseModal }: Props) => {
   } = useServiceGalleryDetail({ handleCloseModal });
 
   const rootElement = document.getElementById('root');
-  const imagesCount = postDetail?.images?.length ?? 0;
+  const imagesCount = postDetailData?.data?.images?.length ?? 0;
 
   const handleNextImage = () => setIndexView((prev) => prev + 1);
   const handlePrevImage = () => setIndexView((prev) => prev - 1);
 
-  const isLiked = postDetail.stars?.includes(currentUser.id ?? '');
+  const isLiked = postDetailData?.data.stars?.includes(currentUser.id ?? '');
 
   if (!rootElement) return null;
   return (
@@ -89,7 +89,7 @@ const GalleryDetail = ({ handleCloseModal }: Props) => {
               )}
 
               <img
-                src={postDetail.images ? postDetail.images[indexView] : ''}
+                src={postDetailData?.data.images ? postDetailData?.data.images[indexView] : ''}
                 alt=""
                 className={s.image}
               />
@@ -97,13 +97,13 @@ const GalleryDetail = ({ handleCloseModal }: Props) => {
             <div className={s.galleryInfo}>
               <div className={s.owner}>
                 <div className={s.info}>
-                  <Avatar src={postDetail.user?.photoUrl ?? ''} />
-                  <p className={s.name}>{postDetail?.user?.displayName}</p>
+                  <Avatar src={postDetailData?.data.user?.photoUrl ?? ''} />
+                  <p className={s.name}>{postDetailData?.data?.user?.displayName}</p>
                 </div>
                 <div
                   className={s.caption}
                   dangerouslySetInnerHTML={{
-                    __html: postDetail?.caption?.replaceAll('\n', '<br />') || '',
+                    __html: postDetailData?.data?.caption?.replaceAll('\n', '<br />') || '',
                   }}
                 />
               </div>
@@ -111,7 +111,9 @@ const GalleryDetail = ({ handleCloseModal }: Props) => {
                 <div className={s.starPost} onClick={handleLikedPost}>
                   <Star size={24} fill={isLiked ? 'yellow' : 'white'} />
                 </div>
-                <div className={s.quantityStar}>{`${postDetail.stars?.length} people liked`}</div>
+                <div
+                  className={s.quantityStar}
+                >{`${postDetailData?.data.stars?.length} people liked`}</div>
               </div>
               <div className={s.postComment}>
                 <div className={s.listComment}>

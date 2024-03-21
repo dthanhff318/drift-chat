@@ -15,6 +15,8 @@ export type TCommentPost = {
   content: string;
 };
 
+export type TUpdatePost = { postData: TPost; postId: string };
+
 const postApi = {
   getPosts: (id?: string) => {
     return axiosClient.get(id ? `/post?userId=${id}` : '/post');
@@ -27,6 +29,7 @@ const postApi = {
   createPost: (data: TDataCreatePost) => {
     return axiosClient.post('/post', data);
   },
+  getPostDetail: (postId: string) => axiosClient.get(`/post/${postId}`),
   commentPost: (data: TCommentPost) => {
     return axiosClient.post('/post/comment', data);
   },
@@ -36,8 +39,10 @@ const postApi = {
   likePost: (postId: string) => {
     return axiosClient.post('/post/like', { postId });
   },
-  updatePost: (postData: TPost, postId: string) =>
-    axiosClient.patch(`/post/${postId}`, { postData }),
+  updatePost: (data: TUpdatePost) => {
+    const { postId, postData } = data;
+    return axiosClient.patch(`/post/${postId}`, postData);
+  },
   deletePost: (postId: string) => axiosClient.delete(`/post/${postId}`),
 };
 

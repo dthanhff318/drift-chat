@@ -66,6 +66,8 @@ const BoxChat = () => {
     handleVideoCall,
   } = useService();
 
+  console.log(queryUrlObj);
+
   const { commonData } = settings;
   const renderDataPopover = (mess: TMessage) => {
     return [

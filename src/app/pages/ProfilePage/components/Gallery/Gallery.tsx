@@ -1,7 +1,6 @@
 import Loading from 'app/components/Loading/Loading';
 import { PlusSquare } from 'lucide-react';
 import React from 'react';
-import { TPost } from 'types/post.type';
 import GalleryDetail from '../GalleryDetail/GalleryDetail';
 import FormCreatePost from './FormCreatePost';
 import GalleryItem from './GalleryItem';
@@ -9,18 +8,28 @@ import { useServiceGallery } from './serviceGallery';
 import s from './style.module.scss';
 
 const Gallery = () => {
-  const { data, isLoading, modal, userId, setModal, savePostDetail } = useServiceGallery();
+  const {
+    data,
+    isLoading,
+    modal,
+    userId,
+    queryUrlObj,
+    setModal,
+    handleClickGallery,
+    handleClosePostDetail,
+  } = useServiceGallery();
   const handleCloseModal = () => setModal('');
-  const handleClickGallery = (post: TPost) => {
-    savePostDetail(post);
-    setModal('detail');
-  };
+
   return (
     <>
       <div className={s.galleryWrap}>
         <Loading loading={isLoading} />
         {data?.data.map((post) => (
-          <div key={post.id} className={s.galleryItemWrap} onClick={() => handleClickGallery(post)}>
+          <div
+            key={post.id}
+            className={s.galleryItemWrap}
+            onClick={() => handleClickGallery(post.id ?? '')}
+          >
             <GalleryItem post={post} />
           </div>
         ))}
@@ -31,7 +40,14 @@ const Gallery = () => {
         )}
       </div>
       {modal === 'create' && <FormCreatePost handleCloseModal={handleCloseModal} />}
-      {modal === 'detail' && <GalleryDetail handleCloseModal={handleCloseModal} />}
+      {queryUrlObj.post && (
+        <GalleryDetail
+          handleCloseModal={() => {
+            handleCloseModal();
+            handleClosePostDetail();
+          }}
+        />
+      )}
     </>
   );
 };

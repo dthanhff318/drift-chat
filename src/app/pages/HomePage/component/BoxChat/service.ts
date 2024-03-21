@@ -185,9 +185,6 @@ export const useService = () => {
 
   // Get message page 1
   useEffect(() => {
-    // if (currentGroup && !messages.length) {
-    //   getMessages(currentGroup, 1);
-    // }
     setReply({});
     setFile(null);
   }, [currentGroup]);
