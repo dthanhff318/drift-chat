@@ -3,22 +3,23 @@ import authApi from 'app/axios/api/auth';
 import messageApi from 'app/axios/api/messageApi';
 import { TSendMess } from 'app/axios/api/typeApi';
 import { listAllowImageType } from 'app/helpers/common';
+import { getNameUser } from 'app/helpers/funcs';
 import { DEFAULT_PAST_TIME } from 'app/helpers/time';
 import authStore from 'app/storeZustand/authStore';
 import groupStore from 'app/storeZustand/groupStore';
 import messageStore from 'app/storeZustand/messageStore';
 import settingStore from 'app/storeZustand/settingStore';
 import socketStore from 'app/storeZustand/socketStore';
+import { socketEmit } from 'const/socket';
 import moment from 'moment';
 import qs from 'query-string';
 import React, { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { TGroup, TMessage } from 'types/common';
 
 export const useService = () => {
   const history = useHistory();
-  const params = useParams();
 
   const { groups, currentGroup, detailGroup, loadingDetailGroup, saveGroups } = groupStore();
   const { currentUser } = authStore();
@@ -46,6 +47,7 @@ export const useService = () => {
   const [openSideChat, setOpenSideChat] = useState<boolean>(false);
   const [reply, setReply] = useState<TMessage>({});
   const [token, setToken] = useState<string>('');
+  const [typing, setTyping] = useState<string>('');
 
   const handleSendMess = async () => {
     let resMessage: TMessage;
@@ -179,6 +181,36 @@ export const useService = () => {
     history.push(url);
   };
 
+  const handleInputChange = (e) => {
+    setOpenEmoji(false);
+    setMessage(e.target.value);
+    if (socket) {
+      socket.emit(socketEmit.TYPING, {
+        group: currentGroup,
+        user: currentUser.id,
+        messageLength: message.length,
+      });
+    }
+  };
+
+  const handleShowUserTyping = (data: { group: string; user: string; messageLength: number }) => {
+    if (currentGroup === data.group) {
+      if (data.messageLength < 8) {
+        setTyping('');
+        return;
+      }
+      if (detailGroup.isGroup) {
+        setTyping('Someone');
+      } else {
+        const findUser = detailGroup.members?.find((e) => e.id === data.user);
+        if (findUser && detailGroup.setting) {
+          const nickname = getNameUser(findUser, detailGroup.setting) ?? '';
+          setTyping(nickname);
+        } else setTyping('');
+      }
+    }
+  };
+
   useEffect(() => {
     page > 1 && inView && hasMore && getMessages(currentGroup, page);
   }, [inView]);
@@ -187,6 +219,16 @@ export const useService = () => {
   useEffect(() => {
     setReply({});
     setFile(null);
+  }, [currentGroup]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on(socketEmit.TYPING, handleShowUserTyping);
+    }
+    return () => {
+      setTyping('');
+      socket?.off(socketEmit.TYPING, handleShowUserTyping);
+    };
   }, [currentGroup]);
 
   return {
@@ -208,6 +250,7 @@ export const useService = () => {
     queryUrlObj,
     triggerSidechatRef,
     settings,
+    typing,
     scrollMessageIntoView,
     isMessageLoaded,
     setOpenSideChat,
@@ -220,5 +263,6 @@ export const useService = () => {
     handleSendMess,
     deleteMessage,
     handleVideoCall,
+    handleInputChange,
   };
 };

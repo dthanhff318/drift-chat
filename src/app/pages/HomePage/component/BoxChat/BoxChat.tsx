@@ -24,7 +24,7 @@ import {
   urlify,
 } from 'app/helpers/funcs';
 import { AlignJustify, Image as ImageLucid, Video } from 'lucide-react';
-import React, { useState } from 'react';
+import React from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { TMessage, TUser } from 'types/common';
 import LiveKitWrap from '../LiveKitWrap/LiveKitWrap';
@@ -53,6 +53,7 @@ const BoxChat = () => {
     queryUrlObj,
     triggerSidechatRef,
     settings,
+    typing,
     scrollMessageIntoView,
     setOpenSideChat,
     setReply,
@@ -64,6 +65,7 @@ const BoxChat = () => {
     ref,
     deleteMessage,
     handleVideoCall,
+    handleInputChange,
   } = useService();
 
   const { commonData } = settings;
@@ -93,10 +95,7 @@ const BoxChat = () => {
   if (!groupDetail?.isGroup) {
     friend = groupDetail?.members?.find((e) => e.id !== currentUser?.id) ?? {};
   }
-  const handleInputChange = (e) => {
-    setOpenEmoji(false);
-    setMessage(e.target.value);
-  };
+
   const handleEmojiSelect = (emojiObject) => {
     setMessage(message + emojiObject.native);
   };
@@ -237,6 +236,21 @@ const BoxChat = () => {
               }
             })}
           </div>
+
+          {typing && (
+            <div className={s.typing} style={{ background: detailGroup.theme?.value }}>
+              <p className={s.text}>{typing} is typing</p>
+              <div className={s.aniDot}>
+                {Array(3)
+                  .fill(null)
+                  .map((e, i) => (
+                    <span key={i} className={s[`dot_${i}`]}>
+                      .
+                    </span>
+                  ))}
+              </div>
+            </div>
+          )}
 
           {reply.id && (
             <div className={s.replyWrap}>

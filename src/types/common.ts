@@ -54,6 +54,7 @@ export type TMessage = {
   targetUser?: string;
   actionType?: string;
   contentAction?: string;
+  messageTypes?: string;
 };
 
 export type TDataCommunicate = {
