@@ -11,4 +11,5 @@ export const pathObj = {
   welcomePage: '/',
   homePage: '/home',
   loginPage: '/login',
+  profileFriend: '/profile/:userId',
 };

@@ -4,6 +4,7 @@ import { pathHomePage, pathHomePageChat } from 'app/routes/routesConfig';
 import groupStore from 'app/storeZustand/groupStore';
 import messageStore from 'app/storeZustand/messageStore';
 import socketStore from 'app/storeZustand/socketStore';
+import { socketEmit } from 'const/socket';
 import moment from 'moment';
 import { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
@@ -63,6 +64,10 @@ export const useService = () => {
     return () => {
       socket?.off('sendMessage', sendMessSocket);
       socket?.off('deleteMessage', updateListMessSocket);
+      socket?.emit(socketEmit.CHANGE_ROOM_CHAT, {
+        oldRoom: currentGroup,
+        newRoom: null,
+      });
     };
   }, []);
 

@@ -12,6 +12,7 @@ import { useHistory } from 'react-router-dom';
 import { pathHomePage, pathHomePageChat } from 'app/routes/routesConfig';
 import { getNameAndAvatarChat, replacePathParams } from 'app/helpers/funcs';
 import { notification } from 'antd';
+import { socketEmit } from 'const/socket';
 
 type Props = {
   group: TGroup;
@@ -26,13 +27,16 @@ const MessageChatItem = ({ group }: Props) => {
 
   const handleSaveCurrentGroup = async () => {
     try {
-      saveCurrentGroup(group.id ?? '');
       const res = await groupApi.updateUnReadMess(group.id ?? '', 0);
       const updateListGroup = groups.map((e) =>
         e.id === (res.data as TGroup).id ? { ...e, unread: 0 } : e,
       );
+      socket?.emit(socketEmit.CHANGE_ROOM_CHAT, {
+        oldRoom: currentGroup,
+        newRoom: group.id,
+      });
+      saveCurrentGroup(group.id ?? '');
       saveGroups(updateListGroup);
-      socket?.emit('joinRoom', currentGroup);
     } catch (err) {
       notification.error({
         message: `Error`,

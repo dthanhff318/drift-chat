@@ -6,7 +6,7 @@ import Avatar from 'app/components/Avatar/Avatar';
 import Button from 'app/components/Button/Button';
 
 const ExtendPage = () => {
-  const { dataCommunicate, tab, setTab, goToDirectChat } = useService();
+  const { dataCommunicate, tab, setTab, goToDirectChat, goToProfile } = useService();
   const { listFriend, listBlock } = dataCommunicate;
 
   const navList = [
@@ -60,7 +60,7 @@ const ExtendPage = () => {
                 <div className={s.user} key={e.id}>
                   <div className={s.userInfo}>
                     <Avatar src={e.photoUrl} />
-                    <p>{e.displayName}</p>
+                    <p onClick={() => goToProfile(e.id ?? '')}>{e.displayName}</p>
                   </div>
                   <div className={s.btnWrap}>
                     <Button text="Message" onClick={() => goToDirectChat(e.id ?? '')} />

@@ -205,9 +205,16 @@ export const useService = () => {
         const findUser = detailGroup.members?.find((e) => e.id === data.user);
         if (findUser && detailGroup.setting) {
           const nickname = getNameUser(findUser, detailGroup.setting) ?? '';
+          console.log(nickname);
           setTyping(nickname);
         } else setTyping('');
       }
+    }
+  };
+
+  const handleListenOpsChangeRoom = (data: { oldRoom: string; newRoom: string }) => {
+    if (data.oldRoom === currentGroup) {
+      setTyping('');
     }
   };
 
@@ -215,13 +222,9 @@ export const useService = () => {
     page > 1 && inView && hasMore && getMessages(currentGroup, page);
   }, [inView]);
 
-  // Get message page 1
   useEffect(() => {
     setReply({});
     setFile(null);
-  }, [currentGroup]);
-
-  useEffect(() => {
     if (socket) {
       socket.on(socketEmit.TYPING, handleShowUserTyping);
     }
@@ -230,6 +233,15 @@ export const useService = () => {
       socket?.off(socketEmit.TYPING, handleShowUserTyping);
     };
   }, [currentGroup]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on(socketEmit.CHANGE_ROOM_CHAT, handleListenOpsChangeRoom);
+    }
+    return () => {
+      socket?.off(socketEmit.CHANGE_ROOM_CHAT, handleListenOpsChangeRoom);
+    };
+  }, []);
 
   return {
     message,

@@ -3,7 +3,7 @@ import friendStore from 'app/storeZustand/friendStore';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { replacePathParams } from 'app/helpers/funcs';
-import { pathHomePageChat } from 'app/routes/routesConfig';
+import { pathHomePageChat, pathObj } from 'app/routes/routesConfig';
 import groupStore from 'app/storeZustand/groupStore';
 
 export enum ETypeNavExtendPage {
@@ -30,12 +30,17 @@ const useService = () => {
       }),
     );
   };
+
+  const goToProfile = (id: string) => {
+    history.push(replacePathParams(pathObj.profileFriend, { userId: id }));
+  };
   return {
     loading,
     dataCommunicate,
     tab,
     setTab,
     goToDirectChat,
+    goToProfile,
   };
 };
 
