@@ -7,7 +7,7 @@ import Button from 'app/components/Button/Button';
 
 const ExtendPage = () => {
   const { dataCommunicate, tab, setTab, goToDirectChat, goToProfile } = useService();
-  const { listFriend, listBlock } = dataCommunicate;
+  const { listFriend = [], listBlock = [] } = dataCommunicate ?? {};
 
   const navList = [
     {

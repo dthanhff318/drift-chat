@@ -11,12 +11,17 @@ import { useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { TUser } from 'types/common';
 import settingStore from './../../storeZustand/settingStore';
+import { useQueryClient } from 'react-query';
+import friendsApi from 'app/axios/api/friends';
+import { queryKey } from 'const/reactQueryKey';
 
 const ACTION_CLOSED_POPUP = 'auth/popup-closed-by-user';
 const provider = new GoogleAuthProvider();
 
 const useService = () => {
   const history = useHistory();
+
+  const queryClient = useQueryClient();
 
   const { saveCurrentUser } = authStore();
   const { getSettings } = settingStore();
@@ -63,10 +68,13 @@ const useService = () => {
         const { token, user }: { token: any; user: TUser } = res.data;
         saveToken(token.accessToken, 'accessToken');
         saveToken(token.refreshToken, 'refreshToken');
-        sessionStorage.setItem('refresh', 'true');
         saveCurrentUser(user);
         await getSettings();
         await getDataCommunicate();
+        queryClient.fetchQuery({
+          queryKey: queryKey.DATA_COMMUNICATE,
+          queryFn: () => friendsApi.getInfoCommuication(),
+        });
         setLoading(false);
         history.replace(pathHomePage);
         notification.success({
@@ -79,7 +87,7 @@ const useService = () => {
       })
       .catch((err) => {
         setLoading(false);
-        if (err.code === ACTION_CLOSED_POPUP) {
+        if (err?.code === ACTION_CLOSED_POPUP) {
           notification.warning({
             message: `You just closed login popup`,
             description: 'Open popup and login again',

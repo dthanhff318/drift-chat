@@ -10,8 +10,12 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import './App.scss';
+import { queryKey } from 'const/reactQueryKey';
+import friendsApi from 'app/axios/api/friends';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {},
+});
 
 let socketInstance;
 
@@ -19,8 +23,14 @@ function App() {
   const accessToken = getTokenFromLocalStorage();
 
   const { currentUser, saveCurrentUser } = authStore();
-  const { getDataCommunicate } = friendStore();
   const { setSocket } = socketStore();
+  if (accessToken || currentUser?.id) {
+    queryClient.prefetchQuery({
+      queryKey: queryKey.DATA_COMMUNICATE,
+      queryFn: () => friendsApi.getInfoCommuication(),
+      staleTime: 10000,
+    });
+  }
 
   const getCurrentUser = async () => {
     try {
@@ -44,12 +54,6 @@ function App() {
   useEffect(() => {
     if (accessToken) {
       getCurrentUser();
-    }
-  }, []);
-
-  useEffect(() => {
-    if (accessToken || currentUser?.id) {
-      getDataCommunicate();
     }
   }, []);
 
