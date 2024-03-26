@@ -15,20 +15,29 @@ import ModalCreateGroup from './ModalCreateGroup/ModalCreateGroup';
 import groupStore from 'app/storeZustand/groupStore';
 import { getNameAndAvatarChat } from 'app/helpers/funcs';
 import authStore from 'app/storeZustand/authStore';
+import { ArrowLeft } from 'lucide-react';
 
 type Props = {
   infoUser: TUser;
 };
 const ChannelChat = ({ infoUser }: Props) => {
   const [modal, setModal] = useState<boolean>(false);
+  const [searching, setSearching] = useState<boolean>(false);
   const { saveGroups, groups } = groupStore();
   const { currentUser } = authStore();
+
+  const handleClickInputSearch = () => {
+    if (!searching) setSearching(true);
+  };
+
+  const handleCloseSearch = () => {
+    setSearching(false);
+  };
   const handleSearchGroup = (e) => {
     // const valueSearch = e.target.value;
     // const filterGroups = groups.filter((e) => {
     //   const { nameGroup } = getNameAndAvatarChat(e, currentUser.id ?? '');
     //   console.log(nameGroup);
-
     //   return nameGroup?.includes(valueSearch);
     // });
     // saveGroups(filterGroups);
@@ -43,14 +52,25 @@ const ChannelChat = ({ infoUser }: Props) => {
             <span className={s.status}>{infoUser?.introduction}</span>
           </div>
         </div>
-        <div className={s.searchWrap}>
-          <SearchOutlined className={s.searchIcon} rev={undefined} />
-          <input
-            placeholder="Search or start new chat"
-            type="text"
-            className={s.searchInput}
-            onChange={handleSearchGroup}
-          />
+        <div className={s.searchWrapAndIcon}>
+          {searching && (
+            <ArrowLeft color="#fff" className={s.iconBack} onClick={handleCloseSearch} />
+          )}
+          <div className={s.searchWrap}>
+            <SearchOutlined className={s.searchIcon} rev={undefined} />
+            <input
+              placeholder="Search or start new chat"
+              type="text"
+              className={s.searchInput}
+              onChange={handleSearchGroup}
+              onClick={handleClickInputSearch}
+            />
+          </div>
+          <div className={s.listSearch}>
+            {groups.map((e) => (
+              <div className={s.searchItem}></div>
+            ))}
+          </div>
         </div>
         <div className={s.header}>
           <p className={s.status}>Online now</p>
