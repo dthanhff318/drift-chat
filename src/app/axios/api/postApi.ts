@@ -19,7 +19,7 @@ export type TUpdatePost = { postData: TPost; postId: string };
 
 const postApi = {
   getPosts: (id?: string) => {
-    return axiosClient.get(id ? `/post?userId=${id}` : '/post');
+    return axiosClient.get<undefined, { data: TPost[] }>(id ? `/post?userId=${id}` : '/post');
   },
   signedImagePost: (imageList: TSignedUrlPost[]) => {
     return axiosClient.post('/post/signed-image-post', {

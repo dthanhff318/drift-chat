@@ -12,12 +12,27 @@ import Avatar from 'app/components/Avatar/Avatar';
 import MessageChatList from './MessageChatList/MessageChatList';
 import ModalCommon from 'app/components/Modal/Modal';
 import ModalCreateGroup from './ModalCreateGroup/ModalCreateGroup';
+import groupStore from 'app/storeZustand/groupStore';
+import { getNameAndAvatarChat } from 'app/helpers/funcs';
+import authStore from 'app/storeZustand/authStore';
 
 type Props = {
   infoUser: TUser;
 };
 const ChannelChat = ({ infoUser }: Props) => {
   const [modal, setModal] = useState<boolean>(false);
+  const { saveGroups, groups } = groupStore();
+  const { currentUser } = authStore();
+  const handleSearchGroup = (e) => {
+    // const valueSearch = e.target.value;
+    // const filterGroups = groups.filter((e) => {
+    //   const { nameGroup } = getNameAndAvatarChat(e, currentUser.id ?? '');
+    //   console.log(nameGroup);
+
+    //   return nameGroup?.includes(valueSearch);
+    // });
+    // saveGroups(filterGroups);
+  };
   return (
     <>
       <div className={s.channelWrap}>
@@ -30,7 +45,12 @@ const ChannelChat = ({ infoUser }: Props) => {
         </div>
         <div className={s.searchWrap}>
           <SearchOutlined className={s.searchIcon} rev={undefined} />
-          <input placeholder="Search or start new chat" type="text" className={s.searchInput} />
+          <input
+            placeholder="Search or start new chat"
+            type="text"
+            className={s.searchInput}
+            onChange={handleSearchGroup}
+          />
         </div>
         <div className={s.header}>
           <p className={s.status}>Online now</p>

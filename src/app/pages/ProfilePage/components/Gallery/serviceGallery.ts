@@ -1,10 +1,9 @@
 import postApi from 'app/axios/api/postApi';
-import postStore from 'app/storeZustand/postStore';
+import qs from 'query-string';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useHistory, useParams } from 'react-router-dom';
 import { TPost } from 'types/post.type';
-import qs from 'query-string';
 
 type TModalGallery = '' | 'create' | 'detail';
 
@@ -38,7 +37,7 @@ export const useServiceGallery = () => {
   const { data, isLoading } = useQuery<{ data: TPost[] }>({
     queryKey: ['getPosts'],
     queryFn: () => postApi.getPosts(),
-    select: (dataRes: { data: TPost[] }) => {
+    select: (dataRes) => {
       const sortPostPined = dataRes.data.sort((a, b) => {
         if (a.pin === b.pin) {
           return 0;

@@ -1,4 +1,3 @@
-import { QRCode } from 'antd';
 import GoogleIcon from 'app/components/Icon/Google/GoogleIcon';
 import Loading from 'app/components/Loading/Loading';
 import { getPublicImageUrl } from 'app/helpers/funcs';

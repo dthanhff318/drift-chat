@@ -33,8 +33,8 @@ export const useService = () => {
       })
       .sort(
         (a: TGroup, b: TGroup) =>
-          (moment(b.newestMess?.createdAt ?? DEFAULT_PAST_TIME) as any) -
-          (moment(a.newestMess?.createdAt ?? DEFAULT_PAST_TIME) as any),
+          (moment(b.newestMess?.createdAt ?? DEFAULT_PAST_TIME) as unknown as number) -
+          (moment(a.newestMess?.createdAt ?? DEFAULT_PAST_TIME) as unknown as number),
       );
     groupApi.updateUnReadMess(newMess.group ?? '', unreadCount);
     saveGroups(newGroups);

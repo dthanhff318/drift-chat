@@ -1,18 +1,18 @@
-import React from 'react';
-import s from '../style.module.scss';
+import { notification } from 'antd';
+import groupApi from 'app/axios/api/group';
 import Avatar from 'app/components/Avatar/Avatar';
-import { TGroup, TUser } from 'types/common';
+import { getNameAndAvatarChat, replacePathParams } from 'app/helpers/funcs';
+import { convertTimeFromNow } from 'app/helpers/time';
+import { pathHomePageChat } from 'app/routes/routesConfig';
 import authStore from 'app/storeZustand/authStore';
 import groupStore from 'app/storeZustand/groupStore';
 import messageStore from 'app/storeZustand/messageStore';
 import socketStore from 'app/storeZustand/socketStore';
-import { convertTimeFromNow } from 'app/helpers/time';
-import groupApi from 'app/axios/api/group';
-import { useHistory } from 'react-router-dom';
-import { pathHomePage, pathHomePageChat } from 'app/routes/routesConfig';
-import { getNameAndAvatarChat, replacePathParams } from 'app/helpers/funcs';
-import { notification } from 'antd';
 import { socketEmit } from 'const/socket';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { TGroup } from 'types/common';
+import s from '../style.module.scss';
 
 type Props = {
   group: TGroup;
