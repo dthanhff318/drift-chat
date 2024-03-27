@@ -68,10 +68,10 @@ const FriendPage = () => {
           <table className={s.memberTable}>
             <thead className={s.tableHead}>
               <th>Name</th>
+              <th>UID</th>
               <th>
                 <div className={s.thWrap}>
                   <p>Status</p>
-                  <span className={s.arrowBtn}></span>
                 </div>
               </th>
               <th>Action</th>
@@ -92,6 +92,7 @@ const FriendPage = () => {
                           <span>{user.displayName}</span>
                         </div>
                       </td>
+                      <td className={s.inviteId}>{user.inviteId}</td>
                       <td className={s.medium}>
                         {user.isOnline
                           ? 'Online'

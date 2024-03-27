@@ -89,7 +89,7 @@ export const useService = () => {
       setOpenEmoji(false);
       setReply({});
       setMessage('');
-      socket?.emit('sendMessage', { ...resMessage, room: currentGroup });
+      socket?.emit(socketEmit.SEND_MESSAGE, { ...resMessage, room: currentGroup });
       setLoading(false);
     } catch (err) {
       setLoading(false);

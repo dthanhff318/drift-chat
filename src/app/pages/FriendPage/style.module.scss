@@ -174,7 +174,9 @@
           padding: 0.5rem 1rem;
           text-align: center;
           font-size: 0.85rem;
-
+          &.inviteId {
+            width: 10%;
+          }
           &.small {
             width: 20%;
             .btnWrap {

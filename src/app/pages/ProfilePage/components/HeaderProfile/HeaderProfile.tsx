@@ -4,7 +4,7 @@ import Button from 'app/components/Button/Button';
 import Loading from 'app/components/Loading/Loading';
 import ModalCommon from 'app/components/Modal/Modal';
 import { getPublicImageUrl } from 'app/helpers/funcs';
-import { Heart, Repeat2, SquarePen } from 'lucide-react';
+import { BookCopy, Heart, Repeat2, SquarePen } from 'lucide-react';
 import React, { useState } from 'react';
 import { TUser } from 'types/common';
 import s from '../../style.module.scss';
@@ -63,7 +63,7 @@ const HeaderProfile = ({ user, friendId }: Props) => {
             <p className={s.name}>
               {user.displayName}
               <span className={s.idValue}>
-                {user.inviteId} <CopyOutlined className={s.idCopy} rev={undefined} />
+                {user.inviteId} <BookCopy className={s.idCopy} />
               </span>
             </p>
             <p className={s.introduction}>{user.introduction}</p>

@@ -77,8 +77,12 @@ $header-height: 14rem;
       .name {
         font-weight: 600;
         font-size: 1.1rem;
+        display: inline-flex;
+        align-items: center;
         .idValue {
           margin-left: 2rem;
+          display: flex;
+          align-items: center;
           .idCopy {
             margin-left: 0.5rem;
             padding: 0.25rem;
