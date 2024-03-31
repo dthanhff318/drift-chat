@@ -49,6 +49,12 @@ const ModalCreateGroup = ({ onClose }: Props) => {
         });
         return;
       }
+      if (!inputNameRef.current?.value.trim()) {
+        notification.error({
+          message: 'Name group is missing',
+        });
+        return;
+      }
       setLoading(true);
       const dataGroup = {
         name: inputNameRef.current?.value,
