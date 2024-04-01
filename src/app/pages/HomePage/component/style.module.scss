@@ -3,6 +3,7 @@ $header-hight: 5rem;
 .channelWrap {
   background-color: $background-dark;
   max-width: 20rem;
+  min-width: 20rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem 0;

@@ -1,15 +1,17 @@
 import { PlusCircleFilled } from '@ant-design/icons';
-import { notification } from 'antd';
 import groupApi from 'app/axios/api/group';
 import Avatar from 'app/components/Avatar/Avatar';
 import Button from 'app/components/Button/Button';
-import socketStore from 'app/storeZustand/socketStore';
-import { queryKey } from 'const/reactQueryKey';
-import { socketEmit } from 'const/socket';
+import friendStore from 'app/storeZustand/friendStore';
 import React, { useRef, useState } from 'react';
-import { useQueryClient } from 'react-query';
-import { TDataCommunicate, TGroup, TUser } from 'types/common';
+import { TUser, TDataCommunicate, TGroup } from 'types/common';
 import s from './style.module.scss';
+import groupStore from 'app/storeZustand/groupStore';
+import { useQueryClient } from 'react-query';
+import { queryKey } from 'const/reactQueryKey';
+import { notification } from 'antd';
+import socketStore from 'app/storeZustand/socketStore';
+import { socketEmit } from 'const/socket';
 type Props = {
   onClose: () => void;
 };
@@ -48,7 +50,7 @@ const ModalCreateGroup = ({ onClose }: Props) => {
       }
       if (!inputNameRef.current?.value.trim()) {
         notification.error({
-          message: 'Name group is missing',
+          message: 'Name of group is missing',
         });
         return;
       }

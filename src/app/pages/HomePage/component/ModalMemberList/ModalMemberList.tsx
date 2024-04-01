@@ -1,12 +1,9 @@
 import { PlusCircleFilled } from '@ant-design/icons';
-import groupApi from 'app/axios/api/group';
 import Avatar from 'app/components/Avatar/Avatar';
-import Button from 'app/components/Button/Button';
 import friendStore from 'app/storeZustand/friendStore';
 import React, { useRef, useState } from 'react';
 import { TUser } from 'types/common';
 import s from './style.module.scss';
-import groupStore from 'app/storeZustand/groupStore';
 type Props = {
   onClose: () => void;
 };
@@ -15,8 +12,6 @@ const ModalMemberList = ({ onClose }: Props) => {
   const {
     dataCommunicate: { listFriend },
   } = friendStore();
-
-  const { getGroups } = groupStore();
 
   const [users, setUsers] = useState<TUser[]>([]);
   const inputNameRef = useRef<HTMLInputElement>(null);
@@ -29,17 +24,6 @@ const ModalMemberList = ({ onClose }: Props) => {
     } else {
       setUsers([...users, user]);
     }
-  };
-
-  const handleCreateGroup = async () => {
-    const dataGroup = {
-      name: inputNameRef.current?.value,
-      membersId: users.map((e) => e.id),
-    };
-    const res = await groupApi.createGroup(dataGroup);
-    getGroups();
-    onClose();
-    console.log(res);
   };
 
   return (

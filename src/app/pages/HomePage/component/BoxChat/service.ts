@@ -205,7 +205,6 @@ export const useService = () => {
         const findUser = detailGroup.members?.find((e) => e.id === data.user);
         if (findUser && detailGroup.setting) {
           const nickname = getNameUser(findUser, detailGroup.setting) ?? '';
-          console.log(nickname);
           setTyping(nickname);
         } else setTyping('');
       }
