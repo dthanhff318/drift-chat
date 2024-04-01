@@ -8,20 +8,20 @@ import { Link } from 'react-router-dom';
 import { pathFriendPage } from 'app/routes/routesConfig';
 
 const MessageChatList = () => {
-  const { groups, loadingListGroup } = useService();
-
+  const { data, isLoading } = useService();
+  const listGroups = data?.data ?? [];
   return (
     <div className={s.msgList}>
-      <Loading loading={loadingListGroup} />
-      {groups.length > 0 &&
-        !loadingListGroup &&
-        groups.map((group) => (
+      <Loading loading={isLoading} />
+      {listGroups.length > 0 &&
+        !isLoading &&
+        listGroups.map((group) => (
           <div key={group.id}>
             <MessageChatItem group={group} />
           </div>
         ))}
 
-      {groups.length === 0 && !loadingListGroup && (
+      {listGroups.length === 0 && !isLoading && (
         <div className={s.noGroup}>
           <div className={s.textNoti}>
             <p>Seem you not have any friend</p>

@@ -11,11 +11,15 @@ import { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { TGroup, TMessage } from 'types/common';
 import authStore from 'app/storeZustand/authStore';
+import { useQueryClient } from 'react-query';
+import { queryKey } from 'const/reactQueryKey';
 
 export const DEFAULT_PAST_TIME = '1970-01-01T00:00:00.000Z';
 
 export const useService = () => {
-  const { currentGroup, saveCurrentGroup, getGroups, saveGroups, getDetailGroup } = groupStore();
+  const queryClient = useQueryClient();
+
+  const { currentGroup, saveCurrentGroup, saveGroups, getDetailGroup } = groupStore();
   const { socket } = socketStore();
   const { currentUser } = authStore();
   const { updateMessage, updateListMessage, getMessages } = messageStore();
@@ -63,7 +67,7 @@ export const useService = () => {
   const updateListGroupChat = (data: { groupId: string; members: string[] }) => {
     const { members } = data;
     if (members.includes(currentUser.id ?? '')) {
-      getGroups();
+      queryClient.refetchQueries(queryKey.GET_GROUPS);
     }
   };
 
@@ -89,7 +93,6 @@ export const useService = () => {
 
   useEffect(() => {
     const idGroup = id || currentGroup;
-
     if (idGroup) {
       history.push(replacePathParams(pathHomePageChat, { id: idGroup }));
       getDetailGroup(idGroup);

@@ -1,17 +1,15 @@
 import { PlusCircleFilled } from '@ant-design/icons';
+import { notification } from 'antd';
 import groupApi from 'app/axios/api/group';
 import Avatar from 'app/components/Avatar/Avatar';
 import Button from 'app/components/Button/Button';
-import friendStore from 'app/storeZustand/friendStore';
-import React, { useRef, useState } from 'react';
-import { TUser, TDataCommunicate, TGroup } from 'types/common';
-import s from './style.module.scss';
-import groupStore from 'app/storeZustand/groupStore';
-import { useQueryClient } from 'react-query';
-import { queryKey } from 'const/reactQueryKey';
-import { notification } from 'antd';
 import socketStore from 'app/storeZustand/socketStore';
+import { queryKey } from 'const/reactQueryKey';
 import { socketEmit } from 'const/socket';
+import React, { useRef, useState } from 'react';
+import { useQueryClient } from 'react-query';
+import { TDataCommunicate, TGroup, TUser } from 'types/common';
+import s from './style.module.scss';
 type Props = {
   onClose: () => void;
 };
@@ -23,7 +21,6 @@ const ModalCreateGroup = ({ onClose }: Props) => {
   );
 
   const { listFriend } = dataCommunicateQuery?.data ?? {};
-  const { getGroups } = groupStore();
   const { socket } = socketStore();
 
   const [users, setUsers] = useState<TUser[]>([]);
@@ -57,7 +54,7 @@ const ModalCreateGroup = ({ onClose }: Props) => {
       const res = await groupApi.createGroup(dataGroup);
       const newGroup = res.data as TGroup;
       socket?.emit(socketEmit.CREATE_GROUP, { groupId: newGroup.id, members: newGroup.members });
-      getGroups();
+      queryClient.refetchQueries(queryKey.GET_GROUPS);
       setLoading(false);
       onClose();
     } catch (e) {

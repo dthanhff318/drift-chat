@@ -7,6 +7,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { IndexedObject } from 'types/common';
 import { replacePathParams } from 'app/helpers/funcs';
+import { useQueryClient } from 'react-query';
+import { queryKey } from 'const/reactQueryKey';
 
 type TModalSideChat =
   | ''
@@ -23,16 +25,11 @@ type Props = {
 };
 
 export const useService = ({ triggerSidechatRef, onClose }: Props) => {
+  const queryClient = useQueryClient();
   const history = useHistory();
   const { currentUser } = authStore();
-  const {
-    getGroups,
-    getDetailGroup,
-    saveCurrentGroup,
-    saveDetailGroup,
-    currentGroup,
-    detailGroup,
-  } = groupStore();
+  const { getDetailGroup, saveCurrentGroup, saveDetailGroup, currentGroup, detailGroup } =
+    groupStore();
   const [loading, setLoading] = useState<TLoadingSideChat>('');
   const [modal, setModal] = useState<TModalSideChat>('');
   const [preview, setPreview] = useState<boolean>(false);
@@ -61,7 +58,7 @@ export const useService = ({ triggerSidechatRef, onClose }: Props) => {
     try {
       setLoading('change-name-group');
       await groupApi.updateGroup(currentGroup, data);
-      getGroups();
+      queryClient.refetchQueries(queryKey.GET_GROUPS);
       getDetailGroup(currentGroup);
       setLoading('');
     } catch (err) {
@@ -79,7 +76,7 @@ export const useService = ({ triggerSidechatRef, onClose }: Props) => {
       const formUpload = new FormData();
       formUpload.append('image', files[0]);
       const res = await groupApi.changePhotoGroup(detailGroup.id ?? '', formUpload);
-      getGroups();
+      queryClient.refetchQueries(queryKey.GET_GROUPS);
       getDetailGroup(currentGroup);
       setLoading('');
     } catch (err) {
@@ -95,7 +92,7 @@ export const useService = ({ triggerSidechatRef, onClose }: Props) => {
       saveDetailGroup({});
       saveCurrentGroup('');
       history.push(pathHomePage);
-      getGroups();
+      queryClient.refetchQueries(queryKey.GET_GROUPS);
     } catch (e) {
       setLoading('');
     }

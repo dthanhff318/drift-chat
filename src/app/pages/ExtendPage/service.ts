@@ -1,12 +1,10 @@
 import { replacePathParams } from 'app/helpers/funcs';
 import { pathHomePageChat, pathObj } from 'app/routes/routesConfig';
-import friendStore from 'app/storeZustand/friendStore';
-import groupStore from 'app/storeZustand/groupStore';
-import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useQueryClient } from 'react-query';
 import { queryKey } from 'const/reactQueryKey';
-import { TDataCommunicate } from 'types/common';
+import { useState } from 'react';
+import { useQueryClient } from 'react-query';
+import { useHistory } from 'react-router-dom';
+import { TDataCommunicate, TGroup } from 'types/common';
 
 export enum ETypeNavExtendPage {
   Friend = 'Friend',
@@ -18,8 +16,9 @@ const useService = () => {
   const history = useHistory();
 
   const queryClient = useQueryClient();
+  const dataGroupsQuery = queryClient.getQueryData<{ data: TGroup[] }>(queryKey.GET_GROUPS, {});
+  const groups = dataGroupsQuery?.data ?? [];
 
-  const { groups } = groupStore();
   const [tab, setTab] = useState<ETypeNavExtendPage>(ETypeNavExtendPage.Friend);
 
   const goToDirectChat = (id: string) => {
