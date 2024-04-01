@@ -3,19 +3,25 @@ import friendsApi from 'app/axios/api/friends';
 import { replacePathParams } from 'app/helpers/funcs';
 import { pathProfileFriend } from 'app/routes/routesConfig';
 import authStore from 'app/storeZustand/authStore';
-import friendStore from 'app/storeZustand/friendStore';
 import servicesStore from 'app/storeZustand/servicesStore';
 import socketStore from 'app/storeZustand/socketStore';
+import { queryKey } from 'const/reactQueryKey';
 import { socketEmit } from 'const/socket';
 import { EFriendStatus } from 'enums';
 import { useEffect, useState } from 'react';
+import { useQueryClient } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import { TDataCommunicate, TUser } from 'types/common';
 
 const useService = () => {
+  const queryClient = useQueryClient();
+
+  const resDataCommunicate = queryClient.getQueryData<{ data: TDataCommunicate }>(
+    queryKey.DATA_COMMUNICATE,
+  );
+  const dataCommunicate = resDataCommunicate?.data ?? {};
   const history = useHistory();
   const { currentUser } = authStore();
-  const { dataCommunicate, getDataCommunicate } = friendStore();
   const { socket } = socketStore();
   const { loadingFriendPage, listUser, getListUser } = servicesStore();
   const [usersLoading, setUserLoading] = useState<string[]>([]);
@@ -31,14 +37,14 @@ const useService = () => {
           setUserLoading((prev) => [...prev, id]);
           await friendsApi.addFriend(id);
           socket?.emit(socketEmit.ADD_FRIEND, currentUser.id);
-          getDataCommunicate();
+          queryClient.refetchQueries(queryKey.DATA_COMMUNICATE);
           setUserLoading((prev) => prev.filter((e) => e !== id));
           break;
         case EFriendStatus.Accept:
           setUserLoading((prev) => [...prev, id]);
           await friendsApi.acceptFrRequest(id);
           socket?.emit(socketEmit.ACCEPT_REQUEST, displayName);
-          getDataCommunicate();
+          queryClient.refetchQueries(queryKey.DATA_COMMUNICATE);
           setUserLoading((prev) => prev.filter((e) => e !== id));
           break;
         default:
@@ -81,10 +87,10 @@ const useService = () => {
   };
 
   const handleListenEventAddFriend = (friendId: string) => {
-    getDataCommunicate();
+    queryClient.refetchQueries(queryKey.DATA_COMMUNICATE);
   };
   const handleListenEventAcceptRequest = (friendName: string) => {
-    getDataCommunicate();
+    queryClient.refetchQueries(queryKey.DATA_COMMUNICATE);
     notification.success({
       message: `${friendName} accepted your friend request`,
       description: "Let's talk",
@@ -113,17 +119,16 @@ const useService = () => {
 
   return {
     currentUser,
-    dataCommunicate,
     listUser,
     searchValue,
     loadingFriendPage,
     usersLoading,
     showApprove,
+    dataCommunicate,
     setShowApprove,
     setSearchValue,
     handleFriendRequest,
     handleSearchUser,
-    getDataCommunicate,
     checkStatusFriend,
     handleGoToProfileFriend,
   };

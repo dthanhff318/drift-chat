@@ -1,16 +1,14 @@
-import { SearchOutlined } from '@ant-design/icons';
 import Avatar from 'app/components/Avatar/Avatar';
+import Button from 'app/components/Button/Button';
+import Loading from 'app/components/Loading/Loading';
 import { convertDiffTime } from 'app/helpers/funcs';
+import { EFriendLoading } from 'app/storeZustand/servicesStore';
+import { EFriendStatus } from 'enums';
+import { LucideArrowLeft, Search, Vibrate } from 'lucide-react';
 import React from 'react';
 import { TUser } from 'types/common';
-import MyFriendControl from './MyFriendControl';
 import useService from './service';
 import s from './style.module.scss';
-import Loading from 'app/components/Loading/Loading';
-import { EFriendLoading } from 'app/storeZustand/servicesStore';
-import Button from 'app/components/Button/Button';
-import { EFriendStatus } from 'enums';
-import { Search, Vibrate, LucideArrowLeft } from 'lucide-react';
 
 const FriendPage = () => {
   const {

@@ -10,11 +10,21 @@ type TDataPopover = {
 
 type Props = {
   data: TDataPopover[];
+  width?: string;
 };
 
-const PopoverCustom = ({ data }: Props) => {
+const PopoverCustom = ({ data, width }: Props) => {
   return (
-    <div className={s.popoverWrapper}>
+    <div
+      className={s.popoverWrapper}
+      style={
+        width
+          ? {
+              width,
+            }
+          : {}
+      }
+    >
       {data.map(
         (e) =>
           !e.hidden && (

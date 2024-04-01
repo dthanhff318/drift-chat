@@ -12,4 +12,5 @@ export const pathObj = {
   homePage: '/home',
   loginPage: '/login',
   profileFriend: '/profile/:userId',
+  profile: '/profile',
 };

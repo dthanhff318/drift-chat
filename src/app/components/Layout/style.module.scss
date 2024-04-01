@@ -1,4 +1,4 @@
-@import "app/scss/variables.scss";
+@import 'app/scss/variables.scss';
 .layoutWrapper {
   display: flex;
   align-items: center;
@@ -36,14 +36,12 @@
     .logoIcon {
       width: 3rem;
       height: 3rem;
-      background-color: white;
-      border-radius: 50%;
-      border: 2px solid #48a6c3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      color: #48a6c3;
+      object-fit: contain;
+      cursor: pointer;
+      transition: all linear 0.2s;
+      &:hover {
+        transform: scale(1.1);
+      }
     }
   }
   .navOptions {
@@ -72,7 +70,21 @@
       }
     }
   }
-  .user {
+  .btnLogout {
     margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-color-dark;
+    font-size: 1.4rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s linear;
+    &:hover {
+      background-color: $background-dark-light;
+      color: #cc2a2a;
+    }
   }
 }

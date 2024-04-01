@@ -1,6 +1,7 @@
 import { SketchOutlined } from '@ant-design/icons';
 import authApi from 'app/axios/api/auth';
 import { auth } from 'app/firebase/configFirebase';
+import { getPublicImageUrl } from 'app/helpers/funcs';
 import { getRefreshTokenFromLocalStorage } from 'app/helpers/localStorage';
 import {
   pathExtendPage,
@@ -13,7 +14,7 @@ import authStore from 'app/storeZustand/authStore';
 import { signOut } from 'firebase/auth';
 import { Blocks, Home, MessagesSquare, PowerCircle, RadioTower } from 'lucide-react';
 import React, { useState } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import { Link, NavLink, useHistory } from 'react-router-dom';
 import ModalCommon from '../Modal/Modal';
 import s from './style.module.scss';
 
@@ -39,9 +40,9 @@ const Sidebar = () => {
   };
   return (
     <aside className={s.sideBarWrap}>
-      <div className={s.logo}>
-        <SketchOutlined className={s.logoIcon} rev={undefined} />
-      </div>
+      <Link className={s.logo} to={pathObj.profile}>
+        <img className={s.logoIcon} src={getPublicImageUrl('icLogoOnly.png')} alt="" />
+      </Link>
       <div className={s.navOptions}>
         <NavLink to={pathHomePage} className={s.btnNav} activeClassName={s.active}>
           <MessagesSquare color="#ffffff" size={24} />
@@ -55,11 +56,10 @@ const Sidebar = () => {
         <NavLink exact to={pathExtendPage} className={s.btnNav} activeClassName={s.active}>
           <Blocks color="#ffffff" size={24} />
         </NavLink>
-        <div className={s.btnNav} onClick={() => setModal(true)}>
-          <PowerCircle />
-        </div>
       </div>
-      <div className={s.user}></div>
+      <div className={s.btnLogout} onClick={() => setModal(true)}>
+        <PowerCircle />
+      </div>
       <ModalCommon
         open={modal}
         title="Logout"
