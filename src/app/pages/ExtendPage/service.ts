@@ -1,8 +1,9 @@
+import friendsApi from 'app/axios/api/friends';
 import { replacePathParams } from 'app/helpers/funcs';
 import { pathHomePageChat, pathObj } from 'app/routes/routesConfig';
 import { queryKey } from 'const/reactQueryKey';
-import { useState } from 'react';
-import { useQueryClient } from 'react-query';
+import { useState, useEffect } from 'react';
+import { useQuery, useQueryClient } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import { TDataCommunicate, TGroup } from 'types/common';
 
@@ -41,6 +42,12 @@ const useService = () => {
   );
 
   const { data: dataCommunicate } = resDataCommunicate ?? {};
+
+  useQuery({
+    queryKey: queryKey.DATA_COMMUNICATE,
+    queryFn: () => friendsApi.getInfoCommuication(),
+  });
+
   return {
     dataCommunicate,
     tab,

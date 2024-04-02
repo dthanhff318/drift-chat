@@ -90,12 +90,6 @@ const BoxChat = () => {
     ];
   };
 
-  let friend: TUser = {};
-  const groupDetail = groups.find((e) => e.id === currentGroup);
-  if (!groupDetail?.isGroup) {
-    friend = groupDetail?.members?.find((e) => e.id !== currentUser?.id) ?? {};
-  }
-
   const handleEmojiSelect = (emojiObject) => {
     setMessage(message + emojiObject.native);
   };
@@ -106,7 +100,7 @@ const BoxChat = () => {
     <>
       {detailGroup?.id ? (
         <div className={s.boxChatWrap}>
-          <Loading loading={firstTimeLoading || loadingDetailGroup} />
+          <Loading loading={firstTimeLoading} />
           <div className={s.headerBox}>
             <div className={s.infoGroup}>
               <Avatar src={avatarGroup} />
@@ -158,7 +152,7 @@ const BoxChat = () => {
                 case commonData?.messageTypes.COMMON:
                   return (
                     <div key={e.id} ref={i === messages.length - 1 ? ref : undefined}>
-                      <MessageCommon message={e} />
+                      <MessageCommon message={e} detailGroup={detailGroup} />
                     </div>
                   );
                 case commonData?.messageTypes.USER:
@@ -182,7 +176,7 @@ const BoxChat = () => {
                         {otherMess && isShowAvatar && (
                           <Avatar
                             size="s"
-                            src={getUserById(e.senderId ?? '', groupDetail?.members ?? []).photoUrl}
+                            src={getUserById(e.senderId ?? '', detailGroup?.members ?? []).photoUrl}
                           />
                         )}
                         <div

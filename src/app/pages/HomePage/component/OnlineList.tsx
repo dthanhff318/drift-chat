@@ -7,13 +7,19 @@ import { replacePathParams } from 'app/helpers/funcs';
 import { pathHomePageChat } from 'app/routes/routesConfig';
 import groupStore from 'app/storeZustand/groupStore';
 import messageStore from 'app/storeZustand/messageStore';
+import { useQueryClient } from 'react-query';
+import { TDataCommunicate } from 'types/common';
+import { queryKey } from 'const/reactQueryKey';
 
 const OnlineList = () => {
   const history = useHistory();
   const { id } = useParams<{ id: string }>();
-  const {
-    dataCommunicate: { listFriend = [] },
-  } = friendStore();
+
+  const queryClient = useQueryClient();
+  const dataCommunicateQuery = queryClient.getQueryData<{ data: TDataCommunicate }>(
+    queryKey.DATA_COMMUNICATE,
+  );
+  const { listFriend } = dataCommunicateQuery?.data ?? {};
   const { groups } = groupStore();
   const { clearStateMessages } = messageStore();
   const handleSelectChat = (idGroup: string) => {

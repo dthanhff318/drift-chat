@@ -1,13 +1,13 @@
 import { PlusCircleFilled } from '@ant-design/icons';
-import Avatar from 'app/components/Avatar/Avatar';
-import authStore from 'app/storeZustand/authStore';
-import friendStore from 'app/storeZustand/friendStore';
-import React, { useRef, useState } from 'react';
-import { TGroupDetail, TUser } from 'types/common';
-import s from './style.module.scss';
 import groupApi from 'app/axios/api/group';
+import Avatar from 'app/components/Avatar/Avatar';
 import Button from 'app/components/Button/Button';
-import groupStore from 'app/storeZustand/groupStore';
+import friendStore from 'app/storeZustand/friendStore';
+import { queryKey } from 'const/reactQueryKey';
+import React, { useRef, useState } from 'react';
+import { useQueryClient } from 'react-query';
+import { TDataCommunicate, TGroupDetail, TUser } from 'types/common';
+import s from './style.module.scss';
 type Props = {
   detailGroup: TGroupDetail;
   onClose: () => void;
@@ -15,13 +15,16 @@ type Props = {
 
 const AddMember = ({ detailGroup, onClose }: Props) => {
   const { members, id } = detailGroup;
+  const queryClient = useQueryClient();
+
   const [users, setUsers] = useState<TUser[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const {
-    dataCommunicate: { listFriend },
-  } = friendStore();
-  const { getDetailGroup } = groupStore();
+
+  const dataCommunicateQuery = queryClient.getQueryData<{ data: TDataCommunicate }>(
+    queryKey.DATA_COMMUNICATE,
+  );
+  const { listFriend } = dataCommunicateQuery?.data ?? {};
 
   const handleSelectUser = (user: TUser) => {
     const isUserHasSelect = users.find((e) => e.id === user.id);
@@ -44,7 +47,7 @@ const AddMember = ({ detailGroup, onClose }: Props) => {
         idGroup: id,
         members: listMemberAdd,
       });
-      getDetailGroup(id);
+      queryClient.refetchQueries(`${queryKey.GET_DETAIL_GROUP}_${id}`);
       onClose();
       setLoading(false);
     } catch (err) {

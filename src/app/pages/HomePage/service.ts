@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { TGroup, TMessage } from 'types/common';
 import authStore from 'app/storeZustand/authStore';
-import { useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { queryKey } from 'const/reactQueryKey';
 
 export const DEFAULT_PAST_TIME = '1970-01-01T00:00:00.000Z';
@@ -19,7 +19,7 @@ export const DEFAULT_PAST_TIME = '1970-01-01T00:00:00.000Z';
 export const useService = () => {
   const queryClient = useQueryClient();
 
-  const { currentGroup, saveCurrentGroup, saveGroups, getDetailGroup } = groupStore();
+  const { currentGroup, saveCurrentGroup, saveGroups } = groupStore();
   const { socket } = socketStore();
   const { currentUser } = authStore();
   const { updateMessage, updateListMessage, getMessages } = messageStore();
@@ -71,6 +71,13 @@ export const useService = () => {
     }
   };
 
+  const idGroup = id || currentGroup;
+  const { data } = useQuery({
+    queryKey: `${queryKey.GET_DETAIL_GROUP}_${idGroup}`,
+    queryFn: () => groupApi.getDetailGroup(idGroup),
+    enabled: !!idGroup,
+  });
+
   useEffect(() => {
     // Send message
     socket?.on(socketEmit.SEND_MESSAGE, handleMessComingSocket);
@@ -92,10 +99,8 @@ export const useService = () => {
   }, []);
 
   useEffect(() => {
-    const idGroup = id || currentGroup;
     if (idGroup) {
       history.push(replacePathParams(pathHomePageChat, { id: idGroup }));
-      getDetailGroup(idGroup);
       getMessages(idGroup, 1, true);
       saveCurrentGroup(idGroup);
     } else {

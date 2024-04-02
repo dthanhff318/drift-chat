@@ -70,8 +70,7 @@ const useService = () => {
         saveToken(token.refreshToken, 'refreshToken');
         saveCurrentUser(user);
         await getSettings();
-        await getDataCommunicate();
-        queryClient.fetchQuery({
+        await queryClient.fetchQuery({
           queryKey: queryKey.DATA_COMMUNICATE,
           queryFn: () => friendsApi.getInfoCommuication(),
         });

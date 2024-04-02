@@ -1,17 +1,17 @@
 import authApi from 'app/axios/api/auth';
+import friendsApi from 'app/axios/api/friends';
 import { getTokenFromLocalStorage } from 'app/helpers/localStorage';
 import RenderRoutes, { routes } from 'app/routes/routes';
 import { pathObj } from 'app/routes/routesConfig';
 import authStore from 'app/storeZustand/authStore';
-import friendStore from 'app/storeZustand/friendStore';
 import socketStore from 'app/storeZustand/socketStore';
+import { queryKey } from 'const/reactQueryKey';
 import React, { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import './App.scss';
-import { queryKey } from 'const/reactQueryKey';
-import friendsApi from 'app/axios/api/friends';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 const queryClient = new QueryClient({
   defaultOptions: {},
@@ -24,11 +24,12 @@ function App() {
 
   const { currentUser, saveCurrentUser } = authStore();
   const { setSocket } = socketStore();
+
   if (accessToken || currentUser?.id) {
-    queryClient.prefetchQuery({
+    queryClient.fetchQuery({
       queryKey: queryKey.DATA_COMMUNICATE,
       queryFn: () => friendsApi.getInfoCommuication(),
-      staleTime: 10000,
+      cacheTime: Infinity,
     });
   }
 
@@ -76,10 +77,11 @@ function App() {
 
   const checkAuthLocal = accessToken || currentUser.id;
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient} contextSharing={true}>
       <Router>
         <RenderRoutes routes={routes} checkAuthLocal={!!checkAuthLocal} currentUser={{}} />
       </Router>
+      <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
   );
 }

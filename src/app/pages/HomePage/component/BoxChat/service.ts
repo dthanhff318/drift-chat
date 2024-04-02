@@ -10,18 +10,20 @@ import groupStore from 'app/storeZustand/groupStore';
 import messageStore from 'app/storeZustand/messageStore';
 import settingStore from 'app/storeZustand/settingStore';
 import socketStore from 'app/storeZustand/socketStore';
+import { queryKey } from 'const/reactQueryKey';
 import { socketEmit } from 'const/socket';
 import moment from 'moment';
 import qs from 'query-string';
 import React, { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { useQueryClient } from 'react-query';
 import { useHistory } from 'react-router-dom';
-import { TGroup, TMessage } from 'types/common';
+import { TGroup, TMessage, TGroupDetail } from 'types/common';
 
 export const useService = () => {
+  const queryClient = useQueryClient();
   const history = useHistory();
-
-  const { groups, currentGroup, detailGroup, loadingDetailGroup, saveGroups } = groupStore();
+  const { groups, currentGroup, loadingDetailGroup, saveGroups } = groupStore();
   const { currentUser } = authStore();
   const { settings } = settingStore();
   const { socket } = socketStore();
@@ -48,6 +50,12 @@ export const useService = () => {
   const [reply, setReply] = useState<TMessage>({});
   const [token, setToken] = useState<string>('');
   const [typing, setTyping] = useState<string>('');
+
+  const detailGroupQuery = queryClient.getQueryData<{ data: TGroupDetail }>(
+    `${queryKey.GET_DETAIL_GROUP}_${currentGroup}`,
+  );
+
+  const detailGroup = detailGroupQuery?.data ?? {};
 
   const handleSendMess = async () => {
     let resMessage: TMessage;
