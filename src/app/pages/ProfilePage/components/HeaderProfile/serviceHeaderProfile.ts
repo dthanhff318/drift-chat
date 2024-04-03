@@ -1,16 +1,15 @@
 import { notification } from 'antd';
+import friendsApi from 'app/axios/api/friends';
 import userApi from 'app/axios/api/user';
 import authStore from 'app/storeZustand/authStore';
 import profileStore from 'app/storeZustand/profileStore';
 import axios from 'axios';
+import { queryKey } from 'const/reactQueryKey';
+import { EFriendStatus } from 'enums';
 import { useRef, useState } from 'react';
+import { useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { TDataCommunicate, TUser } from 'types/common';
-import friendsApi from 'app/axios/api/friends';
-import friendStore from 'app/storeZustand/friendStore';
-import { EFriendStatus } from 'enums';
-import { useQueryClient } from 'react-query';
-import { queryKey } from 'const/reactQueryKey';
 
 type TLoadingHeaderProfile = '' | 'avatar' | 'thumb';
 

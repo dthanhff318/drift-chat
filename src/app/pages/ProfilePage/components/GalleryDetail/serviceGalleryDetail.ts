@@ -1,12 +1,11 @@
 import postApi, { TCommentPost, TUpdatePost } from 'app/axios/api/postApi';
 import { errorNoti } from 'app/helpers/notification';
 import authStore from 'app/storeZustand/authStore';
-import postStore from 'app/storeZustand/postStore';
+import qs from 'query-string';
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { TComment, TPost } from 'types/post.type';
-import qs from 'query-string';
 import { useHistory } from 'react-router-dom';
+import { TComment, TPost } from 'types/post.type';
 
 type Props = {
   handleCloseModal: () => void;

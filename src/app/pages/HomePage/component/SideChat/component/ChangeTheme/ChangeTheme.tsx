@@ -1,15 +1,12 @@
 import { notification } from 'antd';
 import groupApi from 'app/axios/api/group';
 import Button from 'app/components/Button/Button';
-import authStore from 'app/storeZustand/authStore';
-import friendStore from 'app/storeZustand/friendStore';
 import settingStore from 'app/storeZustand/settingStore';
-import React, { useState } from 'react';
-import { TGroup, TGroupDetail, TTheme } from 'types/common';
-import s from './style.module.scss';
-import groupStore from 'app/storeZustand/groupStore';
-import { useQueryClient } from 'react-query';
 import { queryKey } from 'const/reactQueryKey';
+import React, { useState } from 'react';
+import { useQueryClient } from 'react-query';
+import { TGroupDetail, TTheme } from 'types/common';
+import s from './style.module.scss';
 type Props = {
   detailGroup: TGroupDetail;
 };

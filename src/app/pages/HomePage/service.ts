@@ -71,8 +71,9 @@ export const useService = () => {
     }
   };
 
+  // Query detail group
   const idGroup = id || currentGroup;
-  const { data } = useQuery({
+  useQuery({
     queryKey: `${queryKey.GET_DETAIL_GROUP}_${idGroup}`,
     queryFn: () => groupApi.getDetailGroup(idGroup),
     enabled: !!idGroup,

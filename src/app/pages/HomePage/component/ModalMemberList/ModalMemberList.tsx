@@ -1,6 +1,5 @@
 import { PlusCircleFilled } from '@ant-design/icons';
 import Avatar from 'app/components/Avatar/Avatar';
-import friendStore from 'app/storeZustand/friendStore';
 import { queryKey } from 'const/reactQueryKey';
 import React, { useRef, useState } from 'react';
 import { useQueryClient } from 'react-query';

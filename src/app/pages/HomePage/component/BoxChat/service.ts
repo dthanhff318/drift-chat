@@ -16,14 +16,15 @@ import moment from 'moment';
 import qs from 'query-string';
 import React, { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useQueryClient } from 'react-query';
-import { useHistory } from 'react-router-dom';
+import { useQuery, useQueryClient } from 'react-query';
+import { useHistory, useParams } from 'react-router-dom';
 import { TGroup, TMessage, TGroupDetail } from 'types/common';
 
 export const useService = () => {
   const queryClient = useQueryClient();
   const history = useHistory();
-  const { groups, currentGroup, loadingDetailGroup, saveGroups } = groupStore();
+  const { id: idParams } = useParams<{ id: string }>();
+  const { groups, currentGroup, saveGroups } = groupStore();
   const { currentUser } = authStore();
   const { settings } = settingStore();
   const { socket } = socketStore();
@@ -166,6 +167,7 @@ export const useService = () => {
 
   const queryUrlObj = qs.parse(history.location.search);
   const isVideo = queryUrlObj.video;
+
   const handleVideoCall = async () => {
     if (!isVideo) {
       try {
@@ -225,6 +227,10 @@ export const useService = () => {
     }
   };
 
+  const detailGroupQueryState = queryClient.getQueryState(
+    `${queryKey.GET_DETAIL_GROUP}_${currentGroup}`,
+  );
+
   useEffect(() => {
     page > 1 && inView && hasMore && getMessages(currentGroup, page);
   }, [inView]);
@@ -257,7 +263,7 @@ export const useService = () => {
     currentGroup,
     currentUser,
     firstTimeLoading,
-    loadingDetailGroup,
+    detailGroupQueryState,
     openEmoji,
     inputUploadRef,
     file,
@@ -270,6 +276,7 @@ export const useService = () => {
     triggerSidechatRef,
     settings,
     typing,
+    idParams,
     scrollMessageIntoView,
     isMessageLoaded,
     setOpenSideChat,
