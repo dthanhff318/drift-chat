@@ -1,19 +1,21 @@
 import { notification } from 'antd';
+import friendsApi from 'app/axios/api/friends';
 import userApi from 'app/axios/api/user';
 import authStore from 'app/storeZustand/authStore';
 import profileStore from 'app/storeZustand/profileStore';
 import axios from 'axios';
-import { useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { TUser } from 'types/common';
-import friendsApi from 'app/axios/api/friends';
-import friendStore from 'app/storeZustand/friendStore';
+import { queryKey } from 'const/reactQueryKey';
 import { EFriendStatus } from 'enums';
+import { useRef, useState } from 'react';
+import { useQueryClient } from 'react-query';
+import { useParams } from 'react-router-dom';
+import { TDataCommunicate, TUser } from 'types/common';
 
 type TLoadingHeaderProfile = '' | 'avatar' | 'thumb';
 
 export const useServiceHeaderProfile = () => {
   const { userId } = useParams<{ userId: string }>();
+  const queryClient = useQueryClient();
 
   const [loading, setLoading] = useState<TLoadingHeaderProfile>('');
   const [thumb, setThumb] = useState<File>();
@@ -23,7 +25,12 @@ export const useServiceHeaderProfile = () => {
 
   const { currentUser } = authStore();
   const { profileUser, saveProfileUser } = profileStore();
-  const { dataCommunicate, getDataCommunicate } = friendStore();
+
+  const dataCommunicateQuery = queryClient.getQueryData<{ data: TDataCommunicate }>(
+    queryKey.DATA_COMMUNICATE,
+  );
+
+  const { data: dataCommunicate = {} } = dataCommunicateQuery ?? {};
 
   const handleLikedProfile = async () => {
     if (!userId) return;
@@ -86,7 +93,6 @@ export const useServiceHeaderProfile = () => {
       setLoading('');
     } catch (err) {
       console.log(err);
-
       setLoading('');
     }
   };
@@ -99,15 +105,15 @@ export const useServiceHeaderProfile = () => {
     switch (status) {
       case EFriendStatus.Unfriend:
         await friendsApi.unfriend(friendId);
-        getDataCommunicate();
+        queryClient.refetchQueries(queryKey.DATA_COMMUNICATE);
         break;
       case EFriendStatus.Add:
         await friendsApi.addFriend(friendId);
-        getDataCommunicate();
+        queryClient.refetchQueries(queryKey.DATA_COMMUNICATE);
         break;
       case EFriendStatus.Accept:
         await friendsApi.acceptFrRequest(friendId);
-        getDataCommunicate();
+        queryClient.refetchQueries(queryKey.DATA_COMMUNICATE);
         break;
       default:
     }

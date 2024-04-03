@@ -1,17 +1,21 @@
 import { PlusCircleFilled } from '@ant-design/icons';
 import Avatar from 'app/components/Avatar/Avatar';
-import friendStore from 'app/storeZustand/friendStore';
+import { queryKey } from 'const/reactQueryKey';
 import React, { useRef, useState } from 'react';
-import { TUser } from 'types/common';
+import { useQueryClient } from 'react-query';
+import { TDataCommunicate, TUser } from 'types/common';
 import s from './style.module.scss';
 type Props = {
   onClose: () => void;
 };
 
 const ModalMemberList = ({ onClose }: Props) => {
-  const {
-    dataCommunicate: { listFriend },
-  } = friendStore();
+  const queryClient = useQueryClient();
+
+  const dataCommunicateQuery = queryClient.getQueryData<{ data: TDataCommunicate }>(
+    queryKey.DATA_COMMUNICATE,
+  );
+  const { listFriend } = dataCommunicateQuery?.data ?? {};
 
   const [users, setUsers] = useState<TUser[]>([]);
   const inputNameRef = useRef<HTMLInputElement>(null);

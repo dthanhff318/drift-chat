@@ -1,19 +1,20 @@
 import { notification } from 'antd';
 import groupApi from 'app/axios/api/group';
 import Button from 'app/components/Button/Button';
-import authStore from 'app/storeZustand/authStore';
-import friendStore from 'app/storeZustand/friendStore';
 import settingStore from 'app/storeZustand/settingStore';
+import { queryKey } from 'const/reactQueryKey';
 import React, { useState } from 'react';
-import { TGroup, TGroupDetail, TTheme } from 'types/common';
+import { useQueryClient } from 'react-query';
+import { TGroupDetail, TTheme } from 'types/common';
 import s from './style.module.scss';
-import groupStore from 'app/storeZustand/groupStore';
 type Props = {
   detailGroup: TGroupDetail;
 };
 
 const ChangeTheme = ({ detailGroup }: Props) => {
   const { id } = detailGroup;
+  const queryClient = useQueryClient();
+
   const [loading, setLoading] = useState<boolean>(false);
   const [theme, setTheme] = useState<TTheme>(detailGroup.theme ? detailGroup.theme : {});
 
@@ -21,14 +22,12 @@ const ChangeTheme = ({ detailGroup }: Props) => {
     settings: { themes },
   } = settingStore();
 
-  const { getDetailGroup } = groupStore();
-
   const handleChangeTheme = async (theme: TTheme) => {
     try {
       if (!id) return;
       setLoading(true);
       await groupApi.updateGroup(id, { theme: theme.name });
-      getDetailGroup(id);
+      queryClient.refetchQueries(`${queryKey.GET_DETAIL_GROUP}_${id}`);
       setLoading(false);
     } catch (err) {
       notification.error({

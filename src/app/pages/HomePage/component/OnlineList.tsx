@@ -1,19 +1,24 @@
 import Avatar from 'app/components/Avatar/Avatar';
-import friendStore from 'app/storeZustand/friendStore';
-import React from 'react';
-import s from './style.module.scss';
-import { useHistory, useParams } from 'react-router-dom';
 import { replacePathParams } from 'app/helpers/funcs';
 import { pathHomePageChat } from 'app/routes/routesConfig';
 import groupStore from 'app/storeZustand/groupStore';
 import messageStore from 'app/storeZustand/messageStore';
+import { queryKey } from 'const/reactQueryKey';
+import React from 'react';
+import { useQueryClient } from 'react-query';
+import { useHistory, useParams } from 'react-router-dom';
+import { TDataCommunicate } from 'types/common';
+import s from './style.module.scss';
 
 const OnlineList = () => {
   const history = useHistory();
   const { id } = useParams<{ id: string }>();
-  const {
-    dataCommunicate: { listFriend = [] },
-  } = friendStore();
+
+  const queryClient = useQueryClient();
+  const dataCommunicateQuery = queryClient.getQueryData<{ data: TDataCommunicate }>(
+    queryKey.DATA_COMMUNICATE,
+  );
+  const { listFriend } = dataCommunicateQuery?.data ?? {};
   const { groups } = groupStore();
   const { clearStateMessages } = messageStore();
   const handleSelectChat = (idGroup: string) => {

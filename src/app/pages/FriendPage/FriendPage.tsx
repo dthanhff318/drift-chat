@@ -25,9 +25,11 @@ const FriendPage = () => {
     handleSearchUser,
     checkStatusFriend,
     handleGoToProfileFriend,
+    handleClickShowApproval,
   } = useService();
 
   const listAcceptLength = dataCommunicate.listAccept?.length ?? 0;
+  console.log(listAcceptLength);
 
   return (
     <div className={s.frWrapper}>
@@ -36,9 +38,9 @@ const FriendPage = () => {
           {showApprove ? (
             <LucideArrowLeft size={26} color="#fff" onClick={() => setShowApprove(false)} />
           ) : (
-            <div className={s.notiApprove} onClick={() => setShowApprove(true)}>
+            <div className={s.notiApprove} onClick={handleClickShowApproval}>
               <Vibrate size={26} color="#fff" />
-              {listAcceptLength > 0 ?? (
+              {listAcceptLength > 0 && (
                 <span className={s.count}>{listAcceptLength > 99 ? `99+` : listAcceptLength}</span>
               )}
             </div>

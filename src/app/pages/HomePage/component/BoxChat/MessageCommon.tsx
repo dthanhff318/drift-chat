@@ -1,16 +1,15 @@
-import React from 'react';
-import { TMessage } from 'types/common';
-import s from '../style.module.scss';
-import settingStore from 'app/storeZustand/settingStore';
 import { getNameUser, getUserById } from 'app/helpers/funcs';
-import groupStore from 'app/storeZustand/groupStore';
+import settingStore from 'app/storeZustand/settingStore';
+import React from 'react';
+import { TGroupDetail, TMessage } from 'types/common';
+import s from '../style.module.scss';
 type Props = {
   message: TMessage;
+  detailGroup: TGroupDetail;
 };
 
-const MessageCommon = ({ message }: Props) => {
+const MessageCommon = ({ message, detailGroup }: Props) => {
   const { settings } = settingStore();
-  const { detailGroup } = groupStore();
   const { commonData } = settings;
   const dataSender = getUserById(message.senderId ?? '', detailGroup?.members ?? []);
   const nameSender = getNameUser(dataSender, detailGroup.setting ?? []);

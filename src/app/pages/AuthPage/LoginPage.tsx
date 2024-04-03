@@ -27,7 +27,7 @@ const LoginPage = () => {
         </div>
         <div className={s.bottom}></div>
       </div>
-      <p className={s.vesion}>Version: 1.0.0</p>
+      <p className={s.vesion}>Version: 1.0.1</p>
     </div>
   );
 };

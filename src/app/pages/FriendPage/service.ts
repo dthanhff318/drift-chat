@@ -86,11 +86,11 @@ const useService = () => {
     }
   };
 
-  const handleListenEventAddFriend = (friendId: string) => {
-    queryClient.refetchQueries(queryKey.DATA_COMMUNICATE);
+  const handleListenEventAddFriend = async (friendId: string) => {
+    await queryClient.refetchQueries(queryKey.DATA_COMMUNICATE);
   };
-  const handleListenEventAcceptRequest = (friendName: string) => {
-    queryClient.refetchQueries(queryKey.DATA_COMMUNICATE);
+  const handleListenEventAcceptRequest = async (friendName: string) => {
+    await queryClient.refetchQueries(queryKey.DATA_COMMUNICATE);
     notification.success({
       message: `${friendName} accepted your friend request`,
       description: "Let's talk",
@@ -102,6 +102,14 @@ const useService = () => {
     history.push(replacePathParams(pathProfileFriend, { userId: id }));
   };
 
+  const handleClickShowApproval = async () => {
+    try {
+      await queryClient.refetchQueries(queryKey.DATA_COMMUNICATE);
+      setShowApprove(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   // Get data
   useEffect(() => {
     getListUser({ q: searchValue });
@@ -131,6 +139,7 @@ const useService = () => {
     handleSearchUser,
     checkStatusFriend,
     handleGoToProfileFriend,
+    handleClickShowApproval,
   };
 };
 

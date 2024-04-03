@@ -26,7 +26,7 @@ import {
 import { AlignJustify, Image as ImageLucid, Video } from 'lucide-react';
 import React from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
-import { TMessage, TUser } from 'types/common';
+import { TMessage } from 'types/common';
 import LiveKitWrap from '../LiveKitWrap/LiveKitWrap';
 import SideChat from '../SideChat/SideChat';
 import s from '../style.module.scss';
@@ -35,13 +35,11 @@ import { useService } from './service';
 
 const BoxChat = () => {
   const {
-    groups,
     currentGroup,
     currentUser,
     message,
     messages,
     firstTimeLoading,
-    loadingDetailGroup,
     openEmoji,
     inputUploadRef,
     file,
@@ -53,7 +51,9 @@ const BoxChat = () => {
     queryUrlObj,
     triggerSidechatRef,
     settings,
+    detailGroupQueryState,
     typing,
+    idParams,
     scrollMessageIntoView,
     setOpenSideChat,
     setReply,
@@ -90,12 +90,6 @@ const BoxChat = () => {
     ];
   };
 
-  let friend: TUser = {};
-  const groupDetail = groups.find((e) => e.id === currentGroup);
-  if (!groupDetail?.isGroup) {
-    friend = groupDetail?.members?.find((e) => e.id !== currentUser?.id) ?? {};
-  }
-
   const handleEmojiSelect = (emojiObject) => {
     setMessage(message + emojiObject.native);
   };
@@ -104,9 +98,9 @@ const BoxChat = () => {
 
   return (
     <>
-      {detailGroup?.id ? (
+      {detailGroup?.id || idParams ? (
         <div className={s.boxChatWrap}>
-          <Loading loading={firstTimeLoading || loadingDetailGroup} />
+          <Loading loading={detailGroupQueryState?.status === 'loading'} />
           <div className={s.headerBox}>
             <div className={s.infoGroup}>
               <Avatar src={avatarGroup} />
@@ -158,7 +152,7 @@ const BoxChat = () => {
                 case commonData?.messageTypes.COMMON:
                   return (
                     <div key={e.id} ref={i === messages.length - 1 ? ref : undefined}>
-                      <MessageCommon message={e} />
+                      <MessageCommon message={e} detailGroup={detailGroup} />
                     </div>
                   );
                 case commonData?.messageTypes.USER:
@@ -182,7 +176,7 @@ const BoxChat = () => {
                         {otherMess && isShowAvatar && (
                           <Avatar
                             size="s"
-                            src={getUserById(e.senderId ?? '', groupDetail?.members ?? []).photoUrl}
+                            src={getUserById(e.senderId ?? '', detailGroup?.members ?? []).photoUrl}
                           />
                         )}
                         <div

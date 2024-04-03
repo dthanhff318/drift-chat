@@ -1,28 +1,24 @@
-import React, { useRef, useState } from 'react';
-import s from './style.module.scss';
-import { TGroup, TGroupDetail } from 'types/common';
-import {
-  CheckCircleOutlined,
-  DeleteOutlined,
-  TagOutlined,
-  UserAddOutlined,
-} from '@ant-design/icons';
-import groupApi from 'app/axios/api/group';
-import authStore from 'app/storeZustand/authStore';
-import { getNameUser } from 'app/helpers/funcs';
-import groupStore from 'app/storeZustand/groupStore';
+import { DeleteOutlined } from '@ant-design/icons';
 import { notification } from 'antd';
+import groupApi from 'app/axios/api/group';
+import { getNameUser } from 'app/helpers/funcs';
+import authStore from 'app/storeZustand/authStore';
+import { queryKey } from 'const/reactQueryKey';
 import { KeyRound, Pencil, Save } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { useQueryClient } from 'react-query';
+import { TGroupDetail } from 'types/common';
+import s from './style.module.scss';
 type Props = {
   detailGroup: TGroupDetail;
 };
 
 const ListMember = ({ detailGroup }: Props) => {
   const { members, id, setting, admins } = detailGroup;
+  const queryClient = useQueryClient();
   const [edit, setEdit] = useState<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { getDetailGroup } = groupStore();
   const { currentUser } = authStore();
 
   const handleEditNickname = async (idUser: string) => {
@@ -33,7 +29,7 @@ const ListMember = ({ detailGroup }: Props) => {
         nickname: newNickname,
         userId: idUser,
       });
-      getDetailGroup(id ?? '');
+      queryClient.refetchQueries(`${queryKey.GET_DETAIL_GROUP}_${id}`);
     } catch (err) {
       notification.error({
         message: `Error`,
@@ -49,7 +45,7 @@ const ListMember = ({ detailGroup }: Props) => {
         idGroup: id ?? '',
         member,
       });
-      getDetailGroup(id ?? '');
+      queryClient.refetchQueries(`${queryKey.GET_DETAIL_GROUP}_${id}`);
     } catch (err) {
       notification.error({
         message: `Error`,

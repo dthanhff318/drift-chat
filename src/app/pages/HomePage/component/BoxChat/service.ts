@@ -10,18 +10,21 @@ import groupStore from 'app/storeZustand/groupStore';
 import messageStore from 'app/storeZustand/messageStore';
 import settingStore from 'app/storeZustand/settingStore';
 import socketStore from 'app/storeZustand/socketStore';
+import { queryKey } from 'const/reactQueryKey';
 import { socketEmit } from 'const/socket';
 import moment from 'moment';
 import qs from 'query-string';
 import React, { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useHistory } from 'react-router-dom';
-import { TGroup, TMessage } from 'types/common';
+import { useQuery, useQueryClient } from 'react-query';
+import { useHistory, useParams } from 'react-router-dom';
+import { TGroup, TMessage, TGroupDetail } from 'types/common';
 
 export const useService = () => {
+  const queryClient = useQueryClient();
   const history = useHistory();
-
-  const { groups, currentGroup, detailGroup, loadingDetailGroup, saveGroups } = groupStore();
+  const { id: idParams } = useParams<{ id: string }>();
+  const { groups, currentGroup, saveGroups } = groupStore();
   const { currentUser } = authStore();
   const { settings } = settingStore();
   const { socket } = socketStore();
@@ -48,6 +51,12 @@ export const useService = () => {
   const [reply, setReply] = useState<TMessage>({});
   const [token, setToken] = useState<string>('');
   const [typing, setTyping] = useState<string>('');
+
+  const detailGroupQuery = queryClient.getQueryData<{ data: TGroupDetail }>(
+    `${queryKey.GET_DETAIL_GROUP}_${currentGroup}`,
+  );
+
+  const detailGroup = detailGroupQuery?.data ?? {};
 
   const handleSendMess = async () => {
     let resMessage: TMessage;
@@ -158,6 +167,7 @@ export const useService = () => {
 
   const queryUrlObj = qs.parse(history.location.search);
   const isVideo = queryUrlObj.video;
+
   const handleVideoCall = async () => {
     if (!isVideo) {
       try {
@@ -217,6 +227,10 @@ export const useService = () => {
     }
   };
 
+  const detailGroupQueryState = queryClient.getQueryState(
+    `${queryKey.GET_DETAIL_GROUP}_${currentGroup}`,
+  );
+
   useEffect(() => {
     page > 1 && inView && hasMore && getMessages(currentGroup, page);
   }, [inView]);
@@ -249,7 +263,7 @@ export const useService = () => {
     currentGroup,
     currentUser,
     firstTimeLoading,
-    loadingDetailGroup,
+    detailGroupQueryState,
     openEmoji,
     inputUploadRef,
     file,
@@ -262,6 +276,7 @@ export const useService = () => {
     triggerSidechatRef,
     settings,
     typing,
+    idParams,
     scrollMessageIntoView,
     isMessageLoaded,
     setOpenSideChat,

@@ -1,8 +1,7 @@
-import groupStore from 'app/storeZustand/groupStore';
-import { useEffect } from 'react';
-import { useQuery } from 'react-query';
-import { queryKey } from 'const/reactQueryKey';
 import groupApi from 'app/axios/api/group';
+import groupStore from 'app/storeZustand/groupStore';
+import { queryKey } from 'const/reactQueryKey';
+import { useQuery } from 'react-query';
 import { TGroup } from 'types/common';
 
 export const useService = () => {
