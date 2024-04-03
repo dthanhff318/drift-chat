@@ -2,7 +2,7 @@ import { getPublicImageUrl } from 'app/helpers/funcs';
 import { getTokenFromLocalStorage } from 'app/helpers/localStorage';
 import { pathObj } from 'app/routes/routesConfig';
 import authStore from 'app/storeZustand/authStore';
-import React from 'react';
+import React, { useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import s from './style.module.scss';
 
@@ -11,6 +11,8 @@ const WelcomePage = () => {
   const { currentUser } = authStore();
   const token = getTokenFromLocalStorage();
   const checkAuth = currentUser.id || token;
+
+  const leafRef = useRef<HTMLImageElement>(null);
 
   const handleClickExploreBtn = () => {
     if (checkAuth) {
@@ -21,15 +23,25 @@ const WelcomePage = () => {
   };
   return (
     <div className={s.wrapperWelcome}>
-      <div
-        className={s.bgPage}
-        style={{ backgroundImage: `url(${getPublicImageUrl('./bgWelcomePage.jpg')})` }}
-      ></div>
-      <div className={s.center}>
+      <img className={`${s.imgParalax}`} src={getPublicImageUrl('./paralax/hill1.png')} alt="" />
+      <img className={s.imgParalax} src={getPublicImageUrl('./paralax/hill2.png')} alt="" />
+      <img className={s.imgParalax} src={getPublicImageUrl('./paralax/hill3.png')} alt="" />
+      <img className={s.imgParalax} src={getPublicImageUrl('./paralax/hill4.png')} alt="" />
+      <img className={s.imgParalax} src={getPublicImageUrl('./paralax/hill5.png')} alt="" />
+      <div className={s.textParalax}>
         <h3 className={s.title}>DRIFT</h3>
-        <div className={s.buttonExplore} onClick={handleClickExploreBtn}>
-          EXPLORE
-        </div>
+      </div>
+
+      <img className={`${s.imgParalax} `} src={getPublicImageUrl('./paralax/tree.png')} alt="" />
+      <img className={`${s.imgParalax}`} src={getPublicImageUrl('./paralax/plant.png')} alt="" />
+      <img
+        ref={leafRef}
+        className={`${s.imgParalax}`}
+        src={getPublicImageUrl('./paralax/leaf.png')}
+        alt=""
+      />
+      <div className={s.buttonExplore} onClick={handleClickExploreBtn}>
+        EXPLORE
       </div>
     </div>
   );
