@@ -1,20 +1,16 @@
 import groupApi from 'app/axios/api/group';
 import groupStore from 'app/storeZustand/groupStore';
 import { queryKey } from 'const/reactQueryKey';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { TGroup } from 'types/common';
 
 export const useService = () => {
+  const queryClient = useQueryClient();
   const { saveCurrentGroup } = groupStore();
 
-  const { data, isLoading } = useQuery<{ data: TGroup[] }>({
-    queryKey: queryKey.GET_GROUPS,
-    queryFn: () => groupApi.getAllGroup(),
-  });
-
+  const groupsQueryState = queryClient.getQueryState<{ data: TGroup[] }>(queryKey.GET_GROUPS);
   return {
-    data,
-    isLoading,
+    groupsQueryState,
     saveCurrentGroup,
   };
 };

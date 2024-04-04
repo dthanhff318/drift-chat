@@ -9,13 +9,14 @@ import authStore from 'app/storeZustand/authStore';
 import { queryKey } from 'const/reactQueryKey';
 import { Annoyed, ArrowLeft } from 'lucide-react';
 import React, { useState } from 'react';
-import { useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import { TGroup, TUser } from 'types/common';
 import MessageChatList from './MessageChatList/MessageChatList';
 import ModalCreateGroup from './ModalCreateGroup/ModalCreateGroup';
 import OnlineList from './OnlineList';
 import s from './style.module.scss';
+import groupApi from 'app/axios/api/group';
 
 type Props = {
   infoUser: TUser;
@@ -33,7 +34,10 @@ const ChannelChat = ({ infoUser }: Props) => {
   const [groupSearch, setGroupSearch] = useState<TGroup[]>(groups);
 
   const handleClickInputSearch = () => {
-    if (!searching) setSearching(true);
+    if (!searching) {
+      setGroupSearch(groups);
+      setSearching(true);
+    }
   };
 
   const handleCloseSearch = () => {
@@ -43,10 +47,15 @@ const ChannelChat = ({ infoUser }: Props) => {
     const valueSearch = e.target.value;
     const filterGroups = groups.filter((e) => {
       const { nameGroup } = getNameAndAvatarChat(e, currentUser.id ?? '');
-      return nameGroup?.includes(valueSearch);
+      return nameGroup?.toLowerCase()?.includes(valueSearch.toLowerCase());
     });
     setGroupSearch(filterGroups);
   };
+
+  useQuery<{ data: TGroup[] }>({
+    queryKey: queryKey.GET_GROUPS,
+    queryFn: () => groupApi.getAllGroup(),
+  });
 
   return (
     <>

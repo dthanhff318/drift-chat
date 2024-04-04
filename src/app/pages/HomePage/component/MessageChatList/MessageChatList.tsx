@@ -8,8 +8,9 @@ import { Link } from 'react-router-dom';
 import { pathFriendPage } from 'app/routes/routesConfig';
 
 const MessageChatList = () => {
-  const { data, isLoading } = useService();
-  const listGroups = data?.data ?? [];
+  const { groupsQueryState } = useService();
+  const listGroups = groupsQueryState?.data?.data ?? [];
+  const isLoading = groupsQueryState?.status === 'loading';
   return (
     <div className={s.msgList}>
       <Loading loading={isLoading} />
