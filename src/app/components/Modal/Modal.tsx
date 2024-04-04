@@ -34,7 +34,7 @@ const ModalCommon = ({
       centered={true}
       onOk={onOk}
       footer={null}
-      zIndex={10000}
+      zIndex={1000}
     >
       <div className={s.wrapper}>
         <h3 className={s.title}>{title}</h3>

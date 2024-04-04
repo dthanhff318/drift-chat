@@ -1,10 +1,11 @@
-@import "../../scss/variables.scss";
+@import '../../scss/variables.scss';
 .popoverWrapper {
   min-width: 7rem;
+  max-height: 24rem;
+  overflow: auto;
   .item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 1rem;
     padding: 0.25rem 0.75rem;
     font-size: 1rem;
@@ -15,6 +16,8 @@
     }
     &:not(:last-child) {
       margin-bottom: 0.25rem;
+    }
+    .text {
     }
   }
 }

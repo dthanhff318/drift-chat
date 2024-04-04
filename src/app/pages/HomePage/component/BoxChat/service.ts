@@ -60,6 +60,7 @@ export const useService = () => {
 
   const handleSendMess = async () => {
     let resMessage: TMessage;
+    if (loading) return;
     try {
       setLoading(true);
       if (file) {

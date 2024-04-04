@@ -115,6 +115,31 @@ $header-hight: 5rem;
       margin: 0 0 0.1rem 0.5rem;
     }
   }
+  .userSearchWrap {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 1rem;
+    gap: 0.75rem;
+    .userSearch {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      .name {
+        color: white;
+        font-size: 0.95rem;
+        width: 75%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        white-space: normal;
+        word-break: break-word;
+      }
+    }
+  }
 }
 // OnlineList
 .onlineListWrap {

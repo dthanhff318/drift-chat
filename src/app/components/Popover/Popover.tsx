@@ -5,7 +5,7 @@ type TDataPopover = {
   icon?: ReactNode;
   text: string;
   hidden?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 type Props = {
@@ -30,7 +30,7 @@ const PopoverCustom = ({ data, width }: Props) => {
           !e.hidden && (
             <div key={e.text} className={s.item} onClick={e.onClick}>
               {e.icon && e.icon}
-              <p>{e.text}</p>
+              <p className={s.text}>{e.text}</p>
             </div>
           ),
       )}

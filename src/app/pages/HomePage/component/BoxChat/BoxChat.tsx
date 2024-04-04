@@ -286,7 +286,7 @@ const BoxChat = () => {
                 onChange={handleInputChange}
                 maxRows={4}
                 onKeyDown={(e: any) => {
-                  if (e.code === 'Enter' && !e.shiftKey && !loading) {
+                  if (e.code === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
                     handleSendMess();
                   }
