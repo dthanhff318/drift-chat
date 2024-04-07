@@ -29,7 +29,7 @@ function App() {
     queryClient.fetchQuery({
       queryKey: queryKey.DATA_COMMUNICATE,
       queryFn: () => friendsApi.getInfoCommuication(),
-      cacheTime: Infinity,
+      // cacheTime: Infinity,
     });
   }
 

@@ -11,7 +11,7 @@ import { Annoyed, ArrowLeft } from 'lucide-react';
 import React, { useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { useHistory } from 'react-router-dom';
-import { TGroup, TUser } from 'types/common';
+import { TDataCommunicate, TGroup, TUser } from 'types/common';
 import MessageChatList from './MessageChatList/MessageChatList';
 import ModalCreateGroup from './ModalCreateGroup/ModalCreateGroup';
 import OnlineList from './OnlineList';
@@ -25,6 +25,12 @@ const ChannelChat = ({ infoUser }: Props) => {
   const queryClient = useQueryClient();
   const dataGroupsQuery = queryClient.getQueryData<{ data: TGroup[] }>(queryKey.GET_GROUPS, {});
   const groups = dataGroupsQuery?.data ?? [];
+  const dataCommunicateQuery = queryClient.getQueryData<{ data: TDataCommunicate }>(
+    queryKey.DATA_COMMUNICATE,
+  );
+  const { listFriend } = dataCommunicateQuery?.data ?? {};
+
+  const listUserOnline = listFriend?.filter((e) => e.isOnline) ?? [];
 
   const history = useHistory();
   const [modal, setModal] = useState<boolean>(false);
@@ -52,6 +58,15 @@ const ChannelChat = ({ infoUser }: Props) => {
     setGroupSearch(filterGroups);
   };
 
+  const goToDirectChat = (groupId: string) => {
+    setSearching(false);
+    history.replace(
+      replacePathParams(pathHomePageChat, {
+        id: groupId,
+      }),
+    );
+  };
+
   useQuery<{ data: TGroup[] }>({
     queryKey: queryKey.GET_GROUPS,
     queryFn: () => groupApi.getAllGroup(),
@@ -75,7 +90,7 @@ const ChannelChat = ({ infoUser }: Props) => {
           <div className={s.searchWrap}>
             <SearchOutlined className={s.searchIcon} rev={undefined} />
             <input
-              placeholder="Search or start new chat"
+              placeholder="Search for chatting"
               type="text"
               className={s.searchInput}
               onChange={handleSearchGroup}
@@ -90,14 +105,18 @@ const ChannelChat = ({ infoUser }: Props) => {
         </div>
         {!searching && (
           <>
-            <div className={s.header}>
-              <p className={s.status}>Online now</p>
-              <p className={s.more}>
-                <span>More</span>
-                <RightOutlined rev={undefined} />
-              </p>
-            </div>
-            <OnlineList />
+            {listUserOnline.length > 0 && (
+              <>
+                <div className={s.header}>
+                  <p className={s.status}>Online now</p>
+                  <p className={s.more}>
+                    <span>More</span>
+                    <RightOutlined rev={undefined} />
+                  </p>
+                </div>
+                <OnlineList listUserOnline={listUserOnline} />
+              </>
+            )}
             <div className={s.header}>
               <p className={s.status}>Messages</p>
               <div className={`${s.more} ${s.icon}`} onClick={() => setModal(true)}>
@@ -109,7 +128,7 @@ const ChannelChat = ({ infoUser }: Props) => {
         )}
 
         {searching && (
-          <>
+          <div className={s.searchContainer}>
             <div className={s.header}>
               <p className={s.status}>User</p>
             </div>
@@ -119,7 +138,11 @@ const ChannelChat = ({ infoUser }: Props) => {
                 .map((g) => {
                   const { nameGroup, avatarGroup } = getNameAndAvatarChat(g, currentUser.id ?? '');
                   return (
-                    <div className={s.userSearch} key={g.id}>
+                    <div
+                      className={s.userSearch}
+                      key={g.id}
+                      onClick={() => goToDirectChat(g.id ?? '')}
+                    >
                       <Avatar src={avatarGroup} />
                       <p className={s.name}>{nameGroup}</p>
                     </div>
@@ -135,14 +158,18 @@ const ChannelChat = ({ infoUser }: Props) => {
                 .map((g) => {
                   const { nameGroup, avatarGroup } = getNameAndAvatarChat(g, currentUser.id ?? '');
                   return (
-                    <div className={s.userSearch} key={g.id}>
+                    <div
+                      className={s.userSearch}
+                      key={g.id}
+                      onClick={() => goToDirectChat(g.id ?? '')}
+                    >
                       <Avatar src={avatarGroup} />
                       <p className={s.name}>{nameGroup}</p>
                     </div>
                   );
                 })}
             </div>
-          </>
+          </div>
         )}
       </div>
       <ModalCommon
