@@ -25,14 +25,6 @@ function App() {
   const { currentUser, saveCurrentUser } = authStore();
   const { setSocket } = socketStore();
 
-  if (accessToken || currentUser?.id) {
-    queryClient.fetchQuery({
-      queryKey: queryKey.DATA_COMMUNICATE,
-      queryFn: () => friendsApi.getInfoCommuication(),
-      // cacheTime: Infinity,
-    });
-  }
-
   const getCurrentUser = async () => {
     try {
       const res = await authApi.getCurrentUser();

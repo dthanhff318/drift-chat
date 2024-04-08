@@ -7,7 +7,7 @@ import axios from 'axios';
 import { queryKey } from 'const/reactQueryKey';
 import { EFriendStatus } from 'enums';
 import { useRef, useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { TDataCommunicate, TUser } from 'types/common';
 
@@ -26,11 +26,12 @@ export const useServiceHeaderProfile = () => {
   const { currentUser } = authStore();
   const { profileUser, saveProfileUser } = profileStore();
 
-  const dataCommunicateState = queryClient.getQueryState<{ data: TDataCommunicate }>(
-    queryKey.DATA_COMMUNICATE,
-  );
+  const { data } = useQuery<{ data: TDataCommunicate }>({
+    queryKey: queryKey.DATA_COMMUNICATE,
+    queryFn: () => friendsApi.getInfoCommuication(),
+  });
 
-  const dataCommunicate = dataCommunicateState?.data?.data ?? {};
+  const dataCommunicate = data?.data ?? {};
   const handleLikedProfile = async () => {
     if (!userId) return;
     try {
@@ -100,10 +101,6 @@ export const useServiceHeaderProfile = () => {
     setThumb(undefined);
   };
 
-  const addFriendMutation = useMutation({
-    mutationFn: (friendId: string) => friendsApi.addFriend(friendId),
-  });
-
   const handleFriendRequest = async (friendId: string, status: EFriendStatus) => {
     switch (status) {
       case EFriendStatus.Unfriend:
@@ -113,9 +110,6 @@ export const useServiceHeaderProfile = () => {
       case EFriendStatus.Add:
         await friendsApi.addFriend(friendId);
         await queryClient.refetchQueries(queryKey.DATA_COMMUNICATE);
-        // addFriendMutation.mutate(friendId, {
-        //   onSuccess: refetchDataCommunicate,
-        // });
         break;
       case EFriendStatus.Accept:
         await friendsApi.acceptFrRequest(friendId);

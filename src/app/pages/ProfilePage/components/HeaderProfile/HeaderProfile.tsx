@@ -37,6 +37,7 @@ const HeaderProfile = ({ user, friendId }: Props) => {
 
   const hasLiked = user.likedProfile?.includes(currentUser.id ?? '');
   const statusFriend = checkFriendStatus();
+
   return (
     <>
       <div

@@ -1,8 +1,11 @@
 import { notification } from 'antd';
-import socketStore from 'app/storeZustand/socketStore';
-import { useEffect } from 'react';
-import { TUser } from 'types/common';
+import friendsApi from 'app/axios/api/friends';
 import authStore from 'app/storeZustand/authStore';
+import socketStore from 'app/storeZustand/socketStore';
+import { queryKey } from 'const/reactQueryKey';
+import { useEffect } from 'react';
+import { useQuery } from 'react-query';
+import { TUser } from 'types/common';
 
 const useServices = () => {
   const { socket } = socketStore();
@@ -17,12 +20,21 @@ const useServices = () => {
     });
   };
 
+  const { refetch } = useQuery({
+    queryKey: queryKey.DATA_COMMUNICATE,
+    queryFn: () => friendsApi.getInfoCommuication(),
+  });
+
   useEffect(() => {
     socket?.on('userLogin', handleSocketUserlogin);
     return () => {
       socket?.off('userLogin', handleSocketUserlogin);
     };
   }, [socket]);
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return {};
 };
