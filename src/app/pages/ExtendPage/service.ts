@@ -20,6 +20,11 @@ const useService = () => {
   const dataGroupsQuery = queryClient.getQueryData<{ data: TGroup[] }>(queryKey.GET_GROUPS, {});
   const groups = dataGroupsQuery?.data ?? [];
 
+  const { data } = useQuery<{ data: TDataCommunicate }>({
+    queryKey: queryKey.DATA_COMMUNICATE,
+    queryFn: () => friendsApi.getInfoCommuication(),
+  });
+  const dataCommunicate = data?.data ?? {};
   const [tab, setTab] = useState<ETypeNavExtendPage>(ETypeNavExtendPage.Friend);
 
   const goToDirectChat = (id: string) => {
@@ -36,17 +41,6 @@ const useService = () => {
   const goToProfile = (id: string) => {
     history.push(replacePathParams(pathObj.profileFriend, { userId: id }));
   };
-
-  const resDataCommunicate = queryClient.getQueryData<{ data: TDataCommunicate }>(
-    queryKey.DATA_COMMUNICATE,
-  );
-
-  const { data: dataCommunicate } = resDataCommunicate ?? {};
-
-  useQuery({
-    queryKey: queryKey.DATA_COMMUNICATE,
-    queryFn: () => friendsApi.getInfoCommuication(),
-  });
 
   return {
     dataCommunicate,

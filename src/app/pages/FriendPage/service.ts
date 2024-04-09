@@ -9,17 +9,18 @@ import { queryKey } from 'const/reactQueryKey';
 import { socketEmit } from 'const/socket';
 import { EFriendStatus } from 'enums';
 import { useEffect, useState } from 'react';
-import { useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import { TDataCommunicate, TUser } from 'types/common';
 
 const useService = () => {
   const queryClient = useQueryClient();
+  const { data } = useQuery<{ data: TDataCommunicate }>({
+    queryKey: queryKey.DATA_COMMUNICATE,
+    queryFn: () => friendsApi.getInfoCommuication(),
+  });
 
-  const resDataCommunicate = queryClient.getQueryData<{ data: TDataCommunicate }>(
-    queryKey.DATA_COMMUNICATE,
-  );
-  const dataCommunicate = resDataCommunicate?.data ?? {};
+  const dataCommunicate = data?.data ?? {};
   const history = useHistory();
   const { currentUser } = authStore();
   const { socket } = socketStore();
@@ -36,15 +37,15 @@ const useService = () => {
         case EFriendStatus.Add:
           setUserLoading((prev) => [...prev, id]);
           await friendsApi.addFriend(id);
+          await queryClient.refetchQueries(queryKey.DATA_COMMUNICATE);
           socket?.emit(socketEmit.ADD_FRIEND, currentUser.id);
-          queryClient.refetchQueries(queryKey.DATA_COMMUNICATE);
           setUserLoading((prev) => prev.filter((e) => e !== id));
           break;
         case EFriendStatus.Accept:
           setUserLoading((prev) => [...prev, id]);
           await friendsApi.acceptFrRequest(id);
+          await queryClient.refetchQueries(queryKey.DATA_COMMUNICATE);
           socket?.emit(socketEmit.ACCEPT_REQUEST, displayName);
-          queryClient.refetchQueries(queryKey.DATA_COMMUNICATE);
           setUserLoading((prev) => prev.filter((e) => e !== id));
           break;
         default:
