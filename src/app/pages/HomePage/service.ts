@@ -18,6 +18,7 @@ export const DEFAULT_PAST_TIME = '1970-01-01T00:00:00.000Z';
 
 export const useService = () => {
   const queryClient = useQueryClient();
+  const groupsQueryState = queryClient.getQueryState<{ data: TGroup[] }>(queryKey.GET_GROUPS);
 
   const { currentGroup, saveCurrentGroup, saveGroups } = groupStore();
   const { socket } = socketStore();
@@ -26,8 +27,8 @@ export const useService = () => {
   const history = useHistory();
   const { id } = useParams<{ id: string }>();
 
-  const updateListChannelChat = (newMess: TMessage) => {
-    const { groups } = groupStore.getState();
+  const updateListChannelChat = async (newMess: TMessage) => {
+    const groups = groupsQueryState?.data?.data ?? [];
     let unreadCount = 0;
     const newGroups = groups
       .map((gr) => {
@@ -43,7 +44,8 @@ export const useService = () => {
           (moment(b.newestMess?.createdAt ?? DEFAULT_PAST_TIME) as unknown as number) -
           (moment(a.newestMess?.createdAt ?? DEFAULT_PAST_TIME) as unknown as number),
       );
-    groupApi.updateUnReadMess(newMess.group ?? '', unreadCount);
+    await groupApi.updateUnReadMess(newMess.group ?? '', unreadCount);
+    await queryClient.refetchQueries(queryKey.GET_GROUPS);
     saveGroups(newGroups);
   };
 
@@ -77,6 +79,11 @@ export const useService = () => {
     queryKey: `${queryKey.GET_DETAIL_GROUP}_${idGroup}`,
     queryFn: () => groupApi.getDetailGroup(idGroup),
     enabled: !!idGroup,
+  });
+
+  useQuery<{ data: TGroup[] }>({
+    queryKey: queryKey.GET_GROUPS,
+    queryFn: () => groupApi.getAllGroup(),
   });
 
   useEffect(() => {

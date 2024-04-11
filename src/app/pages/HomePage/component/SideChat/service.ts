@@ -61,8 +61,8 @@ export const useService = ({ triggerSidechatRef, onClose }: Props) => {
     try {
       setLoading('change-name-group');
       await groupApi.updateGroup(currentGroup, data);
-      queryClient.refetchQueries(queryKey.GET_GROUPS);
-      queryClient.refetchQueries(`${queryKey.GET_DETAIL_GROUP}_${currentGroup}`);
+      await queryClient.refetchQueries(queryKey.GET_GROUPS);
+      await queryClient.refetchQueries(`${queryKey.GET_DETAIL_GROUP}_${currentGroup}`);
       setLoading('');
     } catch (err) {
       setLoading('');

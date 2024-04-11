@@ -67,11 +67,6 @@ const ChannelChat = ({ infoUser }: Props) => {
     );
   };
 
-  useQuery<{ data: TGroup[] }>({
-    queryKey: queryKey.GET_GROUPS,
-    queryFn: () => groupApi.getAllGroup(),
-  });
-
   return (
     <>
       <div className={s.channelWrap}>
