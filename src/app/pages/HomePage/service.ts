@@ -18,8 +18,6 @@ export const DEFAULT_PAST_TIME = '1970-01-01T00:00:00.000Z';
 
 export const useService = () => {
   const queryClient = useQueryClient();
-  const groupsQueryState = queryClient.getQueryState<{ data: TGroup[] }>(queryKey.GET_GROUPS);
-
   const { currentGroup, saveCurrentGroup, saveGroups } = groupStore();
   const { socket } = socketStore();
   const { currentUser } = authStore();
@@ -28,7 +26,8 @@ export const useService = () => {
   const { id } = useParams<{ id: string }>();
 
   const updateListChannelChat = async (newMess: TMessage) => {
-    const groups = groupsQueryState?.data?.data ?? [];
+    const groupsQueryData = queryClient.getQueryData<{ data: TGroup[] }>(queryKey.GET_GROUPS);
+    const groups = groupsQueryData?.data ?? [];
     let unreadCount = 0;
     const newGroups = groups
       .map((gr) => {
@@ -45,7 +44,10 @@ export const useService = () => {
           (moment(a.newestMess?.createdAt ?? DEFAULT_PAST_TIME) as unknown as number),
       );
     await groupApi.updateUnReadMess(newMess.group ?? '', unreadCount);
-    await queryClient.refetchQueries(queryKey.GET_GROUPS);
+    // await queryClient.refetchQueries(queryKey.GET_GROUPS);
+    queryClient.setQueryData<{ data: TGroup[] }>(queryKey.GET_GROUPS, (queryData) => {
+      return { ...queryData, data: newGroups };
+    });
     saveGroups(newGroups);
   };
 
@@ -53,8 +55,7 @@ export const useService = () => {
 
   const handleMessComingSocket = (mess: TMessage) => {
     const { group } = mess;
-    const selectGroup = groupStore.getState().currentGroup;
-    if (group === selectGroup) {
+    if (group === id) {
       updateMessage(mess);
     } else {
       playMessComingAudio();
