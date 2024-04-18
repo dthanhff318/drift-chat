@@ -12,6 +12,7 @@ import { io } from 'socket.io-client';
 import './App.scss';
 import { messaging, getToken } from 'app/firebase/configFirebase';
 import { onMessage } from 'firebase/messaging';
+import { notification } from 'antd';
 
 const queryClient = new QueryClient({
   defaultOptions: {},
@@ -69,6 +70,10 @@ function App() {
       getCurrentUser();
       onMessage(messaging, (payload) => {
         console.log(payload);
+        notification.success({
+          message: payload.notification?.title,
+          description: payload.notification?.body,
+        });
       });
     }
   }, []);
