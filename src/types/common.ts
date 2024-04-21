@@ -13,6 +13,7 @@ export type TUser = {
   inviteId?: string;
   likedProfile?: string[];
   thumbProfile?: string;
+  fcmToken?: string;
 };
 
 export type TGroup = {

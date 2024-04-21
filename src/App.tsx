@@ -13,6 +13,7 @@ import './App.scss';
 import { messaging, getToken } from 'app/firebase/configFirebase';
 import { onMessage } from 'firebase/messaging';
 import { notification } from 'antd';
+import userApi from 'app/axios/api/user';
 
 const queryClient = new QueryClient({
   defaultOptions: {},
@@ -26,7 +27,7 @@ function App() {
   const { currentUser, saveCurrentUser } = authStore();
   const { setSocket } = socketStore();
 
-  const requestPermission = async () => {
+  const getTokenFCM = async () => {
     if (!messaging) return;
     //requesting permission using Notification API
     const permission = await Notification.requestPermission();
@@ -36,12 +37,13 @@ function App() {
         const token = await getToken(messaging, {
           vapidKey: process.env.REACT_APP_FCM_VAPID_KEY,
         });
+        await userApi.updateUser({ fcmToken: token });
         console.log('Token generated : ', token);
       } catch (err) {
         console.log(err);
       }
     } else if (permission === 'denied') {
-      alert('You denied for the notification');
+      alert('You should turn on the notification');
     }
   };
 
@@ -66,17 +68,16 @@ function App() {
 
   useEffect(() => {
     if (accessToken) {
-      requestPermission();
+      getTokenFCM();
       getCurrentUser();
-      onMessage(messaging, (payload) => {
-        console.log(payload);
-        notification.success({
-          message: payload.notification?.title,
-          description: payload.notification?.body,
-        });
-      });
     }
   }, []);
+
+  useEffect(() => {
+    onMessage(messaging, (payload) => {
+      console.log(payload);
+    });
+  });
 
   useEffect(() => {
     const handleBeforeUnload = () => {

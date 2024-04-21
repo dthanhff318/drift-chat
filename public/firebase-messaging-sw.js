@@ -27,11 +27,11 @@ messaging.onBackgroundMessage((payload) => {
       payload
     );
     // Customize notification here
-    const notificationTitle = payload.notification.title;
+    const notificationTitle = `Title : ${payload.notification.title}`;
     const notificationOptions = {
       body: payload.notification.body,
       icon: payload.notification.image
     };
   
-    self.registration.showNotification(notificationTitle, notificationOptions);
+    // self.registration.showNotification(notificationTitle, notificationOptions);
   });
